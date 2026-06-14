@@ -66,6 +66,14 @@ const IconReflexive = (
   </svg>
 );
 
+const IconVerbs = (
+  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
+    <path d="M5 7h8M5 12h14M5 17h10" />
+    <path d="M17 7v10" />
+    <path d="M14 10h6M14 14h6" />
+  </svg>
+);
+
 export default function ActivitiesHubPage() {
   const { thoughts, hydrated } = useThoughts();
 
@@ -95,14 +103,19 @@ export default function ActivitiesHubPage() {
       icon: IconLinking,
     },
     {
-      href: "/activities/confusions",
-      label: "Matiz",
-      icon: IconConfusions,
+      href: "/activities/verbs",
+      label: "Verbos",
+      icon: IconVerbs,
     },
     {
       href: "/activities/reflexive",
       label: "Reflexivos",
       icon: IconReflexive,
+    },
+    {
+      href: "/activities/confusions",
+      label: "Matiz",
+      icon: IconConfusions,
     },
   ];
 
