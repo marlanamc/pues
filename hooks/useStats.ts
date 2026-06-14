@@ -8,6 +8,7 @@ const EMPTY: SessionStats = {
   sentencesCreated: 0,
   framesExplored: [],
   lastSessionDate: null,
+  currentDayIndex: 0,
 };
 
 export function useStats() {

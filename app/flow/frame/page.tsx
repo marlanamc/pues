@@ -9,7 +9,7 @@ export default function ChooseFramePage() {
   const router = useRouter();
   const { patch } = useFlowDraft();
   const { stats } = useStats();
-  const today = frameDays[stats.daysPracticed % totalDays];
+  const today = frameDays[stats.currentDayIndex % totalDays];
 
   function choose(stem: string) {
     patch({ frameStem: stem });

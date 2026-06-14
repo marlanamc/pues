@@ -23,6 +23,7 @@ export type SessionStats = {
   sentencesCreated: number;
   framesExplored: string[];
   lastSessionDate: string | null;
+  currentDayIndex: number;
 };
 
 export type Draft = Partial<{
@@ -42,6 +43,7 @@ const EMPTY_STATS: SessionStats = {
   sentencesCreated: 0,
   framesExplored: [],
   lastSessionDate: null,
+  currentDayIndex: 0,
 };
 
 function isBrowser() {
@@ -94,7 +96,21 @@ export function saveThought(input: Omit<Thought, "id" | "createdAt">): Thought {
 /* ---------- Stats ---------- */
 
 export function getStats(): SessionStats {
-  return read<SessionStats>(K_STATS, EMPTY_STATS);
+  const raw = read<SessionStats>(K_STATS, EMPTY_STATS);
+  if (typeof raw.currentDayIndex !== "number") {
+    return { ...raw, currentDayIndex: raw.daysPracticed };
+  }
+  return raw;
+}
+
+export function completeCurrentDay(totalDays: number): SessionStats {
+  const prev = getStats();
+  const next: SessionStats = {
+    ...prev,
+    currentDayIndex: (prev.currentDayIndex + 1) % totalDays,
+  };
+  write(K_STATS, next);
+  return next;
 }
 
 function bumpStats(thought: Thought) {
@@ -109,6 +125,7 @@ function bumpStats(thought: Thought) {
     sentencesCreated: prev.sentencesCreated + 1,
     framesExplored,
     lastSessionDate: today,
+    currentDayIndex: prev.currentDayIndex,
   };
   write(K_STATS, next);
 }

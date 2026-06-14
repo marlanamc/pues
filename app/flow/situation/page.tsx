@@ -38,7 +38,7 @@ export default function ChooseSituationPage() {
   const [picks, setPicks] = useState<Situation[]>(() => sampleSituations(5));
 
   const headerStem = useMemo(() => draft.frameStem ?? "—", [draft.frameStem]);
-  const today = frameDays[stats.daysPracticed % totalDays];
+  const today = frameDays[stats.currentDayIndex % totalDays];
   const english = today.frames.find((f) => f.stem === draft.frameStem)?.english ?? "";
 
   function choose(s: Situation) {

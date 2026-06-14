@@ -1,14 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { frameDays, totalDays } from "@/content/frames";
 import { useStats } from "@/hooks/useStats";
 import { StreakBadge } from "@/components/StreakBadge";
-
-function todaysDay(daysPracticed: number) {
-  const idx = daysPracticed % totalDays;
-  return frameDays[idx];
-}
+import { completeCurrentDay } from "@/lib/store";
 
 function firstName() {
   return "Marlana";
@@ -16,7 +14,9 @@ function firstName() {
 
 export default function HomePage() {
   const { stats, hydrated } = useStats();
-  const today = todaysDay(stats.daysPracticed);
+  const router = useRouter();
+  const [completing, setCompleting] = useState(false);
+  const today = frameDays[stats.currentDayIndex % totalDays];
   const dayNum = today.day.toString().padStart(2, "0");
   const greeting = (() => {
     const h = new Date().getHours();
@@ -89,6 +89,25 @@ export default function HomePage() {
         >
           Start Day {dayNum}
         </Link>
+
+        <button
+          type="button"
+          disabled={!hydrated || completing}
+          onClick={() => {
+            if (completing) return;
+            const ok = window.confirm(
+              `Mark Day ${dayNum} complete and move to the next day?`
+            );
+            if (!ok) return;
+            setCompleting(true);
+            completeCurrentDay(totalDays);
+            router.refresh();
+            window.location.reload();
+          }}
+          className="block w-full rounded-lg border border-rule bg-surface px-6 py-3 text-center font-medium text-ink transition-colors active:bg-bg disabled:opacity-50"
+        >
+          {completing ? "Saving…" : `Mark Day ${dayNum} complete`}
+        </button>
       </section>
     </div>
   );

@@ -14,7 +14,7 @@ export default function ProgressPage() {
   const streak = stats.daysPracticed;
 
   const spoken = thoughts.length;
-  const todaysFrames = frameDays[stats.daysPracticed % totalDays].frames;
+  const todaysFrames = frameDays[stats.currentDayIndex % totalDays].frames;
   const counts = todaysFrames.map((f) => ({
     stem: f.stem,
     n: thoughts.filter((t) => t.frameStem === f.stem).length,
