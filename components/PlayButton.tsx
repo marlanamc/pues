@@ -46,6 +46,19 @@ export function PlayButton({ text, label }: { text: string; label?: string }) {
     return audioRef.current;
   }
 
+  async function liveTtsUrl(): Promise<string> {
+    const res = await fetch("/api/tts", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text }),
+    });
+    if (!res.ok) throw new Error(`TTS failed: ${res.status}`);
+    const blob = await res.blob();
+    if (objectUrlRef.current) URL.revokeObjectURL(objectUrlRef.current);
+    objectUrlRef.current = URL.createObjectURL(blob);
+    return objectUrlRef.current;
+  }
+
   async function play() {
     if (state === "loading" || state === "playing") return;
     try {
@@ -61,25 +74,27 @@ export function PlayButton({ text, label }: { text: string; label?: string }) {
       setState("loading");
 
       let resolved: string | null = await staticAudioUrl(text);
+      let isStaticAudio = Boolean(resolved);
 
       if (!resolved) {
-        const res = await fetch("/api/tts", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ text }),
-        });
-        if (!res.ok) throw new Error(`TTS failed: ${res.status}`);
-        const blob = await res.blob();
-        if (objectUrlRef.current) URL.revokeObjectURL(objectUrlRef.current);
-        objectUrlRef.current = URL.createObjectURL(blob);
-        resolved = objectUrlRef.current;
+        resolved = await liveTtsUrl();
+        isStaticAudio = false;
       }
 
       urlRef.current = resolved;
       audio.src = resolved;
       audio.load();
       setState("playing");
-      await audio.play();
+      try {
+        await audio.play();
+      } catch (err) {
+        if (!isStaticAudio) throw err;
+        const fallback = await liveTtsUrl();
+        urlRef.current = fallback;
+        audio.src = fallback;
+        audio.load();
+        await audio.play();
+      }
     } catch {
       setState("error");
     }
