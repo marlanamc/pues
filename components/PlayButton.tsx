@@ -1,7 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useAudioSpeed } from "@/hooks/useAudioSpeed";
+import {
+  playbackRateFor,
+  useAudioSpeed,
+} from "@/hooks/useAudioSpeed";
+import type { AudioSpeed } from "@/lib/store";
 import { staticAudioUrl } from "@/lib/audio";
 
 /**
@@ -15,12 +19,29 @@ import { staticAudioUrl } from "@/lib/audio";
  * gesture, which iOS Safari requires) and held in a ref so it survives
  * across renders and isn't garbage-collected mid-playback.
  */
-export function PlayButton({ text, label }: { text: string; label?: string }) {
+export function PlayButton({
+  text,
+  label,
+  speed,
+}: {
+  text: string;
+  label?: string;
+  /** When set, playback follows this speed instead of a separate hook read. */
+  speed?: AudioSpeed;
+}) {
   const [state, setState] = useState<"idle" | "loading" | "playing" | "error">("idle");
-  const { playbackRate } = useAudioSpeed();
+  const { speed: storedSpeed } = useAudioSpeed();
+  const activeSpeed = speed ?? storedSpeed;
+  const playbackRate = playbackRateFor(activeSpeed);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const urlRef = useRef<string | null>(null);
   const objectUrlRef = useRef<string | null>(null);
+  const rateRef = useRef(playbackRate);
+
+  useEffect(() => {
+    rateRef.current = playbackRate;
+    if (audioRef.current) applyPlaybackRate(audioRef.current, playbackRate);
+  }, [playbackRate]);
 
   useEffect(() => {
     return () => {
@@ -36,18 +57,21 @@ export function PlayButton({ text, label }: { text: string; label?: string }) {
     };
   }, []);
 
-  useEffect(() => {
-    if (audioRef.current) audioRef.current.playbackRate = playbackRate;
-  }, [playbackRate]);
+  function applyPlaybackRate(audio: HTMLAudioElement, rate: number) {
+    audio.preservesPitch = true;
+    audio.defaultPlaybackRate = rate;
+    audio.playbackRate = rate;
+  }
 
   function ensureAudio(): HTMLAudioElement {
     if (!audioRef.current) {
       const el = new Audio();
       el.preload = "auto";
-      el.playbackRate = playbackRate;
+      applyPlaybackRate(el, rateRef.current);
       el.onended = () => setState("idle");
       el.onpause = () => setState((s) => (s === "playing" ? "idle" : s));
       el.onerror = () => setState("error");
+      el.onplaying = () => applyPlaybackRate(el, rateRef.current);
       audioRef.current = el;
     }
     return audioRef.current;
@@ -70,12 +94,17 @@ export function PlayButton({ text, label }: { text: string; label?: string }) {
     if (state === "loading" || state === "playing") return;
     try {
       const audio = ensureAudio();
-      audio.playbackRate = playbackRate;
+      applyPlaybackRate(audio, rateRef.current);
 
       if (urlRef.current) {
-        if (audio.src !== urlRef.current) audio.src = urlRef.current;
+        if (audio.src !== urlRef.current) {
+          audio.src = urlRef.current;
+          audio.load();
+        }
+        applyPlaybackRate(audio, rateRef.current);
         setState("playing");
         await audio.play();
+        applyPlaybackRate(audio, rateRef.current);
         return;
       }
 
@@ -91,19 +120,21 @@ export function PlayButton({ text, label }: { text: string; label?: string }) {
 
       urlRef.current = resolved;
       audio.src = resolved;
-      audio.playbackRate = playbackRate;
       audio.load();
+      applyPlaybackRate(audio, rateRef.current);
       setState("playing");
       try {
         await audio.play();
+        applyPlaybackRate(audio, rateRef.current);
       } catch (err) {
         if (!isStaticAudio) throw err;
         const fallback = await liveTtsUrl();
         urlRef.current = fallback;
         audio.src = fallback;
-        audio.playbackRate = playbackRate;
         audio.load();
+        applyPlaybackRate(audio, rateRef.current);
         await audio.play();
+        applyPlaybackRate(audio, rateRef.current);
       }
     } catch {
       setState("error");

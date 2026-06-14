@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { putRecording } from "@/lib/audioStore";
+import { deleteRecording, putRecording } from "@/lib/audioStore";
 
 export type RecorderState =
   | "idle"
@@ -10,8 +10,21 @@ export type RecorderState =
   | "denied"
   | "unsupported";
 
+function newRecordingId() {
+  return `rec_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+}
+
+export function isRecorderSupported() {
+  return (
+    typeof window !== "undefined" &&
+    "MediaRecorder" in window &&
+    typeof navigator !== "undefined" &&
+    !!navigator.mediaDevices?.getUserMedia
+  );
+}
+
 /**
- * Thin MediaRecorder wrapper for the Speak screen.
+ * Thin MediaRecorder wrapper for the Speak screen and inline re-record on Reveal.
  *
  * The speak-first GATE is the must-have: a tap unlocks the reveal. Recording
  * the user's voice is the nice-to-have layered on top. If the browser lacks
@@ -21,19 +34,20 @@ export type RecorderState =
  * On stop, the clip is persisted to IndexedDB under a generated id, exposed as
  * `recordingId` so the flow can attach it to the saved Thought.
  */
-export function useRecorder() {
+export function useRecorder(options?: { replaceId?: string | null }) {
   const [state, setState] = useState<RecorderState>("idle");
   const [recordingId, setRecordingId] = useState<string | null>(null);
 
   const recorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
   const streamRef = useRef<MediaStream | null>(null);
+  const replaceIdRef = useRef(options?.replaceId ?? null);
 
-  const supported =
-    typeof window !== "undefined" &&
-    "MediaRecorder" in window &&
-    typeof navigator !== "undefined" &&
-    !!navigator.mediaDevices?.getUserMedia;
+  useEffect(() => {
+    replaceIdRef.current = options?.replaceId ?? null;
+  }, [options?.replaceId]);
+
+  const supported = isRecorderSupported();
 
   const stopTracks = useCallback(() => {
     streamRef.current?.getTracks().forEach((t) => t.stop());
@@ -63,22 +77,31 @@ export function useRecorder() {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       streamRef.current = stream;
       chunksRef.current = [];
+      setRecordingId(null);
 
       const recorder = new MediaRecorder(stream);
       recorder.ondataavailable = (e) => {
         if (e.data.size > 0) chunksRef.current.push(e.data);
       };
       recorder.onstop = () => {
-        const blob = new Blob(chunksRef.current, {
-          type: recorder.mimeType || "audio/webm",
-        });
-        stopTracks();
-        if (blob.size > 0) {
-          const id = `rec_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
-          void putRecording(id, blob);
-          setRecordingId(id);
-        }
-        setState("done");
+        void (async () => {
+          const blob = new Blob(chunksRef.current, {
+            type: recorder.mimeType || "audio/webm",
+          });
+          stopTracks();
+          if (blob.size > 0) {
+            const id = newRecordingId();
+            await putRecording(id, blob);
+            const oldId = replaceIdRef.current;
+            if (oldId && oldId !== id) {
+              await deleteRecording(oldId);
+            }
+            setRecordingId(id);
+            setState("done");
+          } else {
+            setState("idle");
+          }
+        })();
       };
 
       recorderRef.current = recorder;

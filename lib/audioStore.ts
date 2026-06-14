@@ -74,3 +74,24 @@ export async function getRecordingUrl(id: string): Promise<string | null> {
   const blob = await getRecording(id);
   return blob ? URL.createObjectURL(blob) : null;
 }
+
+export async function recordingExists(id: string): Promise<boolean> {
+  const blob = await getRecording(id);
+  return blob !== null && blob.size > 0;
+}
+
+export async function deleteRecording(id: string): Promise<void> {
+  const db = await openDb();
+  if (!db) return;
+  await new Promise<void>((resolve) => {
+    try {
+      const tx = db.transaction(STORE, "readwrite");
+      tx.objectStore(STORE).delete(id);
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => resolve();
+      tx.onabort = () => resolve();
+    } catch {
+      resolve();
+    }
+  });
+}

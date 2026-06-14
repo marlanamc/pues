@@ -1,12 +1,15 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { parseWhy } from "@/content/prompts";
 import type { Reflection } from "@/lib/store";
 import { useFlowDraft } from "@/hooks/useFlowDraft";
 import { useAudioSpeed } from "@/hooks/useAudioSpeed";
+import { isRecorderSupported } from "@/hooks/useRecorder";
 import { PlayButton } from "@/components/PlayButton";
+import { RecordingPlayButton } from "@/components/RecordingPlayButton";
+import { RecordingCaptureButton } from "@/components/RecordingCaptureButton";
 
 const options: { value: Reflection; label: string }[] = [
   { value: "yes", label: "Lo dije con soltura" },
@@ -18,6 +21,8 @@ export default function RevealPage() {
   const router = useRouter();
   const { draft, patch, hydrated } = useFlowDraft();
   const { speed, setSpeed } = useAudioSpeed();
+  const [playbackStopToken, setPlaybackStopToken] = useState(0);
+  const recorderSupported = isRecorderSupported();
 
   // Speak-first gate: the reveal is unreachable until a speak attempt was made.
   useEffect(() => {
@@ -38,15 +43,15 @@ export default function RevealPage() {
       className="flex flex-1 flex-col"
       style={{ opacity: hydrated ? 1 : 0.5 }}
     >
-      <p className="mono-cap" style={{ margin: "24px 0 12px" }}>
+      <p className="mono-cap mt-6 mb-3 lg:mt-4 lg:mb-2.5">
         Una forma natural de decirlo
       </p>
 
-      <div style={{ borderTop: "2px solid var(--accent)", paddingTop: 16 }}>
+      <div className="border-t-2 border-accent pt-4">
         <p className="text-display-md text-ink">{answer}</p>
 
-        <div className="flex items-center gap-3" style={{ marginTop: 16 }}>
-          <PlayButton text={answer} label={`Escuchar: ${answer}`} />
+        <div className="mt-4 flex items-center gap-3">
+          <PlayButton text={answer} label={`Escuchar: ${answer}`} speed={speed} />
           <div className="flex items-center gap-2">
             <span className="mono-cap">Escuchar ·</span>
             <button
@@ -70,10 +75,27 @@ export default function RevealPage() {
             </button>
           </div>
         </div>
+
+        {recorderSupported && (
+          <div className="mt-4 flex flex-wrap items-center gap-2.5">
+            <span className="mono-cap">Tu voz</span>
+            <RecordingPlayButton
+              key={draft.recordingId ?? "none"}
+              recordingId={draft.recordingId}
+              stopToken={playbackStopToken}
+            />
+            <span className="mono-cap text-ink-mute">·</span>
+            <RecordingCaptureButton
+              replaceId={draft.recordingId}
+              label={draft.recordingId ? "Grabar de nuevo" : "Grabar ahora"}
+              onCaptureStart={() => setPlaybackStopToken((t) => t + 1)}
+            />
+          </div>
+        )}
       </div>
 
       {whySegments.length > 0 && (
-        <p className="text-gloss" style={{ marginTop: 18 }}>
+        <p className="text-gloss mt-4 lg:mt-3.5">
           {whySegments.map((seg, i) =>
             seg.italic ? (
               <em
@@ -90,21 +112,14 @@ export default function RevealPage() {
         </p>
       )}
 
-      <div className="flex-1" />
+      <div className="flex-1 lg:hidden" />
 
-      <p
-        className="font-display text-ink"
-        style={{
-          fontStyle: "italic",
-          fontWeight: 400,
-          fontSize: 16,
-          margin: "0 0 12px",
-        }}
-      >
-        ¿Cómo se sintió la tuya?
-      </p>
+      <div className="lg:mt-8">
+        <p className="mb-3 font-display text-base italic text-ink">
+          ¿Cómo se sintió la tuya?
+        </p>
 
-      <div className="flex flex-col gap-2" style={{ marginBottom: 18 }}>
+        <div className="mb-4 flex flex-col gap-2 lg:mb-0">
         {options.map((o) => (
           <button
             key={o.value}
@@ -132,6 +147,7 @@ export default function RevealPage() {
             {o.label}
           </button>
         ))}
+        </div>
       </div>
     </div>
   );

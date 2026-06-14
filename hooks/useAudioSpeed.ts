@@ -10,7 +10,7 @@ import {
 const AUDIO_SPEED_EVENT = "pues:audio-speed-change";
 
 export function playbackRateFor(speed: AudioSpeed) {
-  return speed === "slow" ? 0.6 : 1;
+  return speed === "slow" ? 0.55 : 1;
 }
 
 export function useAudioSpeed() {

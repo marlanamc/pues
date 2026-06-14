@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import type { Thought } from "@/lib/store";
-import { getRecordingUrl } from "@/lib/audioStore";
 import { PlayButton } from "@/components/PlayButton";
+import { RecordingPlayButton } from "@/components/RecordingPlayButton";
 
 const reflectionLabel: Record<Thought["reflection"], string> = {
   yes: "Lo dije con soltura",
@@ -14,36 +14,6 @@ const reflectionLabel: Record<Thought["reflection"], string> = {
 export function ThoughtCard({ thought }: { thought: Thought }) {
   const [expanded, setExpanded] = useState(false);
   const [favorite, setFavorite] = useState(false);
-  const [playingMine, setPlayingMine] = useState(false);
-
-  const urlRef = useRef<string | null>(null);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-
-  useEffect(() => {
-    return () => {
-      if (urlRef.current) URL.revokeObjectURL(urlRef.current);
-      audioRef.current?.pause();
-    };
-  }, []);
-
-  async function playMine() {
-    if (!thought.audioId) return;
-    try {
-      if (!urlRef.current) {
-        const url = await getRecordingUrl(thought.audioId);
-        if (!url) return;
-        urlRef.current = url;
-      }
-      const audio = audioRef.current ?? new Audio();
-      audioRef.current = audio;
-      audio.onended = () => setPlayingMine(false);
-      audio.src = urlRef.current;
-      setPlayingMine(true);
-      await audio.play();
-    } catch {
-      setPlayingMine(false);
-    }
-  }
 
   return (
     <div
@@ -85,28 +55,10 @@ export function ThoughtCard({ thought }: { thought: Thought }) {
       <div className="mt-3 flex items-center gap-3">
         <PlayButton text={thought.sentence} label={`Escuchar: ${thought.sentence}`} />
         {thought.audioId && (
-          <button
-            type="button"
-            onClick={playMine}
-            className="mono-cap inline-flex items-center gap-1.5 transition-colors hover:text-accent"
-            aria-label="Play your recording"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              width="13"
-              height="13"
-              aria-hidden
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={1.6}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <rect x="9" y="3" width="6" height="11" rx="3" />
-              <path d="M6 11a6 6 0 0 0 12 0M12 17v3" />
-            </svg>
-            {playingMine ? "Tu voz…" : "Tu voz"}
-          </button>
+          <>
+            <RecordingPlayButton recordingId={thought.audioId} />
+            <span className="mono-cap text-ink-mute">Tu voz</span>
+          </>
         )}
       </div>
 

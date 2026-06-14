@@ -6,6 +6,8 @@ import { PROMPTS_PER_DAY } from "@/content/prompts";
 import { advanceSession, flagForPractice } from "@/lib/store";
 import { useFlowDraft } from "@/hooks/useFlowDraft";
 import { useThoughts } from "@/hooks/useThoughts";
+import { PlayButton } from "@/components/PlayButton";
+import { RecordingPlayButton } from "@/components/RecordingPlayButton";
 
 export default function SavedPage() {
   const router = useRouter();
@@ -15,6 +17,7 @@ export default function SavedPage() {
   const savedRef = useRef(false);
   const [count, setCount] = useState<number | null>(null);
   const [sentence, setSentence] = useState("");
+  const [recordingId, setRecordingId] = useState<string | undefined>();
   const [returnHref, setReturnHref] = useState("/situations");
   const [savedSource, setSavedSource] = useState<"daily" | "situation">("daily");
 
@@ -45,6 +48,7 @@ export default function SavedPage() {
     if (practiceFlag && draft.promptId) flagForPractice(draft.promptId);
 
     setSentence(draft.spanishAnswer);
+    setRecordingId(draft.recordingId);
     setSavedSource(isSituationPractice ? "situation" : "daily");
     setReturnHref(
       isSituationPractice && draft.situationSlug
@@ -136,6 +140,23 @@ export default function SavedPage() {
           >
             &ldquo;{sentence}&rdquo;
           </p>
+          {sentence && (
+            <div className="mt-4 flex items-center justify-center gap-4">
+              <div className="flex items-center gap-2">
+                <span className="mono-cap">Modelo</span>
+                <PlayButton
+                  text={sentence}
+                  label={`Escuchar: ${sentence}`}
+                />
+              </div>
+              {recordingId && (
+                <div className="flex items-center gap-2">
+                  <span className="mono-cap">Tu voz</span>
+                  <RecordingPlayButton recordingId={recordingId} />
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
 
