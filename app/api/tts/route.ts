@@ -16,9 +16,16 @@ export async function POST(req: Request) {
   }
 
   let text: string;
+  let lang: string | undefined;
+  let contextBefore: string | undefined;
   try {
     const body = await req.json();
     text = typeof body?.text === "string" ? body.text.trim() : "";
+    lang = typeof body?.lang === "string" ? body.lang.trim() : "es";
+    contextBefore =
+      typeof body?.contextBefore === "string"
+        ? body.contextBefore.trim()
+        : undefined;
   } catch {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
@@ -40,6 +47,8 @@ export async function POST(req: Request) {
     body: JSON.stringify({
       text,
       model_id: "eleven_multilingual_v2",
+      language_code: lang,
+      ...(contextBefore ? { previous_text: contextBefore } : {}),
       voice_settings: { stability: 0.5, similarity_boost: 0.75 },
     }),
   });

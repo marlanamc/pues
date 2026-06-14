@@ -49,6 +49,14 @@ const IconLinking = (
   </svg>
 );
 
+const IconQuestions = (
+  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
+    <path d="M9.5 9a3.5 3.5 0 1 1 5.8 2.6c-.9.7-1.3 1.2-1.3 2.4v.5" />
+    <circle cx="12" cy="18.5" r="1" fill="currentColor" stroke="none" />
+    <circle cx="12" cy="12" r="9" />
+  </svg>
+);
+
 const IconConfusions = (
   <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
     <path d="M8 6h8M8 12h5M8 18h8" />
@@ -94,9 +102,14 @@ export default function ActivitiesHubPage() {
       icon: IconLinking,
     },
     {
+      href: "/activities/questions",
+      label: "Preguntas",
+      icon: IconQuestions,
+    },
+    {
       href: "/activities/verbs",
       label: "Verbos",
-      meta: "4 guides",
+      meta: "5 guides",
       icon: IconVerbs,
     },
     {

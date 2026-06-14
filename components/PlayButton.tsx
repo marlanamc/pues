@@ -24,6 +24,8 @@ export function PlayButton({
   label,
   speed,
   stopToken = 0,
+  lang = "es",
+  contextBefore,
 }: {
   text: string;
   label?: string;
@@ -31,6 +33,10 @@ export function PlayButton({
   speed?: AudioSpeed;
   /** Increment to stop any in-progress playback (e.g. when re-recording starts). */
   stopToken?: number;
+  /** ISO 639-1 code — keeps short Spanish words from sounding English. */
+  lang?: string;
+  /** Unspoken context passed to TTS so short words get Spanish pronunciation. */
+  contextBefore?: string;
 }) {
   const [state, setState] = useState<"idle" | "loading" | "playing" | "error">("idle");
   const { speed: storedSpeed } = useAudioSpeed();
@@ -91,7 +97,7 @@ export function PlayButton({
     const res = await fetch("/api/tts", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text }),
+      body: JSON.stringify({ text, lang, contextBefore }),
     });
     if (!res.ok) throw new Error(`TTS failed: ${res.status}`);
     const blob = await res.blob();

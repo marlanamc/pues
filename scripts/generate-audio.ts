@@ -22,6 +22,8 @@ import { frameDays } from "../content/frames.js";
 import { situations } from "../content/situations.js";
 import { accentAudioTexts } from "../content/accent.js";
 import { linkingAudioTexts } from "../content/linking.js";
+import { frequentVerbAudioTexts } from "../content/frequentVerbs.js";
+import { questionAudioTexts } from "../content/questions.js";
 import {
   cognatePatterns,
   cognateThemes,
@@ -91,10 +93,25 @@ function collectPhrases(): string[] {
 
   for (const text of linkingAudioTexts()) out.add(text);
 
+  for (const text of frequentVerbAudioTexts()) out.add(text);
+
+  for (const text of questionAudioTexts()) out.add(text);
+
   return [...out].filter((t) => t && t.length > 0 && t.length <= 500);
 }
 
 /* ─── Talk to ElevenLabs ───────────────────────────────── */
+
+function ttsPayload(text: string) {
+  const isShortInfinitive = text.length <= 5 && !text.includes(" ");
+  return {
+    text,
+    model_id: MODEL_ID,
+    language_code: "es",
+    ...(isShortInfinitive ? { previous_text: "El verbo " } : {}),
+    voice_settings: { stability: 0.5, similarity_boost: 0.75 },
+  };
+}
 
 async function synthesize(text: string): Promise<Buffer> {
   const res = await fetch(
@@ -106,11 +123,7 @@ async function synthesize(text: string): Promise<Buffer> {
         "Content-Type": "application/json",
         Accept: "audio/mpeg",
       },
-      body: JSON.stringify({
-        text,
-        model_id: MODEL_ID,
-        voice_settings: { stability: 0.5, similarity_boost: 0.75 },
-      }),
+      body: JSON.stringify(ttsPayload(text)),
     }
   );
 
