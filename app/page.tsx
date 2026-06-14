@@ -47,9 +47,9 @@ export default function HomePage() {
         meta={<span className="mono-cap">Racha · {streak}</span>}
       />
 
-      <div className="lg:mt-8 lg:grid lg:grid-cols-[1.4fr_1fr] lg:items-start lg:gap-12">
+      <div className="lg:mt-14 lg:grid lg:grid-cols-[1.4fr_1fr] lg:items-start lg:gap-12">
         <div className="flex min-h-[calc(100dvh-10.5rem)] flex-col lg:min-h-0">
-          <div style={{ marginTop: 34 }} className="lg:!mt-0">
+          <div className="mt-[34px] lg:mt-0">
             <p
               className="font-display"
               style={{
