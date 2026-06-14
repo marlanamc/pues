@@ -9,10 +9,10 @@ export default function ReflexivePage() {
     <div className="confusions-page space-y-8 lg:mx-auto lg:max-w-[640px]">
       <header className="flex items-center justify-between">
         <Link
-          href="/activities"
+          href="/activities/verbs"
           className="text-caption text-ink-mute hover:text-accent transition-colors min-h-[40px] inline-flex items-center"
         >
-          ← Activities
+          ← Verbos
         </Link>
         <p className="text-caption text-ink-mute">Reflexivos</p>
         <SettingsMenuButton />

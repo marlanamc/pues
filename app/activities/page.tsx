@@ -57,15 +57,6 @@ const IconConfusions = (
   </svg>
 );
 
-const IconReflexive = (
-  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
-    <circle cx="8" cy="8" r="3" />
-    <path d="M14 10c2 0 4 1.5 4 4v2" />
-    <path d="M18 14c-2 2-4 3-6 3" />
-    <path d="M11 14l3-3" />
-  </svg>
-);
-
 const IconVerbs = (
   <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
     <path d="M5 7h8M5 12h14M5 17h10" />
@@ -105,12 +96,8 @@ export default function ActivitiesHubPage() {
     {
       href: "/activities/verbs",
       label: "Verbos",
+      meta: "4 guides",
       icon: IconVerbs,
-    },
-    {
-      href: "/activities/reflexive",
-      label: "Reflexivos",
-      icon: IconReflexive,
     },
     {
       href: "/activities/confusions",
