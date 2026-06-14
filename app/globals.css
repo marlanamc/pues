@@ -164,7 +164,7 @@ body {
   border: 1px solid var(--rule);
   background: var(--surface);
   border-radius: 12px;
-  padding: 0.875rem 1rem;
+  padding: 1rem 1rem;
   text-align: left;
   color: var(--ink);
   font-size: 0.9375rem;

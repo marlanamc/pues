@@ -23,7 +23,7 @@ export default function FlowLayout({ children }: { children: React.ReactNode }) 
         <Link
           href="/"
           aria-label="Back to today"
-          className="text-caption text-ink-mute hover:text-ink-soft transition-colors min-h-[40px] inline-flex items-center"
+          className="text-caption text-ink-mute hover:text-ink-soft transition-colors min-h-[44px] inline-flex items-center px-2 -ml-2"
         >
           ← Exit
         </Link>
