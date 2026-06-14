@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { PlayButton } from "@/components/PlayButton";
+import { SettingsMenuButton } from "@/components/SettingsMenu";
 import {
   cognatePatterns,
   cognateThemes,
@@ -15,7 +16,7 @@ export default function CognatesPage() {
   const [tab, setTab] = useState<Tab>("patterns");
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 lg:mx-auto lg:max-w-[640px]">
       <header className="flex items-center justify-between">
         <Link
           href="/activities"
@@ -24,7 +25,7 @@ export default function CognatesPage() {
           ← Activities
         </Link>
         <p className="text-caption text-ink-mute">Cognates</p>
-        <span className="w-12" aria-hidden />
+        <SettingsMenuButton />
       </header>
 
       <div className="space-y-2">

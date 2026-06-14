@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ThemeModeToggle } from "@/components/ThemeModeToggle";
 import { AudioSpeedToggle } from "@/components/AudioSpeedToggle";
+import { SidebarToggle } from "@/components/SidebarToggle";
 
 const IconSettings = (
   <svg
@@ -24,7 +25,18 @@ const IconSettings = (
   </svg>
 );
 
-export function SettingsMenu() {
+type Placement = "down-right" | "up-left";
+
+const menuPositionClass: Record<Placement, string> = {
+  "down-right": "right-0 mt-2",
+  "up-left": "left-0 bottom-full mb-2",
+};
+
+export function SettingsMenuButton({
+  placement = "down-right",
+}: {
+  placement?: Placement;
+}) {
   const [open, setOpen] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
 
@@ -49,48 +61,48 @@ export function SettingsMenu() {
   }, [open]);
 
   return (
-    <div className="fixed inset-x-0 top-0 z-30 pointer-events-none">
-      <div className="mx-auto flex w-full max-w-[520px] justify-end px-6 pt-3">
-        <div ref={wrapRef} className="pointer-events-auto relative">
-          <button
-            type="button"
-            onClick={() => setOpen((o) => !o)}
-            aria-haspopup="menu"
-            aria-expanded={open}
-            aria-label="Settings"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-rule bg-bg/90 text-ink-mute shadow-soft backdrop-blur-md transition-colors hover:text-accent hover:border-accent/60"
-          >
-            {IconSettings}
-          </button>
+    <div ref={wrapRef} className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        aria-haspopup="menu"
+        aria-expanded={open}
+        aria-label="Settings"
+        className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-rule bg-bg/90 text-ink-mute shadow-soft backdrop-blur-md transition-colors hover:text-accent hover:border-accent/60"
+      >
+        {IconSettings}
+      </button>
 
-          {open && (
-            <div
-              role="menu"
-              aria-label="Settings"
-              className="absolute right-0 mt-2 w-64 rounded-lg border border-rule bg-surface p-4 shadow-soft space-y-4"
+      {open && (
+        <div
+          role="menu"
+          aria-label="Settings"
+          className={`absolute z-50 w-64 rounded-lg border border-rule bg-surface p-4 shadow-soft space-y-4 ${menuPositionClass[placement]}`}
+        >
+          <div className="flex items-center justify-between gap-3">
+            <span className="text-caption text-ink-mute">Theme</span>
+            <ThemeModeToggle />
+          </div>
+          <div className="flex items-center justify-between gap-3">
+            <span className="text-caption text-ink-mute">Audio</span>
+            <AudioSpeedToggle />
+          </div>
+          <div className="hidden items-center justify-between gap-3 lg:flex">
+            <span className="text-caption text-ink-mute">Sidebar</span>
+            <SidebarToggle />
+          </div>
+          <div className="border-t border-rule pt-3">
+            <Link
+              href="/settings"
+              onClick={() => setOpen(false)}
+              className="flex items-center justify-between text-sm text-ink-soft transition-colors hover:text-accent"
             >
-              <div className="flex items-center justify-between gap-3">
-                <span className="text-caption text-ink-mute">Theme</span>
-                <ThemeModeToggle />
-              </div>
-              <div className="flex items-center justify-between gap-3">
-                <span className="text-caption text-ink-mute">Audio</span>
-                <AudioSpeedToggle />
-              </div>
-              <div className="border-t border-rule pt-3">
-                <Link
-                  href="/settings"
-                  onClick={() => setOpen(false)}
-                  className="flex items-center justify-between text-sm text-ink-soft transition-colors hover:text-accent"
-                >
-                  <span>All settings</span>
-                  <span aria-hidden>→</span>
-                </Link>
-              </div>
-            </div>
-          )}
+              <span>All settings</span>
+              <span aria-hidden>→</span>
+            </Link>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

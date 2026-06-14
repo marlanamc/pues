@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { PageHeader, Wordmark } from "@/components/PageHeader";
 import { frameDays, totalDays } from "@/content/frames";
 import { useStats } from "@/hooks/useStats";
 import { useThoughts } from "@/hooks/useThoughts";
@@ -26,12 +27,10 @@ export default function ProgressPage() {
 
   return (
     <div className="space-y-8" style={{ opacity: hydrated ? 1 : 0.6 }}>
-      <header className="flex items-center justify-between">
-        <span className="w-3" aria-hidden />
-        <p className="text-caption text-ink-mute">Progress</p>
-        <span className="w-3" aria-hidden />
-      </header>
+      <PageHeader title={<Wordmark>Práctica</Wordmark>} />
 
+      <div className="space-y-8 lg:grid lg:grid-cols-2 lg:items-start lg:gap-8 lg:space-y-0">
+      <div className="space-y-8">
       <section className="space-y-4">
         <p className="text-caption text-ink-mute">This Week</p>
         <div className="grid grid-cols-3 gap-3">
@@ -88,6 +87,7 @@ export default function ProgressPage() {
           </div>
         </div>
       </section>
+      </div>
 
       <section className="space-y-4">
         <p className="text-caption text-ink-mute">Frames Practiced</p>
@@ -118,6 +118,7 @@ export default function ProgressPage() {
           ))}
         </ul>
       </section>
+      </div>
     </div>
   );
 }

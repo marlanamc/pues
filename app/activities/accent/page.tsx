@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { PlayButton } from "@/components/PlayButton";
+import { SettingsMenuButton } from "@/components/SettingsMenu";
 import { accentDrills } from "@/content/accent";
 
 export default function AccentPage() {
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 lg:mx-auto lg:max-w-[640px]">
       <header className="flex items-center justify-between">
         <Link
           href="/activities"
@@ -13,7 +14,7 @@ export default function AccentPage() {
           ← Activities
         </Link>
         <p className="text-caption text-ink-mute">Accent</p>
-        <span className="w-16" aria-hidden />
+        <SettingsMenuButton />
       </header>
 
       <section className="space-y-3">

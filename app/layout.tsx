@@ -1,22 +1,31 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Inter_Tight } from "next/font/google";
+import { Newsreader, Hanken_Grotesk, Spline_Sans_Mono } from "next/font/google";
 import { BottomTabNav } from "@/components/BottomTabNav";
-import { SettingsMenu } from "@/components/SettingsMenu";
+import { LeftRailNav } from "@/components/LeftRailNav";
 import "./globals.css";
 
-const fraunces = Fraunces({
+// Newsreader — display, headlines, and all Spanish sentences. The soul of the look.
+const newsreader = Newsreader({
   subsets: ["latin"],
+  weight: ["300", "400", "500"],
   style: ["normal", "italic"],
-  variable: "--font-fraunces",
+  variable: "--font-newsreader",
   display: "swap",
-  axes: ["opsz", "SOFT"],
 });
 
-const interTight = Inter_Tight({
+// Hanken Grotesk — interface and body text.
+const hanken = Hanken_Grotesk({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-hanken",
+  display: "swap",
+});
+
+// Spline Sans Mono — metadata only (the library-card / ledger signal).
+const splineMono = Spline_Sans_Mono({
   subsets: ["latin"],
   weight: ["400", "500"],
-  style: ["normal", "italic"],
-  variable: "--font-inter-tight",
+  variable: "--font-spline-mono",
   display: "swap",
 });
 
@@ -32,7 +41,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0e1420",
+  themeColor: "#1b1712",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -49,14 +58,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${interTight.variable}`}
+      className={`${newsreader.variable} ${hanken.variable} ${splineMono.variable}`}
       suppressHydrationWarning
     >
-      <body className="min-h-dvh bg-bg text-ink antialiased">
+      <body className="min-h-dvh bg-bg text-ink antialiased lg:flex">
         <script dangerouslySetInnerHTML={{ __html: themeModeScript }} />
-        <SettingsMenu />
-        <main className="mx-auto w-full max-w-[520px] px-6 pt-14 pb-28">
-          {children}
+        <LeftRailNav />
+        <main className="w-full px-6 pt-3 pb-28 lg:flex lg:flex-1 lg:min-h-0 lg:min-w-0 lg:flex-col lg:px-0 lg:pt-10 lg:pb-12">
+          <div className="mx-auto w-full max-w-[520px] lg:max-w-[1040px] lg:px-12">
+            {children}
+          </div>
         </main>
         <BottomTabNav />
       </body>

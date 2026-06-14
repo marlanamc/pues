@@ -2,9 +2,12 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { PageHeader, Wordmark } from "@/components/PageHeader";
+import { useThoughts } from "@/hooks/useThoughts";
 import {
   type SituationCategory,
   categoryLabels,
+  situationBySlug,
   situationsByCategory,
 } from "@/content/situations";
 
@@ -43,18 +46,52 @@ function CategoryIcon({ path }: { path: string }) {
 
 export default function SituationsLibraryPage() {
   const [tab, setTab] = useState<Tab>("topics");
+  const { thoughts, hydrated } = useThoughts();
   const grouped = situationsByCategory();
   const ordered = Object.keys(categoryLabels) as SituationCategory[];
+  const recentSituations = thoughts.reduce<
+    {
+      slug: string;
+      label: string;
+      count: number;
+      lastPracticed: string;
+      category?: SituationCategory;
+    }[]
+  >((acc, thought) => {
+    const situation = situationBySlug(thought.situationSlug);
+    if (!situation) return acc;
+    const existing = acc.find((item) => item.slug === situation.slug);
+    if (existing) {
+      existing.count += 1;
+      if (thought.createdAt > existing.lastPracticed) {
+        existing.lastPracticed = thought.createdAt;
+      }
+      return acc;
+    }
+    acc.push({
+      slug: situation.slug,
+      label: situation.label,
+      count: 1,
+      lastPracticed: thought.createdAt,
+      category: situation.category,
+    });
+    return acc;
+  }, []);
+
+  function formatRecentDate(value: string) {
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return "Recently";
+    return date.toLocaleDateString(undefined, {
+      month: "short",
+      day: "numeric",
+    });
+  }
 
   return (
     <div className="space-y-7">
-      <header className="flex items-center justify-between">
-        <span className="w-3" aria-hidden />
-        <p className="text-caption text-ink-mute">Situations</p>
-        <span className="w-3" aria-hidden />
-      </header>
+      <PageHeader title={<Wordmark>Lugares</Wordmark>} />
 
-      <div className="rounded-full border border-rule bg-surface p-1 flex">
+      <div className="rounded-full border border-rule bg-surface p-1 flex lg:max-w-sm">
         {(
           [
             { key: "topics", label: "Topics" },
@@ -80,33 +117,106 @@ export default function SituationsLibraryPage() {
       </div>
 
       {tab === "topics" ? (
-        <ul className="rounded-lg border border-rule bg-surface divide-y divide-rule overflow-hidden">
+        <ul className="rounded-lg border border-rule bg-surface divide-y divide-rule overflow-hidden lg:grid lg:grid-cols-2 lg:gap-4 lg:divide-y-0 lg:border-0 lg:bg-transparent lg:overflow-visible xl:grid-cols-3">
           {ordered.map((cat) => {
             const list = grouped[cat];
             if (!list.length) return null;
-            const first = list[0];
+            const deepCount = list.filter(
+              (s) => s.phrases?.length || s.practiceItems?.length
+            ).length;
             return (
-              <li key={cat}>
-                <Link
-                  href={`/situations/${first.slug}`}
-                  className="flex items-center gap-4 px-5 py-4 active:bg-surface-sunk transition-colors"
-                >
-                  <span style={{ color: "var(--accent)" }}>
+              <li
+                key={cat}
+                className="px-5 py-4 lg:rounded-lg lg:border lg:border-rule lg:bg-surface lg:p-5"
+              >
+                <div className="flex items-start gap-4">
+                  <span className="mt-0.5" style={{ color: "var(--accent)" }}>
                     {categoryIcon[cat]}
                   </span>
-                  <span className="flex-1 text-ink">{categoryLabels[cat]}</span>
-                  <span className="text-caption text-ink-mute">
-                    {list.length}
-                  </span>
-                  <span className="text-ink-mute" aria-hidden>›</span>
-                </Link>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-3">
+                      <h2 className="font-display text-[1.25rem] leading-tight text-ink">
+                        {categoryLabels[cat]}
+                      </h2>
+                      <span className="text-caption text-ink-mute">
+                        {list.length} temas
+                      </span>
+                    </div>
+                    <p className="mt-1 text-gloss">
+                      {deepCount > 0
+                        ? `${deepCount} with phrasebanks ready to practice.`
+                        : "Open practice topics for your own words."}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-4 space-y-2">
+                  {list.map((situation) => (
+                    <Link
+                      key={situation.slug}
+                      href={`/situations/${situation.slug}`}
+                      className="group flex items-center gap-3 rounded-md border border-transparent py-2 pl-9 pr-2 transition-colors hover:border-rule hover:bg-surface-2"
+                    >
+                      <span className="min-w-0 flex-1 text-sm leading-snug text-ink-soft group-hover:text-ink">
+                        {situation.label}
+                      </span>
+                      {(situation.phrases?.length || situation.practiceItems?.length) && (
+                        <span className="text-caption text-accent">Listo</span>
+                      )}
+                      <span className="text-ink-mute" aria-hidden>
+                        ›
+                      </span>
+                    </Link>
+                  ))}
+                </div>
               </li>
             );
           })}
         </ul>
       ) : (
-        <div className="rounded-lg border border-rule bg-surface p-8 text-center">
-          <p className="text-gloss">Your saved situations will appear here.</p>
+        <div>
+          {!hydrated ? (
+            <div className="rounded-lg border border-rule bg-surface p-8 text-center">
+              <p className="text-gloss">Loading your recent Lugares…</p>
+            </div>
+          ) : recentSituations.length > 0 ? (
+            <ul className="rounded-lg border border-rule bg-surface divide-y divide-rule overflow-hidden lg:grid lg:grid-cols-2 lg:gap-4 lg:divide-y-0 lg:border-0 lg:bg-transparent lg:overflow-visible">
+              {recentSituations.map((item) => (
+                <li key={item.slug}>
+                  <Link
+                    href={`/situations/${item.slug}`}
+                    className="flex items-center gap-4 px-5 py-4 transition-colors active:bg-surface-sunk lg:rounded-lg lg:border lg:border-rule lg:bg-surface lg:hover:border-accent/50"
+                  >
+                    <span style={{ color: "var(--accent)" }}>
+                      {item.category ? categoryIcon[item.category] : categoryIcon.work}
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block font-display text-[1.125rem] leading-tight text-ink">
+                        {item.label}
+                      </span>
+                      <span className="mt-1 block text-caption text-ink-mute">
+                        {item.count} {item.count === 1 ? "vez" : "veces"} ·{" "}
+                        {formatRecentDate(item.lastPracticed)}
+                      </span>
+                    </span>
+                    <span className="text-ink-mute" aria-hidden>
+                      ›
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <div className="rounded-lg border border-rule bg-surface p-8 text-center">
+              <p className="font-display text-display-lg text-ink">
+                Elige un lugar para practicar.
+              </p>
+              <p className="text-gloss mt-2">
+                After you practice from a topic, it will appear here with your
+                recent sessions.
+              </p>
+            </div>
+          )}
         </div>
       )}
     </div>

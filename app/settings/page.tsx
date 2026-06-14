@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { ThemeModeToggle } from "@/components/ThemeModeToggle";
 import { AudioSpeedToggle } from "@/components/AudioSpeedToggle";
+import { SidebarToggle } from "@/components/SidebarToggle";
 
 export default function SettingsPage() {
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 lg:mx-auto lg:max-w-[640px]">
       <header className="flex items-center justify-between">
         <Link
           href="/"
@@ -47,6 +48,21 @@ export default function SettingsPage() {
               </p>
             </div>
             <AudioSpeedToggle />
+          </div>
+        </li>
+
+        <li className="hidden rounded-lg border border-rule bg-surface p-6 space-y-4 lg:block">
+          <div className="flex items-start justify-between gap-4">
+            <div className="min-w-0 space-y-1">
+              <p className="font-display text-[1.125rem] text-ink leading-tight">
+                Sidebar
+              </p>
+              <p className="text-sm text-ink-mute leading-relaxed">
+                Hide the left navigation on wide screens for a quieter, wider
+                reading view. The bottom tabs stay available.
+              </p>
+            </div>
+            <SidebarToggle />
           </div>
         </li>
       </ul>

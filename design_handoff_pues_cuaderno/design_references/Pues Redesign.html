@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pues — Redesign Directions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Inter+Tight:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+<style>
+  html, body { margin: 0; padding: 0; }
+  * { box-sizing: border-box; }
+
+  /* ---------- Pues design tokens ---------- */
+  .pues {
+    --font-display: "Fraunces", Georgia, ui-serif, serif;
+    --font-body: "Inter Tight", system-ui, -apple-system, sans-serif;
+  }
+  .pues-dark {
+    --bg: #0e1420;
+    --surface: #161e2d;
+    --surface-2: #1a2335;
+    --surface-sunk: #0a1018;
+    --ink: #f5ebd8;
+    --ink-soft: #b8ae9a;
+    --ink-mute: #6e6757;
+    --rule: #28324a;
+    --accent: #e89b7a;
+    --paper-wash:
+      radial-gradient(circle at 50% 0%, rgba(232,155,122,0.05), transparent 28rem),
+      linear-gradient(180deg, rgba(255,255,255,0.015), transparent 18rem);
+  }
+  .pues-light {
+    --bg: #f6eddf;
+    --surface: #fff9ef;
+    --surface-2: #fbf1e3;
+    --surface-sunk: #eadfce;
+    --ink: #17263b;
+    --ink-soft: #31445c;
+    --ink-mute: #8a7f6e;
+    --rule: #ddccb6;
+    --accent: #c2754f;
+    --paper-wash:
+      radial-gradient(circle at 50% -6%, rgba(255,249,239,0.9), transparent 26rem),
+      linear-gradient(180deg, #fbf4e9 0%, #f3e7d6 100%);
+  }
+  .pues ::selection { background: var(--accent); color: var(--bg); }
+  .pues button { font-family: inherit; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel" src="pues-ui.jsx"></script>
+<script type="text/babel" src="pues-homes.jsx"></script>
+<script type="text/babel" src="pues-flow.jsx"></script>
+
+<script type="text/babel">
+const { createRoot } = ReactDOM;
+
+function App() {
+  return (
+    <DesignCanvas>
+      <DCSection id="home" title="Home — a calm overview" subtitle="Three directions. Each cuts the copy and the box-count hard, and answers “where am I?” differently.">
+        <DCArtboard id="solo" label="A · Solo — one greeting, one action" width={300} height={640}><HomeSolo /></DCArtboard>
+        <DCArtboard id="camino" label="B · Camino — your path at a glance" width={300} height={640}><HomeCamino /></DCArtboard>
+        <DCArtboard id="diario" label="C · Diario — warm paper, your own words" width={300} height={640}><HomeDiario /></DCArtboard>
+      </DCSection>
+
+      <DCSection id="flow" title="Speak-first flow" subtitle="The new mechanic: you say it out loud before any Spanish is shown. The answer unlocks only after you've tried.">
+        <DCArtboard id="speak" label="1 · Speak — no answer yet" width={300} height={640}><FlowSpeak /></DCArtboard>
+        <DCArtboard id="reveal" label="2 · Reveal — compare & listen" width={300} height={640}><FlowReveal /></DCArtboard>
+        <DCArtboard id="saved" label="3 · Saved — warm close" width={300} height={640}><FlowSaved /></DCArtboard>
+      </DCSection>
+
+      <DCSection id="growth" title="Room to grow" subtitle="Future components, planned on the same foundation — opt-in, so the app stays quiet by default.">
+        <DCArtboard id="map" label="Growth map" width={760} height={420}><GrowthMap /></DCArtboard>
+      </DCSection>
+    </DesignCanvas>
+  );
+}
+
+createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>
