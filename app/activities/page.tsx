@@ -35,6 +35,14 @@ const IconCognates = (
   </svg>
 );
 
+const IconAccent = (
+  <svg viewBox="0 0 32 32" width="28" height="28" aria-hidden {...stroke}>
+    <path d="M9 18v-4a7 7 0 0 1 14 0v4" />
+    <path d="M7 18h4v5H7zM21 18h4v5h-4z" />
+    <path d="M13 25c1.5 1 4.5 1 6 0M16 5v3M22 7l-2 2M10 7l2 2" />
+  </svg>
+);
+
 export default function ActivitiesHubPage() {
   const { thoughts, hydrated } = useThoughts();
 
@@ -57,6 +65,14 @@ export default function ActivitiesHubPage() {
       description:
         "Patterns that unlock hundreds of words you almost already know — plus a few that look familiar but mean something else.",
       icon: IconCognates,
+    },
+    {
+      href: "/activities/accent",
+      title: "Accent",
+      subtitle: "Latin American pronunciation",
+      description:
+        "Short listening and shadowing drills for cleaner vowels, c/z/s, r sounds, soft d, and ll/y.",
+      icon: IconAccent,
     },
   ];
 

@@ -20,6 +20,7 @@ import { config as loadEnv } from "dotenv";
 
 import { frameDays } from "../content/frames.js";
 import { situations } from "../content/situations.js";
+import { accentAudioTexts } from "../content/accent.js";
 import {
   cognatePatterns,
   cognateThemes,
@@ -84,6 +85,8 @@ function collectPhrases(): string[] {
     out.add(ff.spanish);
     out.add(ff.example);
   }
+
+  for (const text of accentAudioTexts()) out.add(text);
 
   return [...out].filter((t) => t && t.length > 0 && t.length <= 500);
 }
