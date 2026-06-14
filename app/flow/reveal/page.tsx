@@ -60,7 +60,12 @@ export default function RevealPage() {
         <div className="compare-audio">
           <div className="compare-audio__row">
             <div className="compare-audio__slot">
-              <PlayButton text={answer} label={`Modelo: ${answer}`} speed={speed} />
+              <PlayButton
+                text={answer}
+                label={`Modelo: ${answer}`}
+                speed={speed}
+                stopToken={playbackStopToken}
+              />
             </div>
             <div className="compare-audio__meta">
               <span className="mono-cap compare-audio__label">Modelo</span>

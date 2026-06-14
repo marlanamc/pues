@@ -23,11 +23,14 @@ export function PlayButton({
   text,
   label,
   speed,
+  stopToken = 0,
 }: {
   text: string;
   label?: string;
   /** When set, playback follows this speed instead of a separate hook read. */
   speed?: AudioSpeed;
+  /** Increment to stop any in-progress playback (e.g. when re-recording starts). */
+  stopToken?: number;
 }) {
   const [state, setState] = useState<"idle" | "loading" | "playing" | "error">("idle");
   const { speed: storedSpeed } = useAudioSpeed();
@@ -42,6 +45,13 @@ export function PlayButton({
     rateRef.current = playbackRate;
     if (audioRef.current) applyPlaybackRate(audioRef.current, playbackRate);
   }, [playbackRate]);
+
+  useEffect(() => {
+    if (!audioRef.current) return;
+    audioRef.current.pause();
+    audioRef.current.currentTime = 0;
+    setState((s) => (s === "playing" || s === "loading" ? "idle" : s));
+  }, [stopToken]);
 
   useEffect(() => {
     return () => {

@@ -56,6 +56,9 @@ export function useRecordingPlayback(recordingId?: string) {
 
       const audio = audioRef.current ?? new Audio();
       audioRef.current = audio;
+      audio.preservesPitch = true;
+      audio.defaultPlaybackRate = 1;
+      audio.playbackRate = 1;
       audio.onended = () => setState("idle");
       audio.onpause = () => setState((s) => (s === "playing" ? "idle" : s));
       audio.src = urlRef.current;

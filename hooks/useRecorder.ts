@@ -10,8 +10,37 @@ export type RecorderState =
   | "denied"
   | "unsupported";
 
+const RECORDING_TIMESLICE_MS = 250;
+
+const RECORDER_MIME_CANDIDATES = [
+  "audio/webm;codecs=opus",
+  "audio/webm",
+  "audio/mp4",
+  "audio/aac",
+  "audio/ogg;codecs=opus",
+] as const;
+
 function newRecordingId() {
   return `rec_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+}
+
+function pickRecorderMimeType(): string | undefined {
+  if (typeof MediaRecorder === "undefined") return undefined;
+  for (const type of RECORDER_MIME_CANDIDATES) {
+    if (MediaRecorder.isTypeSupported(type)) return type;
+  }
+  return undefined;
+}
+
+function voiceCaptureConstraints(): MediaStreamConstraints {
+  return {
+    audio: {
+      echoCancellation: true,
+      noiseSuppression: true,
+      autoGainControl: true,
+      channelCount: 1,
+    },
+  };
 }
 
 export function isRecorderSupported() {
@@ -74,21 +103,33 @@ export function useRecorder(options?: { replaceId?: string | null }) {
       return false;
     }
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      streamRef.current = stream;
+      stopTracks();
+      recorderRef.current = null;
       chunksRef.current = [];
       setRecordingId(null);
 
-      const recorder = new MediaRecorder(stream);
+      const stream = await navigator.mediaDevices.getUserMedia(
+        voiceCaptureConstraints()
+      );
+      streamRef.current = stream;
+
+      const mimeType = pickRecorderMimeType();
+      const recorder = mimeType
+        ? new MediaRecorder(stream, { mimeType })
+        : new MediaRecorder(stream);
       recorder.ondataavailable = (e) => {
         if (e.data.size > 0) chunksRef.current.push(e.data);
       };
       recorder.onstop = () => {
         void (async () => {
-          const blob = new Blob(chunksRef.current, {
-            type: recorder.mimeType || "audio/webm",
-          });
+          const blobType =
+            recorder.mimeType ||
+            mimeType ||
+            chunksRef.current[0]?.type ||
+            "audio/webm";
+          const blob = new Blob(chunksRef.current, { type: blobType });
           stopTracks();
+          recorderRef.current = null;
           if (blob.size > 0) {
             const id = newRecordingId();
             await putRecording(id, blob);
@@ -105,11 +146,12 @@ export function useRecorder(options?: { replaceId?: string | null }) {
       };
 
       recorderRef.current = recorder;
-      recorder.start();
+      recorder.start(RECORDING_TIMESLICE_MS);
       setState("recording");
       return true;
     } catch {
       stopTracks();
+      recorderRef.current = null;
       setState("denied");
       return false;
     }
@@ -117,11 +159,13 @@ export function useRecorder(options?: { replaceId?: string | null }) {
 
   const stop = useCallback(() => {
     const recorder = recorderRef.current;
-    if (recorder && recorder.state !== "inactive") {
-      recorder.stop();
-    } else {
-      setState("done");
+    if (!recorder || recorder.state === "inactive") return;
+    try {
+      recorder.requestData();
+    } catch {
+      /* ignore */
     }
+    recorder.stop();
   }, []);
 
   const reset = useCallback(() => {
