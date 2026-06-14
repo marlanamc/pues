@@ -1,32 +1,50 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { staticAudioUrl } from "@/lib/audio";
 
 /**
- * Small speaker icon. Tap → fetches /api/tts → plays MP3.
- * Caches the blob URL in memory so a second tap is instant.
+ * Small speaker icon.
+ *
+ * Lookup order on first tap:
+ *   1. /audio/<hash>.mp3 if the manifest has this text → free, instant
+ *   2. /api/tts as a live fallback for content added since last `npm run audio`
+ *
+ * The chosen URL is cached in a ref so a second tap is instant either way.
  */
 export function PlayButton({ text, label }: { text: string; label?: string }) {
   const [state, setState] = useState<"idle" | "loading" | "playing" | "error">("idle");
   const urlRef = useRef<string | null>(null);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   async function play() {
     if (state === "loading" || state === "playing") return;
     try {
       if (!urlRef.current) {
         setState("loading");
-        const res = await fetch("/api/tts", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ text }),
-        });
-        if (!res.ok) throw new Error(`TTS failed: ${res.status}`);
-        const blob = await res.blob();
-        urlRef.current = URL.createObjectURL(blob);
+
+        const staticUrl = await staticAudioUrl(text);
+        if (staticUrl) {
+          // Quick HEAD check — if the file is in the manifest but missing,
+          // fall through to the live route.
+          const head = await fetch(staticUrl, { method: "HEAD" });
+          if (head.ok) {
+            urlRef.current = staticUrl;
+          }
+        }
+
+        if (!urlRef.current) {
+          const res = await fetch("/api/tts", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ text }),
+          });
+          if (!res.ok) throw new Error(`TTS failed: ${res.status}`);
+          const blob = await res.blob();
+          urlRef.current = URL.createObjectURL(blob);
+        }
       }
+
       const audio = new Audio(urlRef.current);
-      audioRef.current = audio;
       audio.onended = () => setState("idle");
       audio.onerror = () => setState("error");
       setState("playing");
