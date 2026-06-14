@@ -1,0 +1,130 @@
+"use client";
+
+import { frameDays, totalDays } from "@/content/frames";
+import { useStats } from "@/hooks/useStats";
+import { useThoughts } from "@/hooks/useThoughts";
+
+const DAY_LETTERS = ["S", "M", "T", "W", "T", "F", "S"];
+
+export default function ProgressPage() {
+  const { stats, hydrated } = useStats();
+  const { thoughts } = useThoughts();
+
+  const today = new Date().getDay();
+  const streak = stats.daysPracticed;
+
+  const spoken = thoughts.length;
+  const todaysFrames = frameDays[stats.daysPracticed % totalDays].frames;
+  const counts = todaysFrames.map((f) => ({
+    stem: f.stem,
+    n: thoughts.filter((t) => t.frameStem === f.stem).length,
+  }));
+
+  return (
+    <div className="space-y-8" style={{ opacity: hydrated ? 1 : 0.6 }}>
+      <header className="flex items-center justify-between">
+        <span className="w-3" aria-hidden />
+        <p className="text-caption text-ink-mute">Progress</p>
+        <span className="w-3" aria-hidden />
+      </header>
+
+      <section className="space-y-4">
+        <p className="text-caption text-ink-mute">This Week</p>
+        <div className="grid grid-cols-3 gap-3">
+          <Stat label="Sentences Built" value={stats.sentencesCreated} />
+          <Stat label="Spoken Out Loud" value={spoken} />
+          <Stat label="Days Practiced" value={stats.daysPracticed} />
+        </div>
+      </section>
+
+      <section className="space-y-4">
+        <p className="text-caption text-ink-mute">Your Streak</p>
+        <div className="rounded-lg border border-rule bg-surface p-5 space-y-4">
+          <div className="flex items-center gap-2">
+            <svg
+              viewBox="0 0 24 24"
+              width="22"
+              height="22"
+              aria-hidden
+              fill="none"
+              stroke="var(--accent)"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M12 3c1 3 4 5 4 9a4 4 0 1 1-8 0c0-2 1-3 2-4-1 5 2 5 2 5s0-3 0-10Z" />
+            </svg>
+            <span className="font-display text-[1.25rem] text-accent">
+              {streak} {streak === 1 ? "day" : "days"}
+            </span>
+          </div>
+          <div className="flex items-center justify-between gap-2">
+            {DAY_LETTERS.map((letter, i) => {
+              const active = i <= today && i > today - streak;
+              return (
+                <div
+                  key={i}
+                  className="flex flex-col items-center gap-1.5 flex-1"
+                >
+                  <span
+                    className="inline-flex h-7 w-7 items-center justify-center rounded-full text-xs font-medium"
+                    style={{
+                      background: active ? "var(--accent)" : "transparent",
+                      color: active ? "var(--bg)" : "var(--ink-mute)",
+                      border: active
+                        ? "1px solid var(--accent)"
+                        : "1px solid var(--rule)",
+                    }}
+                  >
+                    {letter}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="space-y-4">
+        <p className="text-caption text-ink-mute">Frames Practiced</p>
+        <ul className="space-y-3">
+          {counts.map((c) => (
+            <li key={c.stem} className="space-y-1.5">
+              <div className="flex items-center justify-between">
+                <span className="font-display text-[1.0625rem] text-ink">
+                  {c.stem}
+                </span>
+                <span className="text-caption text-ink-mute">
+                  {Math.min(c.n, 5)} / 5
+                </span>
+              </div>
+              <div
+                className="h-1 w-full rounded-full"
+                style={{ background: "var(--surface-sunk)" }}
+              >
+                <div
+                  className="h-1 rounded-full"
+                  style={{
+                    width: `${Math.min(100, (c.n / 5) * 100)}%`,
+                    background: "var(--accent)",
+                  }}
+                />
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </div>
+  );
+}
+
+function Stat({ label, value }: { label: string; value: number }) {
+  return (
+    <div className="rounded-lg border border-rule bg-surface px-3 py-5 text-center">
+      <p className="font-display text-3xl text-accent leading-none">{value}</p>
+      <p className="mt-2 text-[0.6875rem] text-ink-mute uppercase tracking-[0.06em] leading-tight">
+        {label}
+      </p>
+    </div>
+  );
+}

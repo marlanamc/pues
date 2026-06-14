@@ -1,0 +1,63 @@
+import { NextResponse } from "next/server";
+
+export const runtime = "nodejs";
+
+const ELEVENLABS_API = "https://api.elevenlabs.io/v1/text-to-speech";
+
+export async function POST(req: Request) {
+  const apiKey = process.env.ELEVENLABS_API_KEY;
+  const voiceId = process.env.ELEVENLABS_VOICE_ID;
+
+  if (!apiKey || !voiceId) {
+    return NextResponse.json(
+      { error: "ElevenLabs not configured" },
+      { status: 500 }
+    );
+  }
+
+  let text: string;
+  try {
+    const body = await req.json();
+    text = typeof body?.text === "string" ? body.text.trim() : "";
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+  }
+
+  if (!text || text.length > 500) {
+    return NextResponse.json(
+      { error: "text must be 1-500 chars" },
+      { status: 400 }
+    );
+  }
+
+  const res = await fetch(`${ELEVENLABS_API}/${voiceId}`, {
+    method: "POST",
+    headers: {
+      "xi-api-key": apiKey,
+      "Content-Type": "application/json",
+      Accept: "audio/mpeg",
+    },
+    body: JSON.stringify({
+      text,
+      model_id: "eleven_multilingual_v2",
+      voice_settings: { stability: 0.5, similarity_boost: 0.75 },
+    }),
+  });
+
+  if (!res.ok) {
+    const detail = await res.text().catch(() => "");
+    return NextResponse.json(
+      { error: "ElevenLabs request failed", detail: detail.slice(0, 300) },
+      { status: res.status }
+    );
+  }
+
+  const audio = await res.arrayBuffer();
+  return new NextResponse(audio, {
+    status: 200,
+    headers: {
+      "Content-Type": "audio/mpeg",
+      "Cache-Control": "public, max-age=86400",
+    },
+  });
+}
