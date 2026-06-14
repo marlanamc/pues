@@ -49,6 +49,14 @@ const IconLinking = (
   </svg>
 );
 
+const IconConfusions = (
+  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
+    <path d="M8 6h8M8 12h5M8 18h8" />
+    <circle cx="17" cy="12" r="2.5" />
+    <path d="M17 9.5v1M17 13.5v1" />
+  </svg>
+);
+
 export default function ActivitiesHubPage() {
   const { thoughts, hydrated } = useThoughts();
 
@@ -76,6 +84,11 @@ export default function ActivitiesHubPage() {
       href: "/activities/linking",
       label: "Enlace",
       icon: IconLinking,
+    },
+    {
+      href: "/activities/confusions",
+      label: "Matiz",
+      icon: IconConfusions,
     },
   ];
 
