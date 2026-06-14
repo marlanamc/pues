@@ -21,6 +21,7 @@ import { config as loadEnv } from "dotenv";
 import { frameDays } from "../content/frames.js";
 import { situations } from "../content/situations.js";
 import { accentAudioTexts } from "../content/accent.js";
+import { linkingAudioTexts } from "../content/linking.js";
 import {
   cognatePatterns,
   cognateThemes,
@@ -87,6 +88,8 @@ function collectPhrases(): string[] {
   }
 
   for (const text of accentAudioTexts()) out.add(text);
+
+  for (const text of linkingAudioTexts()) out.add(text);
 
   return [...out].filter((t) => t && t.length > 0 && t.length <= 500);
 }

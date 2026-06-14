@@ -35,11 +35,13 @@ export type Draft = Partial<{
 }>;
 
 export type AudioSpeed = "normal" | "slow";
+export type ThemeMode = "dark" | "light";
 
 const K_THOUGHTS = "pues:thoughts";
 const K_STATS = "pues:stats";
 const K_DRAFT = "pues:draft";
 const K_AUDIO_SPEED = "pues:audio-speed";
+const K_THEME_MODE = "pues:theme-mode";
 
 const EMPTY_STATS: SessionStats = {
   daysPracticed: 0,
@@ -159,4 +161,16 @@ export function getAudioSpeed(): AudioSpeed {
 export function setAudioSpeed(speed: AudioSpeed): AudioSpeed {
   write(K_AUDIO_SPEED, speed);
   return speed;
+}
+
+/* ---------- Theme ---------- */
+
+export function getThemeMode(): ThemeMode {
+  const mode = read<string>(K_THEME_MODE, "dark");
+  return mode === "light" ? "light" : "dark";
+}
+
+export function setThemeMode(mode: ThemeMode): ThemeMode {
+  write(K_THEME_MODE, mode);
+  return mode;
 }

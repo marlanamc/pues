@@ -43,23 +43,32 @@
   --accent: #e89b7a;
   --accent-soft: #c97d5c;
   --highlight: #e89b7a;
+  --paper-wash:
+    radial-gradient(circle at 50% 0%, rgba(232, 155, 122, 0.05), transparent 36rem),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.015), transparent 22rem);
 
   color-scheme: dark;
 }
 
-/* Opt-in light mode (linen palette preserved for later toggle) */
+/* Warm paper day mode */
 .light {
-  --bg: #f4efe6;
-  --surface: #fbf7ee;
-  --surface-2: #f7f1e3;
-  --surface-sunk: #ede6d8;
-  --ink: #1b2a3a;
-  --ink-soft: #3d4e62;
-  --ink-mute: #8a8676;
-  --rule: #d9d1bf;
-  --accent: #8b3a2f;
-  --accent-soft: #6a2b22;
-  --highlight: #c9a961;
+  --bg: #f6eddf;
+  --surface: #fff9ef;
+  --surface-2: #fbf1e3;
+  --surface-sunk: #eadfce;
+  --ink: #17263b;
+  --ink-soft: #31445c;
+  --ink-mute: #746e63;
+  --rule: #d8c8b3;
+  --accent: #e89b7ae1;
+  --accent-soft: #e89b7ae1;
+  --highlight: #1f3b60;
+  --paper-wash:
+    linear-gradient(90deg, rgba(31, 59, 96, 0.025), transparent 42%),
+    radial-gradient(circle at 50% -10%, rgba(255, 249, 239, 0.9), transparent 34rem),
+    linear-gradient(180deg, #fbf4e9 0%, #f3e7d6 100%);
+  --shadow-soft: 0 1px 0 rgba(31, 59, 96, 0.08), 0 12px 28px -22px rgba(31, 59, 96, 0.38);
+  --shadow-glow: 0 0 0 1px rgba(31, 59, 96, 0.12), 0 8px 24px -16px rgba(31, 59, 96, 0.3);
 
   color-scheme: light;
 }
@@ -67,6 +76,8 @@
 html,
 body {
   background: var(--bg);
+  background-image: var(--paper-wash);
+  background-attachment: fixed;
   color: var(--ink);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;

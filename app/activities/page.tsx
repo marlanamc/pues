@@ -43,6 +43,13 @@ const IconAccent = (
   </svg>
 );
 
+const IconLinking = (
+  <svg viewBox="0 0 32 32" width="28" height="28" aria-hidden {...stroke}>
+    <path d="M13 19a4 4 0 0 1 0-6l3-3a4 4 0 0 1 6 6l-1.5 1.5" />
+    <path d="M19 13a4 4 0 0 1 0 6l-3 3a4 4 0 0 1-6-6l1.5-1.5" />
+  </svg>
+);
+
 export default function ActivitiesHubPage() {
   const { thoughts, hydrated } = useThoughts();
 
@@ -73,6 +80,14 @@ export default function ActivitiesHubPage() {
       description:
         "Short listening and shadowing drills for cleaner vowels, c/z/s, r sounds, soft d, and ll/y.",
       icon: IconAccent,
+    },
+    {
+      href: "/activities/linking",
+      title: "Linking",
+      subtitle: "Connected speech",
+      description:
+        "Glide words together — vowel links (sinalefa), consonant links, and even rhythm — so you sound fluent and can follow fast native speech.",
+      icon: IconLinking,
     },
   ];
 

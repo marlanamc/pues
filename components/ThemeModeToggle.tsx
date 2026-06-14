@@ -1,31 +1,31 @@
 "use client";
 
-import { useAudioSpeed } from "@/hooks/useAudioSpeed";
-import type { AudioSpeed } from "@/lib/store";
+import { useThemeMode } from "@/hooks/useThemeMode";
+import type { ThemeMode } from "@/lib/store";
 
-const options: { value: AudioSpeed; label: string }[] = [
-  { value: "normal", label: "Normal" },
-  { value: "slow", label: "Slow" },
+const options: { value: ThemeMode; label: string }[] = [
+  { value: "light", label: "Day" },
+  { value: "dark", label: "Night" },
 ];
 
-export function AudioSpeedToggle() {
-  const { speed, setSpeed } = useAudioSpeed();
+export function ThemeModeToggle() {
+  const { mode, setMode } = useThemeMode();
 
   return (
     <div
       className="inline-flex rounded-full border border-rule bg-bg/60 p-1"
-      aria-label="Audio speed"
+      aria-label="Color theme"
       role="group"
     >
       {options.map((option) => {
-        const active = speed === option.value;
+        const active = mode === option.value;
         return (
           <button
             key={option.value}
             type="button"
-            onClick={() => setSpeed(option.value)}
+            onClick={() => setMode(option.value)}
             aria-pressed={active}
-            className="min-w-16 rounded-full px-3 py-1.5 text-[0.6875rem] font-medium transition-colors"
+            className="min-w-14 rounded-full px-3 py-1.5 text-[0.6875rem] font-medium transition-colors"
             style={{
               background: active ? "var(--accent)" : "transparent",
               color: active ? "var(--bg)" : "var(--ink-mute)",
