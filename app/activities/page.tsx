@@ -57,6 +57,15 @@ const IconConfusions = (
   </svg>
 );
 
+const IconReflexive = (
+  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
+    <circle cx="8" cy="8" r="3" />
+    <path d="M14 10c2 0 4 1.5 4 4v2" />
+    <path d="M18 14c-2 2-4 3-6 3" />
+    <path d="M11 14l3-3" />
+  </svg>
+);
+
 export default function ActivitiesHubPage() {
   const { thoughts, hydrated } = useThoughts();
 
@@ -89,6 +98,11 @@ export default function ActivitiesHubPage() {
       href: "/activities/confusions",
       label: "Matiz",
       icon: IconConfusions,
+    },
+    {
+      href: "/activities/reflexive",
+      label: "Reflexivos",
+      icon: IconReflexive,
     },
   ];
 
