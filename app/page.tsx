@@ -48,7 +48,7 @@ export default function HomePage() {
       />
 
       <div className="lg:mt-14 lg:grid lg:grid-cols-[1.4fr_1fr] lg:items-start lg:gap-12">
-        <div className="flex min-h-[calc(100dvh-10.5rem)] flex-col lg:min-h-0">
+        <div className="flex flex-col">
           <div className="mt-[34px] lg:mt-0">
             <p
               className="font-display"
@@ -96,18 +96,16 @@ export default function HomePage() {
               <path d="M5 12h14M13 6l6 6-6 6" />
             </svg>
           </Link>
-
-          <div className="flex-1 lg:hidden" />
-
-          <p
-            className="mono-cap lg:hidden"
-            style={{ textAlign: "center", marginBottom: 16 }}
-          >
-            {stats.sentencesCreated} {spokenLabel}
-          </p>
         </div>
 
         <NotebookAside />
+
+        <p
+          className="mono-cap lg:hidden"
+          style={{ textAlign: "center", marginTop: 24, marginBottom: 16 }}
+        >
+          {stats.sentencesCreated} {spokenLabel}
+        </p>
       </div>
     </div>
   );

@@ -35,7 +35,7 @@ export function NotebookAside() {
 
   return (
     <aside
-      className="mt-10 hidden rounded-lg border border-rule bg-surface p-6 lg:mt-0 lg:block"
+      className="mt-6 rounded-lg border border-rule bg-surface p-6 lg:mt-0"
       style={{ opacity: ready ? 1 : 0.6 }}
     >
       <div className="flex items-center justify-between gap-3">
