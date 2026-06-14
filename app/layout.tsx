@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Fraunces, Inter_Tight } from "next/font/google";
+import { AudioSpeedToggle } from "@/components/AudioSpeedToggle";
 import { BottomTabNav } from "@/components/BottomTabNav";
 import "./globals.css";
 
@@ -41,6 +42,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${fraunces.variable} ${interTight.variable}`}>
       <body className="min-h-dvh bg-bg text-ink antialiased">
+        <AudioSpeedToggle />
         <main className="mx-auto w-full max-w-[520px] px-6 pt-14 pb-28">
           {children}
         </main>

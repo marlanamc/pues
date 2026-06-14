@@ -34,9 +34,12 @@ export type Draft = Partial<{
   reflection: Reflection;
 }>;
 
+export type AudioSpeed = "normal" | "slow";
+
 const K_THOUGHTS = "pues:thoughts";
 const K_STATS = "pues:stats";
 const K_DRAFT = "pues:draft";
+const K_AUDIO_SPEED = "pues:audio-speed";
 
 const EMPTY_STATS: SessionStats = {
   daysPracticed: 0,
@@ -144,4 +147,16 @@ export function setDraft(patch: Draft): Draft {
 
 export function clearDraft(): void {
   write(K_DRAFT, {});
+}
+
+/* ---------- Audio ---------- */
+
+export function getAudioSpeed(): AudioSpeed {
+  const speed = read<string>(K_AUDIO_SPEED, "normal");
+  return speed === "slow" ? "slow" : "normal";
+}
+
+export function setAudioSpeed(speed: AudioSpeed): AudioSpeed {
+  write(K_AUDIO_SPEED, speed);
+  return speed;
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useAudioSpeed } from "@/hooks/useAudioSpeed";
 import { staticAudioUrl } from "@/lib/audio";
 
 /**
@@ -16,6 +17,7 @@ import { staticAudioUrl } from "@/lib/audio";
  */
 export function PlayButton({ text, label }: { text: string; label?: string }) {
   const [state, setState] = useState<"idle" | "loading" | "playing" | "error">("idle");
+  const { playbackRate } = useAudioSpeed();
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const urlRef = useRef<string | null>(null);
   const objectUrlRef = useRef<string | null>(null);
@@ -34,10 +36,15 @@ export function PlayButton({ text, label }: { text: string; label?: string }) {
     };
   }, []);
 
+  useEffect(() => {
+    if (audioRef.current) audioRef.current.playbackRate = playbackRate;
+  }, [playbackRate]);
+
   function ensureAudio(): HTMLAudioElement {
     if (!audioRef.current) {
       const el = new Audio();
       el.preload = "auto";
+      el.playbackRate = playbackRate;
       el.onended = () => setState("idle");
       el.onpause = () => setState((s) => (s === "playing" ? "idle" : s));
       el.onerror = () => setState("error");
@@ -63,6 +70,7 @@ export function PlayButton({ text, label }: { text: string; label?: string }) {
     if (state === "loading" || state === "playing") return;
     try {
       const audio = ensureAudio();
+      audio.playbackRate = playbackRate;
 
       if (urlRef.current) {
         if (audio.src !== urlRef.current) audio.src = urlRef.current;
@@ -83,6 +91,7 @@ export function PlayButton({ text, label }: { text: string; label?: string }) {
 
       urlRef.current = resolved;
       audio.src = resolved;
+      audio.playbackRate = playbackRate;
       audio.load();
       setState("playing");
       try {
@@ -92,6 +101,7 @@ export function PlayButton({ text, label }: { text: string; label?: string }) {
         const fallback = await liveTtsUrl();
         urlRef.current = fallback;
         audio.src = fallback;
+        audio.playbackRate = playbackRate;
         audio.load();
         await audio.play();
       }
