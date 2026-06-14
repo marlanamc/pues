@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { parseWhy } from "@/content/prompts";
 import type { Reflection } from "@/lib/store";
@@ -22,7 +22,14 @@ export default function RevealPage() {
   const { draft, patch, hydrated } = useFlowDraft();
   const { speed, setSpeed } = useAudioSpeed();
   const [playbackStopToken, setPlaybackStopToken] = useState(0);
+  const [showReflection, setShowReflection] = useState(false);
+  const reflectionRef = useRef<HTMLDivElement>(null);
   const recorderSupported = isRecorderSupported();
+
+  useEffect(() => {
+    if (!showReflection || !reflectionRef.current) return;
+    reflectionRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }, [showReflection]);
 
   // Speak-first gate: the reveal is unreachable until a speak attempt was made.
   useEffect(() => {
@@ -50,105 +57,155 @@ export default function RevealPage() {
       <div className="border-t-2 border-accent pt-4">
         <p className="text-display-md text-ink">{answer}</p>
 
-        <div className="mt-4 flex items-center gap-3">
-          <PlayButton text={answer} label={`Escuchar: ${answer}`} speed={speed} />
-          <div className="flex items-center gap-2">
-            <span className="mono-cap">Escuchar ·</span>
-            <button
-              type="button"
-              onClick={() => setSpeed("slow")}
-              aria-pressed={speed === "slow"}
-              className="mono-cap transition-colors"
-              style={{ color: speed === "slow" ? "var(--accent)" : undefined }}
-            >
-              lento
-            </button>
-            <span className="mono-cap">/</span>
-            <button
-              type="button"
-              onClick={() => setSpeed("normal")}
-              aria-pressed={speed === "normal"}
-              className="mono-cap transition-colors"
-              style={{ color: speed === "normal" ? "var(--accent)" : undefined }}
-            >
-              normal
-            </button>
+        <div className="compare-audio">
+          <div className="compare-audio__row">
+            <div className="compare-audio__slot">
+              <PlayButton text={answer} label={`Modelo: ${answer}`} speed={speed} />
+            </div>
+            <div className="compare-audio__meta">
+              <span className="mono-cap compare-audio__label">Modelo</span>
+              <span className="mono-cap text-ink-mute">·</span>
+              <button
+                type="button"
+                onClick={() => setSpeed("slow")}
+                aria-pressed={speed === "slow"}
+                className="mono-cap transition-colors"
+                style={{ color: speed === "slow" ? "var(--accent)" : undefined }}
+              >
+                lento
+              </button>
+              <span className="mono-cap text-ink-mute">/</span>
+              <button
+                type="button"
+                onClick={() => setSpeed("normal")}
+                aria-pressed={speed === "normal"}
+                className="mono-cap transition-colors"
+                style={{ color: speed === "normal" ? "var(--accent)" : undefined }}
+              >
+                normal
+              </button>
+            </div>
           </div>
-        </div>
 
-        {recorderSupported && (
-          <div className="mt-4 flex flex-wrap items-center gap-2.5">
-            <span className="mono-cap">Tu voz</span>
-            <RecordingPlayButton
-              key={draft.recordingId ?? "none"}
-              recordingId={draft.recordingId}
-              stopToken={playbackStopToken}
-            />
-            <span className="mono-cap text-ink-mute">·</span>
-            <RecordingCaptureButton
-              replaceId={draft.recordingId}
-              label={draft.recordingId ? "Grabar de nuevo" : "Grabar ahora"}
-              onCaptureStart={() => setPlaybackStopToken((t) => t + 1)}
-            />
-          </div>
-        )}
+          {recorderSupported && (
+            <div className="compare-audio__row">
+              <div className="compare-audio__slot">
+                {draft.recordingId ? (
+                  <RecordingPlayButton
+                    key={draft.recordingId}
+                    recordingId={draft.recordingId}
+                    stopToken={playbackStopToken}
+                  />
+                ) : (
+                  <span className="compare-audio__slot-empty" aria-hidden>
+                    <svg
+                      viewBox="0 0 24 24"
+                      width="18"
+                      height="18"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth={1.6}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <rect x="9" y="3" width="6" height="11" rx="3" />
+                      <path d="M6 11a6 6 0 0 0 12 0M12 17v3" />
+                    </svg>
+                  </span>
+                )}
+              </div>
+              <div className="compare-audio__meta">
+                <span className="mono-cap compare-audio__label compare-audio__label--mine">
+                  Tu voz
+                </span>
+                <span className="mono-cap text-ink-mute">·</span>
+                <RecordingCaptureButton
+                  replaceId={draft.recordingId}
+                  label={draft.recordingId ? "Grabar de nuevo" : "Grabar ahora"}
+                  onCaptureStart={() => setPlaybackStopToken((t) => t + 1)}
+                />
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
       {whySegments.length > 0 && (
-        <p className="text-gloss mt-4 lg:mt-3.5">
-          {whySegments.map((seg, i) =>
-            seg.italic ? (
-              <em
-                key={i}
-                className="font-display"
-                style={{ fontStyle: "italic", color: "var(--ink)" }}
-              >
-                {seg.text}
-              </em>
-            ) : (
-              <span key={i}>{seg.text}</span>
-            )
-          )}
-        </p>
+        <aside className="tip-card mt-4 lg:mt-3.5" aria-label="Nota">
+          <span className="mono-cap tip-card__label">Nota</span>
+          <p className="tip-card__body">
+            {whySegments.map((seg, i) =>
+              seg.italic ? <em key={i}>{seg.text}</em> : <span key={i}>{seg.text}</span>
+            )}
+          </p>
+        </aside>
       )}
 
       <div className="flex-1 lg:hidden" />
 
-      <div className="lg:mt-8">
-        <p className="mb-3 font-display text-base italic text-ink">
-          ¿Cómo se sintió la tuya?
-        </p>
-
-        <div className="mb-4 flex flex-col gap-2 lg:mb-0">
-        {options.map((o) => (
+      {!showReflection ? (
+        <div className="mb-4 lg:mt-8">
+          <p className="mono-cap mb-3 text-center">
+            Escucha, compara, y sigue cuando quieras
+          </p>
           <button
-            key={o.value}
             type="button"
-            onClick={() => choose(o.value)}
-            className="flex items-center gap-3 text-left transition-colors"
-            style={{
-              padding: "12px 14px",
-              borderRadius: 11,
-              background: "var(--surface)",
-              border: "1px solid var(--rule)",
-              fontSize: 14,
-              color: "var(--ink)",
-            }}
+            onClick={() => setShowReflection(true)}
+            className="btn-primary"
           >
-            <span
-              className="inline-flex items-center justify-center rounded-full"
-              style={{
-                width: 16,
-                height: 16,
-                border: "1px solid var(--ink-mute)",
-              }}
+            <span className="lab">Listo para seguir</span>
+            <svg
+              viewBox="0 0 24 24"
+              width="19"
+              height="19"
               aria-hidden
-            />
-            {o.label}
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={1.6}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
           </button>
-        ))}
         </div>
-      </div>
+      ) : (
+        <div ref={reflectionRef} className="lg:mt-8">
+          <p className="mb-3 font-display text-base italic text-ink">
+            ¿Cómo se sintió la tuya?
+          </p>
+
+          <div className="mb-4 flex flex-col gap-2 lg:mb-0">
+            {options.map((o) => (
+              <button
+                key={o.value}
+                type="button"
+                onClick={() => choose(o.value)}
+                className="flex items-center gap-3 text-left transition-colors"
+                style={{
+                  padding: "12px 14px",
+                  borderRadius: 11,
+                  background: "var(--surface)",
+                  border: "1px solid var(--rule)",
+                  fontSize: 14,
+                  color: "var(--ink)",
+                }}
+              >
+                <span
+                  className="inline-flex items-center justify-center rounded-full"
+                  style={{
+                    width: 16,
+                    height: 16,
+                    border: "1px solid var(--ink-mute)",
+                  }}
+                  aria-hidden
+                />
+                {o.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

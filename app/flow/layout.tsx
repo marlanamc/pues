@@ -31,22 +31,22 @@ export default function FlowLayout({ children }: { children: React.ReactNode }) 
     steps.find((s) => pathname.startsWith(s.path))?.step ?? 1;
 
   return (
-    <div className="flex min-h-[calc(100dvh-10.5rem)] flex-1 flex-col lg:mx-auto lg:min-h-[calc(100dvh-5.5rem)] lg:max-w-[560px]">
-      <header
-        className="flex items-center justify-between"
-        style={{ paddingTop: 4 }}
-      >
+    <div className="flex min-h-[calc(100dvh-10.5rem)] flex-1 flex-col lg:min-h-[calc(100dvh-5.5rem)]">
+      <header className="flex w-full items-center justify-between pt-1 lg:grid lg:max-w-[1040px] lg:w-full lg:self-center lg:grid-cols-[1fr_auto_1fr] lg:items-center">
         <Link
           href="/"
           aria-label="Salir"
           onClick={() => clearDraft()}
-          className="mono-cap inline-flex min-h-[44px] items-center gap-1.5 px-2 -ml-2 transition-colors hover:text-ink-soft"
+          className="mono-cap inline-flex min-h-[44px] items-center gap-1.5 px-2 -ml-2 transition-colors hover:text-ink-soft lg:justify-self-start"
         >
           {IconBack}
           Salir
         </Link>
-        <div className="flex items-center gap-2.5">
-          <div className="flex items-center gap-1.5" aria-hidden>
+        <div className="flex items-center gap-2.5 lg:contents">
+          <div
+            className="flex items-center gap-1.5 lg:justify-self-center"
+            aria-hidden
+          >
             {[1, 2, 3].map((n) => (
               <span
                 key={n}
@@ -59,10 +59,14 @@ export default function FlowLayout({ children }: { children: React.ReactNode }) 
               />
             ))}
           </div>
-          <SettingsMenuButton />
+          <div className="lg:justify-self-end">
+            <SettingsMenuButton />
+          </div>
         </div>
       </header>
-      {children}
+      <div className="flex flex-1 flex-col lg:mx-auto lg:w-full lg:max-w-[560px]">
+        {children}
+      </div>
     </div>
   );
 }
