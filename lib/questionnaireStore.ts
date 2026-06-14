@@ -1,6 +1,7 @@
 "use client";
 
 import type { QuestionnaireAnswers } from "@/content/questionnaire/types";
+import { questionnaireSeed } from "@/content/questionnaire/seed";
 
 const K_QUESTIONNAIRE = "pues:questionnaire-answers";
 
@@ -29,6 +30,12 @@ function write(key: string, value: unknown) {
 }
 
 export function getQuestionnaireAnswers(): QuestionnaireAnswers {
+  const stored = read<QuestionnaireAnswers>(K_QUESTIONNAIRE, {});
+  return { ...questionnaireSeed, ...stored };
+}
+
+/** Answers saved only from the form (excludes repo seed defaults). */
+export function getStoredQuestionnaireAnswers(): QuestionnaireAnswers {
   return read<QuestionnaireAnswers>(K_QUESTIONNAIRE, {});
 }
 

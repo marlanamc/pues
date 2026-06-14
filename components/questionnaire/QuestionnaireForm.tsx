@@ -189,8 +189,9 @@ export function QuestionnaireForm() {
         <h1 className="text-display-lg text-ink">Your notebook profile.</h1>
         <p className="text-gloss">
           Answer in plain English — your replies become speak prompts and
-          situation phrasebanks. You don&apos;t need to finish everything;
-          partial answers export fine.
+          situation phrasebanks. Answers from{" "}
+          <code className="text-ink-soft">answers.md</code> are pre-loaded; edits
+          save on this device.
         </p>
         <div className="questionnaire-status">
           <p className="mono-cap text-ink-mute">
