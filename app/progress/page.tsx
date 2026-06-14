@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { frameDays, totalDays } from "@/content/frames";
 import { useStats } from "@/hooks/useStats";
 import { useThoughts } from "@/hooks/useThoughts";
@@ -10,7 +11,10 @@ export default function ProgressPage() {
   const { stats, hydrated } = useStats();
   const { thoughts } = useThoughts();
 
-  const today = new Date().getDay();
+  const [today, setToday] = useState(-1);
+  useEffect(() => {
+    setToday(new Date().getDay());
+  }, []);
   const streak = stats.daysPracticed;
 
   const spoken = thoughts.length;

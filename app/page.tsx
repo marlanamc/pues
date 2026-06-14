@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { frameDays, totalDays } from "@/content/frames";
 import { useStats } from "@/hooks/useStats";
@@ -16,14 +16,15 @@ export default function HomePage() {
   const { stats, hydrated } = useStats();
   const router = useRouter();
   const [completing, setCompleting] = useState(false);
+  const [greeting, setGreeting] = useState("Hello");
+  useEffect(() => {
+    const h = new Date().getHours();
+    if (h < 12) setGreeting("Good morning");
+    else if (h < 18) setGreeting("Good afternoon");
+    else setGreeting("Good evening");
+  }, []);
   const today = frameDays[stats.currentDayIndex % totalDays];
   const dayNum = today.day.toString().padStart(2, "0");
-  const greeting = (() => {
-    const h = new Date().getHours();
-    if (h < 12) return "Good morning";
-    if (h < 18) return "Good afternoon";
-    return "Good evening";
-  })();
 
   return (
     <div className="space-y-10">
