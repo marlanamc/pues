@@ -46,6 +46,9 @@ export async function POST(req: Request) {
 
   if (!res.ok) {
     const detail = await res.text().catch(() => "");
+    console.error(
+      `[tts] ElevenLabs ${res.status}: ${detail.slice(0, 300)}`
+    );
     return NextResponse.json(
       { error: "ElevenLabs request failed", detail: detail.slice(0, 300) },
       { status: res.status }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { staticAudioUrl } from "@/lib/audio";
 
 /**
@@ -10,43 +10,74 @@ import { staticAudioUrl } from "@/lib/audio";
  *   1. /audio/<hash>.mp3 if the manifest has this text → free, instant
  *   2. /api/tts as a live fallback for content added since last `npm run audio`
  *
- * The chosen URL is cached in a ref so a second tap is instant either way.
+ * The HTMLAudioElement is created lazily on the first tap (inside the user
+ * gesture, which iOS Safari requires) and held in a ref so it survives
+ * across renders and isn't garbage-collected mid-playback.
  */
 export function PlayButton({ text, label }: { text: string; label?: string }) {
   const [state, setState] = useState<"idle" | "loading" | "playing" | "error">("idle");
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const urlRef = useRef<string | null>(null);
+  const objectUrlRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (objectUrlRef.current) {
+        URL.revokeObjectURL(objectUrlRef.current);
+        objectUrlRef.current = null;
+      }
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.src = "";
+        audioRef.current = null;
+      }
+    };
+  }, []);
+
+  function ensureAudio(): HTMLAudioElement {
+    if (!audioRef.current) {
+      const el = new Audio();
+      el.preload = "auto";
+      el.onended = () => setState("idle");
+      el.onpause = () => setState((s) => (s === "playing" ? "idle" : s));
+      el.onerror = () => setState("error");
+      audioRef.current = el;
+    }
+    return audioRef.current;
+  }
 
   async function play() {
     if (state === "loading" || state === "playing") return;
     try {
-      if (!urlRef.current) {
-        setState("loading");
+      const audio = ensureAudio();
 
-        const staticUrl = await staticAudioUrl(text);
-        if (staticUrl) {
-          // Quick HEAD check — if the file is in the manifest but missing,
-          // fall through to the live route.
-          const head = await fetch(staticUrl, { method: "HEAD" });
-          if (head.ok) {
-            urlRef.current = staticUrl;
-          }
-        }
-
-        if (!urlRef.current) {
-          const res = await fetch("/api/tts", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ text }),
-          });
-          if (!res.ok) throw new Error(`TTS failed: ${res.status}`);
-          const blob = await res.blob();
-          urlRef.current = URL.createObjectURL(blob);
-        }
+      if (urlRef.current) {
+        if (audio.src !== urlRef.current) audio.src = urlRef.current;
+        setState("playing");
+        await audio.play();
+        return;
       }
 
-      const audio = new Audio(urlRef.current);
-      audio.onended = () => setState("idle");
-      audio.onerror = () => setState("error");
+      setState("loading");
+
+      let resolved: string | null = await staticAudioUrl(text);
+
+      if (!resolved) {
+        const res = await fetch("/api/tts", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text }),
+        });
+        if (!res.ok) throw new Error(`TTS failed: ${res.status}`);
+        const blob = await res.blob();
+        if (objectUrlRef.current) URL.revokeObjectURL(objectUrlRef.current);
+        objectUrlRef.current = URL.createObjectURL(blob);
+        resolved = objectUrlRef.current;
+      }
+
+      urlRef.current = resolved;
+      audio.src = resolved;
+      audio.load();
       setState("playing");
       await audio.play();
     } catch {

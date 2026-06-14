@@ -17,7 +17,7 @@ let manifestPromise: Promise<AudioManifest> | null = null;
 export function getAudioManifest(): Promise<AudioManifest> {
   if (typeof window === "undefined") return Promise.resolve({});
   if (!manifestPromise) {
-    manifestPromise = fetch("/audio/manifest.json", { cache: "force-cache" })
+    manifestPromise = fetch("/audio/manifest.json", { cache: "no-cache" })
       .then((r) => (r.ok ? r.json() : {}))
       .catch(() => ({}));
   }
