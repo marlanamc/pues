@@ -88,12 +88,6 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-@media (min-width: 1024px) {
-  html.sidebar-hidden main {
-    padding-bottom: 7rem;
-  }
-}
-
 /* Paper grain — a whisper of texture. feTurbulence noise, tiled. */
 body::after {
   content: "";

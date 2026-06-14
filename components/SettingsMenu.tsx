@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ThemeModeToggle } from "@/components/ThemeModeToggle";
 import { AudioSpeedToggle } from "@/components/AudioSpeedToggle";
-import { SidebarToggle } from "@/components/SidebarToggle";
 
 const IconSettings = (
   <svg
@@ -86,10 +85,6 @@ export function SettingsMenuButton({
           <div className="flex items-center justify-between gap-3">
             <span className="text-caption text-ink-mute">Audio</span>
             <AudioSpeedToggle />
-          </div>
-          <div className="hidden items-center justify-between gap-3 lg:flex">
-            <span className="text-caption text-ink-mute">Sidebar</span>
-            <SidebarToggle />
           </div>
           <div className="border-t border-rule pt-3">
             <Link

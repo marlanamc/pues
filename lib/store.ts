@@ -260,7 +260,7 @@ export function setThemeMode(mode: ThemeMode): ThemeMode {
   return mode;
 }
 
-/* ---------- Desktop sidebar ---------- */
+/* ---------- Desktop sidebar (expanded vs icon-collapsed) ---------- */
 
 export function getSidebarVisible(): boolean {
   return read<boolean>(K_SIDEBAR_VISIBLE, true);

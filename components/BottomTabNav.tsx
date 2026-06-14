@@ -3,18 +3,16 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { navItems } from "@/content/nav";
-import { useSidebarVisible } from "@/hooks/useSidebarVisible";
 
 export function BottomTabNav() {
   const pathname = usePathname() ?? "/";
-  const { visible } = useSidebarVisible();
 
   if (pathname.startsWith("/flow")) return null;
 
   return (
     <nav
       aria-label="Primary"
-      className={`fixed inset-x-0 bottom-0 z-40 border-t border-rule bg-bg/90 backdrop-blur-md${visible ? " lg:hidden" : ""}`}
+      className="fixed inset-x-0 bottom-0 z-40 border-t border-rule bg-bg/90 backdrop-blur-md lg:hidden"
       style={{ paddingBottom: "max(env(safe-area-inset-bottom), 0.5rem)" }}
     >
       <ul className="mx-auto flex max-w-[520px] items-stretch justify-around px-1 pt-2">

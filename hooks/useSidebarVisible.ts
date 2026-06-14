@@ -9,7 +9,7 @@ import {
 const SIDEBAR_VISIBLE_EVENT = "pues:sidebar-visible-change";
 
 function applySidebarVisible(visible: boolean) {
-  document.documentElement.classList.toggle("sidebar-hidden", !visible);
+  document.documentElement.classList.toggle("sidebar-collapsed", !visible);
 }
 
 export function useSidebarVisible() {
