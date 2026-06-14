@@ -159,6 +159,13 @@ body > main {
   font-optical-sizing: auto;
 }
 
+@media (min-width: 1024px) {
+  .text-display-prompt {
+    font-size: 2rem; /* 32px */
+    line-height: 1.24;
+  }
+}
+
 /* Tap-to-translate hints on Speak prompts */
 .clickable-prompt__word-wrap {
   position: relative;

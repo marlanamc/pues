@@ -117,34 +117,31 @@ export default function SpeakPage() {
       className="flex flex-1 flex-col"
       style={{ opacity: ready && statsHydrated && draftHydrated ? 1 : 0.5 }}
     >
-      <div className="flex flex-1 flex-col lg:min-h-[calc(100dvh-12rem)] lg:justify-center lg:gap-12">
-        <div>
-          <div className="situation-pill mt-[22px] lg:mt-0">
-            <span className="dot" aria-hidden />
-            <span className="mono-cap" style={{ color: "var(--ink-soft)" }}>
-              {prompt.situationLabel}
-            </span>
-          </div>
-
-          <p className="mono-cap" style={{ margin: "28px 0 12px" }}>
-            Dilo en español
-          </p>
-          <ClickablePrompt text={prompt.english} wordHints={prompt.wordHints} />
+      <div>
+        <div className="situation-pill mt-[22px] lg:mt-4">
+          <span className="dot" aria-hidden />
+          <span className="mono-cap" style={{ color: "var(--ink-soft)" }}>
+            {prompt.situationLabel}
+          </span>
         </div>
 
-        <div className="flex-1 lg:hidden" />
+        <p className="mono-cap mt-7 mb-3 lg:mt-5 lg:mb-2.5">
+          Dilo en español
+        </p>
+        <ClickablePrompt text={prompt.english} wordHints={prompt.wordHints} />
+      </div>
 
-        <div className="flex flex-col items-center gap-3.5 lg:flex-none">
-          <MicButton state={recorder.state} onTap={onTap} />
-          <p className="text-display-italic text-center" style={{ fontSize: 15 }}>
-            {subtitle}
-          </p>
-        </div>
+      <div className="flex-1 lg:hidden" />
+
+      <div className="flex flex-col items-center gap-3.5 lg:mt-8 lg:gap-3">
+        <MicButton state={recorder.state} onTap={onTap} />
+        <p className="text-display-italic text-center text-[0.9375rem] lg:text-base">
+          {subtitle}
+        </p>
       </div>
 
       <div
-        className="flex items-center justify-center gap-2"
-        style={{ padding: "14px 0 20px" }}
+        className="flex items-center justify-center gap-2 py-3.5 pb-5 lg:py-3 lg:pb-4"
       >
         <svg
           viewBox="0 0 24 24"
