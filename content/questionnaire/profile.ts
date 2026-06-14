@@ -1,0 +1,50 @@
+/** Sections already answered in the markdown — included in export only. */
+export const completedProfile = {
+  part1: {
+    title: "About you",
+    lines: [
+      "First name: Marlie",
+      "Age range: 35",
+      "Where you live now: East Boston, MA",
+      "Where you're from / family lives: Atlanta",
+      "Job: ESOL Teacher and Instructional Analyst (building an LMS for MLRI)",
+      "Side passions: web development, learning, sports, travel, food, wine, cocktails",
+      "Practice Spanish for: students, boyfriend from El Salvador, his family",
+      "Spanish background: lived and learned in Nicaragua for 3 months 10 years ago; good foundation but got wrapped up in grammar, scared to speak; remembers a lot of verbs and vocab",
+      "Dialect preference: Latin American general, maybe more Central America",
+      "Words used confidently: the main verbs",
+      "What trips you up: past tense, need a refresher",
+      "Tone: warm, casual (can be too formal when speaking)",
+      "Three sentences I'd love to say fluently:",
+      "1. Just general things like talking about my past",
+      "2. Helping and explaining things to people/students like laws and English",
+      "3. Small talk",
+    ],
+  },
+  part2Morning: {
+    title: "Morning routine",
+    lines: [
+      "Wake up: (not specified)",
+      "First three things: coffee + tart cherry juice + meds; skincare; workout before work",
+      "Morning food/drink: see above",
+      "Commute: walking and T",
+      "Hard part: ADHD — not a morning person",
+      "Small pleasure: chocolate rice cakes with peanut butter and EDM",
+    ],
+  },
+  part7: {
+    title: "Feelings (this month)",
+    lines: [
+      "I'm tired because… I have been working a lot",
+      "I'm proud of… the ESOL app I built and my students' excitement about it",
+      "I'm overwhelmed by… clutter (ironically surrounded by it thanks ADHD)",
+      "I'm grateful for… family, boyfriend, friends, the harbor, water, music, good food, community, helping people, animals, ability to move (lifting, yoga, pilates)",
+      "I miss… my family — they live in Athens, GA",
+      "I'm hopeful about… my learning journey; understanding how I learn and how other adults learn (helps with my job)",
+      "I feel like… AuDHD — surroundings matter a lot; movement helps my mood",
+      "I don't have much energy for… gossip, negativity",
+      "I need a break from… scrolling and obsessing over little things, beating myself up",
+      "Something small that made me happy: iced vanilla latte or strong bitter cold brew on a hot day",
+    ],
+  },
+} as const;

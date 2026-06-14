@@ -488,6 +488,361 @@ textarea {
   resize: none;
 }
 
+.questionnaire-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.questionnaire-intro {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.questionnaire-status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+}
+
+.questionnaire-status__saved {
+  transition: color 120ms;
+}
+
+.questionnaire-done-card {
+  margin-bottom: 1.5rem;
+}
+
+.questionnaire-done-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  font-size: 0.84375rem;
+  line-height: 1.5;
+}
+
+.questionnaire-jump {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.75rem;
+}
+
+.questionnaire-jump__link {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+  transition: border-color 120ms, color 120ms;
+}
+
+.questionnaire-jump__link:hover {
+  border-color: color-mix(in oklab, var(--accent) 60%, transparent);
+  color: var(--accent);
+}
+
+.questionnaire-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.questionnaire-part {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.questionnaire-part__label {
+  margin: 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, var(--rule));
+  color: var(--accent);
+}
+
+.questionnaire-section {
+  scroll-margin-top: 1.5rem;
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  background: color-mix(in oklab, var(--surface) 88%, var(--surface-sunk));
+  padding: 1.125rem 1rem 1.25rem;
+}
+
+.light .questionnaire-section {
+  background: var(--surface);
+  box-shadow: inset 0 1px 0 color-mix(in oklab, white 40%, transparent);
+}
+
+.questionnaire-section__head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  margin-bottom: 1.125rem;
+  padding-bottom: 0.875rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.questionnaire-section__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.375rem;
+  line-height: 1.15;
+  color: var(--ink);
+}
+
+.questionnaire-section__desc {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+
+.questionnaire-section__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.questionnaire-field-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border: 1px solid color-mix(in oklab, var(--rule) 85%, var(--ink-mute));
+  border-radius: 11px;
+  background: var(--surface-sunk);
+  padding: 0.875rem 0.9375rem 1rem;
+}
+
+.light .questionnaire-field-card {
+  background: var(--surface-2);
+  border-color: color-mix(in oklab, var(--rule) 70%, var(--ink-mute));
+}
+
+.questionnaire-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.questionnaire-label {
+  font-size: 0.875rem;
+  line-height: 1.45;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.questionnaire-hint {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--ink-mute);
+}
+
+.questionnaire-input {
+  width: 100%;
+  border: 1.5px solid color-mix(in oklab, var(--rule) 55%, var(--ink-mute));
+  border-radius: 9px;
+  background: var(--bg);
+  padding: 0.8125rem 0.9375rem;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  color: var(--ink);
+  min-height: 2.75rem;
+  box-shadow: inset 0 1px 2px color-mix(in oklab, var(--ink) 8%, transparent);
+  transition: border-color 120ms, background 120ms, box-shadow 120ms;
+}
+
+.light .questionnaire-input {
+  background: var(--surface);
+  border-color: color-mix(in oklab, var(--ink-mute) 45%, var(--rule));
+  box-shadow: inset 0 1px 3px color-mix(in oklab, var(--ink) 6%, transparent);
+}
+
+.questionnaire-input::placeholder {
+  color: var(--ink-mute);
+  opacity: 0.85;
+}
+
+.questionnaire-input:hover {
+  border-color: color-mix(in oklab, var(--accent) 35%, var(--rule));
+}
+
+.questionnaire-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: var(--surface);
+  box-shadow:
+    inset 0 1px 2px color-mix(in oklab, var(--ink) 8%, transparent),
+    0 0 0 3px color-mix(in oklab, var(--accent) 18%, transparent);
+}
+
+.questionnaire-textarea {
+  min-height: 6.5rem;
+  resize: vertical;
+}
+
+.questionnaire-check-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  border: 1px solid color-mix(in oklab, var(--rule) 85%, var(--ink-mute));
+  border-radius: 11px;
+  background: var(--surface-sunk);
+  padding: 0.875rem 0.9375rem;
+}
+
+.light .questionnaire-check-group {
+  background: var(--surface-2);
+}
+
+.questionnaire-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.625rem;
+  cursor: pointer;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  color: var(--ink);
+  padding: 0.375rem 0.5rem;
+  border-radius: 8px;
+  transition: background 120ms;
+}
+
+.questionnaire-check:hover {
+  background: color-mix(in oklab, var(--accent) 8%, transparent);
+}
+
+.questionnaire-check input {
+  margin-top: 0.2rem;
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--accent);
+}
+
+.questionnaire-frame-group {
+  border: 1px solid color-mix(in oklab, var(--rule) 85%, var(--ink-mute));
+  border-radius: 11px;
+  background: var(--surface-sunk);
+  padding: 0.9375rem;
+}
+
+.light .questionnaire-frame-group {
+  background: var(--surface-2);
+}
+
+.questionnaire-frame-stem {
+  margin: 0 0 0.875rem;
+  padding-bottom: 0.625rem;
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  color: var(--ink);
+}
+
+.questionnaire-frame-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.questionnaire-frame-grid .questionnaire-label {
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+@media (min-width: 640px) {
+  .questionnaire-frame-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.questionnaire-export {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--rule);
+}
+
+.questionnaire-export__head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.questionnaire-export__desc {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+
+.questionnaire-export__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.questionnaire-export__secondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  border: 1px solid var(--rule);
+  border-radius: 11px;
+  background: var(--surface);
+  padding: 0.8125rem 1rem;
+  font-size: 0.875rem;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: border-color 120ms, color 120ms, background 120ms;
+}
+
+.questionnaire-export__secondary:hover {
+  border-color: color-mix(in oklab, var(--accent) 55%, var(--rule));
+  color: var(--accent);
+  background: var(--surface-2);
+}
+
+.questionnaire-export__preview-wrap {
+  margin-top: 1rem;
+}
+
+.questionnaire-export__preview {
+  width: 100%;
+  min-height: 16rem;
+  max-height: 24rem;
+  border: 1.5px solid color-mix(in oklab, var(--rule) 55%, var(--ink-mute));
+  border-radius: 11px;
+  background: var(--surface-sunk);
+  padding: 0.875rem 0.9375rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  resize: vertical;
+}
+
+.light .questionnaire-export__preview {
+  background: var(--surface-2);
+}
+
+.questionnaire-export__preview-note {
+  margin: 0.5rem 0 0;
+  font-size: 0.75rem;
+  color: var(--ink-mute);
+}
+
 ::selection {
   background: var(--accent);
   color: var(--accent-ink);

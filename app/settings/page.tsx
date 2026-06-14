@@ -51,8 +51,22 @@ export default function SettingsPage() {
         </li>
       </ul>
 
-      <div className="rounded-lg border border-dashed border-rule p-6 text-center">
-        <p className="text-caption text-ink-mute">More settings coming.</p>
+      <div className="rounded-lg border border-dashed border-rule p-6">
+        <div className="space-y-3 text-center">
+          <p className="font-display text-[1.0625rem] text-ink">
+            Content profile questionnaire
+          </p>
+          <p className="text-sm text-ink-mute leading-relaxed">
+            Fill in your life context so Pues can generate speak prompts that
+            sound like your notebook.
+          </p>
+          <Link
+            href="/questionnaire"
+            className="mono-cap inline-flex items-center justify-center rounded-full border border-rule px-4 py-2 text-ink-soft transition-colors hover:border-accent/60 hover:text-accent"
+          >
+            Open questionnaire →
+          </Link>
+        </div>
       </div>
     </div>
   );
