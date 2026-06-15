@@ -47,6 +47,12 @@ const IconGuides = (
   </svg>
 );
 
+const IconLab = (
+  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
+    <path d="M2 12h2M6 8h2M6 16h2M10 5h2M10 19h2M14 8h2M14 16h2M18 12h2" />
+  </svg>
+);
+
 export const navItems: NavItem[] = [
   { href: "/", label: "Hoy", match: (p) => p === "/", icon: IconToday },
   {
@@ -67,5 +73,11 @@ export const navItems: NavItem[] = [
     label: "Guías",
     match: (p) => p.startsWith("/guides"),
     icon: IconGuides,
+  },
+  {
+    href: "/lab",
+    label: "Lab",
+    match: (p) => p.startsWith("/lab"),
+    icon: IconLab,
   },
 ];
