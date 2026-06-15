@@ -61,6 +61,7 @@ export default function RapidoPage() {
               <PlayButton
                 text={phrase.written}
                 label={`Escuchar versión formal: ${phrase.written}`}
+                contextBefore="En español:"
               />
               <div className="flex-1 min-w-0">
                 <p className="mono-cap mb-1" style={{ color: "var(--ink-mute)" }}>

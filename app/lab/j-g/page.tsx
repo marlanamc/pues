@@ -56,6 +56,7 @@ export default function JGPage() {
               <PlayButton
                 text={item.word}
                 label={`Escuchar: ${item.word}`}
+                contextBefore="En español:"
               />
               <div className="flex-1 min-w-0">
                 <span

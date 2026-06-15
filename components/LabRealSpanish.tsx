@@ -27,6 +27,7 @@ export function LabRealSpanish({ pairs }: { pairs: RealPair[] }) {
               <PlayButton
                 text={pair.textbook}
                 label={`Escuchar: ${pair.textbook}`}
+                contextBefore="En español:"
               />
             </div>
 

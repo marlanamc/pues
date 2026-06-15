@@ -57,6 +57,7 @@ export default function LLYPage() {
               <PlayButton
                 text={item.word}
                 label={`Escuchar: ${item.word}`}
+                contextBefore="En español:"
               />
               <span
                 className="font-display"

@@ -6,7 +6,7 @@ import type { HearItPair } from "@/content/lab";
 
 type Phase = "listen" | "choose" | "revealed";
 
-export function LabHearIt({ pairs }: { pairs: HearItPair[] }) {
+export function LabHearIt({ pairs, contextBefore = "En español:" }: { pairs: HearItPair[]; contextBefore?: string }) {
   const [index, setIndex] = useState(0);
   const [phase, setPhase] = useState<Phase>("listen");
   const [chosen, setChosen] = useState<"a" | "b" | null>(null);
@@ -92,6 +92,7 @@ export function LabHearIt({ pairs }: { pairs: HearItPair[] }) {
             text={playTarget === "a" ? pair.a : pair.b}
             stopToken={stopToken}
             onPlayed={handlePlayed}
+            contextBefore={contextBefore}
           />
         </div>
       )}
@@ -195,6 +196,7 @@ export function LabHearIt({ pairs }: { pairs: HearItPair[] }) {
                     text={side === "a" ? pair.a : pair.b}
                     stopToken={stopToken}
                     label={`Escuchar: ${side === "a" ? pair.a : pair.b}`}
+                    contextBefore={contextBefore}
                   />
                   <span className="text-display-md" style={{ color: "var(--ink)" }}>
                     {side === "a" ? pair.a : pair.b}
@@ -229,10 +231,12 @@ function PlayButtonLarge({
   text,
   stopToken,
   onPlayed,
+  contextBefore,
 }: {
   text: string;
   stopToken: number;
   onPlayed: () => void;
+  contextBefore?: string;
 }) {
   const [state, setState] = useState<"idle" | "loading" | "playing" | "error">("idle");
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -294,7 +298,7 @@ function PlayButtonLarge({
         const res = await fetch("/api/tts", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ text, lang: "es" }),
+          body: JSON.stringify({ text, lang: "es", contextBefore }),
         });
         if (!res.ok) throw new Error("TTS failed");
         const blob = await res.blob();
