@@ -9,7 +9,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { TimelineDiagram, StampGlyph } from "@/components/LaLineaTimeline";
+import { TimelineDiagram, StampGlyph, zoneColor } from "@/components/LaLineaTimeline";
 import {
   STAMPS,
   TENSE_SCOPES,
@@ -87,6 +87,16 @@ function ProgressPills({ total, index }: { total: number; index: number }) {
 const sig = (arr: Pick<Mark, "kind" | "zone">[]) =>
   arr.map((m) => `${m.kind}:${m.zone}`).sort().join("|");
 
+function marksFromNeed(need: Pick<Mark, "kind" | "zone">[]): Mark[] {
+  const zoneCounts: Record<Zone, number> = { past: 0, now: 0, future: 0 };
+  return need.map((m) => {
+    const idx = zoneCounts[m.zone]++;
+    return { kind: m.kind, zone: m.zone, pos: 0.34 + idx * 0.22, accent: true };
+  });
+}
+
+const zoneLabel: Record<Zone, string> = { past: "Antes", now: "Ahora", future: "Después" };
+
 /* ---------- shared option row ---------- */
 type OptState = "idle" | "selected" | "correct" | "wrong" | "muted";
 function OptRow({ children, state, onClick }: { children: React.ReactNode; state: OptState; onClick: () => void }) {
@@ -128,7 +138,7 @@ function PlayHeader({ onExit, total, index }: { onExit: () => void; total: numbe
 }
 
 /* ---------- shared feedback footer ---------- */
-function Feedback({ correct, tense, why, onNext, last }: { correct: boolean; tense: string; why: string; onNext: () => void; last: boolean }) {
+function Feedback({ correct, tense, en, why, onNext, last }: { correct: boolean; tense: string; en: string; why: string; onNext: () => void; last: boolean }) {
   const statusColor = correct ? OK : WRONG;
   return (
     <div className="fade-rise" style={{ borderTop: `2px solid ${statusColor}`, paddingTop: 13, marginTop: 8 }}>
@@ -138,6 +148,7 @@ function Feedback({ correct, tense, why, onNext, last }: { correct: boolean; ten
         </span>
         <Cap style={{ color: statusColor }}>{correct ? "Right" : "Not quite"} · {tense}</Cap>
       </div>
+      <p style={{ fontSize: 13, lineHeight: 1.45, color: "var(--ink)", margin: "0 0 8px" }}>{en}</p>
       <p style={{ fontSize: 13, lineHeight: 1.5, color: "var(--ink-soft)", margin: "0 0 12px" }}>{why}</p>
       <button onClick={onNext} style={{ width: "100%", background: "var(--accent)", color: "var(--accent-ink)", border: "none", borderRadius: 12, padding: "13px 16px", display: "flex", justifyContent: "space-between", alignItems: "center", cursor: "pointer" }}>
         <Serif style={{ fontSize: 17, color: "var(--accent-ink)" }}>{last ? "Ver resultados" : "Siguiente"}</Serif>
@@ -152,15 +163,17 @@ function ReadQuestion({ q, last, onAnswer }: { q: ReadQ; last: boolean; onAnswer
   const [pick, setPick] = useState<string | null>(null);
   const done = pick !== null;
   return (
-    <div style={{ display: "flex", flexDirection: "column", flex: 1, minHeight: 0 }}>
-      <Cap style={{ margin: "20px 0 10px" }}>Lee la línea</Cap>
-      <div style={{ background: "var(--surface)", border: "1px solid var(--rule)", borderRadius: 14, padding: "14px 12px 8px" }}>
-        <TimelineDiagram marks={q.marks} />
+    <div className="flex flex-1 flex-col min-h-0 lg:grid lg:grid-cols-[1.15fr_0.85fr] lg:gap-x-10 lg:gap-y-5 lg:items-start">
+      <div className="min-w-0">
+        <Cap style={{ margin: "20px 0 10px" }}>Lee la línea</Cap>
+        <div style={{ background: "var(--surface)", border: "1px solid var(--rule)", borderRadius: 14, padding: "14px 12px 8px" }}>
+          <TimelineDiagram marks={q.marks} />
+        </div>
+        <p className="text-center lg:text-[1.625rem] lg:leading-snug" style={{ fontFamily: SERIF, fontWeight: 300, fontSize: 21, lineHeight: 1.3, margin: "18px 0 14px", color: "var(--ink)" }}>
+          {q.pre}<Serif it style={{ color: "var(--accent)" }}>{done ? q.answer : q.verb}</Serif>{q.post}
+        </p>
       </div>
-      <p style={{ fontFamily: SERIF, fontWeight: 300, fontSize: 21, lineHeight: 1.3, margin: "18px 0 14px", color: "var(--ink)" }}>
-        {q.pre}<Serif it style={{ color: "var(--accent)" }}>{done ? q.answer : q.verb}</Serif>{q.post}
-      </p>
-      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+      <div className="flex flex-col gap-2 lg:pt-7">
         {q.options.map((o) => {
           let st: OptState = "idle";
           if (done) st = o === q.answer ? "correct" : o === pick ? "wrong" : "muted";
@@ -172,8 +185,12 @@ function ReadQuestion({ q, last, onAnswer }: { q: ReadQ; last: boolean; onAnswer
           );
         })}
       </div>
-      <div style={{ flex: 1 }} />
-      {done && <Feedback correct={pick === q.answer} tense={q.tense} why={q.why} onNext={() => onAnswer(pick === q.answer)} last={last} />}
+      <div className="flex-1 lg:hidden" />
+      {done && (
+        <div className="lg:col-span-2">
+          <Feedback correct={pick === q.answer} tense={q.tense} en={q.en} why={q.why} onNext={() => onAnswer(pick === q.answer)} last={last} />
+        </div>
+      )}
     </div>
   );
 }
@@ -191,30 +208,69 @@ function BuildQuestion({ q, last, onAnswer }: { q: BuildQ; last: boolean; onAnsw
     setPlaced([...placed, { kind: sel, zone, pos: 0.34 + inZone * 0.22, accent: true }]);
   };
   const correct = checked && sig(placed) === sig(q.need);
+  const answerMarks = marksFromNeed(q.need);
+  const showCorrection = checked && !correct;
+  const timelineMarks = showCorrection ? answerMarks : placed;
   const zones: [Zone, string][] = [["past", "Antes"], ["now", "Ahora"], ["future", "Después"]];
   const boldParts = q.bold.split(" · ");
   return (
-    <div style={{ display: "flex", flexDirection: "column", flex: 1, minHeight: 0 }}>
-      <Cap style={{ margin: "20px 0 10px" }}>Construye la línea</Cap>
-      <p style={{ fontFamily: SERIF, fontWeight: 300, fontSize: 19, lineHeight: 1.3, margin: "0 0 14px", color: "var(--ink)" }}>
-        {q.sentence.split(new RegExp(`(${boldParts.join("|")})`)).map((part, i) =>
-          boldParts.includes(part) ? <Serif key={i} it style={{ color: "var(--accent)" }}>{part}</Serif> : <span key={i}>{part}</span>,
-        )}
-      </p>
-      <div style={{ background: "var(--surface)", border: "1px solid var(--rule)", borderRadius: 14, padding: "12px 10px 6px", position: "relative" }}>
-        <TimelineDiagram marks={placed} />
-        {!checked && (
-          <div style={{ position: "absolute", inset: "12px 10px 24px", display: "flex" }}>
-            {zones.map(([z]) => (
-              <button key={z} onClick={() => addZone(z)} style={{ flex: 1, background: sel ? "color-mix(in oklab, var(--accent) 6%, transparent)" : "transparent", border: "none", borderRight: z !== "future" ? "1px dashed var(--rule)" : "none", color: "transparent", cursor: sel ? "pointer" : "default" }} aria-label={`Colocar en ${z}`} />
+    <div className="flex flex-1 flex-col min-h-0 lg:grid lg:grid-cols-[1.15fr_0.85fr] lg:gap-x-10 lg:gap-y-5 lg:items-start">
+      <div className="min-w-0">
+        <Cap style={{ margin: "20px 0 10px" }}>Construye la línea</Cap>
+        <p className="lg:text-[1.375rem] lg:leading-snug" style={{ fontFamily: SERIF, fontWeight: 300, fontSize: 19, lineHeight: 1.3, margin: "0 0 14px", color: "var(--ink)" }}>
+          {q.sentence.split(new RegExp(`(${boldParts.join("|")})`)).map((part, i) =>
+            boldParts.includes(part) ? <Serif key={i} it style={{ color: "var(--accent)" }}>{part}</Serif> : <span key={i}>{part}</span>,
+          )}
+        </p>
+        <div
+          style={{
+            background: "var(--surface)",
+            border: `1px solid ${showCorrection ? OK : "var(--rule)"}`,
+            borderRadius: 14,
+            padding: "12px 10px 6px",
+            position: "relative",
+          }}
+        >
+          {showCorrection && (
+            <Cap style={{ margin: "0 0 8px", color: OK }}>Correct line</Cap>
+          )}
+          <TimelineDiagram marks={timelineMarks} />
+          {!checked && (
+            <div style={{ position: "absolute", inset: "12px 10px 24px", display: "flex" }}>
+              {zones.map(([z]) => (
+                <button key={z} onClick={() => addZone(z)} style={{ flex: 1, background: sel ? "color-mix(in oklab, var(--accent) 6%, transparent)" : "transparent", border: "none", borderRight: z !== "future" ? "1px dashed var(--rule)" : "none", color: "transparent", cursor: sel ? "pointer" : "default" }} aria-label={`Colocar en ${z}`} />
+              ))}
+            </div>
+          )}
+        </div>
+        {showCorrection && (
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 12 }}>
+            {answerMarks.map((m, i) => (
+              <span
+                key={i}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 8,
+                  padding: "8px 12px",
+                  borderRadius: 10,
+                  border: `1px solid ${OK}`,
+                  background: `color-mix(in oklab, ${OK} 8%, var(--surface))`,
+                }}
+              >
+                <StampGlyph kind={m.kind} size={24} color={zoneColor(m.zone)} />
+                <span style={{ fontFamily: MONO, fontSize: 9, letterSpacing: "0.06em", textTransform: "uppercase", color: zoneColor(m.zone) }}>
+                  {stampName(m.kind)} · {zoneLabel[m.zone]}
+                </span>
+              </span>
             ))}
           </div>
         )}
       </div>
-      {!checked && (
-        <>
+      {!checked ? (
+        <div className="lg:pt-7">
           <Cap style={{ margin: "14px 0 8px" }}>{sel ? `Toca una zona para colocar «${stampName(sel)}»` : "Elige un sello"}</Cap>
-          <div style={{ display: "flex", gap: 8 }}>
+          <div className="flex gap-2 lg:grid lg:grid-cols-2 lg:gap-3">
             {palette.map((k) => (
               <button key={k} onClick={() => setSel(k)} style={{ flex: 1, padding: "10px 0", borderRadius: 10, background: sel === k ? "color-mix(in oklab, var(--accent) 12%, var(--surface))" : "var(--surface)", border: `1px solid ${sel === k ? "var(--accent)" : "var(--rule)"}`, display: "flex", flexDirection: "column", alignItems: "center", gap: 4, cursor: "pointer" }}>
                 <StampGlyph kind={k} size={26} accent={sel === k} />
@@ -222,18 +278,20 @@ function BuildQuestion({ q, last, onAnswer }: { q: BuildQ; last: boolean; onAnsw
               </button>
             ))}
           </div>
-        </>
-      )}
-      <div style={{ flex: 1 }} />
+        </div>
+      ) : null}
+      <div className="flex-1 lg:hidden" />
       {!checked ? (
-        <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
+        <div className="flex gap-2 mt-3 lg:col-span-2 lg:mt-0">
           <button onClick={() => setPlaced([])} disabled={!placed.length} style={{ flex: "0 0 auto", padding: "13px 16px", borderRadius: 12, background: "transparent", border: "1px solid var(--rule)", color: "var(--ink-soft)", opacity: placed.length ? 1 : 0.4, fontFamily: MONO, fontSize: 10, letterSpacing: "0.1em", textTransform: "uppercase", cursor: placed.length ? "pointer" : "default" }}>Limpiar</button>
           <button onClick={() => placed.length && setChecked(true)} style={{ flex: 1, background: placed.length ? "var(--accent)" : "var(--surface)", color: placed.length ? "var(--accent-ink)" : "var(--ink-mute)", border: placed.length ? "none" : "1px solid var(--rule)", borderRadius: 12, padding: "13px 16px", cursor: placed.length ? "pointer" : "default" }}>
             <Serif style={{ fontSize: 17, color: placed.length ? "var(--accent-ink)" : "var(--ink-mute)" }}>Comprobar</Serif>
           </button>
         </div>
       ) : (
-        <Feedback correct={correct} tense={q.tense} why={q.why} onNext={() => onAnswer(correct)} last={last} />
+        <div className="lg:col-span-2">
+          <Feedback correct={correct} tense={q.tense} en={q.en} why={q.why} onNext={() => onAnswer(correct)} last={last} />
+        </div>
       )}
     </div>
   );
@@ -258,15 +316,19 @@ function SpotQuestion({ q, last, onAnswer }: { q: SpotQ; last: boolean; onAnswer
     );
   };
   return (
-    <div style={{ display: "flex", flexDirection: "column", flex: 1, minHeight: 0 }}>
-      <Cap style={{ margin: "20px 0 10px" }}>¿Qué línea encaja?</Cap>
-      <p style={{ fontFamily: SERIF, fontWeight: 300, fontSize: 20, lineHeight: 1.3, margin: "0 0 14px", color: "var(--ink)" }}>{q.sentence}</p>
-      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-        <Card id="A" data={q.A} />
-        <Card id="B" data={q.B} />
+    <div className="flex flex-1 flex-col min-h-0 lg:grid lg:grid-cols-2 lg:gap-x-10 lg:gap-y-5 lg:items-start">
+      <div className="min-w-0 lg:col-span-2">
+        <Cap style={{ margin: "20px 0 10px" }}>¿Qué línea encaja?</Cap>
+        <p className="lg:text-[1.375rem] lg:leading-snug" style={{ fontFamily: SERIF, fontWeight: 300, fontSize: 20, lineHeight: 1.3, margin: "0 0 14px", color: "var(--ink)" }}>{q.sentence}</p>
       </div>
-      <div style={{ flex: 1 }} />
-      {done && <Feedback correct={pick === q.answer} tense="Pretérito vs Imperfecto" why={q.why} onNext={() => onAnswer(pick === q.answer)} last={last} />}
+      <Card id="A" data={q.A} />
+      <Card id="B" data={q.B} />
+      <div className="flex-1 lg:hidden" />
+      {done && (
+        <div className="lg:col-span-2">
+          <Feedback correct={pick === q.answer} tense="Pretérito vs Imperfecto" en={q.en} why={q.why} onNext={() => onAnswer(pick === q.answer)} last={last} />
+        </div>
+      )}
     </div>
   );
 }
@@ -276,12 +338,14 @@ function SignalsQuestion({ q, last, onAnswer }: { q: SignalsQ; last: boolean; on
   const [pick, setPick] = useState<string | null>(null);
   const done = pick !== null;
   return (
-    <div style={{ display: "flex", flexDirection: "column", flex: 1, minHeight: 0 }}>
-      <Cap style={{ margin: "20px 0 12px" }}>¿Qué tiempo pide esta señal?</Cap>
-      <div style={{ display: "flex", justifyContent: "center", padding: "22px 0 26px" }}>
-        <span style={{ fontFamily: SERIF, fontStyle: "italic", fontWeight: 400, fontSize: 38, color: "var(--accent)", letterSpacing: "-0.01em" }}>«{q.clue}»</span>
+    <div className="flex flex-1 flex-col min-h-0 lg:grid lg:grid-cols-[1fr_0.85fr] lg:gap-x-10 lg:gap-y-5 lg:items-start">
+      <div className="min-w-0 flex flex-col items-center lg:items-start">
+        <Cap style={{ margin: "20px 0 12px", alignSelf: "stretch" }}>¿Qué tiempo pide esta señal?</Cap>
+        <div className="flex justify-center lg:justify-start py-5 lg:py-8 w-full">
+          <span className="lg:text-[2.625rem]" style={{ fontFamily: SERIF, fontStyle: "italic", fontWeight: 400, fontSize: 38, color: "var(--accent)", letterSpacing: "-0.01em" }}>«{q.clue}»</span>
+        </div>
       </div>
-      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+      <div className="flex flex-col gap-2 lg:pt-7">
         {q.options.map((o) => {
           let st: OptState = "idle";
           if (done) st = o === q.answer ? "correct" : o === pick ? "wrong" : "muted";
@@ -293,8 +357,12 @@ function SignalsQuestion({ q, last, onAnswer }: { q: SignalsQ; last: boolean; on
           );
         })}
       </div>
-      <div style={{ flex: 1 }} />
-      {done && <Feedback correct={pick === q.answer} tense={q.answer} why={q.why} onNext={() => onAnswer(pick === q.answer)} last={last} />}
+      <div className="flex-1 lg:hidden" />
+      {done && (
+        <div className="lg:col-span-2">
+          <Feedback correct={pick === q.answer} tense={q.answer} en={q.en} why={q.why} onNext={() => onAnswer(pick === q.answer)} last={last} />
+        </div>
+      )}
     </div>
   );
 }
@@ -303,7 +371,7 @@ function SignalsQuestion({ q, last, onAnswer }: { q: SignalsQ; last: boolean; on
 function ModeSelect({ onBack, onStart }: { onBack: () => void; onStart: (m: ModeId) => void }) {
   const [scope, setScope] = useState("all");
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
+    <div className="flex flex-col lg:max-w-xl lg:mx-auto lg:w-full">
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <button onClick={onBack} style={{ display: "flex", alignItems: "center", gap: 5, background: "none", border: "none", color: "var(--ink-mute)", padding: 0, fontFamily: MONO, fontSize: 10, letterSpacing: "0.13em", textTransform: "uppercase", cursor: "pointer", minHeight: 40 }}>
           <IconBack s={13} /> Práctica
@@ -405,12 +473,14 @@ export function LaLineaGame({ onQuit }: { onQuit?: () => void }) {
   // play
   const last = idx + 1 >= total;
   return (
-    <div style={{ display: "flex", flexDirection: "column", minHeight: "70vh" }}>
+    <div className="flex flex-col min-h-[70vh] lg:min-h-0">
       <PlayHeader onExit={() => setScreen("modes")} total={total} index={idx} />
+      <div className="flex flex-1 flex-col min-h-0 lg:max-w-none">
       {mode === "read" && <ReadQuestion key={idx} q={READ[idx]} last={last} onAnswer={answer} />}
       {mode === "build" && <BuildQuestion key={idx} q={BUILD[idx]} last={last} onAnswer={answer} />}
       {mode === "spot" && <SpotQuestion key={idx} q={SPOT[idx]} last={last} onAnswer={answer} />}
       {mode === "signals" && <SignalsQuestion key={idx} q={SIGNALS[idx]} last={last} onAnswer={answer} />}
+      </div>
     </div>
   );
 }

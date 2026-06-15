@@ -74,6 +74,7 @@ export type ReadQuestion = {
   answer: string;
   tense: string;
   why: string;
+  en: string;
 };
 
 export const READ: ReadQuestion[] = [
@@ -81,37 +82,51 @@ export const READ: ReadQuestion[] = [
     marks: [{ kind: "dot", zone: "past", pos: 0.45, accent: true }],
     pre: "Ayer ", verb: "(comer)", post: " paella con mi familia.",
     options: ["comí", "comía", "como"], answer: "comí",
-    tense: "Pretérito", why: "The dot marks a finished action at one exact moment in the past." },
+    tense: "Pretérito",
+    en: "Yesterday I ate paella with my family.",
+    why: "The dot marks a finished action at one exact moment in the past." },
   {
     marks: [{ kind: "line", zone: "past", pos: 0.45, accent: true }],
     pre: "De niña, ", verb: "(vivir)", post: " cerca del mar.",
     options: ["viví", "vivía", "he vivido"], answer: "vivía",
-    tense: "Imperfecto", why: "The line is an ongoing situation in the past, with no marked end." },
+    tense: "Imperfecto",
+    en: "As a girl, I lived near the sea.",
+    why: "The line is an ongoing situation in the past, with no marked end." },
   {
     marks: [{ kind: "dots", zone: "now", accent: true }],
     pre: "Todos los días ", verb: "(tomar)", post: " café a las ocho.",
     options: ["tomé", "tomo", "tomaba"], answer: "tomo",
-    tense: "Presente", why: "Repeated dots over NOW mean a habit — present tense." },
+    tense: "Presente",
+    en: "Every day I have coffee at eight.",
+    why: "Repeated dots over NOW mean a habit — present tense." },
   {
     marks: [{ kind: "arc", zone: "past", pos: 0.3, to: 0.5, toZone: "now", accent: true }],
     pre: "Nunca ", verb: "(estar)", post: " en México.",
     options: ["estuve", "he estado", "estaba"], answer: "he estado",
-    tense: "Pretérito perfecto", why: "The arc links the past to NOW: experience up to the present." },
+    tense: "Pretérito perfecto",
+    en: "I have never been to Mexico.",
+    why: "The arc links the past to NOW: experience up to the present." },
   {
     marks: [{ kind: "dot", zone: "future", pos: 0.5, accent: true }],
     pre: "El año que viene ", verb: "(viajar)", post: " a Sevilla.",
     options: ["viajé", "viajaré", "viajaba"], answer: "viajaré",
-    tense: "Futuro", why: "The dot to the right of NOW is a moment in the future." },
+    tense: "Futuro",
+    en: "Next year I will travel to Seville.",
+    why: "The dot to the right of NOW is a moment in the future." },
   {
     marks: [{ kind: "wave", zone: "future", pos: 0.42, accent: true }],
     pre: "Ojalá ", verb: "(llover)", post: " mañana.",
     options: ["llueve", "llueva", "llovería"], answer: "llueva",
-    tense: "Subjuntivo", why: "The wave floats off the line: a wish, not a fact. «Ojalá» triggers subjunctive." },
+    tense: "Subjuntivo",
+    en: "I hope it rains tomorrow.",
+    why: "The wave floats off the line: a wish, not a fact. «Ojalá» triggers subjunctive." },
   {
     marks: [{ kind: "diamond", zone: "future", pos: 0.4, accent: true }],
-    pre: "Yo ", verb: "(ir)", post: " contigo, pero trabajo.",
+    pre: "Yo ", verb: "(ir)", post: " contigo, pero tengo que trabajar.",
     options: ["fui", "iría", "iré"], answer: "iría",
-    tense: "Condicional", why: "The diamond is a hypothesis: possible, but not real. «would go» → iría." },
+    tense: "Condicional",
+    en: "I would go with you, but I have to work.",
+    why: "The diamond is a hypothesis: possible, but not real. «would go» → iría." },
 ];
 
 /* ============================================================
@@ -123,6 +138,7 @@ export type BuildQuestion = {
   need: Pick<Mark, "kind" | "zone">[];
   tense: string;
   why: string;
+  en: string;
 };
 
 export const BUILD: BuildQuestion[] = [
@@ -131,24 +147,28 @@ export const BUILD: BuildQuestion[] = [
     bold: "jugaba",
     need: [{ kind: "dots", zone: "past" }],
     tense: "Imperfecto habitual",
+    en: "When I was a boy, I played soccer every day.",
     why: "A past habit: repetition on the BEFORE side." },
   {
     sentence: "Me llamó justo cuando salía de casa.",
     bold: "llamó · salía",
     need: [{ kind: "line", zone: "past" }, { kind: "dot", zone: "past" }],
     tense: "Imperfecto + Pretérito",
+    en: "She called me just as I was leaving the house.",
     why: "An action in progress (line) interrupted by a finished moment (dot)." },
   {
-    sentence: "He terminado el libro esta mañana.",
-    bold: "He terminado",
+    sentence: "Ya he terminado el libro.",
+    bold: "he terminado",
     need: [{ kind: "arc", zone: "past" }],
     tense: "Pretérito perfecto",
-    why: "An arc connecting recent past to NOW." },
+    en: "I have already finished the book.",
+    why: "An arc connecting a finished action to NOW — present relevance." },
   {
-    sentence: "Mañana estaré estudiando a esta hora.",
+    sentence: "Mañana a esta hora estaré estudiando.",
     bold: "estaré estudiando",
     need: [{ kind: "line", zone: "future" }],
     tense: "Futuro continuo",
+    en: "Tomorrow at this time I will be studying.",
     why: "An action in progress, but in the future: line on the right." },
 ];
 
@@ -163,6 +183,7 @@ export type SpotQuestion = {
   B: SpotOption;
   answer: "A" | "B";
   why: string;
+  en: string;
 };
 
 export const SPOT: SpotQuestion[] = [
@@ -172,6 +193,7 @@ export const SPOT: SpotQuestion[] = [
     A: { marks: [{ kind: "line", zone: "past", pos: 0.4 }, { kind: "dot", zone: "past", pos: 0.55 }], label: "Línea + punto" },
     B: { marks: [{ kind: "dot", zone: "past", pos: 0.35 }, { kind: "dot", zone: "past", pos: 0.65 }], label: "Dos puntos" },
     answer: "A",
+    en: "While I was cooking, the phone rang.",
     why: "Background in progress (cocinaba, imperfect = line) cut short by a finished moment (sonó, preterite = dot)." },
   {
     sentence: "Fui al médico y luego volví a casa.",
@@ -179,6 +201,7 @@ export const SPOT: SpotQuestion[] = [
     A: { marks: [{ kind: "line", zone: "past", pos: 0.5 }], label: "Una línea" },
     B: { marks: [{ kind: "dot", zone: "past", pos: 0.38 }, { kind: "dot", zone: "past", pos: 0.66 }], label: "Dos puntos" },
     answer: "B",
+    en: "I went to the doctor and then went back home.",
     why: "Two finished actions, one after another: preterite = two dots in sequence." },
   {
     sentence: "Hacía sol y los niños reían en el parque.",
@@ -186,6 +209,7 @@ export const SPOT: SpotQuestion[] = [
     A: { marks: [{ kind: "dot", zone: "past", pos: 0.4 }, { kind: "dot", zone: "past", pos: 0.6 }], label: "Dos puntos" },
     B: { marks: [{ kind: "line", zone: "past", pos: 0.38 }, { kind: "line", zone: "past", pos: 0.64 }], label: "Dos líneas" },
     answer: "B",
+    en: "It was sunny and the children were laughing in the park.",
     why: "Description and ongoing actions at once: imperfect = lines, not dots." },
 ];
 
@@ -197,15 +221,16 @@ export type SignalsQuestion = {
   options: string[];
   answer: string;
   why: string;
+  en: string;
 };
 
 export const SIGNALS: SignalsQuestion[] = [
-  { clue: "ayer", options: ["Pretérito", "Presente", "Futuro"], answer: "Pretérito", why: "«Ayer» points to a finished moment in the past." },
-  { clue: "todos los días", options: ["Pretérito", "Presente", "Condicional"], answer: "Presente", why: "A current routine: present (habit)." },
-  { clue: "mañana", options: ["Imperfecto", "Futuro", "Pretérito"], answer: "Futuro", why: "«Mañana» points to a moment that hasn't happened yet." },
-  { clue: "ya / alguna vez", options: ["Pretérito perfecto", "Futuro", "Presente"], answer: "Pretérito perfecto", why: "Experience linked to now: he/has + past participle." },
-  { clue: "ojalá", options: ["Indicativo", "Subjuntivo", "Condicional"], answer: "Subjuntivo", why: "A wish: triggers subjunctive (the wave)." },
-  { clue: "si pudiera…", options: ["Futuro", "Condicional", "Pretérito"], answer: "Condicional", why: "A hypothesis: «would» → conditional (the diamond)." },
+  { clue: "ayer", options: ["Pretérito", "Presente", "Futuro"], answer: "Pretérito", en: "yesterday", why: "«Ayer» points to a finished moment in the past." },
+  { clue: "todos los días", options: ["Pretérito", "Presente", "Condicional"], answer: "Presente", en: "every day", why: "A current routine: present (habit)." },
+  { clue: "mañana", options: ["Imperfecto", "Futuro", "Pretérito"], answer: "Futuro", en: "tomorrow", why: "«Mañana» points to a moment that hasn't happened yet." },
+  { clue: "ya / alguna vez", options: ["Pretérito perfecto", "Futuro", "Presente"], answer: "Pretérito perfecto", en: "already / ever", why: "Experience linked to now: he/has + past participle." },
+  { clue: "ojalá", options: ["Indicativo", "Subjuntivo", "Condicional"], answer: "Subjuntivo", en: "if only / I hope", why: "A wish: triggers subjunctive (the wave)." },
+  { clue: "si pudiera…", options: ["Futuro", "Condicional", "Pretérito"], answer: "Condicional", en: "if I could…", why: "A hypothesis: «would» → conditional (the diamond)." },
 ];
 
 export type Mode = { id: ModeId; title: string; sub: string; n: number };

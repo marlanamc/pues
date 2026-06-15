@@ -8,7 +8,7 @@ export default function LaLineaPage() {
   const router = useRouter();
 
   return (
-    <div className="space-y-5 lg:mx-auto lg:max-w-2xl">
+    <div className="space-y-5 lg:w-full lg:max-w-4xl">
       <header className="flex items-center justify-end">
         <SettingsMenuButton />
       </header>
