@@ -1,7 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { PageHeader, Wordmark } from "@/components/PageHeader";
+import { SettingsMenuButton } from "@/components/SettingsMenu";
 import { frameDays, totalDays } from "@/content/frames";
 import { useStats } from "@/hooks/useStats";
 import { useThoughts } from "@/hooks/useThoughts";
@@ -27,7 +29,17 @@ export default function ProgressPage() {
 
   return (
     <div className="space-y-8" style={{ opacity: hydrated ? 1 : 0.6 }}>
-      <PageHeader title={<Wordmark>Práctica</Wordmark>} />
+      <header className="flex items-center justify-between">
+        <Link
+          href="/settings"
+          className="text-caption text-ink-mute hover:text-accent transition-colors min-h-[40px] inline-flex items-center"
+        >
+          ← Settings
+        </Link>
+        <p className="text-caption text-ink-mute">Progreso</p>
+        <SettingsMenuButton />
+      </header>
+      <PageHeader title={<Wordmark>Progreso</Wordmark>} />
 
       <div className="space-y-8 lg:grid lg:grid-cols-2 lg:items-start lg:gap-8 lg:space-y-0">
       <div className="space-y-8">

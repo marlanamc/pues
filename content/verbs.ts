@@ -1159,17 +1159,17 @@ export type VerbHubLink = {
 
 export const verbHubLinks: VerbHubLink[] = [
   {
-    href: "/activities/verbs/frequent",
+    href: "/guides/verbs/frequent",
     label: "Frecuentes",
     title: "Top 20 verbs — tap to conjugate.",
   },
   ...verbTenseGuides.map((guide) => ({
-    href: `/activities/verbs/${guide.slug}`,
+    href: `/guides/verbs/${guide.slug}`,
     label: guide.label,
     title: guide.title,
   })),
   {
-    href: "/activities/reflexive",
+    href: "/guides/reflexive",
     label: "Reflexivos",
     title: "The action comes back to you.",
   },

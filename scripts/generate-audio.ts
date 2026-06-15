@@ -24,6 +24,7 @@ import { accentAudioTexts } from "../content/accent.js";
 import { linkingAudioTexts } from "../content/linking.js";
 import { frequentVerbAudioTexts } from "../content/frequentVerbs.js";
 import { questionAudioTexts } from "../content/questions.js";
+import { accentMarkAudioTexts } from "../content/accentMarks.js";
 import {
   cognatePatterns,
   cognateThemes,
@@ -96,6 +97,8 @@ function collectPhrases(): string[] {
   for (const text of frequentVerbAudioTexts()) out.add(text);
 
   for (const text of questionAudioTexts()) out.add(text);
+
+  for (const text of accentMarkAudioTexts()) out.add(text);
 
   return [...out].filter((t) => t && t.length > 0 && t.length <= 500);
 }

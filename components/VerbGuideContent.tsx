@@ -126,7 +126,7 @@ type VerbTensePageProps = {
 
 export function VerbTensePage({
   guide,
-  backHref = "/activities/verbs",
+  backHref = "/guides/verbs",
   backLabel = "← Verbos",
 }: VerbTensePageProps) {
   const pageId = guide.slug || "overview";

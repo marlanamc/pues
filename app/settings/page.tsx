@@ -49,6 +49,25 @@ export default function SettingsPage() {
             <AudioSpeedToggle />
           </div>
         </li>
+
+        <li className="rounded-lg border border-rule bg-surface p-6">
+          <Link
+            href="/progress"
+            className="flex items-center justify-between gap-4 transition-colors hover:text-accent"
+          >
+            <div className="min-w-0 space-y-1">
+              <p className="font-display text-[1.125rem] text-ink leading-tight">
+                Progreso
+              </p>
+              <p className="text-sm text-ink-mute leading-relaxed">
+                Streak, frames practiced, and sentences built.
+              </p>
+            </div>
+            <span className="text-ink-mute" aria-hidden>
+              ›
+            </span>
+          </Link>
+        </li>
       </ul>
 
       <div className="rounded-lg border border-dashed border-rule p-6">

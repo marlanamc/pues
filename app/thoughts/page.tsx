@@ -34,6 +34,12 @@ export default function DiarioPage() {
   return (
     <div className="space-y-8">
       <div className="space-y-3">
+        <Link
+          href="/practice"
+          className="text-caption text-ink-mute hover:text-accent transition-colors min-h-[40px] inline-flex items-center"
+        >
+          ← Práctica
+        </Link>
         <PageHeader
           title={<Wordmark>Diario</Wordmark>}
           meta={

@@ -23,11 +23,10 @@ const IconToday = (
   </svg>
 );
 
-const IconActivities = (
+const IconPractice = (
   <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
-    <circle cx="8" cy="8" r="3.5" />
-    <circle cx="16" cy="16" r="3.5" />
-    <path d="M12.5 7.5h6M15.5 4.5v6M5 14h6M5 17.5h4" />
+    <path d="M5 4h11a2 2 0 0 1 2 2v14H7a2 2 0 0 1-2-2Z" />
+    <path d="M9 8h6M9 12h6" />
   </svg>
 );
 
@@ -40,20 +39,22 @@ const IconSituations = (
   </svg>
 );
 
-const IconJournal = (
+const IconGuides = (
   <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
-    <path d="M5 4h11a2 2 0 0 1 2 2v14H7a2 2 0 0 1-2-2Z" />
-    <path d="M9 8h6M9 12h6" />
+    <circle cx="8" cy="8" r="3.5" />
+    <circle cx="16" cy="16" r="3.5" />
+    <path d="M12.5 7.5h6M15.5 4.5v6M5 14h6M5 17.5h4" />
   </svg>
 );
 
 export const navItems: NavItem[] = [
   { href: "/", label: "Hoy", match: (p) => p === "/", icon: IconToday },
   {
-    href: "/activities",
+    href: "/practice",
     label: "Práctica",
-    match: (p) => p.startsWith("/activities") || p.startsWith("/progress"),
-    icon: IconActivities,
+    match: (p) =>
+      p.startsWith("/practice") || p.startsWith("/thoughts"),
+    icon: IconPractice,
   },
   {
     href: "/situations",
@@ -62,9 +63,9 @@ export const navItems: NavItem[] = [
     icon: IconSituations,
   },
   {
-    href: "/thoughts",
-    label: "Diario",
-    match: (p) => p.startsWith("/thoughts"),
-    icon: IconJournal,
+    href: "/guides",
+    label: "Guías",
+    match: (p) => p.startsWith("/guides"),
+    icon: IconGuides,
   },
 ];

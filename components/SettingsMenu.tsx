@@ -86,7 +86,15 @@ export function SettingsMenuButton({
             <span className="text-caption text-ink-mute">Audio</span>
             <AudioSpeedToggle />
           </div>
-          <div className="border-t border-rule pt-3">
+          <div className="border-t border-rule pt-3 space-y-3">
+            <Link
+              href="/progress"
+              onClick={() => setOpen(false)}
+              className="flex items-center justify-between text-sm text-ink-soft transition-colors hover:text-accent"
+            >
+              <span>Progreso</span>
+              <span aria-hidden>→</span>
+            </Link>
             <Link
               href="/settings"
               onClick={() => setOpen(false)}
