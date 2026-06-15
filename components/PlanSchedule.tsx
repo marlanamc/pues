@@ -87,18 +87,6 @@ export function PlanSchedule() {
 
   return (
     <section style={{ opacity: hydrated ? 1 : 0.6 }}>
-      <div
-        className="flex items-baseline justify-between gap-3"
-        style={{ marginBottom: 12 }}
-      >
-        <span className="mono-cap" style={{ color: "var(--zone)" }}>
-          El plan
-        </span>
-        <span className="mono-cap text-ink-soft">
-          Día {String(currentDayIndex + 1).padStart(2, "0")} de {totalDays}
-        </span>
-      </div>
-
       <ul className="rounded-lg border border-rule bg-surface divide-y divide-rule overflow-hidden">
         {speakDays.map((day, i) => {
           const state: DayState =

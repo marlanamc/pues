@@ -4,8 +4,9 @@ import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
 import { PageHeader, Wordmark } from "@/components/PageHeader";
 import { Chip, Hue, ZoneIntro, ZoneRow } from "@/components/ZoneList";
-import { PlanSchedule } from "@/components/PlanSchedule";
+import { speakDays } from "@/content/prompts";
 import { practiceHubItems } from "@/content/practice";
+import { useStats } from "@/hooks/useStats";
 import { useThoughts } from "@/hooks/useThoughts";
 
 const stroke = {
@@ -29,11 +30,28 @@ const practiceIcons: Record<string, ReactNode> = {
       <path d="M8 13h2M9 12v2M15.5 12.5v2M16.5 11.5v2" />
     </svg>
   ),
+  plan: (
+    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
+      <rect x="4" y="5" width="16" height="16" rx="2" />
+      <path d="M4 9h16M8 3v4M16 3v4" />
+      <path d="M8 13h2v2H8zM11 13h2v2h-2zM14 13h2v2h-2z" />
+    </svg>
+  ),
 };
 
 export default function PracticeHubPage() {
   const { thoughts, hydrated } = useThoughts();
-  const items = practiceHubItems(hydrated ? thoughts.length : undefined);
+  const { stats, hydrated: statsHydrated } = useStats();
+  const totalDays = speakDays.length;
+  const items = practiceHubItems(
+    hydrated ? thoughts.length : undefined,
+    statsHydrated
+      ? {
+          current: (stats.currentDayIndex % totalDays) + 1,
+          total: totalDays,
+        }
+      : undefined,
+  );
 
   return (
     <div
@@ -45,8 +63,6 @@ export default function PracticeHubPage() {
       <ZoneIntro zoneLabel="Práctica" role="Haz el trabajo">
         Speak, save, <Hue>play</Hue>.
       </ZoneIntro>
-
-      <PlanSchedule />
 
       <ul className="rounded-lg border border-rule bg-surface divide-y divide-rule overflow-hidden">
         {items.map((item) => (

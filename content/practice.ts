@@ -7,7 +7,7 @@ export type PracticeHubItem = {
   label: string;
   description: string;
   meta?: string;
-  iconId: "journal" | "games";
+  iconId: "journal" | "games" | "plan";
   disabled?: boolean;
 };
 
@@ -16,8 +16,20 @@ export const practiceOverview = {
   title: "Speak, save, play.",
 };
 
-export function practiceHubItems(thoughtCount?: number): PracticeHubItem[] {
+export function practiceHubItems(
+  thoughtCount?: number,
+  planDay?: { current: number; total: number },
+): PracticeHubItem[] {
   return [
+    {
+      href: "/practice/plan",
+      label: "El plan",
+      description: "The 14-day phrase schedule — themes, frames, and prompts.",
+      meta: planDay
+        ? `Día ${String(planDay.current).padStart(2, "0")} de ${planDay.total}`
+        : undefined,
+      iconId: "plan",
+    },
     {
       href: "/thoughts",
       label: "Diario",
