@@ -38,6 +38,13 @@ export function practiceHubItems(thoughtCount?: number): PracticeHubItem[] {
       iconId: "games",
     },
     {
+      href: "/practice/marcadores",
+      label: "Marcadores",
+      description: "Time words and the tense they call for.",
+      meta: "Juego",
+      iconId: "games",
+    },
+    {
       href: "/practice/ser-estar",
       label: "Ser vs Estar",
       description: "Sort sentences into ser or estar.",
