@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AccountCard } from "@/components/AccountCard";
 import { ThemeModeToggle } from "@/components/ThemeModeToggle";
 import { AudioSpeedToggle } from "@/components/AudioSpeedToggle";
 
@@ -22,6 +23,8 @@ export default function SettingsPage() {
       </section>
 
       <ul className="space-y-4">
+        <AccountCard />
+
         <li className="rounded-lg border border-rule bg-surface p-6 space-y-4">
           <div className="flex items-start justify-between gap-4">
             <div className="min-w-0 space-y-1">

@@ -111,6 +111,8 @@ function write<T>(key: string, value: T): void {
   if (!isBrowser()) return;
   try {
     window.localStorage.setItem(key, JSON.stringify(value));
+    // Let the cloud sync layer (lib/sync.ts) mirror this write upstream.
+    window.dispatchEvent(new CustomEvent("pues:mutate", { detail: { key } }));
   } catch {
     /* quota / privacy mode — ignore */
   }

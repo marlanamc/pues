@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Newsreader, Hanken_Grotesk, Spline_Sans_Mono } from "next/font/google";
 import { BottomTabNav } from "@/components/BottomTabNav";
 import { LeftRailNav } from "@/components/LeftRailNav";
+import { SupabaseBootstrap } from "@/components/SupabaseBootstrap";
 import "./globals.css";
 
 // Newsreader — display, headlines, and all Spanish sentences. The soul of the look.
@@ -63,6 +64,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     >
       <body className="min-h-dvh bg-bg text-ink antialiased lg:flex">
         <script dangerouslySetInnerHTML={{ __html: themeModeScript }} />
+        <SupabaseBootstrap />
         <LeftRailNav />
         <main className="w-full px-6 pt-3 pb-28 lg:flex lg:flex-1 lg:min-h-0 lg:min-w-0 lg:flex-col lg:px-0 lg:pt-10 lg:pb-12">
           <div className="mx-auto flex w-full max-w-[520px] flex-1 flex-col lg:max-w-[1040px] lg:px-12">

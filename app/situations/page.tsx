@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import type { CSSProperties } from "react";
 import Link from "next/link";
 import { PageHeader, Wordmark } from "@/components/PageHeader";
+import { Chip, Hue, ZoneIntro } from "@/components/ZoneList";
 import { useThoughts } from "@/hooks/useThoughts";
 import {
   type SituationCategory,
@@ -103,8 +105,15 @@ export default function SituationsLibraryPage() {
   }
 
   return (
-    <div className="space-y-7">
+    <div
+      className="space-y-7"
+      style={{ "--zone": "var(--zone-lugares)" } as CSSProperties}
+    >
       <PageHeader title={<Wordmark>Lugares</Wordmark>} />
+
+      <ZoneIntro zoneLabel="Lugares" role="Biblioteca">
+        Where you&apos;ll <Hue>actually</Hue> use it.
+      </ZoneIntro>
 
       <div className="rounded-full border border-rule bg-surface p-1 flex lg:max-w-sm">
         {(
@@ -121,7 +130,7 @@ export default function SituationsLibraryPage() {
               onClick={() => setTab(t.key)}
               className="flex-1 rounded-full py-2 text-sm font-medium transition-colors"
               style={{
-                background: active ? "var(--accent)" : "transparent",
+                background: active ? "var(--zone)" : "transparent",
                 color: active ? "var(--bg)" : "var(--ink-mute)",
               }}
             >
@@ -150,17 +159,15 @@ export default function SituationsLibraryPage() {
                   type="button"
                   onClick={() => toggleCategory(cat)}
                   aria-expanded={isOpen}
-                  className="flex w-full items-start gap-4 text-left transition-colors hover:opacity-80"
+                  className="flex w-full items-center gap-3.5 text-left transition-colors hover:opacity-80"
                 >
-                  <span className="mt-0.5" style={{ color: "var(--accent)" }}>
-                    {categoryIcon[cat]}
-                  </span>
+                  <Chip icon={categoryIcon[cat]} />
                   <span className="min-w-0 flex-1">
                     <span className="flex items-center gap-3">
                       <span className="font-display text-[1.25rem] leading-tight text-ink">
                         {categoryLabels[cat]}
                       </span>
-                      <span className="text-caption text-ink-mute">
+                      <span className="mono-cap" style={{ color: "var(--zone)" }}>
                         {list.length} temas
                       </span>
                     </span>
@@ -194,7 +201,9 @@ export default function SituationsLibraryPage() {
                         </span>
                         {(situation.phrases?.length ||
                           situation.practiceItems?.length) && (
-                          <span className="text-caption text-accent">Listo</span>
+                          <span className="mono-cap" style={{ color: "var(--zone)" }}>
+                            Listo
+                          </span>
                         )}
                         <span className="text-ink-mute" aria-hidden>
                           ›
@@ -219,11 +228,15 @@ export default function SituationsLibraryPage() {
                 <li key={item.slug}>
                   <Link
                     href={`/situations/${item.slug}`}
-                    className="flex items-center gap-4 px-5 py-4 transition-colors active:bg-surface-sunk lg:rounded-lg lg:border lg:border-rule lg:bg-surface lg:hover:border-accent/50"
+                    className="flex items-center gap-3.5 px-[18px] py-[15px] transition-colors active:bg-surface-sunk lg:rounded-lg lg:border lg:border-rule lg:bg-surface lg:hover:border-[color-mix(in_oklab,var(--zone)_50%,transparent)]"
                   >
-                    <span style={{ color: "var(--accent)" }}>
-                      {item.category ? categoryIcon[item.category] : categoryIcon.work}
-                    </span>
+                    <Chip
+                      icon={
+                        item.category
+                          ? categoryIcon[item.category]
+                          : categoryIcon.work
+                      }
+                    />
                     <span className="min-w-0 flex-1">
                       <span className="block font-display text-[1.125rem] leading-tight text-ink">
                         {item.label}

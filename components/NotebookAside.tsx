@@ -33,6 +33,15 @@ export function NotebookAside() {
   const todayProgress = Math.min(todayCount, PROMPTS_PER_DAY);
   const todayPct = (todayProgress / PROMPTS_PER_DAY) * 100;
 
+  // Each day cycles a zone hue — the week reads as a record of which corners
+  // of the app you touched.
+  const zoneHues = [
+    "var(--zone-practica)",
+    "var(--zone-lugares)",
+    "var(--zone-guias)",
+    "var(--zone-lab)",
+  ];
+
   return (
     <aside
       className="mt-6 rounded-lg border border-rule bg-surface p-6 lg:mt-0"
@@ -72,28 +81,32 @@ export function NotebookAside() {
         </div>
 
         <div className="flex items-center justify-between gap-1.5">
-          {week.map((day) => (
-            <div
-              key={day.date}
-              className="flex flex-1 flex-col items-center gap-1.5"
-            >
-              <span
-                className="inline-flex h-7 w-7 items-center justify-center rounded-full text-[0.6875rem] font-medium"
-                style={{
-                  background: day.practiced ? "var(--accent)" : "transparent",
-                  color: day.practiced ? "var(--bg)" : "var(--ink-mute)",
-                  border: day.isToday
-                    ? "1px solid var(--accent-soft)"
-                    : day.practiced
-                      ? "1px solid var(--accent)"
-                      : "1px solid var(--rule)",
-                }}
-                title={day.date}
+          {week.map((day, i) => {
+            const hue = zoneHues[i % zoneHues.length];
+            const filled = day.practiced || day.isToday;
+            return (
+              <div
+                key={day.date}
+                className="flex flex-1 flex-col items-center gap-1.5"
               >
-                {day.label}
-              </span>
-            </div>
-          ))}
+                <span
+                  className="inline-flex h-7 w-7 items-center justify-center rounded-full text-[0.6875rem] font-medium"
+                  style={{
+                    background: filled ? hue : "transparent",
+                    color: filled ? "var(--bg)" : hue,
+                    border: `1px solid ${
+                      filled
+                        ? hue
+                        : `color-mix(in oklab, ${hue} 55%, var(--rule))`
+                    }`,
+                  }}
+                  title={day.date}
+                >
+                  {day.label}
+                </span>
+              </div>
+            );
+          })}
         </div>
 
         <div>

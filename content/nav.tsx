@@ -5,6 +5,8 @@ export type NavItem = {
   label: string;
   match: (path: string) => boolean;
   icon: ReactNode;
+  /** Color of the tab when active — its own zone hue (Hoy = brand accent). */
+  zone: string;
 };
 
 const stroke = {
@@ -54,30 +56,40 @@ const IconLab = (
 );
 
 export const navItems: NavItem[] = [
-  { href: "/", label: "Hoy", match: (p) => p === "/", icon: IconToday },
+  {
+    href: "/",
+    label: "Hoy",
+    match: (p) => p === "/",
+    icon: IconToday,
+    zone: "var(--accent)",
+  },
   {
     href: "/practice",
     label: "Práctica",
     match: (p) =>
       p.startsWith("/practice") || p.startsWith("/thoughts"),
     icon: IconPractice,
+    zone: "var(--zone-practica)",
   },
   {
     href: "/situations",
     label: "Lugares",
     match: (p) => p.startsWith("/situations"),
     icon: IconSituations,
+    zone: "var(--zone-lugares)",
   },
   {
     href: "/guides",
     label: "Guías",
     match: (p) => p.startsWith("/guides"),
     icon: IconGuides,
+    zone: "var(--zone-guias)",
   },
   {
     href: "/lab",
     label: "Lab",
     match: (p) => p.startsWith("/lab"),
     icon: IconLab,
+    zone: "var(--zone-lab)",
   },
 ];

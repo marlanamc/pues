@@ -23,7 +23,7 @@ export function BottomTabNav() {
               <Link
                 href={t.href}
                 className="flex flex-col items-center gap-1 py-3"
-                style={{ color: active ? "var(--accent)" : "var(--ink-mute)" }}
+                style={{ color: active ? t.zone : "var(--ink-mute)" }}
               >
                 {t.icon}
                 <span

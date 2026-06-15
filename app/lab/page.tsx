@@ -1,5 +1,13 @@
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import { PageHeader, Wordmark } from "@/components/PageHeader";
+import {
+  FeaturedRow,
+  Hue,
+  Ledger,
+  ZoneIntro,
+  ZoneRow,
+} from "@/components/ZoneList";
 
 type LabSection = {
   href: string;
@@ -98,55 +106,46 @@ const sections: LabSection[] = [
 ];
 
 export default function LabHubPage() {
+  const ledgerSections = sections.filter((section) => !section.flagship);
+  const flagship = sections.find((section) => section.flagship);
+
   return (
-    <div className="space-y-6 pb-28 lg:pb-8">
+    <div
+      className="space-y-6 pb-28 lg:pb-8"
+      style={{ "--zone": "var(--zone-lab)" } as CSSProperties}
+    >
       <PageHeader title={<Wordmark>Lab de Pronunciación</Wordmark>} />
 
-      <section className="space-y-2">
-        <p className="text-display-italic text-[1.0625rem]">
-          Train your ear.
-        </p>
-      </section>
+      <ZoneIntro zoneLabel="Lab" role="El oído">
+        Train your <Hue>ear</Hue>.
+      </ZoneIntro>
 
-      <ul className="space-y-2">
-        {sections.map((section) => (
+      <Ledger>
+        {ledgerSections.map((section) => (
           <li key={section.href}>
             <Link
               href={section.href}
-              className="flex items-center gap-4 rounded-[14px] border px-5 py-4 transition-colors"
-              style={{
-                borderColor: section.flagship
-                  ? "color-mix(in oklab, var(--accent) 40%, var(--rule))"
-                  : "var(--rule)",
-                background: section.flagship
-                  ? "color-mix(in oklab, var(--accent) 6%, var(--surface))"
-                  : "var(--surface)",
-              }}
+              className="block transition-colors active:bg-surface-sunk"
             >
-              <span style={{ color: "var(--accent)", flexShrink: 0 }}>
-                {section.icon}
-              </span>
-              <span className="flex-1 min-w-0">
-                <span
-                  className="font-display block leading-tight"
-                  style={{ fontSize: "1.125rem", color: "var(--ink)" }}
-                >
-                  {section.label}
-                </span>
-                <span
-                  className="block mt-0.5 text-sm leading-snug"
-                  style={{ color: "var(--ink-mute)" }}
-                >
-                  {section.gloss}
-                </span>
-              </span>
-              <span style={{ color: "var(--ink-mute)", flexShrink: 0 }} aria-hidden>
-                ›
-              </span>
+              <ZoneRow
+                icon={section.icon}
+                title={section.label}
+                description={section.gloss}
+              />
             </Link>
           </li>
         ))}
-      </ul>
+      </Ledger>
+
+      {flagship && (
+        <Link href={flagship.href} className="block">
+          <FeaturedRow
+            icon={flagship.icon}
+            title={flagship.label}
+            description={flagship.gloss}
+          />
+        </Link>
+      )}
     </div>
   );
 }

@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import { PageHeader, Wordmark } from "@/components/PageHeader";
+import { Hue, ZoneIntro, ZoneRow } from "@/components/ZoneList";
 
 type GuideRow = {
   href: string;
@@ -83,7 +85,7 @@ export default function GuidesHubPage() {
     {
       href: "/guides/pronunciation",
       label: "Pronunciación",
-      meta: "2 guides",
+      meta: "2 guías",
       icon: IconPronunciation,
     },
     {
@@ -99,7 +101,7 @@ export default function GuidesHubPage() {
     {
       href: "/guides/verbs",
       label: "Verbos",
-      meta: "5 guides",
+      meta: "5 guías",
       icon: IconVerbs,
     },
     {
@@ -115,28 +117,29 @@ export default function GuidesHubPage() {
   ];
 
   return (
-    <div className="space-y-6">
+    <div
+      className="space-y-6"
+      style={{ "--zone": "var(--zone-guias)" } as CSSProperties}
+    >
       <PageHeader title={<Wordmark>Guías</Wordmark>} />
 
-      <p className="text-gloss">Reference pages when you need the pattern.</p>
+      <ZoneIntro zoneLabel="Guías" role="Referencia">
+        The pattern, <Hue>when you need it</Hue>.
+      </ZoneIntro>
 
       <ul className="rounded-lg border border-rule bg-surface divide-y divide-rule overflow-hidden lg:grid lg:grid-cols-2 lg:gap-4 lg:divide-y-0 lg:border-0 lg:bg-transparent lg:overflow-visible">
         {rows.map((row) => (
           <li key={row.href}>
             <Link
               href={row.href}
-              className="flex items-center gap-4 px-5 py-4 transition-colors active:bg-surface-sunk lg:rounded-lg lg:border lg:border-rule lg:bg-surface lg:py-5 lg:hover:border-accent/50"
+              className="block transition-colors active:bg-surface-sunk lg:rounded-lg lg:border lg:border-rule lg:bg-surface lg:hover:border-[color-mix(in_oklab,var(--zone)_50%,transparent)]"
             >
-              <span style={{ color: "var(--accent)" }}>{row.icon}</span>
-              <span className="flex-1 font-display text-[1.125rem] text-ink leading-tight">
-                {row.label}
-              </span>
-              {row.meta && (
-                <span className="text-caption text-ink-mute">{row.meta}</span>
-              )}
-              <span className="text-ink-mute" aria-hidden>
-                ›
-              </span>
+              <ZoneRow
+                compact
+                icon={row.icon}
+                title={row.label}
+                meta={row.meta}
+              />
             </Link>
           </li>
         ))}

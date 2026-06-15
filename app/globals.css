@@ -46,6 +46,12 @@
   --accent-soft: #c25a37;
   --accent-ink: #1b1712;
   --highlight: #dd6a43;
+  /* Zone hues — one signature color per hub. Brighter for ink (dark). */
+  --zone-practica: var(--accent); /* = almagre, the brand "home" */
+  --zone-lugares: oklch(0.7 0.1 152);
+  --zone-guias: oklch(0.7 0.09 248);
+  --zone-lab: oklch(0.72 0.11 332);
+  --zone: var(--accent); /* current-page zone; each hub overrides on its root */
   /* La Línea tense semantics — color = WHEN. Brighter for ink (dark). */
   --past: oklch(0.76 0.115 72);
   --present: oklch(0.74 0.095 158);
@@ -73,6 +79,11 @@
   --accent-soft: #a23f23;
   --accent-ink: #fbf4e6;
   --highlight: #bb4a2a;
+  /* Zone hues — deeper for contrast on bone paper. */
+  --zone-practica: var(--accent);
+  --zone-lugares: oklch(0.5 0.085 152);
+  --zone-guias: oklch(0.5 0.082 248);
+  --zone-lab: oklch(0.52 0.105 332);
   /* La Línea tense semantics — darker for contrast on bone paper. */
   --past: oklch(0.56 0.13 64);
   --present: oklch(0.50 0.11 158);

@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { PageHeader, Wordmark } from "@/components/PageHeader";
-import { practiceHubItems, practiceOverview } from "@/content/practice";
+import { Chip, Hue, ZoneIntro, ZoneRow } from "@/components/ZoneList";
+import { practiceHubItems } from "@/content/practice";
 import { useThoughts } from "@/hooks/useThoughts";
 
 const stroke = {
@@ -34,26 +35,40 @@ export default function PracticeHubPage() {
   const items = practiceHubItems(hydrated ? thoughts.length : undefined);
 
   return (
-    <div className="space-y-6">
+    <div
+      className="space-y-6"
+      style={{ "--zone": "var(--zone-practica)" } as CSSProperties}
+    >
       <PageHeader title={<Wordmark>Práctica</Wordmark>} />
 
-      <section className="space-y-3">
-        <p className="day-pill">{practiceOverview.pill}</p>
-        <h1 className="text-display-lg text-ink">{practiceOverview.title}</h1>
-      </section>
+      <ZoneIntro zoneLabel="Práctica" role="Haz el trabajo">
+        Speak, save, <Hue>play</Hue>.
+      </ZoneIntro>
 
       <ul className="rounded-lg border border-rule bg-surface divide-y divide-rule overflow-hidden">
         {items.map((item) => (
           <li key={item.label}>
             {item.disabled ? (
               <div
-                className="flex items-center gap-4 px-5 py-4 opacity-60"
+                className="flex items-center gap-3.5 px-[18px] py-[15px] opacity-60"
                 aria-disabled
               >
-                <span style={{ color: "var(--ink-mute)" }}>
+                <span
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: 38,
+                    height: 38,
+                    borderRadius: 11,
+                    flexShrink: 0,
+                    background: "var(--surface-sunk)",
+                    color: "var(--ink-mute)",
+                  }}
+                >
                   {practiceIcons[item.iconId]}
                 </span>
-                <span className="flex-1">
+                <span className="flex-1 min-w-0">
                   <span className="font-display text-[1.125rem] text-ink leading-tight block">
                     {item.label}
                   </span>
@@ -61,32 +76,19 @@ export default function PracticeHubPage() {
                     {item.description}
                   </span>
                 </span>
-                {item.meta && (
-                  <span className="text-caption text-ink-mute">{item.meta}</span>
-                )}
+                {item.meta && <span className="mono-cap">{item.meta}</span>}
               </div>
             ) : (
               <Link
                 href={item.href}
-                className="flex items-center gap-4 px-5 py-4 transition-colors active:bg-surface-sunk"
+                className="block transition-colors active:bg-surface-sunk"
               >
-                <span style={{ color: "var(--accent)" }}>
-                  {practiceIcons[item.iconId]}
-                </span>
-                <span className="flex-1">
-                  <span className="font-display text-[1.125rem] text-ink leading-tight block">
-                    {item.label}
-                  </span>
-                  <span className="text-sm text-ink-mute leading-snug block mt-0.5">
-                    {item.description}
-                  </span>
-                </span>
-                {item.meta && (
-                  <span className="text-caption text-ink-mute">{item.meta}</span>
-                )}
-                <span className="text-ink-mute" aria-hidden>
-                  ›
-                </span>
+                <ZoneRow
+                  icon={practiceIcons[item.iconId]}
+                  title={item.label}
+                  description={item.description}
+                  meta={item.meta}
+                />
               </Link>
             )}
           </li>
