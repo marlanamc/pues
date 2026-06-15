@@ -4,6 +4,7 @@ import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
 import { PageHeader, Wordmark } from "@/components/PageHeader";
 import { Chip, Hue, ZoneIntro, ZoneRow } from "@/components/ZoneList";
+import { PlanSchedule } from "@/components/PlanSchedule";
 import { practiceHubItems } from "@/content/practice";
 import { useThoughts } from "@/hooks/useThoughts";
 
@@ -44,6 +45,8 @@ export default function PracticeHubPage() {
       <ZoneIntro zoneLabel="Práctica" role="Haz el trabajo">
         Speak, save, <Hue>play</Hue>.
       </ZoneIntro>
+
+      <PlanSchedule />
 
       <ul className="rounded-lg border border-rule bg-surface divide-y divide-rule overflow-hidden">
         {items.map((item) => (
