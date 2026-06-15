@@ -118,10 +118,7 @@ export default function GuidesHubPage() {
     <div className="space-y-6">
       <PageHeader title={<Wordmark>Guías</Wordmark>} />
 
-      <p className="text-gloss">
-        Reference pages when you need the pattern — verbs, questions,
-        pronunciation, and the traps English speakers hit most.
-      </p>
+      <p className="text-gloss">Reference pages when you need the pattern.</p>
 
       <ul className="rounded-lg border border-rule bg-surface divide-y divide-rule overflow-hidden lg:grid lg:grid-cols-2 lg:gap-4 lg:divide-y-0 lg:border-0 lg:bg-transparent lg:overflow-visible">
         {rows.map((row) => (

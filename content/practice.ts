@@ -14,8 +14,6 @@ export type PracticeHubItem = {
 export const practiceOverview = {
   pill: "Do the work",
   title: "Speak, save, play.",
-  gloss:
-    "Práctica is where you use Spanish — not just read about it. Open your journal and try the games as they land.",
 };
 
 export function practiceHubItems(thoughtCount?: number): PracticeHubItem[] {

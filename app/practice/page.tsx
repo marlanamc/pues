@@ -40,7 +40,6 @@ export default function PracticeHubPage() {
       <section className="space-y-3">
         <p className="day-pill">{practiceOverview.pill}</p>
         <h1 className="text-display-lg text-ink">{practiceOverview.title}</h1>
-        <p className="text-gloss">{practiceOverview.gloss}</p>
       </section>
 
       <ul className="rounded-lg border border-rule bg-surface divide-y divide-rule overflow-hidden">

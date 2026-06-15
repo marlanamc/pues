@@ -106,11 +106,6 @@ export default function LabHubPage() {
         <p className="text-display-italic text-[1.0625rem]">
           Train your ear.
         </p>
-        <p className="text-gloss">
-          Most learners think native speakers talk too fast. Often the real
-          issue is simpler: they haven't learned what to listen for. The Lab
-          teaches you to hear Spanish — not just read it.
-        </p>
       </section>
 
       <ul className="space-y-2">
