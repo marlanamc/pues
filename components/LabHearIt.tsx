@@ -111,9 +111,9 @@ export function LabHearIt({ pairs }: { pairs: HearItPair[] }) {
 
             if (phase === "revealed") {
               if (isTarget) {
-                borderColor = "var(--accent)";
-                textColor = "var(--accent)";
-                bgColor = "color-mix(in oklab, var(--accent) 8%, var(--surface))";
+                borderColor = "var(--correct)";
+                textColor = "var(--correct)";
+                bgColor = "color-mix(in oklab, var(--correct) 10%, var(--surface))";
               } else {
                 opacity = 0.45;
               }
@@ -136,7 +136,7 @@ export function LabHearIt({ pairs }: { pairs: HearItPair[] }) {
               >
                 <span className="text-display-lg">{word}</span>
                 {phase === "revealed" && isTarget && (
-                  <span className="mono-cap" style={{ color: "var(--accent)" }}>
+                  <span className="mono-cap" style={{ color: "var(--correct)" }}>
                     ✓ correcto
                   </span>
                 )}
@@ -159,16 +159,16 @@ export function LabHearIt({ pairs }: { pairs: HearItPair[] }) {
             className="rounded-[11px] border px-4 py-3"
             style={{
               borderColor: isCorrect
-                ? "color-mix(in oklab, var(--accent) 35%, var(--rule))"
+                ? "color-mix(in oklab, var(--correct) 45%, var(--rule))"
                 : "color-mix(in oklab, var(--ink-mute) 35%, var(--rule))",
               background: isCorrect
-                ? "color-mix(in oklab, var(--accent) 8%, var(--surface))"
+                ? "color-mix(in oklab, var(--correct) 10%, var(--surface))"
                 : "var(--surface)",
             }}
           >
             <p
               className="mono-cap mb-1"
-              style={{ color: isCorrect ? "var(--accent)" : "var(--ink-mute)" }}
+              style={{ color: isCorrect ? "var(--correct)" : "var(--ink-mute)" }}
             >
               {isCorrect ? "Lo oíste" : "Sigue practicando"}
             </p>

@@ -50,6 +50,7 @@
   --past: oklch(0.76 0.115 72);
   --present: oklch(0.74 0.095 158);
   --future: oklch(0.73 0.085 245);
+  --correct: oklch(0.68 0.14 145);
   --grain-opacity: 0.35;
   --grain-blend: screen;
   --paper-wash:
@@ -76,6 +77,7 @@
   --past: oklch(0.56 0.13 64);
   --present: oklch(0.50 0.11 158);
   --future: oklch(0.50 0.10 252);
+  --correct: oklch(0.44 0.14 145);
   --grain-opacity: 0.5;
   --grain-blend: multiply;
   --paper-wash:
