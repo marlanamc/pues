@@ -120,6 +120,13 @@ body > main {
   z-index: 2;
 }
 
+/* Push content below the iOS status bar on devices with safe-area insets. */
+@media (max-width: 1023px) {
+  body > main {
+    padding-top: max(env(safe-area-inset-top), 0.75rem);
+  }
+}
+
 .font-display {
   font-family: var(--font-display);
   font-optical-sizing: auto;
