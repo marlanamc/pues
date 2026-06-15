@@ -46,6 +46,9 @@ function CategoryIcon({ path }: { path: string }) {
 
 export default function SituationsLibraryPage() {
   const [tab, setTab] = useState<Tab>("topics");
+  const [expandedCategories, setExpandedCategories] = useState<
+    Set<SituationCategory>
+  >(new Set());
   const { thoughts, hydrated } = useThoughts();
   const grouped = situationsByCategory();
   const ordered = Object.keys(categoryLabels) as SituationCategory[];
@@ -87,6 +90,18 @@ export default function SituationsLibraryPage() {
     });
   }
 
+  function toggleCategory(cat: SituationCategory) {
+    setExpandedCategories((prev) => {
+      const next = new Set(prev);
+      if (next.has(cat)) {
+        next.delete(cat);
+      } else {
+        next.add(cat);
+      }
+      return next;
+    });
+  }
+
   return (
     <div className="space-y-7">
       <PageHeader title={<Wordmark>Lugares</Wordmark>} />
@@ -124,51 +139,70 @@ export default function SituationsLibraryPage() {
             const deepCount = list.filter(
               (s) => s.phrases?.length || s.practiceItems?.length
             ).length;
+            const isOpen = expandedCategories.has(cat);
+
             return (
               <li
                 key={cat}
                 className="px-5 py-4 lg:rounded-lg lg:border lg:border-rule lg:bg-surface lg:p-5"
               >
-                <div className="flex items-start gap-4">
+                <button
+                  type="button"
+                  onClick={() => toggleCategory(cat)}
+                  aria-expanded={isOpen}
+                  className="flex w-full items-start gap-4 text-left transition-colors hover:opacity-80"
+                >
                   <span className="mt-0.5" style={{ color: "var(--accent)" }}>
                     {categoryIcon[cat]}
                   </span>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-3">
-                      <h2 className="font-display text-[1.25rem] leading-tight text-ink">
+                  <span className="min-w-0 flex-1">
+                    <span className="flex items-center gap-3">
+                      <span className="font-display text-[1.25rem] leading-tight text-ink">
                         {categoryLabels[cat]}
-                      </h2>
+                      </span>
                       <span className="text-caption text-ink-mute">
                         {list.length} temas
                       </span>
-                    </div>
-                    <p className="mt-1 text-gloss">
+                    </span>
+                    <span className="mt-1 block text-gloss">
                       {deepCount > 0
                         ? `${deepCount} with phrasebanks ready to practice.`
                         : "Open practice topics for your own words."}
-                    </p>
-                  </div>
-                </div>
+                    </span>
+                  </span>
+                  <span
+                    className="mt-1 shrink-0 text-ink-mute transition-transform"
+                    style={{
+                      transform: isOpen ? "rotate(-90deg)" : "rotate(90deg)",
+                    }}
+                    aria-hidden
+                  >
+                    ›
+                  </span>
+                </button>
 
-                <div className="mt-4 space-y-2">
-                  {list.map((situation) => (
-                    <Link
-                      key={situation.slug}
-                      href={`/situations/${situation.slug}`}
-                      className="group flex items-center gap-3 rounded-md border border-transparent py-2 pl-9 pr-2 transition-colors hover:border-rule hover:bg-surface-2"
-                    >
-                      <span className="min-w-0 flex-1 text-sm leading-snug text-ink-soft group-hover:text-ink">
-                        {situation.label}
-                      </span>
-                      {(situation.phrases?.length || situation.practiceItems?.length) && (
-                        <span className="text-caption text-accent">Listo</span>
-                      )}
-                      <span className="text-ink-mute" aria-hidden>
-                        ›
-                      </span>
-                    </Link>
-                  ))}
-                </div>
+                {isOpen && (
+                  <div className="mt-4 space-y-2">
+                    {list.map((situation) => (
+                      <Link
+                        key={situation.slug}
+                        href={`/situations/${situation.slug}`}
+                        className="group flex items-center gap-3 rounded-md border border-transparent py-2 pl-9 pr-2 transition-colors hover:border-rule hover:bg-surface-2"
+                      >
+                        <span className="min-w-0 flex-1 text-sm leading-snug text-ink-soft group-hover:text-ink">
+                          {situation.label}
+                        </span>
+                        {(situation.phrases?.length ||
+                          situation.practiceItems?.length) && (
+                          <span className="text-caption text-accent">Listo</span>
+                        )}
+                        <span className="text-ink-mute" aria-hidden>
+                          ›
+                        </span>
+                      </Link>
+                    ))}
+                  </div>
+                )}
               </li>
             );
           })}

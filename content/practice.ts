@@ -31,6 +31,13 @@ export function practiceHubItems(thoughtCount?: number): PracticeHubItem[] {
       iconId: "journal",
     },
     {
+      href: "/practice/la-linea",
+      label: "La Línea",
+      description: "Spanish tenses, drawn on a timeline.",
+      meta: "Juego",
+      iconId: "games",
+    },
+    {
       href: "/practice/ser-estar",
       label: "Ser vs Estar",
       description: "Sort sentences into ser or estar.",

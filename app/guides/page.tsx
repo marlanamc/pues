@@ -65,6 +65,14 @@ const IconVerbs = (
   </svg>
 );
 
+const IconSellos = (
+  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
+    <path d="M3 12h18" />
+    <circle cx="8" cy="12" r="2.1" fill="currentColor" stroke="none" />
+    <path d="M14 9v6" />
+  </svg>
+);
+
 export default function GuidesHubPage() {
   const rows: GuideRow[] = [
     {
@@ -98,6 +106,11 @@ export default function GuidesHubPage() {
       href: "/guides/confusions",
       label: "Matiz",
       icon: IconConfusions,
+    },
+    {
+      href: "/guides/sellos",
+      label: "Sellos",
+      icon: IconSellos,
     },
   ];
 

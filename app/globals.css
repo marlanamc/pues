@@ -46,6 +46,10 @@
   --accent-soft: #c25a37;
   --accent-ink: #1b1712;
   --highlight: #dd6a43;
+  /* La Línea tense semantics — color = WHEN. Brighter for ink (dark). */
+  --past: oklch(0.76 0.115 72);
+  --present: oklch(0.74 0.095 158);
+  --future: oklch(0.73 0.085 245);
   --grain-opacity: 0.35;
   --grain-blend: screen;
   --paper-wash:
@@ -68,6 +72,10 @@
   --accent-soft: #a23f23;
   --accent-ink: #fbf4e6;
   --highlight: #bb4a2a;
+  /* La Línea tense semantics — darker for contrast on bone paper. */
+  --past: oklch(0.56 0.13 64);
+  --present: oklch(0.50 0.11 158);
+  --future: oklch(0.50 0.10 252);
   --grain-opacity: 0.5;
   --grain-blend: multiply;
   --paper-wash:
