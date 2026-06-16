@@ -85,6 +85,15 @@ function parseRecallPrompt(prompt: string): Array<{ type: "text" | "blank"; valu
   }));
 }
 
+/** Visible hint letters from a blank token like "T____" → "T". */
+function recallHintFromToken(token: string): string {
+  return token.replace(/_+/g, "");
+}
+
+function emptyRecallAnswers(card: SentenceCard): string[] {
+  return Array(card.recall?.missingWords.length ?? 0).fill("");
+}
+
 /** Best-effort audio auto-play (silently fails on iOS Safari due to autoplay policy). */
 function tryAutoPlay(text: string) {
   staticAudioUrl(text).then((url) => {
@@ -138,7 +147,7 @@ export function SentenceBuilderGame({
   const [showHint, setShowHint] = useState(false);
 
   // ── Recall step state ──────────────────────────────────────────────
-  const [recallAnswer, setRecallAnswer] = useState<number[]>([]);
+  const [recallAnswer, setRecallAnswer] = useState<string[]>(() => emptyRecallAnswers(card));
   const [recallPhase, setRecallPhase] = useState<Phase>("building");
   const [recallWrongAt, setRecallWrongAt] = useState<number | null>(null);
   const [showSpanishRecall, setShowSpanishRecall] = useState(false);
@@ -164,16 +173,6 @@ export function SentenceBuilderGame({
   const bank = tiles.filter((t) => !inAnswer.has(t.id));
   const tileById = (id: number) => tiles.find((t) => t.id === id) ?? tiles[0];
 
-  const inRecallAnswer = new Set(recallAnswer);
-  // Recall tiles are keyed by position in missingWords, not by word (handles duplicates)
-  const recallTiles = useMemo<Tile[]>(() => {
-    if (!card.recall) return [];
-    return card.recall.missingWords.map((word, id) => ({ id, word }));
-  }, [card]);
-  const recallBank = recallTiles.filter((t) => !inRecallAnswer.has(t.id));
-  const recallTileById = (id: number) =>
-    recallTiles.find((t) => t.id === id) ?? recallTiles[0];
-
   const inRemixAnswer = new Set(remixAnswer);
   const remixBank = remixTiles.filter((t) => !inRemixAnswer.has(t.id));
   const remixTileById = (id: number) =>
@@ -185,7 +184,7 @@ export function SentenceBuilderGame({
     setWrongAt(null);
     setShowHint(false);
     setCurrentStep("build");
-    setRecallAnswer([]);
+    setRecallAnswer(emptyRecallAnswers(card));
     setRecallPhase("building");
     setRecallWrongAt(null);
     setShowSpanishRecall(false);
@@ -248,27 +247,32 @@ export function SentenceBuilderGame({
   }
 
   // ── Recall step actions ────────────────────────────────────────────
-  function selectRecallTile(id: number) {
+  function updateRecallAnswer(index: number, value: string) {
     if (recallPhase === "correct") return;
-    setRecallAnswer((prev) => [...prev, id]);
+    setRecallAnswer((prev) => {
+      const next = [...prev];
+      next[index] = value;
+      return next;
+    });
     setRecallPhase("building");
     setRecallWrongAt(null);
   }
 
-  function removeRecallTile(id: number) {
+  function clearRecallAnswer() {
     if (recallPhase === "correct") return;
-    setRecallAnswer((prev) => prev.filter((tid) => tid !== id));
+    setRecallAnswer(emptyRecallAnswers(card));
     setRecallPhase("building");
     setRecallWrongAt(null);
   }
 
   function checkRecall() {
     if (!card.recall) return;
-    const chosen = recallAnswer.map((id) => normalizeWord(recallTileById(id).word));
+    const chosen = recallAnswer.map(normalizeWord);
     const target = card.recall.missingWords.map(normalizeWord);
 
     const matches =
-      chosen.length === target.length && chosen.every((w, i) => w === target[i]);
+      chosen.length === target.length &&
+      chosen.every((w, i) => w.length > 0 && w === target[i]);
 
     if (matches) {
       setRecallPhase("correct");
@@ -277,6 +281,7 @@ export function SentenceBuilderGame({
     }
 
     let mismatch = chosen.findIndex((w, i) => w !== target[i]);
+    if (mismatch === -1) mismatch = chosen.findIndex((w) => w.length === 0);
     if (mismatch === -1) mismatch = chosen.length;
     setRecallWrongAt(mismatch);
     setRecallPhase("wrong");
@@ -366,6 +371,9 @@ export function SentenceBuilderGame({
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       if (done) return;
+      const target = e.target as HTMLElement;
+      const inTextField =
+        target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.isContentEditable;
       if (e.key === "Enter") {
         e.preventDefault();
         if (currentStep === "build") {
@@ -373,7 +381,7 @@ export function SentenceBuilderGame({
           else if (answer.length > 0) check();
         } else if (currentStep === "recall") {
           if (recallPhase === "correct") advanceFromRecall();
-          else if (recallAnswer.length > 0) checkRecall();
+          else if (recallAnswer.every((w) => w.trim().length > 0)) checkRecall();
         } else if (currentStep === "say") {
           if (showSaidAgain) advanceFromSay();
           else if (!saidIt) confirmSaid();
@@ -381,13 +389,10 @@ export function SentenceBuilderGame({
           if (remixPhase === "correct") advanceCard();
           else if (remixAnswer.length > 0) checkRemix();
         }
-      } else if (e.key === "Backspace") {
+      } else if (e.key === "Backspace" && !inTextField) {
         if (currentStep === "build" && phase !== "correct" && answer.length > 0) {
           e.preventDefault();
           removeTile(answer[answer.length - 1]);
-        } else if (currentStep === "recall" && recallPhase !== "correct" && recallAnswer.length > 0) {
-          e.preventDefault();
-          removeRecallTile(recallAnswer[recallAnswer.length - 1]);
         } else if (currentStep === "remix" && remixPhase !== "correct" && remixAnswer.length > 0) {
           e.preventDefault();
           removeRemixTile(remixAnswer[remixAnswer.length - 1]);
@@ -573,17 +578,15 @@ export function SentenceBuilderGame({
       {currentStep === "recall" && card.recall && (
         <RecallStep
           card={card}
-          recallBank={recallBank}
           recallAnswer={recallAnswer}
           recallPhase={recallPhase}
           recallWrongAt={recallWrongAt}
           showSpanish={showSpanishRecall}
-          onSelectTile={selectRecallTile}
-          onRemoveTile={removeRecallTile}
+          onChangeAnswer={updateRecallAnswer}
+          onClear={clearRecallAnswer}
           onCheck={checkRecall}
           onNext={advanceFromRecall}
           onReveal={() => setShowSpanishRecall(true)}
-          recallTileById={recallTileById}
         />
       )}
 
@@ -843,37 +846,32 @@ function BuildStep({
 
 function RecallStep({
   card,
-  recallBank,
   recallAnswer,
   recallPhase,
   recallWrongAt,
   showSpanish,
-  onSelectTile,
-  onRemoveTile,
+  onChangeAnswer,
+  onClear,
   onCheck,
   onNext,
   onReveal,
-  recallTileById,
 }: {
   card: SentenceCard;
-  recallBank: Tile[];
-  recallAnswer: number[];
+  recallAnswer: string[];
   recallPhase: Phase;
   recallWrongAt: number | null;
   showSpanish: boolean;
-  onSelectTile: (id: number) => void;
-  onRemoveTile: (id: number) => void;
+  onChangeAnswer: (index: number, value: string) => void;
+  onClear: () => void;
   onCheck: () => void;
   onNext: () => void;
   onReveal: () => void;
-  recallTileById: (id: number) => Tile;
 }) {
   const recall = card.recall!;
   const tokens = parseRecallPrompt(recall.prompt);
   const blanks = tokens.filter((t) => t.type === "blank");
-  const filledBlanks = recallAnswer.map((id) => recallTileById(id).word);
+  const allFilled = recallAnswer.every((w) => w.trim().length > 0);
 
-  // Track which blank slot we're filling next
   let blankIndex = 0;
 
   return (
@@ -881,11 +879,16 @@ function RecallStep({
       {/* Prompt */}
       <div className="space-y-1.5">
         <h1 className="text-display-prompt text-ink">{card.promptEnglish}</h1>
-        <p className="text-sm text-ink-mute">Ahora sin tanta ayuda.</p>
+        <p className="text-sm text-ink-mute">Escribe las palabras que faltan.</p>
       </div>
 
       {/* Recall sentence display */}
-      <div
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (recallPhase === "correct") onNext();
+          else if (allFilled) onCheck();
+        }}
         className={`rounded-lg border bg-surface p-4 transition-colors ${
           recallPhase === "correct"
             ? "sb-glow border-[color:var(--correct)]/60"
@@ -903,35 +906,36 @@ function RecallStep({
                 </span>
               );
             }
-            // blank token
+
             const myIndex = blankIndex++;
-            const filled = filledBlanks[myIndex];
+            const hint = recallHintFromToken(token.value);
+            const expectedLen = recall.missingWords[myIndex]?.length ?? 4;
             const isWrong = recallPhase === "wrong" && recallWrongAt === myIndex;
-            if (filled) {
-              return (
-                <button
-                  key={i}
-                  type="button"
-                  onClick={() => onRemoveTile(recallAnswer[myIndex])}
-                  disabled={recallPhase === "correct"}
-                  className={`min-h-[38px] rounded-xl border px-3 font-display text-lg transition-colors active:scale-[0.97] disabled:cursor-default ${
-                    isWrong
-                      ? "border-red-500 bg-red-500/10 text-red-400"
-                      : "border-accent/50 bg-accent/10 text-accent"
-                  }`}
-                >
-                  {filled}
-                </button>
-              );
-            }
+            const isFirstBlank = myIndex === 0;
+
             return (
-              <span
+              <input
                 key={i}
-                className="font-display text-lg text-ink-mute"
-                style={{ letterSpacing: "0.05em" }}
-              >
-                {token.value}
-              </span>
+                type="text"
+                value={recallAnswer[myIndex] ?? ""}
+                onChange={(e) => onChangeAnswer(myIndex, e.target.value)}
+                disabled={recallPhase === "correct"}
+                autoComplete="off"
+                autoCorrect="off"
+                autoCapitalize="off"
+                spellCheck={false}
+                autoFocus={isFirstBlank && recallPhase !== "correct"}
+                aria-label={`Palabra ${myIndex + 1}, empieza con ${hint || "?"}`}
+                placeholder={hint ? `${hint}…` : "…"}
+                className={`min-h-[38px] rounded-xl border bg-surface px-2.5 font-display text-lg text-ink outline-none transition-colors placeholder:text-ink-mute/70 focus:border-accent/70 disabled:cursor-default ${
+                  isWrong
+                    ? "border-red-500 bg-red-500/10"
+                    : recallPhase === "correct"
+                      ? "border-[color:var(--correct)]/50 bg-[color:var(--correct)]/10"
+                      : "border-accent/35"
+                }`}
+                style={{ width: `${Math.max(expectedLen, hint.length || 3) + 1}ch` }}
+              />
             );
           })}
         </div>
@@ -940,46 +944,21 @@ function RecallStep({
             {card.displayAnswer}
           </p>
         )}
-      </div>
+      </form>
 
-      {/* Recall word bank */}
-      <div className="space-y-2">
-        <div className="flex items-center justify-between gap-2">
-          <p className="mono-cap">Palabras que faltan</p>
-          <div className="flex items-center gap-2">
-            <PlayButton text={card.displayAnswer} label="Escuchar la frase completa" />
-            {recall.revealAnswerAllowed && !showSpanish && (
-              <button
-                type="button"
-                onClick={onReveal}
-                className="mono-cap text-ink-mute transition-colors hover:text-accent"
-              >
-                Ver frase
-              </button>
-            )}
-          </div>
-        </div>
-        <div className="rounded-lg border border-rule bg-surface p-4">
-          {recallBank.length === 0 && recallPhase !== "correct" ? (
-            <p className="py-2 text-center text-sm text-ink-mute">
-              Todas las palabras están colocadas.
-            </p>
-          ) : recallPhase === "correct" ? (
-            <p className="py-2 text-center text-sm" style={{ color: "var(--correct)" }}>
-              ¡Bien hecho!
-            </p>
-          ) : (
-            <div className="flex flex-wrap gap-2">
-              {recallBank.map((tile) => (
-                <WordTile
-                  key={tile.id}
-                  label={tile.word}
-                  hue="var(--accent)"
-                  onClick={() => onSelectTile(tile.id)}
-                  ariaLabel={`Añadir ${tile.word}`}
-                />
-              ))}
-            </div>
+      {/* Tools */}
+      <div className="flex items-center justify-between gap-2">
+        <p className="mono-cap">Sin banco de palabras</p>
+        <div className="flex items-center gap-2">
+          <PlayButton text={card.displayAnswer} label="Escuchar la frase completa" />
+          {recall.revealAnswerAllowed && !showSpanish && (
+            <button
+              type="button"
+              onClick={onReveal}
+              className="mono-cap text-ink-mute transition-colors hover:text-accent"
+            >
+              Ver frase
+            </button>
           )}
         </div>
       </div>
@@ -996,7 +975,7 @@ function RecallStep({
           </div>
         )}
         {recallPhase === "wrong" && (
-          <p className="text-sm text-ink-soft">Casi. Revisa el orden de las palabras.</p>
+          <p className="text-sm text-ink-soft">Casi. Revisa la ortografía de las palabras.</p>
         )}
       </div>
 
@@ -1004,10 +983,8 @@ function RecallStep({
       <div className="grid grid-cols-2 gap-3">
         <button
           type="button"
-          onClick={() => {
-            onRemoveTile(recallAnswer[recallAnswer.length - 1]);
-          }}
-          disabled={recallPhase === "correct" || recallAnswer.length === 0}
+          onClick={onClear}
+          disabled={recallPhase === "correct" || !recallAnswer.some((w) => w.length > 0)}
           className="flex items-center justify-center gap-2 rounded-[14px] border border-rule px-4 py-3.5 text-ink-soft transition-colors hover:border-accent/50 hover:text-accent disabled:opacity-40 disabled:hover:border-rule disabled:hover:text-ink-soft"
         >
           <IconReset />
@@ -1028,7 +1005,7 @@ function RecallStep({
           <button
             type="button"
             onClick={onCheck}
-            disabled={recallAnswer.length < blanks.length}
+            disabled={!allFilled}
             className="btn-primary btn-primary--spectrum justify-center gap-3 disabled:opacity-50"
             style={{ padding: "14px 18px" }}
           >

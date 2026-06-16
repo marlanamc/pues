@@ -12,7 +12,7 @@
  */
 
 export type RecallData = {
-  type: "blank_tiles";
+  type: "typed_blanks";
   /** Display string with first-letter hints, e.g. "T____ q__ ll____ a mi m____" */
   prompt: string;
   /** Words the learner must fill in, in left-to-right blank order */
@@ -94,7 +94,7 @@ export const sentenceBuilderCards: SentenceCard[] = [
     almost: "Casi. Revisa el verbo después de “tengo que”.",
     level: "Principiante 1",
     recall: {
-      type: "blank_tiles",
+      type: "typed_blanks",
       prompt: "T____ q__ ll____ a mi m____",
       missingWords: ["tengo", "que", "llamar", "mamá"],
       revealAnswerAllowed: true,
@@ -126,7 +126,7 @@ export const sentenceBuilderCards: SentenceCard[] = [
     almost: "Casi. Después de “voy a” va el infinitivo.",
     level: "Principiante 1",
     recall: {
-      type: "blank_tiles",
+      type: "typed_blanks",
       prompt: "V__ a est____ esta n____",
       missingWords: ["voy", "estudiar", "noche"],
       revealAnswerAllowed: true,
