@@ -37,8 +37,13 @@ const K = {
   questionnaireUpdated: "pues:questionnaire-updated",
 } as const;
 
-// Keys that never leave the device (in-progress drafts, today's prompt cursor).
-const LOCAL_ONLY = new Set<string>(["pues:draft", "pues:session"]);
+// Keys that never leave the device (in-progress drafts, today's prompt cursor,
+// sentence-builder level progress — no cloud table yet).
+const LOCAL_ONLY = new Set<string>([
+  "pues:draft",
+  "pues:session",
+  "pues:sb-progress",
+]);
 
 const EMPTY_STATS: SessionStats = {
   daysPracticed: 0,

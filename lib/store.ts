@@ -75,6 +75,7 @@ const K_STATS = "pues:stats";
 const K_DRAFT = "pues:draft";
 const K_SESSION = "pues:session";
 const K_PRACTICE = "pues:practice";
+const K_SB_PROGRESS = "pues:sb-progress";
 const K_AUDIO_SPEED = "pues:audio-speed";
 const K_THEME_MODE = "pues:theme-mode";
 const K_SIDEBAR_VISIBLE = "pues:sidebar-visible";
@@ -236,6 +237,62 @@ export function flagForPractice(promptId: string): void {
 
 export function listPracticeFlags(): string[] {
   return read<string[]>(K_PRACTICE, []);
+}
+
+/* ---------- Sentence Builder progress (per level, local-only) ---------- */
+
+export type SbLevelResult = {
+  completed: boolean;
+  /** Best first-try count across plays. */
+  bestSolved: number;
+  /** Cards in the level when last recorded. */
+  total: number;
+  /** ISO timestamp of the most recent completion. */
+  lastPlayed: string;
+};
+
+export type SbProgress = Record<string, SbLevelResult>;
+
+export function getSbProgress(): SbProgress {
+  return read<SbProgress>(K_SB_PROGRESS, {});
+}
+
+/** Record a finished level run, keeping the best first-try score. */
+export function recordSbLevelResult(
+  levelName: string,
+  solved: number,
+  total: number
+): SbProgress {
+  const prev = getSbProgress();
+  const existing = prev[levelName];
+  const next: SbProgress = {
+    ...prev,
+    [levelName]: {
+      completed: true,
+      bestSolved: Math.max(existing?.bestSolved ?? 0, solved),
+      total,
+      lastPlayed: new Date().toISOString(),
+    },
+  };
+  write(K_SB_PROGRESS, next);
+  if (isBrowser()) {
+    window.dispatchEvent(new Event("pues:stats-change"));
+  }
+  return next;
+}
+
+/**
+ * A level is unlocked when it's the first in order, or the level before it has
+ * been completed. `orderedLevelNames` is the level sequence from content.
+ */
+export function isSbLevelUnlocked(
+  levelName: string,
+  orderedLevelNames: string[]
+): boolean {
+  const idx = orderedLevelNames.indexOf(levelName);
+  if (idx <= 0) return true;
+  const prevName = orderedLevelNames[idx - 1];
+  return getSbProgress()[prevName]?.completed === true;
 }
 
 /* ---------- Audio ---------- */

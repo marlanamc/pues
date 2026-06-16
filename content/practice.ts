@@ -1,5 +1,5 @@
 /**
- * Práctica hub — active practice: journal, progress, and future games.
+ * Práctica hub — active practice: the phrase plan and games.
  */
 
 export type PracticeHubItem = {
@@ -7,7 +7,7 @@ export type PracticeHubItem = {
   label: string;
   description: string;
   meta?: string;
-  iconId: "journal" | "games" | "plan";
+  iconId: "plan";
   disabled?: boolean;
 };
 
@@ -16,10 +16,10 @@ export const practiceOverview = {
   title: "Speak, save, play.",
 };
 
-export function practiceHubItems(
-  thoughtCount?: number,
-  planDay?: { current: number; total: number },
-): PracticeHubItem[] {
+export function practiceHubItems(planDay?: {
+  current: number;
+  total: number;
+}): PracticeHubItem[] {
   return [
     {
       href: "/practice/plan",
@@ -29,37 +29,6 @@ export function practiceHubItems(
         ? `Día ${String(planDay.current).padStart(2, "0")} de ${planDay.total}`
         : undefined,
       iconId: "plan",
-    },
-    {
-      href: "/thoughts",
-      label: "Diario",
-      description: "Every sentence you've spoken out loud.",
-      meta:
-        thoughtCount && thoughtCount > 0
-          ? `${thoughtCount} ${thoughtCount === 1 ? "frase" : "frases"}`
-          : undefined,
-      iconId: "journal",
-    },
-    {
-      href: "/practice/la-linea",
-      label: "La Línea",
-      description: "Spanish tenses, drawn on a timeline.",
-      meta: "Juego",
-      iconId: "games",
-    },
-    {
-      href: "/practice/marcadores",
-      label: "Marcadores",
-      description: "Time words and the tense they call for.",
-      meta: "Juego",
-      iconId: "games",
-    },
-    {
-      href: "/practice/ser-estar",
-      label: "Ser vs Estar",
-      description: "Sort sentences into ser or estar.",
-      meta: "Juego",
-      iconId: "games",
     },
   ];
 }
