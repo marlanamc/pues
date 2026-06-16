@@ -104,8 +104,12 @@ export default function HomePage() {
             <Link
               href="/flow/speak"
               onClick={() => clearDraft()}
-              className="btn-primary"
-              style={{ marginTop: 24 }}
+              className="btn-primary btn-primary--zones active:brightness-90"
+              style={{
+                marginTop: 24,
+                background:
+                  "linear-gradient(90deg, var(--zone-practica) 0%, var(--zone-lugares) 25%, var(--zone-guias) 50%, var(--zone-lab) 100%)",
+              }}
             >
               <span className="lab">Empezar</span>
               <svg
