@@ -11,6 +11,31 @@
  * `availableTiles` entry that never appears in `targetSpanish`.
  */
 
+export type RecallData = {
+  type: "blank_tiles";
+  /** Display string with first-letter hints, e.g. "T____ q__ ll____ a mi m____" */
+  prompt: string;
+  /** Words the learner must fill in, in left-to-right blank order */
+  missingWords: string[];
+  revealAnswerAllowed: boolean;
+};
+
+export type SayData = {
+  promptEnglish: string;
+  displayAnswer: string;
+  /** Instruction shown below the prompt, e.g. "Intenta decirlo sin mirar." */
+  instruction: string;
+};
+
+export type RemixData = {
+  promptEnglish: string;
+  targetSpanish: string[];
+  displayAnswer: string;
+  availableTiles: string[];
+  /** Teaching note shown after the remix is answered correctly */
+  explanation: string;
+};
+
 export type SentenceCard = {
   id: string;
   mode: "sentence_builder";
@@ -34,6 +59,10 @@ export type SentenceCard = {
   almost: string;
   /** Level label for the mini progress card. */
   level: string;
+  /** When present, enables the 4-step ladder flow for this card. */
+  recall?: RecallData;
+  say?: SayData;
+  remix?: RemixData;
 };
 
 /** Lowercase + strip accents so "Tengo" and "tengo" compare equal. */
@@ -64,6 +93,24 @@ export const sentenceBuilderCards: SentenceCard[] = [
     examples: "Tengo que llamar, tengo que estudiar, tengo que trabajar…",
     almost: "Casi. Revisa el verbo después de “tengo que”.",
     level: "Principiante 1",
+    recall: {
+      type: "blank_tiles",
+      prompt: "T____ q__ ll____ a mi m____",
+      missingWords: ["tengo", "que", "llamar", "mamá"],
+      revealAnswerAllowed: true,
+    },
+    say: {
+      promptEnglish: "I have to call my mom.",
+      displayAnswer: "Tengo que llamar a mi mamá.",
+      instruction: "Intenta decirlo sin mirar.",
+    },
+    remix: {
+      promptEnglish: "I have to call my sister.",
+      targetSpanish: ["tengo", "que", "llamar", "a", "mi", "hermana"],
+      displayAnswer: "Tengo que llamar a mi hermana.",
+      availableTiles: ["hermana", "mi", "a", "que", "tengo", "llamar", "mamá", "llamo", "yo"],
+      explanation: "Solo cambiaste 'mamá' por 'hermana'. El patrón sigue igual: tengo que + infinitivo.",
+    },
   },
   {
     id: "voy_a_estudiar_noche_002",
@@ -78,6 +125,24 @@ export const sentenceBuilderCards: SentenceCard[] = [
     examples: "Voy a comer, voy a salir, voy a dormir…",
     almost: "Casi. Después de “voy a” va el infinitivo.",
     level: "Principiante 1",
+    recall: {
+      type: "blank_tiles",
+      prompt: "V__ a est____ esta n____",
+      missingWords: ["voy", "estudiar", "noche"],
+      revealAnswerAllowed: true,
+    },
+    say: {
+      promptEnglish: "I'm going to study tonight.",
+      displayAnswer: "Voy a estudiar esta noche.",
+      instruction: "Intenta decirlo sin mirar.",
+    },
+    remix: {
+      promptEnglish: "I'm going to eat tonight.",
+      targetSpanish: ["voy", "a", "comer", "esta", "noche"],
+      displayAnswer: "Voy a comer esta noche.",
+      availableTiles: ["noche", "como", "voy", "esta", "a", "mañana", "comer", "estudiar"],
+      explanation: "Solo cambiaste 'estudiar' por 'comer'. El patrón es el mismo: voy a + infinitivo.",
+    },
   },
   {
     id: "quiero_tomar_cafe_003",
