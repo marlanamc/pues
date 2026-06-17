@@ -468,4 +468,26 @@ export async function startSync() {
   await pullAll(supabase);
   await pushAll(supabase);
   subscribeRealtime(supabase);
+  emit("pues:sync-change");
+}
+
+/** Tear down sync listeners and clear the active user (e.g. on sign-out). */
+export function stopSync() {
+  if (!isBrowser()) return;
+  for (const timer of pushTimers.values()) clearTimeout(timer);
+  pushTimers.clear();
+  if (realtimeChannel) {
+    const supabase = createClient();
+    void supabase.removeChannel(realtimeChannel);
+    realtimeChannel = null;
+  }
+  if (started) {
+    window.removeEventListener("pues:mutate", onMutate as EventListener);
+    window.removeEventListener("focus", onFocus);
+    document.removeEventListener("visibilitychange", onVisible);
+    started = false;
+  }
+  userId = null;
+  lastPull = 0;
+  hydrating = false;
 }

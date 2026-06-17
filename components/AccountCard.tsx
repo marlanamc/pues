@@ -85,7 +85,18 @@ export function AccountCard() {
     });
     if (error) {
       setStatus("error");
-      setMessage(error.message);
+      const msg = error.message;
+      if (msg.toLowerCase().includes("invalid login credentials")) {
+        setMessage(
+          "Wrong email or password. If you created the account in the Supabase dashboard, use Sign in (not Create account) and the password you set there."
+        );
+      } else if (msg.toLowerCase().includes("email not confirmed")) {
+        setMessage(
+          "Email not confirmed yet. In Supabase → Authentication → Users, open your user and confirm the email, or turn off “Confirm email” under Email provider settings."
+        );
+      } else {
+        setMessage(msg);
+      }
       return;
     }
     setPassword("");
@@ -140,7 +151,7 @@ export function AccountCard() {
         </p>
         <p className="text-sm text-ink-mute leading-relaxed">
           {mode === "sign-in"
-            ? "Sign in to use Pues on your phone and laptop with the same journal and streak."
+            ? "Sign in with the same email and password on every device. Your journal, streak, and preferences will merge automatically."
             : "Create an account to sync your journal and streak across devices."}
         </p>
       </div>
@@ -189,6 +200,12 @@ export function AccountCard() {
           ? "Need an account? Create one"
           : "Have an account? Sign in"}
       </button>
+
+      {mode === "sign-in" && status !== "error" && (
+        <p className="text-xs text-ink-mute leading-relaxed">
+          Already added yourself in Supabase? Sign in here — no email link needed.
+        </p>
+      )}
     </li>
   );
 }

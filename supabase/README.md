@@ -36,53 +36,51 @@ This creates:
 
 All tables use **Row Level Security** — each user only sees their own rows.
 
-## 3. Enable sign-in (no UI required for now)
+## 3. Enable sign-in
 
-Until email login is wired up, Pues uses **silent anonymous sign-in** so Row Level Security still works.
+Pues uses **email + password** on the Settings page for cross-device sync. Until you sign in, data stays on the device only.
 
-1. Go to **Authentication → Providers → Anonymous**.
-2. Turn **Enable anonymous sign-ins** on.
-
-The app calls `signInAnonymously()` on load — no sign-in screen. When you add email auth later, you can link that anonymous account to your email.
-
-### Email auth (magic link)
-
-The Settings page has a magic-link sign-in. Signing in with your email is what
-makes data sync across devices (anonymous accounts are per-device).
+### Email + password (recommended)
 
 1. Go to **Authentication → Providers → Email** and leave it enabled.
-2. Under **Authentication → URL Configuration**, set:
-   - **Site URL**: `http://localhost:3000` (add your Vercel URL later)
-   - **Redirect URLs** (add each):
-     - `http://localhost:3000/auth/finish`
-     - `https://your-app.vercel.app/auth/finish`
+2. For a personal app, turn **Confirm email** **off** — you can sign in immediately with no inbox step.
+3. Create your account either:
+   - **In the app**: Settings → *Create account* → email + password (6+ characters), or
+   - **In Supabase**: Authentication → Users → *Add user* → set email + password and check **Auto Confirm User**.
 
-That's it — **no email template editing required.** The magic link lands on the
-client page `/auth/finish`, where the Supabase browser client auto-completes the
-session from the URL (works with both the `?code=` and `#access_token` link
-shapes the default template can produce).
+On each device (phone, laptop, production): open **Settings → Sign in** with the **same** email and password. Local progress merges with the cloud on first sign-in.
 
-> The routes `/auth/callback` (`exchangeCodeForSession`) and `/auth/confirm`
-> (`verifyOtp` with `token_hash`) are kept for the custom-SMTP / OAuth paths
-> below, but the default flow uses `/auth/finish`.
+### Anonymous sign-in (optional)
 
-### Heads up: built-in email is rate-limited
+Anonymous auth gives each device a silent backup before you sign in. It is **not** required for password sync.
 
-Supabase's built-in email sender is throttled (a few messages per hour) and is
-meant for testing, not daily production use. Editing email templates is also
-gated behind custom SMTP.
+1. Go to **Authentication → Providers → Anonymous**.
+2. Turn **Enable anonymous sign-ins** on if you want per-device backup before login.
 
-For a **personal app where you're the only user**, the built-in sender is often
-fine — you sign in rarely and sessions persist. Set up custom SMTP when you want
-reliable delivery, higher limits, or to edit templates.
+If anonymous is off, the app still works — sync simply waits until you sign in with email + password.
 
-#### Custom SMTP via Resend
+### URL configuration (only if email confirmation is on)
+
+If you keep **Confirm email** enabled, add under **Authentication → URL Configuration**:
+
+- **Site URL**: `http://localhost:3000` (plus your Vercel URL)
+- **Redirect URLs**:
+  - `http://localhost:3000/auth/finish`
+  - `https://your-app.vercel.app/auth/finish`
+
+With confirmation off, you do not need magic links or redirect URLs for day-to-day use.
+
+### Built-in email is rate-limited
+
+Supabase's built-in email sender is throttled and meant for testing. With password auth and **Confirm email** off, you rarely need outbound email at all.
+
+#### Custom SMTP via Resend (optional)
+
+Only needed if you want confirmation emails, password reset, or higher send limits.
 
 1. Create an account at [resend.com](https://resend.com).
 2. **Domains → Add Domain**: add a domain you own and create the DNS records
-   Resend shows you (SPF/DKIM). Magic links will send `from` an address on this
-   domain (e.g. `pues@yourdomain.com`). _(Without a domain you can only send to
-   your own Resend account email — fine for a quick personal test.)_
+   Resend shows you (SPF/DKIM).
 3. **API Keys → Create API Key** → copy it (`re_…`).
 4. In Supabase: **Authentication → Emails → SMTP Settings**, enable custom SMTP
    and enter:
@@ -98,18 +96,17 @@ reliable delivery, higher limits, or to edit templates.
 
 5. Optionally raise the cap under **Authentication → Rate Limits → Emails**.
 
-#### Optional: token-hash template (only after SMTP is on)
+## What's synced
 
-With custom SMTP you can edit **Email Templates → Magic Link** to use the
-server-side `/auth/confirm` route instead of `/auth/finish`:
+`lib/sync.ts` mirrors these to Supabase when you're signed in:
 
-```html
-<h2>Sign in to Pues</h2>
-<p><a href="{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=magiclink&next=/settings">Sign in to Pues</a></p>
-```
+- **Diario** (`thoughts`) — sentences you've spoken and saved
+- **Streak / progress** (`session_stats`) — day index, counters, frames explored
+- **Practice flags** — “Quiero practicarla” resurfacing list
+- **Preferences** — theme, audio speed, UI toggles
+- **Questionnaire** — content profile answers
 
-…and add `/auth/confirm` to the Redirect URLs. This is optional — the default
-`/auth/finish` flow works without any template editing.
+Still local-only: in-progress drafts, today's prompt cursor, sentence-builder level progress, and voice recordings (IndexedDB).
 
 ## 4. Add environment variables
 
@@ -136,13 +133,10 @@ Add the same `NEXT_PUBLIC_*` vars in **Vercel → Project Settings → Environme
 npm run dev
 ```
 
-Middleware is already wired (`middleware.ts`) to refresh auth cookies. The auth callback route lives at `/auth/callback`.
+Middleware is already wired (`middleware.ts`) to refresh auth cookies.
 
-## What’s not migrated yet
-
-`lib/store.ts` and `lib/audioStore.ts` still read/write the browser. The schema matches those types so we can swap the implementation behind the same functions without touching UI code.
-
-Next step when you’re ready: add a sign-in card on Settings and replace `saveThought` / `listThoughts` with Supabase calls for signed-in users (fall back to localStorage when offline or unsigned).
+1. Open **Settings** → sign in with your email + password.
+2. Practice a sentence, then open the app on another device (or browser) with the same account — your journal and streak should appear after sign-in.
 
 ## Optional: Supabase CLI
 

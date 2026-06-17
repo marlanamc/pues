@@ -3,13 +3,35 @@
 import { useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
-import { startSync } from "@/lib/sync";
+import { startSync, stopSync } from "@/lib/sync";
+
+async function ensureSessionAndSync() {
+  const supabase = createClient();
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  if (!session) {
+    const { error } = await supabase.auth.signInAnonymously();
+    if (error) {
+      // Anonymous auth is optional — password sign-in still enables cross-device sync.
+      const disabled =
+        error.message.includes("Anonymous sign-ins are disabled") ||
+        (error as { code?: string }).code === "anonymous_provider_disabled";
+      if (!disabled) {
+        console.warn("[pues] Supabase anonymous sign-in:", error.message);
+      }
+      return;
+    }
+  }
+
+  await startSync();
+}
 
 /**
  * Ensures a Supabase session exists, then starts local-first cloud sync.
- * Uses anonymous auth until email login is wired up — RLS still applies per
- * user. Note: anonymous accounts are per-device, so true cross-device sync
- * begins once the same email account signs in on each device.
+ * Anonymous sign-in is a per-device fallback; cross-device sync requires the
+ * same email + password account on each device (Settings → Sign in).
  */
 export function SupabaseBootstrap() {
   useEffect(() => {
@@ -19,26 +41,18 @@ export function SupabaseBootstrap() {
     let cancelled = false;
 
     void (async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-
-      if (!session) {
-        const { error } = await supabase.auth.signInAnonymously();
-        if (error) {
-          console.warn("[pues] Supabase anonymous sign-in:", error.message);
-          return;
-        }
-      }
-
-      if (!cancelled) void startSync();
+      await ensureSessionAndSync();
+      if (cancelled) stopSync();
     })();
 
-    // Re-sync when the user signs in (e.g. anonymous → email login).
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event) => {
       if (event === "SIGNED_IN") void startSync();
+      if (event === "SIGNED_OUT") {
+        stopSync();
+        void ensureSessionAndSync();
+      }
     });
 
     return () => {
