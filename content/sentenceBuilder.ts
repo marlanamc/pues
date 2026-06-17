@@ -59,7 +59,7 @@ export type SentenceCard = {
   almost: string;
   /** Level label for the mini progress card. */
   level: string;
-  /** When present, enables the 4-step ladder flow for this card. */
+  /** When present, enables the 5-step ladder flow for this card. */
   recall?: RecallData;
   say?: SayData;
   remix?: RemixData;
@@ -72,6 +72,15 @@ export function normalizeWord(word: string): string {
     .normalize("NFD")
     .replace(/[̀-ͯ]/g, "")
     .trim();
+}
+
+/** Split a typed sentence into normalized words for comparison. */
+export function normalizeSentence(text: string): string[] {
+  return text
+    .replace(/[.?!,¿¡]/g, "")
+    .split(/\s+/)
+    .map(normalizeWord)
+    .filter((w) => w.length > 0);
 }
 
 /** Spanish strings to pre-generate audio for (consumed by scripts/generate-audio.ts). */

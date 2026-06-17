@@ -7,6 +7,7 @@ import { getSbProgress, recordSbLevelResult } from "@/lib/store";
 import { staticAudioUrl } from "@/lib/audio";
 import {
   normalizeWord,
+  normalizeSentence,
   sentenceBuilderCards,
   type SentenceCard,
 } from "@/content/sentenceBuilder";
@@ -15,7 +16,7 @@ import {
 type Tile = { id: number; word: string };
 
 type Phase = "building" | "correct" | "wrong";
-type Step = "build" | "recall" | "say" | "remix";
+type Step = "build" | "recall" | "write" | "say" | "remix";
 
 /** Best stored first-try count for the deck's level (0 if never finished). */
 function sbBestSolved(cards: SentenceCard[]): number {
@@ -152,6 +153,10 @@ export function SentenceBuilderGame({
   const [recallWrongAt, setRecallWrongAt] = useState<number | null>(null);
   const [showSpanishRecall, setShowSpanishRecall] = useState(false);
 
+  // ── Write step state ───────────────────────────────────────────────
+  const [writeAnswer, setWriteAnswer] = useState("");
+  const [writePhase, setWritePhase] = useState<Phase>("building");
+
   // ── Say step state ─────────────────────────────────────────────────
   const [showSpanishSay, setShowSpanishSay] = useState(false);
   const [saidIt, setSaidIt] = useState(false);
@@ -188,6 +193,8 @@ export function SentenceBuilderGame({
     setRecallPhase("building");
     setRecallWrongAt(null);
     setShowSpanishRecall(false);
+    setWriteAnswer("");
+    setWritePhase("building");
     setShowSpanishSay(false);
     setSaidIt(false);
     setShowSaidAgain(false);
@@ -288,6 +295,39 @@ export function SentenceBuilderGame({
   }
 
   function advanceFromRecall() {
+    setCurrentStep("write");
+  }
+
+  // ── Write step actions ─────────────────────────────────────────────
+  function updateWriteAnswer(value: string) {
+    if (writePhase === "correct") return;
+    setWriteAnswer(value);
+    setWritePhase("building");
+  }
+
+  function clearWriteAnswer() {
+    if (writePhase === "correct") return;
+    setWriteAnswer("");
+    setWritePhase("building");
+  }
+
+  function checkWrite() {
+    const chosen = normalizeSentence(writeAnswer);
+    const target = card.targetSpanish.map(normalizeWord);
+
+    const matches =
+      chosen.length === target.length && chosen.every((w, i) => w === target[i]);
+
+    if (matches) {
+      setWritePhase("correct");
+      tryAutoPlay(card.displayAnswer);
+      return;
+    }
+
+    setWritePhase("wrong");
+  }
+
+  function advanceFromWrite() {
     setCurrentStep("say");
   }
 
@@ -382,6 +422,9 @@ export function SentenceBuilderGame({
         } else if (currentStep === "recall") {
           if (recallPhase === "correct") advanceFromRecall();
           else if (recallAnswer.every((w) => w.trim().length > 0)) checkRecall();
+        } else if (currentStep === "write") {
+          if (writePhase === "correct") advanceFromWrite();
+          else if (writeAnswer.trim().length > 0) checkWrite();
         } else if (currentStep === "say") {
           if (showSaidAgain) advanceFromSay();
           else if (!saidIt) confirmSaid();
@@ -402,7 +445,7 @@ export function SentenceBuilderGame({
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [phase, answer, recallPhase, recallAnswer, remixPhase, remixAnswer, currentStep, saidIt, showSaidAgain, done]);
+  }, [phase, answer, recallPhase, recallAnswer, writePhase, writeAnswer, remixPhase, remixAnswer, currentStep, saidIt, showSaidAgain, done]);
 
   // Close hint popover when tapping outside.
   const hintRef = useRef<HTMLDivElement>(null);
@@ -489,6 +532,7 @@ export function SentenceBuilderGame({
   const STEP_LABELS: { key: Step; label: string }[] = [
     { key: "build", label: "Construye" },
     { key: "recall", label: "Recuerda" },
+    { key: "write", label: "Escribe" },
     { key: "say", label: "Di" },
     { key: "remix", label: "Cambia" },
   ];
@@ -547,7 +591,7 @@ export function SentenceBuilderGame({
           {String(cardIndex + 1).padStart(2, "0")} / {String(cards.length).padStart(2, "0")}
           {isLadder && (
             <span className="text-ink-mute">
-              {" "}· {STEP_LABELS.findIndex((s) => s.key === currentStep) + 1}/4
+              {" "}· {STEP_LABELS.findIndex((s) => s.key === currentStep) + 1}/5
             </span>
           )}
         </p>
@@ -587,6 +631,18 @@ export function SentenceBuilderGame({
           onCheck={checkRecall}
           onNext={advanceFromRecall}
           onReveal={() => setShowSpanishRecall(true)}
+        />
+      )}
+
+      {currentStep === "write" && (
+        <WriteStep
+          card={card}
+          writeAnswer={writeAnswer}
+          writePhase={writePhase}
+          onChangeAnswer={updateWriteAnswer}
+          onClear={clearWriteAnswer}
+          onCheck={checkWrite}
+          onNext={advanceFromWrite}
         />
       )}
 
@@ -869,7 +925,6 @@ function RecallStep({
 }) {
   const recall = card.recall!;
   const tokens = parseRecallPrompt(recall.prompt);
-  const blanks = tokens.filter((t) => t.type === "blank");
   const allFilled = recallAnswer.every((w) => w.trim().length > 0);
 
   let blankIndex = 0;
@@ -910,6 +965,8 @@ function RecallStep({
             const myIndex = blankIndex++;
             const hint = recallHintFromToken(token.value);
             const expectedLen = recall.missingWords[myIndex]?.length ?? 4;
+            const typedLen = recallAnswer[myIndex]?.length ?? 0;
+            const inputWidth = Math.max(expectedLen, typedLen, hint.length || 3) + 3;
             const isWrong = recallPhase === "wrong" && recallWrongAt === myIndex;
             const isFirstBlank = myIndex === 0;
 
@@ -927,14 +984,14 @@ function RecallStep({
                 autoFocus={isFirstBlank && recallPhase !== "correct"}
                 aria-label={`Palabra ${myIndex + 1}, empieza con ${hint || "?"}`}
                 placeholder={hint ? `${hint}…` : "…"}
-                className={`min-h-[38px] rounded-xl border bg-surface px-2.5 font-display text-lg text-ink outline-none transition-colors placeholder:text-ink-mute/70 focus:border-accent/70 disabled:cursor-default ${
+                className={`box-border min-h-[44px] min-w-[5.5rem] rounded-xl border bg-surface px-3.5 font-display text-lg text-ink outline-none transition-colors placeholder:text-ink-mute/70 focus:border-accent/70 disabled:cursor-default ${
                   isWrong
                     ? "border-red-500 bg-red-500/10"
                     : recallPhase === "correct"
                       ? "border-[color:var(--correct)]/50 bg-[color:var(--correct)]/10"
                       : "border-accent/35"
                 }`}
-                style={{ width: `${Math.max(expectedLen, hint.length || 3) + 1}ch` }}
+                style={{ width: `${inputWidth}ch` }}
               />
             );
           })}
@@ -998,7 +1055,7 @@ function RecallStep({
             className="btn-primary btn-primary--spectrum justify-center gap-3"
             style={{ padding: "14px 18px" }}
           >
-            <span className="lab">Ahora dilo tú</span>
+            <span className="lab">Escribe la frase</span>
             <span aria-hidden>→</span>
           </button>
         ) : (
@@ -1006,6 +1063,125 @@ function RecallStep({
             type="button"
             onClick={onCheck}
             disabled={!allFilled}
+            className="btn-primary btn-primary--spectrum justify-center gap-3 disabled:opacity-50"
+            style={{ padding: "14px 18px" }}
+          >
+            <span className="lab">Comprobar</span>
+            <span aria-hidden>→</span>
+          </button>
+        )}
+      </div>
+    </>
+  );
+}
+
+/* ── Write Step ─────────────────────────────────────────────────────── */
+
+function WriteStep({
+  card,
+  writeAnswer,
+  writePhase,
+  onChangeAnswer,
+  onClear,
+  onCheck,
+  onNext,
+}: {
+  card: SentenceCard;
+  writeAnswer: string;
+  writePhase: Phase;
+  onChangeAnswer: (value: string) => void;
+  onClear: () => void;
+  onCheck: () => void;
+  onNext: () => void;
+}) {
+  const hasText = writeAnswer.trim().length > 0;
+
+  return (
+    <>
+      <div className="space-y-1.5">
+        <h1 className="text-display-prompt text-ink">{card.promptEnglish}</h1>
+        <p className="text-sm text-ink-mute">Escribe la frase completa en español, sin ayuda.</p>
+      </div>
+
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (writePhase === "correct") onNext();
+          else if (hasText) onCheck();
+        }}
+        className={`rounded-lg border bg-surface p-4 transition-colors ${
+          writePhase === "correct"
+            ? "sb-glow border-[color:var(--correct)]/60"
+            : writePhase === "wrong"
+              ? "sb-shake border-red-500/50"
+              : "border-rule"
+        }`}
+      >
+        <textarea
+          value={writeAnswer}
+          onChange={(e) => onChangeAnswer(e.target.value)}
+          disabled={writePhase === "correct"}
+          autoComplete="off"
+          autoCorrect="off"
+          autoCapitalize="off"
+          spellCheck={false}
+          autoFocus={writePhase !== "correct"}
+          rows={3}
+          aria-label="Escribe la frase completa en español"
+          placeholder="Escribe aquí…"
+          className={`w-full resize-none rounded-xl border bg-surface px-4 py-3.5 font-display text-lg leading-relaxed text-ink outline-none transition-colors placeholder:text-ink-mute/70 focus:border-accent/70 disabled:cursor-default ${
+            writePhase === "correct"
+              ? "border-[color:var(--correct)]/50 bg-[color:var(--correct)]/10"
+              : writePhase === "wrong"
+                ? "border-red-500 bg-red-500/10"
+                : "border-accent/35"
+          }`}
+        />
+      </form>
+
+      <p className="mono-cap text-ink-mute">Sin pistas ni banco de palabras</p>
+
+      <div aria-live="polite">
+        {writePhase === "correct" && (
+          <div className="fade-rise rounded-lg border border-[color:var(--correct)]/40 bg-surface p-4 space-y-2">
+            <div className="flex items-center justify-between gap-3">
+              <p className="mono-cap" style={{ color: "var(--correct)" }}>Sí, eso es.</p>
+              <PlayButton text={card.displayAnswer} label={`Escuchar: ${card.displayAnswer}`} />
+            </div>
+            <p className="text-display-md text-ink">{card.displayAnswer}</p>
+          </div>
+        )}
+        {writePhase === "wrong" && (
+          <p className="text-sm text-ink-soft">Casi. Revisa las palabras y el orden.</p>
+        )}
+      </div>
+
+      <div className="grid grid-cols-2 gap-3">
+        <button
+          type="button"
+          onClick={onClear}
+          disabled={writePhase === "correct" || !hasText}
+          className="flex items-center justify-center gap-2 rounded-[14px] border border-rule px-4 py-3.5 text-ink-soft transition-colors hover:border-accent/50 hover:text-accent disabled:opacity-40 disabled:hover:border-rule disabled:hover:text-ink-soft"
+        >
+          <IconReset />
+          <span className="font-display text-lg">Borrar</span>
+        </button>
+
+        {writePhase === "correct" ? (
+          <button
+            type="button"
+            onClick={onNext}
+            className="btn-primary btn-primary--spectrum justify-center gap-3"
+            style={{ padding: "14px 18px" }}
+          >
+            <span className="lab">Ahora dilo tú</span>
+            <span aria-hidden>→</span>
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={onCheck}
+            disabled={!hasText}
             className="btn-primary btn-primary--spectrum justify-center gap-3 disabled:opacity-50"
             style={{ padding: "14px 18px" }}
           >
