@@ -1,13 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import type { CSSProperties, ReactNode } from "react";
+import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import { PageHeader, Wordmark } from "@/components/PageHeader";
 import { Hue, Ledger, ZoneIntro, ZoneRow } from "@/components/ZoneList";
 import { games } from "@/content/games";
 import { speakDays } from "@/content/prompts";
 import { practiceHubItems } from "@/content/practice";
+import { readingDays } from "@/content/readings";
 import { useStats } from "@/hooks/useStats";
+import { readingDoneToday } from "@/lib/store";
 
 const stroke = {
   fill: "none",
@@ -23,6 +25,12 @@ const practiceIcons: Record<string, ReactNode> = {
       <rect x="4" y="5" width="16" height="16" rx="2" />
       <path d="M4 9h16M8 3v4M16 3v4" />
       <path d="M8 13h2v2H8zM11 13h2v2h-2zM14 13h2v2h-2z" />
+    </svg>
+  ),
+  read: (
+    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
+      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
     </svg>
   ),
 };
@@ -58,12 +66,31 @@ const gameIcons: Record<string, ReactNode> = {
 
 export default function PracticeHubPage() {
   const { stats, hydrated: statsHydrated } = useStats();
+  const [readDoneToday, setReadDoneToday] = useState(false);
   const totalDays = speakDays.length;
+  const totalReadings = readingDays.length;
+
+  useEffect(() => {
+    setReadDoneToday(readingDoneToday());
+    function onStats() {
+      setReadDoneToday(readingDoneToday());
+    }
+    window.addEventListener("pues:stats-change", onStats);
+    return () => window.removeEventListener("pues:stats-change", onStats);
+  }, []);
+
   const items = practiceHubItems(
     statsHydrated
       ? {
-          current: (stats.currentDayIndex % totalDays) + 1,
-          total: totalDays,
+          planDay: {
+            current: (stats.currentDayIndex % totalDays) + 1,
+            total: totalDays,
+          },
+          readingDay: {
+            current: (stats.currentDayIndex % totalReadings) + 1,
+            total: totalReadings,
+            doneToday: readDoneToday,
+          },
         }
       : undefined,
   );
