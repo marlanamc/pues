@@ -305,6 +305,30 @@ export function isSbLevelUnlocked(
   return getSbProgress()[prevName]?.completed === true;
 }
 
+/* ---------- Reading log ("La lectura" completion) ---------- */
+
+const K_READING_LOG = "pues:reading-log";
+
+/** Returns the list of YYYY-MM-DD dates the user marked a reading as done. */
+export function getReadingLog(): string[] {
+  return read<string[]>(K_READING_LOG, []);
+}
+
+/** Marks today's reading as done; returns the updated log. */
+export function markReadingDone(): string[] {
+  const today = todayKey();
+  const log = getReadingLog();
+  if (log.includes(today)) return log;
+  const next = [...log, today];
+  write(K_READING_LOG, next);
+  if (isBrowser()) window.dispatchEvent(new Event("pues:stats-change"));
+  return next;
+}
+
+export function readingDoneToday(): boolean {
+  return getReadingLog().includes(todayKey());
+}
+
 /* ---------- Audio ---------- */
 
 export function getAudioSpeed(): AudioSpeed {

@@ -7,7 +7,7 @@ import { NotebookAside } from "@/components/NotebookAside";
 import { navItems } from "@/content/nav";
 import { speakDayForIndex } from "@/content/prompts";
 import { totalDays } from "@/content/frames";
-import { clearDraft } from "@/lib/store";
+import { clearDraft, readingDoneToday } from "@/lib/store";
 import { useStats } from "@/hooks/useStats";
 import { useThoughts } from "@/hooks/useThoughts";
 import {
@@ -44,6 +44,13 @@ export default function HomePage() {
   const today = new Date().toISOString().slice(0, 10);
   const practicedToday = stats.lastSessionDate === today;
   const flaggedCount = thoughts.filter((t) => t.practiceFlag === true).length;
+  const [readDoneToday, setReadDoneToday] = useState(false);
+  useEffect(() => {
+    setReadDoneToday(readingDoneToday());
+    function onStats() { setReadDoneToday(readingDoneToday()); }
+    window.addEventListener("pues:stats-change", onStats);
+    return () => window.removeEventListener("pues:stats-change", onStats);
+  }, []);
 
   const streak = useMemo(
     () => currentStreak(practiceDatesFromThoughts(thoughts)),
@@ -201,6 +208,12 @@ export default function HomePage() {
                   label="Juega un rato"
                   href="/practice/games"
                   state="pending"
+                />
+                <PlanStep
+                  num={flaggedCount > 0 ? 4 : 3}
+                  label="Lee antes de dormir"
+                  href="/read"
+                  state={readDoneToday ? "done" : "pending"}
                 />
               </ol>
 
