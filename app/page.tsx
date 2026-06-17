@@ -6,6 +6,7 @@ import { PageHeader, Wordmark } from "@/components/PageHeader";
 import { NotebookAside } from "@/components/NotebookAside";
 import { navItems } from "@/content/nav";
 import { speakDayForIndex } from "@/content/prompts";
+import { totalDays } from "@/content/frames";
 import { clearDraft } from "@/lib/store";
 import { useStats } from "@/hooks/useStats";
 import { useThoughts } from "@/hooks/useThoughts";
@@ -39,6 +40,10 @@ export default function HomePage() {
 
   const day = speakDayForIndex(stats.currentDayIndex);
   const dayNum = day.day.toString().padStart(2, "0");
+
+  const today = new Date().toISOString().slice(0, 10);
+  const practicedToday = stats.lastSessionDate === today;
+  const flaggedCount = thoughts.filter((t) => t.practiceFlag === true).length;
 
   const streak = useMemo(
     () => currentStreak(practiceDatesFromThoughts(thoughts)),
@@ -127,6 +132,88 @@ export default function HomePage() {
               </svg>
             </Link>
 
+            {/* Tu plan de hoy — a focused 2-3 step sequence for the day. */}
+            <section aria-label="Tu plan de hoy" style={{ marginTop: 28 }}>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "baseline",
+                  justifyContent: "space-between",
+                  marginBottom: 10,
+                }}
+              >
+                <p className="mono-cap">Tu plan de hoy</p>
+                <Link
+                  href="/practice/plan"
+                  className="mono-cap"
+                  style={{ color: "var(--ink-mute)" }}
+                >
+                  Día {String(stats.currentDayIndex + 1).padStart(2, "0")} · {totalDays} días
+                </Link>
+              </div>
+
+              <div
+                style={{
+                  height: 2,
+                  background: "var(--rule)",
+                  borderRadius: 2,
+                  marginBottom: 14,
+                  overflow: "hidden",
+                }}
+              >
+                <div
+                  style={{
+                    height: "100%",
+                    borderRadius: 2,
+                    background: "var(--accent)",
+                    width: `${Math.max(3, ((stats.currentDayIndex + 1) / totalDays) * 100)}%`,
+                  }}
+                />
+              </div>
+
+              <ol
+                style={{
+                  listStyle: "none",
+                  padding: 0,
+                  margin: 0,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 8,
+                }}
+              >
+                <PlanStep
+                  num={1}
+                  label="Di tu frase del día"
+                  href="/flow/speak"
+                  state={practicedToday ? "done" : "active"}
+                  onClick={practicedToday ? undefined : () => clearDraft()}
+                />
+                {flaggedCount > 0 && (
+                  <PlanStep
+                    num={2}
+                    label={`Repasa ${flaggedCount} ${flaggedCount === 1 ? "frase marcada" : "frases marcadas"}`}
+                    href="/thoughts"
+                    state="pending"
+                  />
+                )}
+                <PlanStep
+                  num={flaggedCount > 0 ? 3 : 2}
+                  label="Juega un rato"
+                  href="/practice/games"
+                  state="pending"
+                />
+              </ol>
+
+              {practicedToday && (
+                <p
+                  className="mono-cap"
+                  style={{ marginTop: 12, color: "var(--accent)" }}
+                >
+                  Frase de hoy · hecha ✓
+                </p>
+              )}
+            </section>
+
             {/* Cuatro caminos — the colorful map, one path per zone. */}
             <section style={{ marginTop: 36 }}>
               <p className="mono-cap">Cuatro caminos</p>
@@ -198,5 +285,118 @@ export default function HomePage() {
         </div>
       </div>
     </>
+  );
+}
+
+function PlanStep({
+  num,
+  label,
+  href,
+  state,
+  onClick,
+}: {
+  num: number;
+  label: string;
+  href: string;
+  state: "done" | "active" | "pending";
+  onClick?: () => void;
+}) {
+  return (
+    <li>
+      <Link
+        href={href}
+        onClick={onClick}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 12,
+          padding: "10px 14px",
+          borderRadius: 10,
+          background:
+            state === "done"
+              ? "color-mix(in oklab, var(--accent) 8%, var(--surface))"
+              : "var(--surface)",
+          border: `1px solid ${
+            state === "done"
+              ? "color-mix(in oklab, var(--accent) 22%, transparent)"
+              : "var(--rule)"
+          }`,
+          opacity: state === "pending" ? 0.55 : 1,
+          textDecoration: "none",
+        }}
+      >
+        <span
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: 26,
+            height: 26,
+            borderRadius: "50%",
+            flexShrink: 0,
+            background: state === "done" ? "var(--accent)" : "transparent",
+            border:
+              state === "done"
+                ? "none"
+                : state === "active"
+                  ? "1.5px solid var(--ink-soft)"
+                  : "1px solid var(--rule)",
+            color:
+              state === "done"
+                ? "var(--bg)"
+                : state === "active"
+                  ? "var(--ink)"
+                  : "var(--ink-mute)",
+            fontFamily: "var(--font-mono)",
+            fontSize: 11,
+          }}
+          aria-hidden
+        >
+          {state === "done" ? (
+            <svg
+              viewBox="0 0 24 24"
+              width="13"
+              height="13"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2.5}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M5 12.5 10 17l9-10" />
+            </svg>
+          ) : (
+            num
+          )}
+        </span>
+        <span
+          className="font-display"
+          style={{
+            flex: 1,
+            fontSize: 16,
+            lineHeight: 1.2,
+            color: state === "pending" ? "var(--ink-soft)" : "var(--ink)",
+          }}
+        >
+          {label}
+        </span>
+        {state !== "done" && (
+          <svg
+            viewBox="0 0 24 24"
+            width="15"
+            height="15"
+            aria-hidden
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={1.5}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            style={{ color: "var(--ink-mute)", flexShrink: 0 }}
+          >
+            <path d="M9 6l6 6-6 6" />
+          </svg>
+        )}
+      </Link>
+    </li>
   );
 }

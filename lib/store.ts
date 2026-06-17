@@ -165,6 +165,16 @@ export function completeCurrentDay(totalDays: number): SessionStats {
   return next;
 }
 
+export function setCurrentDayIndex(index: number): SessionStats {
+  const prev = getStats();
+  const next: SessionStats = { ...prev, currentDayIndex: index };
+  write(K_STATS, next);
+  if (isBrowser()) {
+    window.dispatchEvent(new Event("pues:stats-change"));
+  }
+  return next;
+}
+
 function bumpStats(thought: Thought) {
   const prev = getStats();
   const today = thought.createdAt.slice(0, 10);

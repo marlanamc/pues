@@ -5,7 +5,7 @@ import { useState } from "react";
 import type { CSSProperties } from "react";
 import { speakDays } from "@/content/prompts";
 import { useStats } from "@/hooks/useStats";
-import { clearDraft } from "@/lib/store";
+import { clearDraft, setCurrentDayIndex } from "@/lib/store";
 
 const totalDays = speakDays.length;
 
@@ -224,6 +224,47 @@ export function PlanSchedule() {
                         <path d="M5 12h14M13 6l6 6-6 6" />
                       </svg>
                     </Link>
+                  )}
+                  {state === "upcoming" && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setCurrentDayIndex(i);
+                        clearDraft();
+                        setOpen(null);
+                      }}
+                      style={{
+                        marginTop: 16,
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: 6,
+                        fontFamily: "var(--font-mono)",
+                        fontSize: 11,
+                        letterSpacing: "0.08em",
+                        textTransform: "uppercase",
+                        color: "var(--zone)",
+                        background: "transparent",
+                        border: "1px solid color-mix(in oklab, var(--zone) 30%, transparent)",
+                        borderRadius: 7,
+                        padding: "7px 12px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Empezar desde aquí
+                      <svg
+                        viewBox="0 0 24 24"
+                        width="13"
+                        height="13"
+                        aria-hidden
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth={1.8}
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M5 12h14M13 6l6 6-6 6" />
+                      </svg>
+                    </button>
                   )}
                 </div>
               )}
