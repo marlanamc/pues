@@ -52,6 +52,43 @@ export default function HomePage() {
     return () => window.removeEventListener("pues:stats-change", onStats);
   }, []);
 
+  const planSteps = useMemo(() => {
+    return [
+      {
+        key: "speak",
+        num: 1,
+        label: "Di tu frase del día",
+        href: "/flow/speak",
+        state: practicedToday ? ("done" as const) : ("active" as const),
+        onClick: practicedToday ? undefined : () => clearDraft(),
+      },
+      {
+        key: "review",
+        num: 2,
+        label:
+          flaggedCount > 0
+            ? `Repasa ${flaggedCount} ${flaggedCount === 1 ? "frase marcada" : "frases marcadas"}`
+            : "Repasa frases marcadas",
+        href: "/thoughts",
+        state: flaggedCount > 0 ? ("pending" as const) : ("done" as const),
+      },
+      {
+        key: "play",
+        num: 3,
+        label: "Juega un rato",
+        href: "/practice/games",
+        state: "pending" as const,
+      },
+      {
+        key: "read",
+        num: 4,
+        label: "Lee antes de dormir",
+        href: "/read",
+        state: readDoneToday ? ("done" as const) : ("pending" as const),
+      },
+    ];
+  }, [practicedToday, flaggedCount, readDoneToday]);
+
   const streak = useMemo(
     () => currentStreak(practiceDatesFromThoughts(thoughts)),
     [thoughts]
@@ -139,7 +176,7 @@ export default function HomePage() {
               </svg>
             </Link>
 
-            {/* Tu plan de hoy — a focused 2-3 step sequence for the day. */}
+            {/* Tu plan de hoy — speak, optional review, play, read. */}
             <section aria-label="Tu plan de hoy" style={{ marginTop: 28 }}>
               <div
                 style={{
@@ -188,33 +225,16 @@ export default function HomePage() {
                   gap: 8,
                 }}
               >
-                <PlanStep
-                  num={1}
-                  label="Di tu frase del día"
-                  href="/flow/speak"
-                  state={practicedToday ? "done" : "active"}
-                  onClick={practicedToday ? undefined : () => clearDraft()}
-                />
-                {flaggedCount > 0 && (
+                {planSteps.map((step) => (
                   <PlanStep
-                    num={2}
-                    label={`Repasa ${flaggedCount} ${flaggedCount === 1 ? "frase marcada" : "frases marcadas"}`}
-                    href="/thoughts"
-                    state="pending"
+                    key={step.key}
+                    num={step.num}
+                    label={step.label}
+                    href={step.href}
+                    state={step.state}
+                    onClick={step.key === "speak" ? step.onClick : undefined}
                   />
-                )}
-                <PlanStep
-                  num={flaggedCount > 0 ? 3 : 2}
-                  label="Juega un rato"
-                  href="/practice/games"
-                  state="pending"
-                />
-                <PlanStep
-                  num={flaggedCount > 0 ? 4 : 3}
-                  label="Lee antes de dormir"
-                  href="/read"
-                  state={readDoneToday ? "done" : "pending"}
-                />
+                ))}
               </ol>
 
               {practicedToday && (

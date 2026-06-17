@@ -5,11 +5,14 @@ import { useEffect, useState } from "react";
 import { PageHeader, Wordmark } from "@/components/PageHeader";
 import { readingForIndex } from "@/content/readings";
 import { totalDays } from "@/content/frames";
+import { usePhraseEnglishVisible } from "@/hooks/usePhraseEnglishVisible";
 import { useStats } from "@/hooks/useStats";
 import { markReadingDone, readingDoneToday } from "@/lib/store";
 
 export default function ReadPage() {
   const { stats } = useStats();
+  const { visible: translationsVisible, setVisible: setTranslationsVisible } =
+    usePhraseEnglishVisible();
   const [revealed, setRevealed] = useState<Set<number>>(new Set());
   const [done, setDone] = useState(false);
 
@@ -55,6 +58,38 @@ export default function ReadPage() {
         }
       />
 
+      <div className="flex items-center justify-end" style={{ marginTop: 12, marginBottom: 8 }}>
+        <div
+          className="inline-flex shrink-0 rounded-full border border-rule bg-bg/60 p-1"
+          aria-label="English translations"
+          role="group"
+        >
+          {(
+            [
+              { value: false, label: "Hide" },
+              { value: true, label: "Show" },
+            ] as const
+          ).map((option) => {
+            const active = translationsVisible === option.value;
+            return (
+              <button
+                key={option.label}
+                type="button"
+                onClick={() => setTranslationsVisible(option.value)}
+                aria-pressed={active}
+                className="min-w-14 rounded-full px-3 py-1.5 text-[0.6875rem] font-medium transition-colors"
+                style={{
+                  background: active ? "var(--accent)" : "transparent",
+                  color: active ? "var(--bg)" : "var(--ink-mute)",
+                }}
+              >
+                {option.label}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
       <p
         className="font-display"
         style={{
@@ -96,12 +131,14 @@ export default function ReadPage() {
               >
                 {w.es}
               </p>
-              <p
-                className="mono-cap"
-                style={{ color: "var(--ink-mute)", marginTop: 4 }}
-              >
-                {w.en}
-              </p>
+              {translationsVisible && (
+                <p
+                  className="mono-cap"
+                  style={{ color: "var(--ink-mute)", marginTop: 4 }}
+                >
+                  {w.en}
+                </p>
+              )}
               <p
                 className="font-display"
                 style={{
@@ -123,9 +160,15 @@ export default function ReadPage() {
 
       {/* ── Diálogo ── */}
       <section style={{ marginTop: 32, marginBottom: 48 }}>
-        <p className="mono-cap" style={{ marginBottom: 4 }}>
-          Diálogo
-        </p>
+        <div
+          className="flex items-baseline justify-between gap-4"
+          style={{ marginBottom: 4 }}
+        >
+          <p className="mono-cap">Diálogo</p>
+          {!translationsVisible && (
+            <p className="text-[0.6875rem] text-ink-mute">Toca una línea para ver la traducción</p>
+          )}
+        </div>
         <p
           className="font-display"
           style={{
@@ -147,58 +190,71 @@ export default function ReadPage() {
 
         <ol style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 20 }}>
           {day.dialogue.lines.map((line, i) => {
-            const isRevealed = revealed.has(i);
+            const showEnglish = translationsVisible || revealed.has(i);
+            const lineStyle = {
+              width: "100%",
+              textAlign: "left" as const,
+              display: "flex",
+              flexDirection: "column" as const,
+              gap: 6,
+            };
+            const content = (
+              <>
+                <div style={{ display: "flex", alignItems: "baseline", gap: 10 }}>
+                  <span
+                    className="mono-cap"
+                    style={{
+                      flexShrink: 0,
+                      color: line.speaker === "A" ? "var(--accent)" : "var(--ink-mute)",
+                      minWidth: 14,
+                    }}
+                  >
+                    {line.speaker}
+                  </span>
+                  <p
+                    className="font-display"
+                    style={{ fontSize: 18, lineHeight: 1.4, color: "var(--ink)" }}
+                  >
+                    {line.es}
+                  </p>
+                </div>
+                {showEnglish && (
+                  <p
+                    className="font-display"
+                    style={{
+                      fontStyle: "italic",
+                      fontSize: 14,
+                      lineHeight: 1.4,
+                      color: "var(--ink-soft)",
+                      paddingLeft: 24,
+                    }}
+                  >
+                    {line.en}
+                  </p>
+                )}
+              </>
+            );
+
             return (
               <li key={i}>
-                <button
-                  type="button"
-                  onClick={() => toggleLine(i)}
-                  style={{
-                    width: "100%",
-                    textAlign: "left",
-                    background: "none",
-                    border: "none",
-                    padding: 0,
-                    cursor: "pointer",
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: 6,
-                  }}
-                  aria-expanded={isRevealed}
-                >
-                  <div style={{ display: "flex", alignItems: "baseline", gap: 10 }}>
-                    <span
-                      className="mono-cap"
-                      style={{
-                        flexShrink: 0,
-                        color: line.speaker === "A" ? "var(--accent)" : "var(--ink-mute)",
-                        minWidth: 14,
-                      }}
-                    >
-                      {line.speaker}
-                    </span>
-                    <p
-                      className="font-display"
-                      style={{ fontSize: 18, lineHeight: 1.4, color: "var(--ink)" }}
-                    >
-                      {line.es}
-                    </p>
-                  </div>
-                  {isRevealed && (
-                    <p
-                      className="font-display"
-                      style={{
-                        fontStyle: "italic",
-                        fontSize: 14,
-                        lineHeight: 1.4,
-                        color: "var(--ink-soft)",
-                        paddingLeft: 24,
-                      }}
-                    >
-                      {line.en}
-                    </p>
-                  )}
-                </button>
+                {translationsVisible ? (
+                  <div style={lineStyle}>{content}</div>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => toggleLine(i)}
+                    style={{
+                      ...lineStyle,
+                      background: "none",
+                      border: "none",
+                      padding: 0,
+                      cursor: "pointer",
+                    }}
+                    aria-expanded={showEnglish}
+                  >
+                    {content}
+                  </button>
+                )}
               </li>
             );
           })}
