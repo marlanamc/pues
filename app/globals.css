@@ -419,6 +419,21 @@ body > main {
   filter: brightness(0.92);
 }
 
+/* Centered label + arrow — Sentence Builder action row (half-width grid cell). */
+.btn-primary.btn-primary--center {
+  justify-content: center;
+  gap: 0.75rem;
+  text-align: center;
+}
+
+.btn-primary.btn-primary--center .lab {
+  white-space: nowrap;
+}
+
+.sb-step-actions button {
+  min-height: 52px;
+}
+
 .btn-primary .lab {
   font-family: var(--font-display);
   font-size: 1.1875rem; /* 19px */
@@ -1059,6 +1074,15 @@ a {
     to {
       opacity: 1;
       transform: none;
+    }
+  }
+  .fade-in {
+    opacity: 0;
+    animation: fade-in 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+  }
+  @keyframes fade-in {
+    to {
+      opacity: 1;
     }
   }
 }

@@ -543,7 +543,7 @@ export function SentenceBuilderGame({
   ];
 
   return (
-    <div className="space-y-3.5">
+    <div className="space-y-4 pb-2">
       <GlowKeyframes />
 
       {/* ── Top bar ────────────────────────────────────────────────── */}
@@ -681,8 +681,8 @@ export function SentenceBuilderGame({
         />
       )}
 
-      {/* ── Mini progress card ──────────────────────────────────────── */}
-      <div className="flex items-center gap-4 rounded-lg border border-rule bg-surface px-4 py-3">
+      {/* ── Mini progress card (desktop — streak already in header on mobile) ── */}
+      <div className="hidden lg:flex items-center gap-4 rounded-lg border border-rule bg-surface px-4 py-3">
         <div className="flex items-center gap-2 px-1">
           <span className="mono-cap">Racha</span>
           <span className="flex items-center gap-1 font-display text-lg text-accent">
@@ -751,7 +751,7 @@ function BuildStep({
   const bank = tiles.filter((t) => !inAnswer.has(t.id));
 
   return (
-    <>
+    <div className="space-y-4">
       {/* Prompt + Pista */}
       <div className="space-y-1.5">
         <div className="flex items-start justify-between gap-3">
@@ -850,9 +850,9 @@ function BuildStep({
       {/* Feedback */}
       <div aria-live="polite">
         {phase === "correct" && (
-          <div className="fade-rise rounded-lg border border-[color:var(--correct)]/40 bg-surface p-4 space-y-2">
-            <div className="flex items-center justify-between gap-3">
-              <p className="mono-cap" style={{ color: "var(--correct)" }}>¡Perfecto!</p>
+          <div className="fade-in rounded-lg border border-[color:var(--correct)]/40 bg-surface p-4 space-y-2.5">
+            <div className="flex items-start justify-between gap-4">
+              <p className="mono-cap pt-0.5" style={{ color: "var(--correct)" }}>¡Perfecto!</p>
               <PlayButton text={card.displayAnswer} label={`Escuchar: ${card.displayAnswer}`} />
             </div>
             <p className="text-display-md text-ink">{card.displayAnswer}</p>
@@ -865,12 +865,12 @@ function BuildStep({
       </div>
 
       {/* Actions */}
-      <div className="grid grid-cols-2 gap-3">
+      <div className="sb-step-actions mt-1 grid grid-cols-2 gap-3 items-stretch">
         <button
           type="button"
           onClick={onClear}
           disabled={phase === "correct" || answer.length === 0}
-          className="flex items-center justify-center gap-2 rounded-[14px] border border-rule px-4 py-3.5 text-ink-soft transition-colors hover:border-accent/50 hover:text-accent disabled:opacity-40 disabled:hover:border-rule disabled:hover:text-ink-soft"
+          className="flex items-center justify-center gap-2 rounded-[14px] border border-rule px-4 py-3.5 text-ink transition-colors hover:border-accent/50 hover:text-accent disabled:opacity-40 disabled:hover:border-rule disabled:hover:text-ink-soft"
         >
           <IconReset />
           <span className="font-display text-lg">Borrar</span>
@@ -880,7 +880,7 @@ function BuildStep({
           <button
             type="button"
             onClick={onNext}
-            className="btn-primary btn-primary--spectrum justify-center gap-3"
+            className="btn-primary btn-primary--spectrum btn-primary--center"
             style={{ padding: "14px 18px" }}
           >
             <span className="lab">{isLadder ? "Recordar" : "Siguiente"}</span>
@@ -891,7 +891,7 @@ function BuildStep({
             type="button"
             onClick={onCheck}
             disabled={answer.length === 0}
-            className="btn-primary btn-primary--spectrum justify-center gap-3 disabled:opacity-50"
+            className="btn-primary btn-primary--spectrum btn-primary--center disabled:opacity-50"
             style={{ padding: "14px 18px" }}
           >
             <span className="lab">Comprobar</span>
@@ -899,7 +899,7 @@ function BuildStep({
           </button>
         )}
       </div>
-    </>
+    </div>
   );
 }
 
@@ -935,7 +935,7 @@ function RecallStep({
   let blankIndex = 0;
 
   return (
-    <>
+    <div className="space-y-4">
       {/* Prompt */}
       <div className="space-y-1.5">
         <h1 className="text-display-prompt text-ink">{card.promptEnglish}</h1>
@@ -1028,9 +1028,9 @@ function RecallStep({
       {/* Feedback */}
       <div aria-live="polite">
         {recallPhase === "correct" && (
-          <div className="fade-rise rounded-lg border border-[color:var(--correct)]/40 bg-surface p-4 space-y-2">
-            <div className="flex items-center justify-between gap-3">
-              <p className="mono-cap" style={{ color: "var(--correct)" }}>Sí, eso es.</p>
+          <div className="fade-in rounded-lg border border-[color:var(--correct)]/40 bg-surface p-4 space-y-2.5">
+            <div className="flex items-start justify-between gap-4">
+              <p className="mono-cap pt-0.5" style={{ color: "var(--correct)" }}>Sí, eso es.</p>
               <PlayButton text={card.displayAnswer} label={`Escuchar: ${card.displayAnswer}`} />
             </div>
             <p className="text-display-md text-ink">{card.displayAnswer}</p>
@@ -1042,12 +1042,12 @@ function RecallStep({
       </div>
 
       {/* Actions */}
-      <div className="grid grid-cols-2 gap-3">
+      <div className="sb-step-actions mt-1 grid grid-cols-2 gap-3 items-stretch">
         <button
           type="button"
           onClick={onClear}
           disabled={recallPhase === "correct" || !recallAnswer.some((w) => w.length > 0)}
-          className="flex items-center justify-center gap-2 rounded-[14px] border border-rule px-4 py-3.5 text-ink-soft transition-colors hover:border-accent/50 hover:text-accent disabled:opacity-40 disabled:hover:border-rule disabled:hover:text-ink-soft"
+          className="flex items-center justify-center gap-2 rounded-[14px] border border-rule px-4 py-3.5 text-ink transition-colors hover:border-accent/50 hover:text-accent disabled:opacity-40 disabled:hover:border-rule disabled:hover:text-ink-soft"
         >
           <IconReset />
           <span className="font-display text-lg">Borrar</span>
@@ -1057,10 +1057,10 @@ function RecallStep({
           <button
             type="button"
             onClick={onNext}
-            className="btn-primary btn-primary--spectrum justify-center gap-3"
+            className="btn-primary btn-primary--spectrum btn-primary--center"
             style={{ padding: "14px 18px" }}
           >
-            <span className="lab">Escribe la frase</span>
+            <span className="lab">Escribir</span>
             <span aria-hidden>→</span>
           </button>
         ) : (
@@ -1068,7 +1068,7 @@ function RecallStep({
             type="button"
             onClick={onCheck}
             disabled={!allFilled}
-            className="btn-primary btn-primary--spectrum justify-center gap-3 disabled:opacity-50"
+            className="btn-primary btn-primary--spectrum btn-primary--center disabled:opacity-50"
             style={{ padding: "14px 18px" }}
           >
             <span className="lab">Comprobar</span>
@@ -1076,7 +1076,7 @@ function RecallStep({
           </button>
         )}
       </div>
-    </>
+    </div>
   );
 }
 
@@ -1102,7 +1102,7 @@ function WriteStep({
   const hasText = writeAnswer.trim().length > 0;
 
   return (
-    <>
+    <div className="space-y-4">
       <div className="space-y-1.5">
         <h1 className="text-display-prompt text-ink">{card.promptEnglish}</h1>
         <p className="text-sm text-ink-mute">Escribe la frase completa en español, sin ayuda.</p>
@@ -1148,9 +1148,9 @@ function WriteStep({
 
       <div aria-live="polite">
         {writePhase === "correct" && (
-          <div className="fade-rise rounded-lg border border-[color:var(--correct)]/40 bg-surface p-4 space-y-2">
-            <div className="flex items-center justify-between gap-3">
-              <p className="mono-cap" style={{ color: "var(--correct)" }}>Sí, eso es.</p>
+          <div className="fade-in rounded-lg border border-[color:var(--correct)]/40 bg-surface p-4 space-y-2.5">
+            <div className="flex items-start justify-between gap-4">
+              <p className="mono-cap pt-0.5" style={{ color: "var(--correct)" }}>Sí, eso es.</p>
               <PlayButton text={card.displayAnswer} label={`Escuchar: ${card.displayAnswer}`} />
             </div>
             <p className="text-display-md text-ink">{card.displayAnswer}</p>
@@ -1161,12 +1161,12 @@ function WriteStep({
         )}
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="sb-step-actions mt-1 grid grid-cols-2 gap-3 items-stretch">
         <button
           type="button"
           onClick={onClear}
           disabled={writePhase === "correct" || !hasText}
-          className="flex items-center justify-center gap-2 rounded-[14px] border border-rule px-4 py-3.5 text-ink-soft transition-colors hover:border-accent/50 hover:text-accent disabled:opacity-40 disabled:hover:border-rule disabled:hover:text-ink-soft"
+          className="flex items-center justify-center gap-2 rounded-[14px] border border-rule px-4 py-3.5 text-ink transition-colors hover:border-accent/50 hover:text-accent disabled:opacity-40 disabled:hover:border-rule disabled:hover:text-ink-soft"
         >
           <IconReset />
           <span className="font-display text-lg">Borrar</span>
@@ -1176,10 +1176,10 @@ function WriteStep({
           <button
             type="button"
             onClick={onNext}
-            className="btn-primary btn-primary--spectrum justify-center gap-3"
+            className="btn-primary btn-primary--spectrum btn-primary--center"
             style={{ padding: "14px 18px" }}
           >
-            <span className="lab">Ahora dilo tú</span>
+            <span className="lab">Decir</span>
             <span aria-hidden>→</span>
           </button>
         ) : (
@@ -1187,7 +1187,7 @@ function WriteStep({
             type="button"
             onClick={onCheck}
             disabled={!hasText}
-            className="btn-primary btn-primary--spectrum justify-center gap-3 disabled:opacity-50"
+            className="btn-primary btn-primary--spectrum btn-primary--center disabled:opacity-50"
             style={{ padding: "14px 18px" }}
           >
             <span className="lab">Comprobar</span>
@@ -1195,7 +1195,7 @@ function WriteStep({
           </button>
         )}
       </div>
-    </>
+    </div>
   );
 }
 
@@ -1219,7 +1219,7 @@ function SayStep({
   onContinue: () => void;
 }) {
   return (
-    <>
+    <div className="space-y-4">
       {/* Prompt */}
       <div className="space-y-2">
         <p className="mono-cap" style={{ color: "var(--accent)" }}>DILO EN VOZ ALTA</p>
@@ -1229,7 +1229,7 @@ function SayStep({
 
       {/* Spanish reveal */}
       {showSpanish && (
-        <div className="fade-rise rounded-lg border border-rule bg-surface p-4 space-y-1">
+        <div className="fade-in rounded-lg border border-rule bg-surface p-4 space-y-1">
           <p className="mono-cap text-ink-mute">La frase</p>
           <p className="text-display-md text-ink">{say.displayAnswer}</p>
         </div>
@@ -1237,7 +1237,7 @@ function SayStep({
 
       {/* "Una vez más" nudge after confirming */}
       {showSaidAgain && (
-        <div className="fade-rise rounded-lg border border-[color:var(--correct)]/30 bg-surface p-4 space-y-1">
+        <div className="fade-in rounded-lg border border-[color:var(--correct)]/30 bg-surface p-4 space-y-1">
           <p className="mono-cap" style={{ color: "var(--correct)" }}>Bien.</p>
           <p className="text-sm text-ink-soft">Una vez más, un poco más rápido.</p>
         </div>
@@ -1268,20 +1268,20 @@ function SayStep({
           <button
             type="button"
             onClick={onSaidIt}
-            className="btn-primary btn-primary--spectrum justify-center gap-3"
+            className="btn-primary btn-primary--spectrum btn-primary--center"
             style={{ padding: "14px 18px" }}
           >
             <span className="lab">Ya lo dije</span>
             <span aria-hidden>✓</span>
           </button>
         ) : (
-          <div className="grid grid-cols-2 gap-3">
+          <div className="sb-step-actions grid grid-cols-2 gap-3 items-stretch">
             <button
               type="button"
               onClick={() => {
                 // Replay audio and reset "said again" state slightly for encouragement
               }}
-              className="flex items-center justify-center gap-2 rounded-[14px] border border-rule px-4 py-3.5 font-display text-lg text-ink-soft transition-colors hover:border-accent/50 hover:text-accent"
+              className="flex items-center justify-center gap-2 rounded-[14px] border border-rule px-4 py-3.5 font-display text-lg text-ink transition-colors hover:border-accent/50 hover:text-accent"
             >
               <IconRepeat />
               Repetir
@@ -1289,7 +1289,7 @@ function SayStep({
             <button
               type="button"
               onClick={onContinue}
-              className="btn-primary btn-primary--spectrum justify-center gap-3"
+              className="btn-primary btn-primary--spectrum btn-primary--center"
               style={{ padding: "14px 18px" }}
             >
               <span className="lab">Continuar</span>
@@ -1298,7 +1298,7 @@ function SayStep({
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 }
 
@@ -1334,7 +1334,7 @@ function RemixStep({
   remixTileById: (id: number) => Tile;
 }) {
   return (
-    <>
+    <div className="space-y-4">
       {/* Prompt */}
       <div className="space-y-1.5">
         <p className="mono-cap" style={{ color: "var(--accent)" }}>CAMBIA UNA COSA</p>
@@ -1406,9 +1406,9 @@ function RemixStep({
       {/* Feedback */}
       <div aria-live="polite">
         {remixPhase === "correct" && (
-          <div className="fade-rise rounded-lg border border-[color:var(--correct)]/40 bg-surface p-4 space-y-2">
-            <div className="flex items-center justify-between gap-3">
-              <p className="mono-cap" style={{ color: "var(--correct)" }}>¡Perfecto!</p>
+          <div className="fade-in rounded-lg border border-[color:var(--correct)]/40 bg-surface p-4 space-y-2.5">
+            <div className="flex items-start justify-between gap-4">
+              <p className="mono-cap pt-0.5" style={{ color: "var(--correct)" }}>¡Perfecto!</p>
               <PlayButton text={remix.displayAnswer} label={`Escuchar: ${remix.displayAnswer}`} />
             </div>
             <p className="text-display-md text-ink">{remix.displayAnswer}</p>
@@ -1421,12 +1421,12 @@ function RemixStep({
       </div>
 
       {/* Actions */}
-      <div className="grid grid-cols-2 gap-3">
+      <div className="sb-step-actions mt-1 grid grid-cols-2 gap-3 items-stretch">
         <button
           type="button"
           onClick={onClear}
           disabled={remixPhase === "correct" || remixAnswer.length === 0}
-          className="flex items-center justify-center gap-2 rounded-[14px] border border-rule px-4 py-3.5 text-ink-soft transition-colors hover:border-accent/50 hover:text-accent disabled:opacity-40 disabled:hover:border-rule disabled:hover:text-ink-soft"
+          className="flex items-center justify-center gap-2 rounded-[14px] border border-rule px-4 py-3.5 text-ink transition-colors hover:border-accent/50 hover:text-accent disabled:opacity-40 disabled:hover:border-rule disabled:hover:text-ink-soft"
         >
           <IconReset />
           <span className="font-display text-lg">Borrar</span>
@@ -1436,10 +1436,10 @@ function RemixStep({
           <button
             type="button"
             onClick={onNext}
-            className="btn-primary btn-primary--spectrum justify-center gap-3"
+            className="btn-primary btn-primary--spectrum btn-primary--center"
             style={{ padding: "14px 18px" }}
           >
-            <span className="lab">Siguiente frase</span>
+            <span className="lab">Siguiente</span>
             <span aria-hidden>→</span>
           </button>
         ) : (
@@ -1447,7 +1447,7 @@ function RemixStep({
             type="button"
             onClick={onCheck}
             disabled={remixAnswer.length === 0}
-            className="btn-primary btn-primary--spectrum justify-center gap-3 disabled:opacity-50"
+            className="btn-primary btn-primary--spectrum btn-primary--center disabled:opacity-50"
             style={{ padding: "14px 18px" }}
           >
             <span className="lab">Comprobar</span>
@@ -1455,7 +1455,7 @@ function RemixStep({
           </button>
         )}
       </div>
-    </>
+    </div>
   );
 }
 
