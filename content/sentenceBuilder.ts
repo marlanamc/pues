@@ -85,7 +85,13 @@ export function normalizeSentence(text: string): string[] {
 
 /** Spanish strings to pre-generate audio for (consumed by scripts/generate-audio.ts). */
 export function sentenceBuilderAudioTexts(): string[] {
-  return sentenceBuilderCards.map((c) => c.displayAnswer);
+  const texts = new Set<string>();
+  for (const card of sentenceBuilderCards) {
+    texts.add(card.displayAnswer);
+    if (card.say) texts.add(card.say.displayAnswer);
+    if (card.remix) texts.add(card.remix.displayAnswer);
+  }
+  return [...texts];
 }
 
 export const sentenceBuilderCards: SentenceCard[] = [
