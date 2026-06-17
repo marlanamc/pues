@@ -112,8 +112,13 @@ export function SentenceBuilderGame({
   initialStreak?: number;
   onQuit?: () => void;
 }) {
+  const [deckSeed, setDeckSeed] = useState(() => String(Date.now()));
+  const deck = useMemo(
+    () => shuffleSeeded(cards, deckSeed),
+    [cards, deckSeed]
+  );
   const [cardIndex, setCardIndex] = useState(0);
-  const card = cards[cardIndex];
+  const card = deck[cardIndex];
 
   // Stable id = authored index; the displayed order is shuffled per card.
   const tiles = useMemo<Tile[]>(
@@ -385,7 +390,7 @@ export function SentenceBuilderGame({
 
   // ── Card/deck advance ──────────────────────────────────────────────
   function advanceCard() {
-    if (cardIndex + 1 >= cards.length) {
+    if (cardIndex + 1 >= deck.length) {
       setDone(true);
       return;
     }
@@ -397,15 +402,15 @@ export function SentenceBuilderGame({
     recordedRef.current = false;
     setDone(false);
     setSolved(0);
+    setDeckSeed(String(Date.now()));
     setCardIndex(0);
-    resetForCard();
   }
 
-  // Reset transient state if the active card changes from outside.
+  // Reset transient state when the active card or deck order changes.
   useEffect(() => {
     resetForCard();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cardIndex]);
+  }, [cardIndex, deckSeed]);
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -463,17 +468,17 @@ export function SentenceBuilderGame({
   // Persist the level result once, the first time the deck completes.
   const recordedRef = useRef(false);
   useEffect(() => {
-    if (done && !recordedRef.current && cards.length > 0) {
+    if (done && !recordedRef.current && deck.length > 0) {
       recordedRef.current = true;
-      recordSbLevelResult(cards[0].level, solved, cards.length);
+      recordSbLevelResult(deck[0].level, solved, deck.length);
     }
-  }, [done, solved, cards]);
+  }, [done, solved, deck]);
 
   const completedUnits = cardIndex + (
     currentStep === "remix" && remixPhase === "correct" ? 1 :
     currentStep === "build" && phase === "correct" && !isLadder ? 1 : 0
   );
-  const progressPercent = done ? 100 : (completedUnits / cards.length) * 100;
+  const progressPercent = done ? 100 : (completedUnits / deck.length) * 100;
 
   // ── Deck-complete screen ───────────────────────────────────────────
   if (done) {
@@ -494,15 +499,15 @@ export function SentenceBuilderGame({
         <div className="fade-rise rounded-lg border border-[color:var(--correct)]/40 bg-surface p-8 text-center space-y-4">
           <p className="day-pill mx-auto w-fit">¡Set completo!</p>
           <h2 className="text-display-md text-ink">
-            Construiste {cards.length} {cards.length === 1 ? "frase" : "frases"}.
+            Construiste {deck.length} {deck.length === 1 ? "frase" : "frases"}.
           </h2>
           <p className="text-gloss mx-auto max-w-sm">
-            Resolviste {solved} de {cards.length} a la primera. La racha sigue en{" "}
+            Resolviste {solved} de {deck.length} a la primera. La racha sigue en{" "}
             <span className="text-accent">{streak} 🔥</span> — vuelve cuando
             quieras y repítelas.
           </p>
           <p className="mono-cap text-ink-mute">
-            Mejor · {Math.max(solved, sbBestSolved(cards))} / {cards.length}
+            Mejor · {Math.max(solved, sbBestSolved(deck))} / {deck.length}
           </p>
           <div className="mx-auto mt-2 flex max-w-xs flex-col gap-3">
             <button
@@ -588,7 +593,7 @@ export function SentenceBuilderGame({
           <p className="mono-cap">Construye la frase</p>
         )}
         <p className="mono-cap text-ink-mute shrink-0">
-          {String(cardIndex + 1).padStart(2, "0")} / {String(cards.length).padStart(2, "0")}
+          {String(cardIndex + 1).padStart(2, "0")} / {String(deck.length).padStart(2, "0")}
           {isLadder && (
             <span className="text-ink-mute">
               {" "}· {STEP_LABELS.findIndex((s) => s.key === currentStep) + 1}/5

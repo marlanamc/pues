@@ -172,6 +172,24 @@ export const sentenceBuilderCards: SentenceCard[] = [
     examples: "Quiero comer, quiero ir, quiero descansar…",
     almost: "Casi. Después de “quiero” va el infinitivo.",
     level: "Principiante 1",
+    recall: {
+      type: "typed_blanks",
+      prompt: "Q____ t____ c____",
+      missingWords: ["quiero", "tomar", "café"],
+      revealAnswerAllowed: true,
+    },
+    say: {
+      promptEnglish: "I want to drink coffee.",
+      displayAnswer: "Quiero tomar café.",
+      instruction: "Intenta decirlo sin mirar.",
+    },
+    remix: {
+      promptEnglish: "I want to drink tea.",
+      targetSpanish: ["quiero", "tomar", "té"],
+      displayAnswer: "Quiero tomar té.",
+      availableTiles: ["té", "quiero", "tomar", "café", "bebo", "tomo"],
+      explanation: "Solo cambiaste 'café' por 'té'. El patrón sigue igual: quiero + infinitivo.",
+    },
   },
   {
     id: "me_gusta_leer_libros_004",
@@ -186,6 +204,24 @@ export const sentenceBuilderCards: SentenceCard[] = [
     examples: "Me gusta cantar, me gusta cocinar, me gusta caminar…",
     almost: "Casi. Después de “me gusta” va el infinitivo.",
     level: "Principiante 1",
+    recall: {
+      type: "typed_blanks",
+      prompt: "M__ g____ l____ l____",
+      missingWords: ["me", "gusta", "leer", "libros"],
+      revealAnswerAllowed: true,
+    },
+    say: {
+      promptEnglish: "I like to read books.",
+      displayAnswer: "Me gusta leer libros.",
+      instruction: "Intenta decirlo sin mirar.",
+    },
+    remix: {
+      promptEnglish: "I like to cook.",
+      targetSpanish: ["me", "gusta", "cocinar"],
+      displayAnswer: "Me gusta cocinar.",
+      availableTiles: ["cocinar", "gusta", "me", "leer", "libros", "cocino", "casa"],
+      explanation: "Solo cambiaste 'leer libros' por 'cocinar'. El patrón sigue igual: me gusta + infinitivo.",
+    },
   },
   {
     id: "necesito_trabajar_manana_005",
@@ -200,6 +236,24 @@ export const sentenceBuilderCards: SentenceCard[] = [
     examples: "Necesito dormir, necesito comer, necesito salir…",
     almost: "Casi. Después de “necesito” va el infinitivo.",
     level: "Principiante 1",
+    recall: {
+      type: "typed_blanks",
+      prompt: "N_______ t_______ m______",
+      missingWords: ["necesito", "trabajar", "mañana"],
+      revealAnswerAllowed: true,
+    },
+    say: {
+      promptEnglish: "I need to work tomorrow.",
+      displayAnswer: "Necesito trabajar mañana.",
+      instruction: "Intenta decirlo sin mirar.",
+    },
+    remix: {
+      promptEnglish: "I need to rest today.",
+      targetSpanish: ["necesito", "descansar", "hoy"],
+      displayAnswer: "Necesito descansar hoy.",
+      availableTiles: ["hoy", "descansar", "necesito", "mañana", "trabajar", "descanso"],
+      explanation: "Solo cambiaste 'trabajar mañana' por 'descansar hoy'. El patrón sigue igual: necesito + infinitivo.",
+    },
   },
   {
     id: "puedo_hablar_espanol_006",
@@ -214,6 +268,24 @@ export const sentenceBuilderCards: SentenceCard[] = [
     examples: "Puedo ir, puedo ayudar, puedo manejar…",
     almost: "Casi. Después de “puedo” va el infinitivo.",
     level: "Principiante 1",
+    recall: {
+      type: "typed_blanks",
+      prompt: "P____ h____ e______",
+      missingWords: ["puedo", "hablar", "español"],
+      revealAnswerAllowed: true,
+    },
+    say: {
+      promptEnglish: "I can speak Spanish.",
+      displayAnswer: "Puedo hablar español.",
+      instruction: "Intenta decirlo sin mirar.",
+    },
+    remix: {
+      promptEnglish: "I can speak English.",
+      targetSpanish: ["puedo", "hablar", "inglés"],
+      displayAnswer: "Puedo hablar inglés.",
+      availableTiles: ["inglés", "puedo", "hablar", "español", "hablo", "puede"],
+      explanation: "Solo cambiaste 'español' por 'inglés'. El patrón sigue igual: puedo + infinitivo.",
+    },
   },
   {
     id: "tenemos_que_limpiar_casa_007",
@@ -228,6 +300,24 @@ export const sentenceBuilderCards: SentenceCard[] = [
     examples: "Tenemos que estudiar, tenemos que salir, tenemos que esperar…",
     almost: "Casi. Revisa el verbo después de “tenemos que”.",
     level: "Principiante 1",
+    recall: {
+      type: "typed_blanks",
+      prompt: "T_______ q__ l_____ la c____",
+      missingWords: ["tenemos", "que", "limpiar", "casa"],
+      revealAnswerAllowed: true,
+    },
+    say: {
+      promptEnglish: "We have to clean the house.",
+      displayAnswer: "Tenemos que limpiar la casa.",
+      instruction: "Intenta decirlo sin mirar.",
+    },
+    remix: {
+      promptEnglish: "We have to cook dinner.",
+      targetSpanish: ["tenemos", "que", "cocinar", "la", "cena"],
+      displayAnswer: "Tenemos que cocinar la cena.",
+      availableTiles: ["cena", "cocinar", "que", "tenemos", "la", "casa", "limpiar", "cocinamos"],
+      explanation: "Solo cambiaste 'limpiar la casa' por 'cocinar la cena'. El patrón sigue igual: tenemos que + infinitivo.",
+    },
   },
   {
     id: "ella_quiere_bailar_008",
@@ -242,6 +332,24 @@ export const sentenceBuilderCards: SentenceCard[] = [
     examples: "Quiere comer, quiere salir, quiere descansar…",
     almost: "Casi. Después de “quiere” va el infinitivo.",
     level: "Principiante 1",
+    recall: {
+      type: "typed_blanks",
+      prompt: "E___ q____ b_____",
+      missingWords: ["ella", "quiere", "bailar"],
+      revealAnswerAllowed: true,
+    },
+    say: {
+      promptEnglish: "She wants to dance.",
+      displayAnswer: "Ella quiere bailar.",
+      instruction: "Intenta decirlo sin mirar.",
+    },
+    remix: {
+      promptEnglish: "She wants to sing.",
+      targetSpanish: ["ella", "quiere", "cantar"],
+      displayAnswer: "Ella quiere cantar.",
+      availableTiles: ["cantar", "quiere", "ella", "bailar", "canta", "él"],
+      explanation: "Solo cambiaste 'bailar' por 'cantar'. El patrón sigue igual: quiere + infinitivo.",
+    },
   },
 
   /* ── Principiante 2 · El presente del día a día ──────────────────────── */
