@@ -92,19 +92,24 @@ export function LeftRailNav() {
                 aria-current={active ? "page" : undefined}
                 aria-label={item.label}
                 title={expanded ? undefined : item.label}
-                className={`flex items-center rounded-full transition-colors ${
+                className={`flex items-center transition-colors ${
                   expanded
-                    ? "gap-3 px-3 py-2.5"
-                    : "mx-auto h-10 w-10 justify-center"
+                    ? "gap-3 px-3.5 py-2.5 rounded-2xl"
+                    : "mx-auto h-10 w-10 justify-center rounded-full"
                 }`}
                 style={{
-                  color: active ? item.zone : "var(--ink-mute)",
-                  background: active ? "var(--surface)" : "transparent",
+                  color: active ? item.zone : "var(--ink-soft)",
+                  background: active
+                    ? `color-mix(in oklab, ${item.zone} 10%, transparent)`
+                    : "transparent",
+                  fontWeight: active ? 500 : 400,
                 }}
               >
                 {item.icon}
                 {expanded && (
-                  <span className="font-display">{item.label}</span>
+                  <span className="font-display" style={{ fontSize: 15 }}>
+                    {item.label}
+                  </span>
                 )}
               </Link>
             </li>

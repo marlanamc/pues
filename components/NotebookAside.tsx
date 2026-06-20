@@ -33,101 +33,142 @@ export function NotebookAside() {
   const todayProgress = Math.min(todayCount, PROMPTS_PER_DAY);
   const todayPct = (todayProgress / PROMPTS_PER_DAY) * 100;
 
-  // Each day cycles a zone hue — the week reads as a record of which corners
-  // of the app you touched.
-  const zoneHues = [
-    "var(--zone-practica)",
-    "var(--zone-lugares)",
-    "var(--zone-guias)",
-    "var(--zone-lab)",
-  ];
-
   return (
     <aside
-      className="mt-6 rounded-lg border border-rule bg-surface p-6 lg:mt-0"
-      style={{ opacity: ready ? 1 : 0.6 }}
+      className="mt-6 border border-rule bg-surface lg:mt-0"
+      style={{
+        opacity: ready ? 1 : 0.6,
+        borderRadius: 22,
+        padding: "22px 22px 24px",
+      }}
     >
       <div className="flex items-center justify-between gap-3">
-        <p className="text-caption text-ink-mute">Tu cuaderno</p>
+        <p className="mono-cap">Tu cuaderno</p>
         <Link
           href="/progress"
-          className="text-caption text-ink-mute transition-colors hover:text-accent"
+          className="mono-cap transition-colors hover:text-accent"
+          style={{ color: "var(--ink-mute)" }}
         >
           Ver más
         </Link>
       </div>
 
-      <div className="mt-5 space-y-5">
-        <div>
-          <div className="flex items-center gap-2">
-            <svg
-              viewBox="0 0 24 24"
-              width="18"
-              height="18"
-              aria-hidden
-              fill="none"
-              stroke="var(--accent)"
-              strokeWidth={1.6}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M12 3c1 3 4 5 4 9a4 4 0 1 1-8 0c0-2 1-3 2-4-1 5 2 5 2 5s0-3 0-10Z" />
-            </svg>
-            <p className="font-display text-3xl text-accent leading-none">
-              {streak}
-            </p>
-          </div>
-          <p className="mono-cap mt-2">{streakLabel}</p>
+      <div style={{ marginTop: 18 }}>
+        <p className="mono-cap" style={{ marginBottom: 6 }}>
+          Racha actual
+        </p>
+        <div className="flex items-center" style={{ gap: 8, marginBottom: 22 }}>
+          <svg
+            viewBox="0 0 24 24"
+            width="18"
+            height="18"
+            aria-hidden
+            fill="var(--accent)"
+          >
+            <path d="M12 2s4 4 4 8a4 4 0 0 1-1 2.6c1.5.5 3 2.4 3 4.4a6 6 0 1 1-12 0c0-2 1-3.5 2.5-4.5C7 11 7 9 8 7c1.5 2 2 3 4-5z" />
+          </svg>
+          <p
+            className="font-display"
+            style={{
+              fontSize: 30,
+              lineHeight: 1,
+              color: "var(--ink)",
+              fontWeight: 400,
+            }}
+          >
+            {streak}
+          </p>
         </div>
 
-        <div className="flex items-center justify-between gap-1.5">
-          {week.map((day, i) => {
-            const hue = zoneHues[i % zoneHues.length];
-            const filled = day.practiced || day.isToday;
+        <p className="mono-cap" style={{ marginBottom: 10 }}>
+          Días de racha
+        </p>
+        <div
+          className="flex justify-between"
+          style={{ marginBottom: 22 }}
+        >
+          {week.map((day) => {
+            const isToday = day.isToday;
+            const practicedNotToday = day.practiced && !isToday;
             return (
-              <div
+              <span
                 key={day.date}
-                className="flex flex-1 flex-col items-center gap-1.5"
+                className="inline-flex items-center justify-center rounded-full"
+                style={{
+                  width: 28,
+                  height: 28,
+                  fontSize: 10.5,
+                  fontWeight: 600,
+                  letterSpacing: "0.05em",
+                  background: isToday
+                    ? "var(--accent)"
+                    : practicedNotToday
+                      ? "color-mix(in oklab, var(--accent) 28%, transparent)"
+                      : "transparent",
+                  color: isToday
+                    ? "var(--accent-ink)"
+                    : practicedNotToday
+                      ? "var(--ink)"
+                      : "var(--ink-mute)",
+                  border: `1px solid ${
+                    isToday
+                      ? "transparent"
+                      : practicedNotToday
+                        ? "color-mix(in oklab, var(--accent) 45%, transparent)"
+                        : "var(--rule)"
+                  }`,
+                }}
+                title={day.date}
               >
-                <span
-                  className="inline-flex h-7 w-7 items-center justify-center rounded-full text-[0.6875rem] font-medium"
-                  style={{
-                    background: filled ? hue : "transparent",
-                    color: filled ? "var(--bg)" : hue,
-                    border: `1px solid ${
-                      filled
-                        ? hue
-                        : `color-mix(in oklab, ${hue} 55%, var(--rule))`
-                    }`,
-                  }}
-                  title={day.date}
-                >
-                  {day.label}
-                </span>
-              </div>
+                {day.label}
+              </span>
             );
           })}
         </div>
 
-        <div>
-          <div className="flex items-baseline justify-between gap-3">
-            <p className="mono-cap">Hoy</p>
-            <p className="mono-cap text-ink-soft">
-              {todayProgress} de {PROMPTS_PER_DAY}
-            </p>
-          </div>
+        <div className="flex items-baseline justify-between gap-3">
+          <p className="mono-cap">Hoy</p>
+          <p className="mono-cap text-ink-soft">
+            {todayProgress} de {PROMPTS_PER_DAY}
+          </p>
+        </div>
+        <div
+          className="h-[3px] w-full rounded-full"
+          style={{ background: "var(--surface-sunk)", marginTop: 8, marginBottom: 22 }}
+        >
           <div
-            className="mt-2 h-1 w-full rounded-full"
-            style={{ background: "var(--surface-sunk)" }}
+            className="h-[3px] rounded-full transition-all"
+            style={{
+              width: `${todayPct}%`,
+              background: "var(--accent)",
+            }}
+          />
+        </div>
+
+        <div
+          className="flex items-start gap-2.5"
+          style={{ borderTop: "1px solid var(--rule)", paddingTop: 18 }}
+        >
+          <svg
+            viewBox="0 0 24 24"
+            width="14"
+            height="14"
+            aria-hidden
+            fill="var(--accent)"
+            style={{ flexShrink: 0, marginTop: 4 }}
           >
-            <div
-              className="h-1 rounded-full transition-all"
-              style={{
-                width: `${todayPct}%`,
-                background: "var(--accent)",
-              }}
-            />
-          </div>
+            <path d="M12 2l2 6 6 2-6 2-2 6-2-6-6-2 6-2z" />
+          </svg>
+          <p
+            className="font-display text-ink-soft"
+            style={{
+              fontStyle: "italic",
+              fontSize: 13,
+              lineHeight: 1.45,
+            }}
+          >
+            Pequeños pasos, grandes cambios. Tú puedes.
+          </p>
         </div>
       </div>
     </aside>
