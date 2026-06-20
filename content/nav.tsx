@@ -25,6 +25,15 @@ const IconToday = (
   </svg>
 );
 
+const IconCamino = (
+  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
+    <path d="M5 19c3 0 3-5 7-5s4 5 7 5" />
+    <path d="M5 9c3 0 3-4 7-4s4 4 7 4" />
+    <circle cx="8" cy="14" r="0.9" fill="currentColor" stroke="none" />
+    <circle cx="16" cy="10" r="0.9" fill="currentColor" stroke="none" />
+  </svg>
+);
+
 const IconPractice = (
   <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
     <path d="M5 4h11a2 2 0 0 1 2 2v14H7a2 2 0 0 1-2-2Z" />
@@ -32,26 +41,12 @@ const IconPractice = (
   </svg>
 );
 
-const IconSituations = (
+const IconCuaderno = (
   <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
-    <rect x="4" y="4" width="7" height="7" rx="1.5" />
-    <rect x="13" y="4" width="7" height="7" rx="1.5" />
-    <rect x="4" y="13" width="7" height="7" rx="1.5" />
-    <rect x="13" y="13" width="7" height="7" rx="1.5" />
-  </svg>
-);
-
-const IconGuides = (
-  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
-    <circle cx="8" cy="8" r="3.5" />
-    <circle cx="16" cy="16" r="3.5" />
-    <path d="M12.5 7.5h6M15.5 4.5v6M5 14h6M5 17.5h4" />
-  </svg>
-);
-
-const IconLab = (
-  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
-    <path d="M2 12h2M6 8h2M6 16h2M10 5h2M10 19h2M14 8h2M14 16h2M18 12h2" />
+    <rect x="5" y="4" width="13" height="16" rx="1.5" />
+    <path d="M8 4v16" />
+    <path d="M11 9h4" />
+    <path d="M11 13h4" />
   </svg>
 );
 
@@ -64,32 +59,28 @@ export const navItems: NavItem[] = [
     zone: "var(--accent)",
   },
   {
+    href: "/camino",
+    label: "Camino",
+    match: (p) => p.startsWith("/camino") || p.startsWith("/progress"),
+    icon: IconCamino,
+    zone: "var(--zone-lugares)",
+  },
+  {
     href: "/practice",
     label: "Práctica",
     match: (p) =>
-      p.startsWith("/practice") || p.startsWith("/thoughts"),
+      p.startsWith("/practice") || p.startsWith("/situations"),
     icon: IconPractice,
     zone: "var(--zone-practica)",
   },
   {
-    href: "/situations",
-    label: "Lugares",
-    match: (p) => p.startsWith("/situations"),
-    icon: IconSituations,
-    zone: "var(--zone-lugares)",
-  },
-  {
-    href: "/guides",
-    label: "Guías",
-    match: (p) => p.startsWith("/guides"),
-    icon: IconGuides,
+    href: "/cuaderno",
+    label: "Cuaderno",
+    match: (p) =>
+      p.startsWith("/cuaderno") ||
+      p.startsWith("/thoughts") ||
+      p.startsWith("/guides"),
+    icon: IconCuaderno,
     zone: "var(--zone-guias)",
-  },
-  {
-    href: "/lab",
-    label: "Lab",
-    match: (p) => p.startsWith("/lab"),
-    icon: IconLab,
-    zone: "var(--zone-lab)",
   },
 ];

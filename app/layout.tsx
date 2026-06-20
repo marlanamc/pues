@@ -67,7 +67,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SupabaseBootstrap />
         <LeftRailNav />
         <main className="w-full px-6 pt-3 pb-28 lg:flex lg:flex-1 lg:min-h-0 lg:min-w-0 lg:flex-col lg:px-0 lg:pt-10 lg:pb-12">
-          <div className="mx-auto flex w-full max-w-[520px] flex-1 flex-col lg:max-w-[1040px] lg:px-12">
+          <div className="mx-auto flex w-full max-w-[520px] flex-1 flex-col md:max-w-[720px] md:px-2 lg:max-w-[1080px] lg:px-12">
             {children}
           </div>
         </main>
