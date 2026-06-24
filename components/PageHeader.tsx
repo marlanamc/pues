@@ -6,12 +6,7 @@ import { SettingsMenuButton } from "@/components/SettingsMenu";
 
 export function Wordmark({ children }: { children: ReactNode }) {
   return (
-    <span
-      className="font-display"
-      style={{ fontStyle: "italic", fontSize: 17, color: "var(--ink-soft)" }}
-    >
-      {children}
-    </span>
+    <span className="text-display-italic text-[17px]">{children}</span>
   );
 }
 

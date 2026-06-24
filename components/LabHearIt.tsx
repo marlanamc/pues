@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PlayButton } from "@/components/PlayButton";
 import type { HearItPair } from "@/content/lab";
 
@@ -299,6 +299,7 @@ function PlayButtonLarge({
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ text, lang: "es", contextBefore }),
+          signal: AbortSignal.timeout(15000),
         });
         if (!res.ok) throw new Error("TTS failed");
         const blob = await res.blob();

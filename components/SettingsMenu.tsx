@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { ThemeModeToggle } from "@/components/ThemeModeToggle";
+import { ThemePicker } from "@/components/ThemePicker";
 import { AudioSpeedToggle } from "@/components/AudioSpeedToggle";
 import { createClient } from "@/lib/supabase/client";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
@@ -108,9 +108,9 @@ export function SettingsMenuButton({
           aria-label="Settings"
           className={`absolute z-50 w-64 rounded-lg border border-rule bg-surface p-4 shadow-soft space-y-4 ${menuPositionClass[placement]}`}
         >
-          <div className="flex items-center justify-between gap-3">
-            <span className="text-caption text-ink-mute">Theme</span>
-            <ThemeModeToggle />
+          <div className="space-y-2">
+            <span className="text-caption text-ink-mute">Tema</span>
+            <ThemePicker compact />
           </div>
           <div className="flex items-center justify-between gap-3">
             <span className="text-caption text-ink-mute">Audio</span>

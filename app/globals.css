@@ -32,69 +32,147 @@
   --radius-full: 999px;
 }
 
-/* Ink — dark, the default */
-:root {
-  --bg: #1b1712;
-  --surface: #251f18;
-  --surface-2: #2c251c;
-  --surface-sunk: #1f1a14;
-  --ink: #efe5d2;
-  --ink-soft: #b4a98f;
-  --ink-mute: #7d7259;
-  --rule: #3a3127;
-  --accent: #dd6a43;
-  --accent-soft: #c25a37;
-  --accent-ink: #1b1712;
-  --highlight: #dd6a43;
-  /* Zone hues — one signature color per hub. Brighter for ink (dark). */
-  --zone-practica: var(--accent); /* = almagre, the brand "home" */
+/* ============================================
+   Theme palettes — 7 named skins, every color from the 8 core tokens.
+   Default = Almagre (the original "Ink" dark). A `data-theme` attribute
+   on <html> selects the palette; the two light palettes (Papel, Niebla)
+   also carry a `.light` class so legacy `.light`-scoped rules keep working.
+   Zone hues + La Línea tense colors stay constant *per mode* (one dark set,
+   one deeper light set) so every theme reads as the same product.
+   ============================================ */
+
+/* Shared — dark palettes (and the bare :root default before hydration). */
+:root:not([data-theme="Papel"]):not([data-theme="Niebla"]) {
+  --accent-ink: var(--bg); /* on-accent color = the app background */
+  --zone-practica: var(--accent); /* = the palette accent, the brand "home" */
   --zone-lugares: oklch(0.7 0.1 152);
   --zone-guias: oklch(0.7 0.09 248);
   --zone-lab: oklch(0.72 0.11 332);
   --zone: var(--accent); /* current-page zone; each hub overrides on its root */
-  /* La Línea tense semantics — color = WHEN. Brighter for ink (dark). */
   --past: oklch(0.76 0.115 72);
   --present: oklch(0.74 0.095 158);
   --future: oklch(0.73 0.085 245);
   --correct: oklch(0.68 0.14 145);
   --grain-opacity: 0.35;
   --grain-blend: screen;
-  --paper-wash:
-    radial-gradient(120% 80% at 50% -10%, rgba(221, 106, 67, 0.06), transparent 60%);
-
   color-scheme: dark;
 }
 
-/* Paper — warm bone, light mode */
-.light {
-  --bg: #f1e7d4;
-  --surface: #fbf4e6;
-  --surface-2: #f6ecd8;
-  --surface-sunk: #efe3cc;
-  --ink: #28231b;
-  --ink-soft: #5b5343;
-  --ink-mute: #978a73;
-  --rule: #ddccae;
-  --accent: #bb4a2a;
-  --accent-soft: #a23f23;
-  --accent-ink: #fbf4e6;
-  --highlight: #bb4a2a;
-  /* Zone hues — deeper for contrast on bone paper. */
+/* Shared — light palettes (deeper hues for contrast on bone paper). */
+:root[data-theme="Papel"],
+:root[data-theme="Niebla"] {
+  --accent-ink: var(--surface);
   --zone-practica: var(--accent);
   --zone-lugares: oklch(0.5 0.085 152);
   --zone-guias: oklch(0.5 0.082 248);
   --zone-lab: oklch(0.52 0.105 332);
-  /* La Línea tense semantics — darker for contrast on bone paper. */
+  --zone: var(--accent);
   --past: oklch(0.56 0.13 64);
   --present: oklch(0.50 0.11 158);
   --future: oklch(0.50 0.10 252);
   --correct: oklch(0.44 0.14 145);
   --grain-opacity: 0.5;
   --grain-blend: multiply;
-  --paper-wash:
-    radial-gradient(120% 70% at 50% -10%, rgba(187, 74, 42, 0.04), transparent 58%);
-
   color-scheme: light;
+}
+
+/* Tokens every palette derives from its core 8. */
+:root {
+  --highlight: var(--accent);
+  --accent-soft: color-mix(in oklab, var(--accent) 85%, #000);
+  --surface-sunk: color-mix(in oklab, var(--bg) 78%, var(--surface));
+  --paper-wash:
+    radial-gradient(120% 80% at 50% -10%, color-mix(in oklab, var(--accent) 6%, transparent), transparent 60%);
+}
+:root[data-theme="Papel"],
+:root[data-theme="Niebla"] {
+  --paper-wash:
+    radial-gradient(120% 70% at 50% -10%, color-mix(in oklab, var(--accent) 4%, transparent), transparent 58%);
+}
+
+/* ---- Almagre — warm red on dark clay (default) ---- */
+:root,
+:root[data-theme="Almagre"] {
+  --bg: #1b1712;
+  --surface: #251f18;
+  --surface-2: #2c251c;
+  --ink: #efe5d2;
+  --ink-soft: #b4a98f;
+  --ink-mute: #7d7259;
+  --rule: #3a3127;
+  --accent: #dd6a43;
+}
+
+/* ---- Pizarra — teal on slate ---- */
+:root[data-theme="Pizarra"] {
+  --bg: #15191b;
+  --surface: #1d2427;
+  --surface-2: #222b2e;
+  --ink: #e8efee;
+  --ink-soft: #9fb1b0;
+  --ink-mute: #6d7d7c;
+  --rule: #2c3739;
+  --accent: #4cb6a4;
+}
+
+/* ---- Ciruela — rose on plum ---- */
+:root[data-theme="Ciruela"] {
+  --bg: #1a1419;
+  --surface: #241b24;
+  --surface-2: #2b212b;
+  --ink: #f0e6ec;
+  --ink-soft: #bba3b4;
+  --ink-mute: #7d6c78;
+  --rule: #392f38;
+  --accent: #d77a9a;
+}
+
+/* ---- Bosque — moss on forest ---- */
+:root[data-theme="Bosque"] {
+  --bg: #13180f;
+  --surface: #1d2416;
+  --surface-2: #232b1b;
+  --ink: #ebefdf;
+  --ink-soft: #aeb795;
+  --ink-mute: #777f63;
+  --rule: #333a28;
+  --accent: #9bb24a;
+}
+
+/* ---- Medianoche — periwinkle on indigo ---- */
+:root[data-theme="Medianoche"] {
+  --bg: #14151f;
+  --surface: #1d1f2e;
+  --surface-2: #232639;
+  --ink: #e7e8f2;
+  --ink-soft: #a3a7c2;
+  --ink-mute: #6d7192;
+  --rule: #2f3247;
+  --accent: #8a9cf0;
+}
+
+/* ---- Papel — warm bone paper (light) ---- */
+:root[data-theme="Papel"] {
+  --bg: #f1e7d4;
+  --surface: #fbf4e6;
+  --surface-2: #f6ecd8;
+  --ink: #28231b;
+  --ink-soft: #5b5343;
+  --ink-mute: #978a73;
+  --rule: #ddccae;
+  --accent: #bb4a2a;
+}
+
+/* ---- Niebla — sea green on cool fog (light) ---- */
+:root[data-theme="Niebla"] {
+  --bg: #e8edec;
+  --surface: #f4f8f7;
+  --surface-2: #eef3f2;
+  --ink: #1c2625;
+  --ink-soft: #4f5f5d;
+  --ink-mute: #899794;
+  --rule: #cdd9d7;
+  --accent: #2f8f7f;
 }
 
 html,
@@ -191,6 +269,7 @@ body > main {
   line-height: 1.22;
   letter-spacing: -0.01em;
   font-optical-sizing: auto;
+  text-wrap: balance;
 }
 
 @media (min-width: 1024px) {
@@ -277,6 +356,20 @@ body > main {
   font-size: 0.875rem; /* 14px */
   line-height: 1.55;
   color: var(--ink-soft);
+}
+
+/* Loading placeholder — a quiet pulse while the local store hydrates. */
+.skeleton-line {
+  border-radius: var(--radius-sm);
+  background: var(--surface-2, var(--surface));
+  animation: skeleton-pulse 1.4s ease-in-out infinite;
+}
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 0.75; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-line { animation: none; }
 }
 
 /* The library-card / ledger signal. Metadata only. */

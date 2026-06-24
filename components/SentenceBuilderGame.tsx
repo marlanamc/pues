@@ -179,8 +179,6 @@ export function SentenceBuilderGame({
   const [done, setDone] = useState(false);
 
   // ── Derived ───────────────────────────────────────────────────────
-  const inAnswer = new Set(answer);
-  const bank = tiles.filter((t) => !inAnswer.has(t.id));
   const tileById = (id: number) => tiles.find((t) => t.id === id) ?? tiles[0];
 
   const inRemixAnswer = new Set(remixAnswer);
@@ -666,7 +664,6 @@ export function SentenceBuilderGame({
       {currentStep === "remix" && card.remix && (
         <RemixStep
           remix={card.remix}
-          remixTiles={remixTiles}
           remixBank={remixBank}
           remixHueMap={remixHueMap}
           remixAnswer={remixAnswer}
@@ -1306,7 +1303,6 @@ function SayStep({
 
 function RemixStep({
   remix,
-  remixTiles,
   remixBank,
   remixHueMap,
   remixAnswer,
@@ -1320,7 +1316,6 @@ function RemixStep({
   remixTileById,
 }: {
   remix: NonNullable<SentenceCard["remix"]>;
-  remixTiles: Tile[];
   remixBank: Tile[];
   remixHueMap: Map<string, string>;
   remixAnswer: number[];

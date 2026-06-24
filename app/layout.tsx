@@ -50,8 +50,12 @@ export const viewport: Viewport = {
 
 const themeModeScript = `
 try {
-  var mode = JSON.parse(localStorage.getItem("pues:theme-mode") || '"dark"');
-  document.documentElement.classList.toggle("light", mode === "light");
+  var names = ["Almagre","Pizarra","Ciruela","Bosque","Medianoche","Papel","Niebla"];
+  var t = JSON.parse(localStorage.getItem("pues:theme-mode") || 'null');
+  if (names.indexOf(t) < 0) t = (t === "light") ? "Papel" : "Almagre";
+  var root = document.documentElement;
+  root.dataset.theme = t;
+  root.classList.toggle("light", t === "Papel" || t === "Niebla");
 } catch {}
 `;
 

@@ -3,25 +3,19 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { PageHeader, Wordmark } from "@/components/PageHeader";
-import { NotebookAside } from "@/components/NotebookAside";
 import { speakDayForIndex } from "@/content/prompts";
-import { totalDays } from "@/content/frames";
-import { clearDraft, readingDoneToday } from "@/lib/store";
 import { useStats } from "@/hooks/useStats";
 import { useThoughts } from "@/hooks/useThoughts";
+import type { Thought } from "@/lib/store";
 import { currentStreak, practiceDatesFromThoughts } from "@/lib/streak";
+import { seasonForDate, yearFraction } from "@/lib/season";
 
-const NAME = "Marlana";
+const DIA_SHORT = ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"];
+const RIBBON_LABELS = ["L", "M", "X", "J", "V", "S", "D"];
 
-const DIAS_LONG = [
-  "DOMINGO",
-  "LUNES",
-  "MARTES",
-  "MIÉRCOLES",
-  "JUEVES",
-  "VIERNES",
-  "SÁBADO",
-];
+function dateKey(d: Date): string {
+  return d.toISOString().slice(0, 10);
+}
 
 const ws = {
   fill: "none" as const,
@@ -30,611 +24,361 @@ const ws = {
   strokeLinecap: "round" as const,
   strokeLinejoin: "round" as const,
 };
-const IconMic = (
-  <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden {...ws}>
-    <rect x="9" y="3" width="6" height="12" rx="3" />
-    <path d="M5 11a7 7 0 0 0 14 0M12 18v3" />
-  </svg>
-);
-const IconBook = (
-  <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden {...ws}>
-    <path d="M3 5c3 0 6 1 9 3 3-2 6-3 9-3v14c-3 0-6 1-9 3-3-2-6-3-9-3V5z" />
-  </svg>
-);
-const IconChat = (
-  <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden {...ws}>
-    <path d="M4 5h16v11H8l-4 4V5z" />
-  </svg>
-);
-const IconWave = (
-  <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden {...ws} strokeWidth={1.8}>
-    <path d="M4 12h2M8 7v10M12 4v16M16 8v8M20 12h0" />
-  </svg>
-);
-const IconSpark = (
-  <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden {...ws}>
-    <path d="M12 3l2 5 5 .5-4 3.5 1.5 5L12 14l-4.5 3 1.5-5-4-3.5L10 8z" />
-  </svg>
-);
-const IconReset = (
-  <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden {...ws}>
-    <path d="M20 12a8 8 0 1 1-3-6.2" />
-    <path d="M20 4v5h-5" />
-  </svg>
-);
 
-const WEEK_PLAN = [
-  { idx: 1, label: "Lunes", hint: "Podcast", icon: IconMic },
-  { idx: 2, label: "Martes", hint: "Leer", icon: IconBook },
-  { idx: 3, label: "Miércoles", hint: "Habla", icon: IconChat },
-  { idx: 4, label: "Jueves", hint: "Sombra", icon: IconWave },
-  { idx: 5, label: "Viernes", hint: "Vida real", icon: IconSpark },
-  { idx: 6, label: "Sábado", hint: "Leer", icon: IconBook },
-  { idx: 0, label: "Domingo", hint: "Reset", icon: IconReset },
-];
+const IconMic = (
+  <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden {...ws} strokeWidth={1.7}>
+    <rect x="9" y="3" width="6" height="11" rx="3" />
+    <path d="M6 11a6 6 0 0 0 12 0" />
+    <path d="M12 17v3" />
+  </svg>
+);
+const IconCheck = (
+  <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden {...ws} strokeWidth={2.6}>
+    <path d="M5 12.5 10 17l9-10" />
+  </svg>
+);
+type RibbonDay = {
+  key: string;
+  label: string;
+  practiced: boolean;
+  isToday: boolean;
+  isFuture: boolean;
+};
 
 export default function HomePage() {
   const { stats } = useStats();
   const { thoughts } = useThoughts();
-  const [greeting, setGreeting] = useState("Buenos días");
-  const [todayDow, setTodayDow] = useState(2);
+  const [now, setNow] = useState<Date | null>(null);
 
   useEffect(() => {
-    const now = new Date();
-    const h = now.getHours();
-    if (h < 12) setGreeting("Buenos días");
-    else if (h < 19) setGreeting("Buenas tardes");
-    else setGreeting("Buenas noches");
-    setTodayDow(now.getDay());
+    setNow(new Date());
   }, []);
 
-  const day = speakDayForIndex(stats.currentDayIndex);
-  const dayNum = day.day.toString().padStart(2, "0");
-  const semana = Math.floor(stats.currentDayIndex / 7) + 1;
-  const todayEs = DIAS_LONG[todayDow];
-
-  const today = new Date().toISOString().slice(0, 10);
-  const practicedToday = stats.lastSessionDate === today;
-  const flaggedCount = thoughts.filter((t) => t.practiceFlag === true).length;
-  const [readDoneToday, setReadDoneToday] = useState(false);
-  useEffect(() => {
-    setReadDoneToday(readingDoneToday());
-    function onStats() {
-      setReadDoneToday(readingDoneToday());
-    }
-    window.addEventListener("pues:stats-change", onStats);
-    return () => window.removeEventListener("pues:stats-change", onStats);
-  }, []);
-
-  const minimo = useMemo(
-    () => [
-      {
-        key: "frases",
-        title: "3 frases útiles",
-        sub: "Guárdalas y dilo en voz alta",
-        href: "/flow/speak",
-        state: practicedToday ? ("done" as const) : ("active" as const),
-        onClick: practicedToday ? undefined : () => clearDraft(),
-      },
-      {
-        key: "verbos",
-        title: "2 verbos",
-        sub: "leer · entender",
-        href: "/practice/games",
-        state:
-          flaggedCount > 0 ? ("active" as const) : ("pending" as const),
-      },
-      {
-        key: "salida",
-        title: "1 salida corta",
-        sub: "Resume el artículo en una frase",
-        href: "/read",
-        state: readDoneToday ? ("done" as const) : ("pending" as const),
-      },
-    ],
-    [practicedToday, flaggedCount, readDoneToday],
-  );
-
-  const streak = useMemo(
-    () => currentStreak(practiceDatesFromThoughts(thoughts)),
+  const practiced = useMemo(
+    () => practiceDatesFromThoughts(thoughts),
     [thoughts],
   );
+  const streak = useMemo(() => currentStreak(practiced), [practiced]);
+  const said = stats.sentencesCreated;
+
+  const day = speakDayForIndex(stats.currentDayIndex);
+  const season = useMemo(() => seasonForDate(now ?? new Date()), [now]);
+
+  // Current calendar week, Monday→Sunday, against real practice dates.
+  const week: RibbonDay[] = useMemo(() => {
+    if (!now) return [];
+    const today = dateKey(now);
+    const dow = now.getDay(); // 0 = Sun
+    const toMonday = dow === 0 ? -6 : 1 - dow;
+    return RIBBON_LABELS.map((label, i) => {
+      const d = new Date(now);
+      d.setDate(now.getDate() + toMonday + i);
+      const key = dateKey(d);
+      return {
+        key,
+        label,
+        practiced: practiced.has(key),
+        isToday: key === today,
+        isFuture: key > today,
+      };
+    });
+  }, [now, practiced]);
+
+  const todayEs = now ? DIA_SHORT[now.getDay()] : "hoy";
+  const yearPct = Math.round(yearFraction(now ?? new Date()) * 100);
+  const recent = thoughts.slice(0, 4);
 
   return (
-    <div
-      className="fade-rise relative"
-      style={{ paddingBottom: 96 }}
-    >
-        <PageHeader
-          title={<Wordmark>Pues</Wordmark>}
-          meta={<span className="mono-cap">Racha · {streak}</span>}
-        />
+    <div className="fade-rise relative" style={{ paddingBottom: 96 }}>
+      <PageHeader
+        title={<Wordmark>Pues</Wordmark>}
+        meta={<span className="mono-cap" style={{ color: "var(--accent)" }}>Racha · {streak}</span>}
+      />
 
-        <div className="md:mt-6 lg:mt-12 lg:grid lg:grid-cols-[1.4fr_1fr] lg:items-start lg:gap-12">
+      <div className="lg:mt-8 lg:grid lg:grid-cols-[1.4fr_1fr] lg:items-stretch lg:gap-12">
+        {/* ===== MAIN ===== */}
+        <div className="flex flex-col" style={{ marginTop: 22 }}>
+          <p className="text-display-italic text-sm" style={{ margin: 0 }}>
+            {streak > 0 ? `${streak} ${streak === 1 ? "día seguido" : "días seguidos"},` : "Hoy empieza,"}
+          </p>
+          <h1 className="text-display-2xl text-ink" style={{ marginTop: 6 }}>
+            {streak > 0 ? "no rompas la racha." : "di tu primera frase."}
+          </h1>
+
+          {/* Weekday ribbon */}
           <div
-            className="flex flex-col mx-auto md:mx-0 w-full"
-            style={{ maxWidth: 560 }}
+            className="flex items-end justify-between md:justify-start md:gap-4"
+            style={{ marginTop: 30 }}
           >
-            {/* Greeting — slim for mini phones. */}
-            <div style={{ marginTop: 22 }} className="lg:mt-0">
-              <p
-                className="font-display"
-                style={{
-                  fontStyle: "italic",
-                  fontSize: 14,
-                  color: "var(--ink-soft)",
-                  margin: "0 0 2px",
-                }}
-              >
-                {greeting},
-              </p>
-              <h1 className="text-display-xl text-ink">{NAME}</h1>
-            </div>
+            {(week.length ? week : RIBBON_LABELS.map((label, i) => ({ key: `ph-${i}`, label, practiced: false, isToday: false, isFuture: true } as RibbonDay))).map((d) => (
+              <RibbonCircle key={d.key} day={d} />
+            ))}
+          </div>
 
-            <span
-              className="hairline"
-              style={{ margin: "16px 0 14px" }}
+          {/* Lit act card — the one element that glows */}
+          <div style={{ position: "relative", marginTop: 36 }}>
+            <div
               aria-hidden
-            />
-
-            {/* Hero — today's call to action. */}
-            <p className="mono-cap" style={{ marginBottom: 8 }}>
-              {todayEs} · Semana {semana}
-            </p>
-            <p
-              className="font-display text-ink md:text-[28px] lg:text-[32px]"
               style={{
-                fontSize: 22,
-                lineHeight: 1.2,
-                fontStyle: "italic",
-                margin: 0,
-              }}
-            >
-              Hoy lees, guardas y dices una cosa en español.
-            </p>
-
-            <Link
-              href="/flow/speak"
-              onClick={() => clearDraft()}
-              className="btn-primary btn-primary--zones active:brightness-90"
-              style={{
-                marginTop: 18,
+                position: "absolute",
+                left: "50%",
+                top: "50%",
+                transform: "translate(-50%,-50%)",
+                width: "92%",
+                height: 170,
                 background:
-                  "linear-gradient(90deg, var(--zone-practica) 0%, var(--zone-lugares) 25%, var(--zone-guias) 50%, var(--zone-lab) 100%)",
+                  "radial-gradient(60% 60% at 50% 50%, color-mix(in oklab, var(--accent) 22%, transparent), transparent 70%)",
+                filter: "blur(12px)",
+              }}
+            />
+            <div
+              style={{
+                position: "relative",
+                background: "var(--surface)",
+                border: "1px solid color-mix(in oklab, var(--accent) 42%, var(--rule))",
+                borderRadius: 20,
+                padding: 30,
+                boxShadow:
+                  "0 0 0 1px color-mix(in oklab, var(--accent) 18%, transparent), 0 22px 50px -18px color-mix(in oklab, var(--accent) 50%, transparent)",
               }}
             >
-              <span
-                className="lab"
-                style={{
-                  fontFamily: "var(--font-body)",
-                  fontWeight: 500,
-                  fontSize: "1.0625rem",
-                  letterSpacing: "0.01em",
-                }}
+              <div className="flex items-baseline justify-between gap-3">
+                <span className="mono-cap" style={{ color: "var(--accent)" }}>
+                  Lo de hoy · {todayEs}
+                </span>
+                <span className="mono-cap">{day.themeEs}</span>
+              </div>
+              <p
+                className="font-display text-ink"
+                style={{ fontWeight: 300, fontSize: 34, lineHeight: 1.26, margin: "16px 0 0" }}
               >
-                Empezar
-              </span>
-              <svg
-                viewBox="0 0 24 24"
-                width="19"
-                height="19"
-                aria-hidden
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={1.6}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M5 12h14M13 6l6 6-6 6" />
-              </svg>
-            </Link>
-
-            <p
-              className="mono-cap"
-              style={{ marginTop: 10, color: "var(--ink-mute)" }}
-            >
-              Día {dayNum} · {totalDays} días
-            </p>
-          </div>
-
-          <div className="hidden lg:block">
-            <NotebookAside />
-          </div>
-        </div>
-
-        {/* Full-width sections below the hero. */}
-        <div className="mt-0 lg:mt-10">
-            {/* Tu mínimo de hoy — 3 stacked cards. */}
-            <section
-              aria-label="Tu mínimo de hoy"
-              style={{ marginTop: 26 }}
-            >
-              <p className="mono-cap" style={{ marginBottom: 10 }}>
-                Tu mínimo de hoy
+                {day.line}
               </p>
-              <ul
-                className="flex flex-col gap-2 md:grid md:grid-cols-3 md:gap-2.5"
-                style={{ listStyle: "none", padding: 0, margin: 0 }}
-              >
-                {minimo.map((m, i) => (
-                  <MinimoCard
-                    key={m.key}
-                    index={i + 1}
-                    title={m.title}
-                    sub={m.sub}
-                    href={m.href}
-                    state={m.state}
-                    onClick={m.onClick}
-                  />
-                ))}
-              </ul>
-            </section>
-
-            {/* Ancla de hoy — featured single card. */}
-            <section aria-label="Ancla de hoy" style={{ marginTop: 26 }}>
-              <p className="mono-cap" style={{ marginBottom: 10 }}>
-                Ancla de hoy
-              </p>
-              <Link
-                href="/read"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 18,
-                  padding: "18px 20px",
-                  borderRadius: 18,
-                  background: "var(--surface)",
-                  border: "1px solid var(--rule)",
-                  textDecoration: "none",
-                }}
-              >
-                <span
-                  aria-hidden
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    width: 54,
-                    height: 54,
-                    borderRadius: 14,
-                    flexShrink: 0,
-                    background:
-                      "color-mix(in oklab, var(--zone-lugares) 18%, var(--surface))",
-                    color: "var(--zone-lugares)",
-                  }}
-                >
-                  <svg
-                    viewBox="0 0 24 24"
-                    width="24"
-                    height="24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth={1.6}
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M3 5c3 0 6 1 9 3 3-2 6-3 9-3v14c-3 0-6 1-9 3-3-2-6-3-9-3V5z" />
-                    <path d="M12 8v14" />
-                  </svg>
-                </span>
-                <span style={{ minWidth: 0, flex: 1 }}>
-                  <span
-                    className="mono-cap"
-                    style={{ color: "var(--accent)" }}
-                  >
-                    {todayEs} · Leer
-                  </span>
-                  <span
-                    className="font-display block text-ink"
-                    style={{
-                      fontSize: 17,
-                      lineHeight: 1.2,
-                      marginTop: 4,
-                    }}
-                  >
-                    Lee un artículo corto
-                  </span>
-                  <span
-                    className="block"
-                    style={{
-                      marginTop: 6,
-                      fontSize: 12,
-                      lineHeight: 1.4,
-                      color: "var(--ink-soft)",
-                    }}
-                  >
-                    5–10 min · Guarda 3 palabras · Di: “El artículo habla
-                    de…”
-                  </span>
-                </span>
-                <span
-                  aria-hidden
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    width: 32,
-                    height: 32,
-                    borderRadius: "50%",
-                    border: "1px solid var(--rule)",
-                    flexShrink: 0,
-                    color: "var(--ink-soft)",
-                    alignSelf: "center",
-                  }}
-                >
-                  <svg
-                    viewBox="0 0 24 24"
-                    width="14"
-                    height="14"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth={1.8}
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M5 12h14M13 6l6 6-6 6" />
-                  </svg>
-                </span>
-              </Link>
-            </section>
-
-            {/* Camino semanal — 7-column grid; today gets a tinted accent card. */}
-            <section
-              aria-label="Camino semanal"
-              style={{ marginTop: 26 }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "baseline",
-                  justifyContent: "space-between",
-                  marginBottom: 10,
-                }}
-              >
-                <p className="mono-cap">Camino semanal</p>
+              <div className="flex items-center" style={{ gap: 18, marginTop: 26 }}>
                 <Link
-                  href="/camino"
-                  className="mono-cap"
-                  style={{ color: "var(--ink-mute)" }}
-                >
-                  Ver
-                </Link>
-              </div>
-
-              <div
-                className="grid grid-cols-7"
-                style={{ gap: 6 }}
-              >
-                {WEEK_PLAN.map((d) => {
-                  const isToday = d.idx === todayDow;
-                  return (
-                    <Link
-                      key={d.label}
-                      href="/camino"
-                      style={{
-                        padding: "12px 8px",
-                        borderRadius: 14,
-                        background: isToday
-                          ? "color-mix(in oklab, var(--accent) 6%, var(--surface))"
-                          : "var(--surface)",
-                        border: `1px solid ${
-                          isToday
-                            ? "color-mix(in oklab, var(--accent) 45%, transparent)"
-                            : "var(--rule)"
-                        }`,
-                        textDecoration: "none",
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        gap: 6,
-                        textAlign: "center",
-                        minWidth: 0,
-                      }}
-                    >
-                      <span
-                        className="mono-cap"
-                        style={{
-                          color: isToday
-                            ? "var(--accent)"
-                            : "var(--ink-mute)",
-                          fontSize: 9,
-                          whiteSpace: "nowrap",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          maxWidth: "100%",
-                        }}
-                      >
-                        {d.label}
-                      </span>
-                      <span
-                        aria-hidden
-                        style={{
-                          color: isToday ? "var(--accent)" : "var(--ink-soft)",
-                          display: "inline-flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          height: 18,
-                        }}
-                      >
-                        {d.icon}
-                      </span>
-                      <span
-                        style={{
-                          fontFamily: "var(--font-body)",
-                          fontSize: 12.5,
-                          fontWeight: isToday ? 500 : 400,
-                          lineHeight: 1.1,
-                          color: isToday ? "var(--accent)" : "var(--ink)",
-                          whiteSpace: "nowrap",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          maxWidth: "100%",
-                        }}
-                      >
-                        {d.hint}
-                      </span>
-                    </Link>
-                  );
-                })}
-              </div>
-            </section>
-
-            {/* Shortcut row — icon-tile + label, divided by a hairline above. */}
-            <section
-              aria-label="Atajos"
-              style={{ marginTop: 28, paddingTop: 20, borderTop: "1px solid var(--rule)" }}
-            >
-              <div
-                className="grid grid-cols-2 md:grid-cols-4"
-                style={{ columnGap: 14, rowGap: 14 }}
-              >
-                <Shortcut
-                  zone="var(--zone-practica)"
-                  zoneLabel="Práctica"
-                  title="Repite"
                   href="/practice"
-                  icon={
-                    <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M6 3h9l4 4v14H6z" />
-                      <path d="M9 12h7M9 16h5" />
-                    </svg>
-                  }
-                />
-                <Shortcut
-                  zone="var(--zone-guias)"
-                  zoneLabel="Cuaderno"
-                  title="Guardado"
-                  href="/cuaderno"
-                  icon={
-                    <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4z" />
-                    </svg>
-                  }
-                />
-                <Shortcut
-                  zone="var(--zone-lugares)"
-                  zoneLabel="Guías"
-                  title="Patrones"
-                  href="/guides"
-                  icon={
-                    <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" strokeWidth={1.6}>
-                      <circle cx="7" cy="7" r="3" />
-                      <circle cx="17" cy="7" r="3" />
-                      <circle cx="7" cy="17" r="3" />
-                      <circle cx="17" cy="17" r="3" />
-                    </svg>
-                  }
-                />
-                <Shortcut
-                  zone="var(--zone-lab)"
-                  zoneLabel="Lab"
-                  title="El oído"
-                  href="/lab"
-                  icon={
-                    <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M6 10a6 6 0 1 1 12 0v4a4 4 0 0 1-4 4h-1v-7" />
-                    </svg>
-                  }
-                />
+                  aria-label="Practicar lo de hoy"
+                  className="flex flex-shrink-0 items-center justify-center transition-transform hover:scale-105 motion-reduce:transition-none motion-reduce:hover:scale-100"
+                  style={{
+                    width: 62,
+                    height: 62,
+                    borderRadius: "50%",
+                    background: "var(--accent)",
+                    color: "var(--accent-ink)",
+                    boxShadow: "0 0 0 10px color-mix(in oklab, var(--accent) 15%, transparent)",
+                  }}
+                >
+                  <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden {...ws} strokeWidth={1.7}>
+                    <rect x="9" y="3" width="6" height="11" rx="3" />
+                    <path d="M6 11a6 6 0 0 0 12 0" />
+                    <path d="M12 17v3" />
+                  </svg>
+                </Link>
+                <span
+                  className="font-display text-ink-soft"
+                  style={{ fontStyle: "italic", fontSize: 18, lineHeight: 1.35 }}
+                >
+                  Dílo en voz alta — o graba 20&nbsp;s.
+                </span>
               </div>
-            </section>
+            </div>
+          </div>
+
+          {/* Mobile cuaderno preview (desktop uses the aside) */}
+          <div className="lg:hidden" style={{ marginTop: 30 }}>
+            <CuadernoPreview said={said} entry={recent[0]} />
+          </div>
+
+          <div className="flex-1" />
+
+          {/* Year line */}
+          <div
+            className="flex items-center"
+            style={{ gap: 16, marginTop: 34, paddingTop: 24, borderTop: "1px solid var(--rule)" }}
+          >
+            <div style={{ position: "relative", flex: 1, height: 12 }}>
+              <div style={{ position: "absolute", left: 0, right: 0, top: 5, height: 1, background: "var(--rule)" }} />
+              <div style={{ position: "absolute", left: 0, width: `${yearPct}%`, top: 5, height: 1.5, background: season.color }} />
+              {[0, 25, 50, 75].map((pos) => {
+                const filled = pos <= yearPct;
+                return (
+                  <span
+                    key={pos}
+                    style={{
+                      position: "absolute",
+                      left: `${pos === 0 ? 3 : pos === 75 ? 96 : pos}%`,
+                      top: 5,
+                      transform: "translate(-50%,-50%)",
+                      width: filled ? 8 : 5,
+                      height: filled ? 8 : 5,
+                      borderRadius: "50%",
+                      background: filled ? season.color : "var(--bg)",
+                      border: filled ? "none" : "1.5px solid var(--rule)",
+                    }}
+                  />
+                );
+              })}
+            </div>
+            <Link
+              href="/camino"
+              className="mono-cap transition-colors hover:text-accent"
+              style={{ whiteSpace: "nowrap" }}
+            >
+              {season.label} · el año →
+            </Link>
+          </div>
         </div>
+
+        {/* ===== ASIDE (desktop) ===== */}
+        <aside className="hidden lg:flex lg:flex-col" style={{ paddingLeft: 40, borderLeft: "1px solid var(--rule)" }}>
+          <div className="flex items-baseline justify-between gap-3">
+            <h2 className="font-display text-ink" style={{ fontWeight: 300, fontSize: 27 }}>
+              Tu cuaderno
+            </h2>
+            <span className="mono-cap">{said} frases</span>
+          </div>
+          <p className="font-display text-ink-mute" style={{ fontStyle: "italic", fontSize: 14, margin: "6px 0 0" }}>
+            Todo lo que ya dijiste en voz alta.
+          </p>
+
+          <div style={{ marginTop: 22, flex: 1 }}>
+            {recent.length === 0 ? (
+              <p className="font-display text-ink-mute" style={{ fontStyle: "italic", fontSize: 15, paddingTop: 18, borderTop: "1px solid var(--rule)" }}>
+                Aún no hay frases. Di la primera hoy.
+              </p>
+            ) : (
+              recent.map((t) => <NotebookRow key={t.id} thought={t} />)
+            )}
+          </div>
+
+          <Link
+            href="/cuaderno"
+            className="mono-cap transition-colors hover:text-accent"
+            style={{ marginTop: 18, textAlign: "center" }}
+          >
+            ver el cuaderno entero →
+          </Link>
+        </aside>
+      </div>
+
+      {/* ===== Shortcuts — keep the rest of the app reachable ===== */}
+      <section
+        aria-label="Atajos"
+        style={{ marginTop: 30, paddingTop: 20, borderTop: "1px solid var(--rule)" }}
+      >
+        <p className="mono-cap" style={{ marginBottom: 14 }}>
+          Más en Pues
+        </p>
+        <div className="grid grid-cols-2 md:grid-cols-4" style={{ columnGap: 14, rowGap: 14 }}>
+          <Shortcut zone="var(--zone-practica)" zoneLabel="Práctica" title="Juegos" href="/practice/games"
+            icon={<svg viewBox="0 0 24 24" width="17" height="17" {...ws}><path d="M6 3h9l4 4v14H6z" /><path d="M9 12h7M9 16h5" /></svg>} />
+          <Shortcut zone="var(--zone-guias)" zoneLabel="Cuaderno" title="Guardado" href="/cuaderno"
+            icon={<svg viewBox="0 0 24 24" width="17" height="17" {...ws}><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4z" /></svg>} />
+          <Shortcut zone="var(--zone-lugares)" zoneLabel="Guías" title="Patrones" href="/guides"
+            icon={<svg viewBox="0 0 24 24" width="17" height="17" {...ws}><circle cx="7" cy="7" r="3" /><circle cx="17" cy="7" r="3" /><circle cx="7" cy="17" r="3" /><circle cx="17" cy="17" r="3" /></svg>} />
+          <Shortcut zone="var(--zone-lab)" zoneLabel="Lab" title="El oído" href="/lab"
+            icon={<svg viewBox="0 0 24 24" width="17" height="17" {...ws}><path d="M6 10a6 6 0 1 1 12 0v4a4 4 0 0 1-4 4h-1v-7" /></svg>} />
+        </div>
+      </section>
     </div>
   );
 }
 
-function MinimoCard({
-  index,
-  title,
-  sub,
-  href,
-  state,
-  onClick,
-}: {
-  index: number;
-  title: string;
-  sub: string;
-  href: string;
-  state: "done" | "active" | "pending";
-  onClick?: () => void;
-}) {
-  return (
-    <li>
-      <Link
-        href={href}
-        onClick={onClick}
+function RibbonCircle({ day }: { day: RibbonDay }) {
+  const { practiced, isToday, isFuture, label } = day;
+
+  let circle: React.ReactNode;
+  if (isToday) {
+    circle = (
+      <span
+        className="flex items-center justify-center"
         style={{
-          display: "flex",
-          alignItems: "flex-start",
-          gap: 12,
-          padding: "12px 14px",
-          borderRadius: 14,
-          background:
-            state === "done"
-              ? "color-mix(in oklab, var(--accent) 8%, var(--surface))"
-              : "var(--surface)",
-          border: `1px solid ${
-            state === "done"
-              ? "color-mix(in oklab, var(--accent) 30%, transparent)"
-              : "var(--rule)"
-          }`,
-          opacity: state === "pending" ? 0.7 : 1,
-          textDecoration: "none",
+          width: 42,
+          height: 42,
+          borderRadius: "50%",
+          background: "color-mix(in oklab, var(--accent) 20%, var(--surface))",
+          border: "1.5px solid var(--accent)",
+          color: "var(--accent)",
+          boxShadow: "0 0 0 4px color-mix(in oklab, var(--accent) 13%, transparent)",
         }}
       >
-        <span
-          aria-hidden
-          className="font-display"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: 28,
-            height: 28,
-            borderRadius: "50%",
-            flexShrink: 0,
-            background:
-              state === "pending"
-                ? "transparent"
-                : "color-mix(in oklab, var(--accent) 16%, transparent)",
-            border:
-              state === "pending"
-                ? "1px solid var(--rule)"
-                : "none",
-            color:
-              state === "pending" ? "var(--ink-mute)" : "var(--accent)",
-            fontSize: 14,
-            lineHeight: 1,
-            fontStyle: "italic",
-          }}
-        >
-          {index}
+        {IconMic}
+      </span>
+    );
+  } else if (practiced) {
+    circle = (
+      <span
+        className="flex items-center justify-center"
+        style={{ width: 34, height: 34, borderRadius: "50%", background: "var(--accent)", color: "var(--accent-ink)" }}
+      >
+        {IconCheck}
+      </span>
+    );
+  } else {
+    circle = (
+      <span
+        style={{
+          width: 34,
+          height: 34,
+          borderRadius: "50%",
+          border: "1.5px solid var(--rule)",
+          opacity: isFuture ? 0.7 : 1,
+        }}
+      />
+    );
+  }
+
+  return (
+    <span className="flex flex-col items-center" style={{ gap: 9 }}>
+      {circle}
+      <span className="mono-cap" style={{ fontSize: 9, color: isToday ? "var(--accent)" : "var(--ink-mute)" }}>
+        {label}
+      </span>
+    </span>
+  );
+}
+
+function NotebookRow({ thought }: { thought: Thought }) {
+  const d = new Date(thought.createdAt);
+  const day = Number.isNaN(d.getTime()) ? "" : DIA_SHORT[d.getDay()];
+  return (
+    <div className="flex items-start" style={{ gap: 12, padding: "17px 0", borderTop: "1px solid var(--rule)" }}>
+      <span className="mono-cap" style={{ fontSize: 8.5, paddingTop: 5, width: 28, flexShrink: 0 }}>
+        {day}
+      </span>
+      <span className="font-display text-ink-soft" style={{ fontSize: 17, lineHeight: 1.34, flex: 1 }}>
+        {thought.sentence}
+      </span>
+      <span style={{ flexShrink: 0, marginTop: 5, color: "var(--accent)" }} aria-hidden>
+        {IconCheck}
+      </span>
+    </div>
+  );
+}
+
+function CuadernoPreview({ said, entry }: { said: number; entry?: Thought }) {
+  const d = entry ? new Date(entry.createdAt) : null;
+  const day = d && !Number.isNaN(d.getTime()) ? DIA_SHORT[d.getDay()] : "";
+  return (
+    <div>
+      <Link href="/cuaderno" className="flex items-baseline justify-between gap-3 transition-colors hover:text-accent">
+        <span className="font-display text-ink" style={{ fontSize: 17 }}>
+          Tu cuaderno
         </span>
-        <span style={{ flex: 1, minWidth: 0 }}>
-          <span
-            className="font-display block"
-            style={{
-              fontSize: 15,
-              lineHeight: 1.15,
-              color: state === "pending" ? "var(--ink-soft)" : "var(--ink)",
-            }}
-          >
-            {title}
-          </span>
-          <span
-            className="block"
-            style={{
-              marginTop: 4,
-              color: "var(--ink-soft)",
-              fontSize: 12,
-              lineHeight: 1.4,
-            }}
-          >
-            {sub}
-          </span>
-        </span>
+        <span className="mono-cap">{said} frases · ver →</span>
       </Link>
-    </li>
+      {entry ? (
+        <div className="flex items-start" style={{ gap: 11, padding: "12px 0 0", marginTop: 8, borderTop: "1px solid var(--rule)" }}>
+          <span className="mono-cap" style={{ fontSize: 8, paddingTop: 4, width: 24, flexShrink: 0 }}>{day}</span>
+          <span className="font-display text-ink-soft" style={{ fontSize: 15, lineHeight: 1.32, flex: 1 }}>{entry.sentence}</span>
+          <span style={{ flexShrink: 0, marginTop: 4, color: "var(--accent)" }} aria-hidden>{IconCheck}</span>
+        </div>
+      ) : (
+        <p className="font-display text-ink-mute" style={{ fontStyle: "italic", fontSize: 14, padding: "12px 0 0", marginTop: 8, borderTop: "1px solid var(--rule)" }}>
+          Aún no hay frases. Di la primera hoy.
+        </p>
+      )}
+    </div>
   );
 }
 
@@ -652,44 +396,17 @@ function Shortcut({
   icon: React.ReactNode;
 }) {
   return (
-    <Link
-      href={href}
-      style={{
-        display: "flex",
-        alignItems: "center",
-        gap: 10,
-        padding: "4px 2px",
-        textDecoration: "none",
-      }}
-    >
+    <Link href={href} className="flex items-center" style={{ gap: 10, padding: "4px 2px", textDecoration: "none" }}>
       <span
         aria-hidden
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          width: 32,
-          height: 32,
-          borderRadius: 9,
-          flexShrink: 0,
-          background: `color-mix(in oklab, ${zone} 14%, transparent)`,
-          color: zone,
-        }}
+        className="flex items-center justify-center flex-shrink-0"
+        style={{ width: 32, height: 32, borderRadius: 9, background: `color-mix(in oklab, ${zone} 14%, transparent)`, color: zone }}
       >
         {icon}
       </span>
-      <span style={{ display: "flex", flexDirection: "column", minWidth: 0 }}>
-        <span
-          className="font-display"
-          style={{ fontSize: 14, lineHeight: 1.1, color: zone }}
-        >
-          {zoneLabel}
-        </span>
-        <span
-          style={{ fontSize: 11, lineHeight: 1.2, color: "var(--ink-soft)", marginTop: 2 }}
-        >
-          {title}
-        </span>
+      <span className="flex flex-col" style={{ minWidth: 0 }}>
+        <span className="font-display" style={{ fontSize: 14, lineHeight: 1.1, color: zone }}>{zoneLabel}</span>
+        <span style={{ fontSize: 11, lineHeight: 1.2, color: "var(--ink-soft)", marginTop: 2 }}>{title}</span>
       </span>
     </Link>
   );

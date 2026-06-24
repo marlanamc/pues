@@ -29,7 +29,6 @@ export function NotebookAside() {
   const week = last7Days(practiced);
   const ready = hydrated && thoughtsHydrated;
 
-  const streakLabel = streak === 1 ? "día de racha" : "días de racha";
   const todayProgress = Math.min(todayCount, PROMPTS_PER_DAY);
   const todayPct = (todayProgress / PROMPTS_PER_DAY) * 100;
 

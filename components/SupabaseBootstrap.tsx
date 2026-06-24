@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
 import { startSync, stopSync } from "@/lib/sync";
+import { runMigrations } from "@/lib/store";
 
 async function ensureSessionAndSync() {
   const supabase = createClient();
@@ -35,6 +36,10 @@ async function ensureSessionAndSync() {
  */
 export function SupabaseBootstrap() {
   useEffect(() => {
+    // Bring persisted localStorage up to the current schema before anything
+    // reads it — runs whether or not cloud sync is configured.
+    runMigrations();
+
     if (!isSupabaseConfigured()) return;
 
     const supabase = createClient();

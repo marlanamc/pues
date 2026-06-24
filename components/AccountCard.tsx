@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase/client";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
+import { SyncStatus } from "@/components/SyncStatus";
 
 type Status = "loading" | "anonymous" | "signed-in" | "error";
 type Mode = "sign-in" | "sign-up";
@@ -130,6 +131,7 @@ export function AccountCard() {
             <p className="text-sm text-ink-mute leading-relaxed break-all">
               Signed in as {user.email}. Your data syncs across devices.
             </p>
+            <SyncStatus />
           </div>
           <button
             type="button"
