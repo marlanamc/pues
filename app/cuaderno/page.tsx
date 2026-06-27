@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useMemo } from "react";
+import { Gloss } from "@/components/Gloss";
 import { PageHeader, Wordmark } from "@/components/PageHeader";
 import { useStats } from "@/hooks/useStats";
 import { useThoughts } from "@/hooks/useThoughts";
@@ -83,12 +84,17 @@ export default function CuadernoPage() {
       <div className="lg:mt-8 lg:grid lg:grid-cols-[1.4fr_1fr] lg:items-start lg:gap-12">
         {/* ===== MAIN — everything you said ===== */}
         <div style={{ marginTop: 22 }}>
-          <p className="mono-cap">Tu cuaderno · {saidLabel} frases</p>
+          <p className="mono-cap">
+            Tu cuaderno · {saidLabel} frases
+            <Gloss>{`Your notebook · ${saidLabel} sentences`}</Gloss>
+          </p>
           <h1 className="text-display-2xl text-ink" style={{ marginTop: 8 }}>
             Todo lo que dijiste.
+            <Gloss>{"Everything you said."}</Gloss>
           </h1>
           <p className="text-display-italic text-[1.0625rem]" style={{ margin: "12px 0 0" }}>
             En voz alta, sin que se borre. Crece contigo.
+            <Gloss>{"Out loud, without erasing. It grows with you."}</Gloss>
           </p>
 
           {!hydrated ? (
@@ -105,9 +111,10 @@ export default function CuadernoPage() {
             <div style={{ marginTop: 34, paddingTop: 18, borderTop: "1px solid var(--rule)" }}>
               <p className="font-display text-ink-mute" style={{ fontStyle: "italic", fontSize: 16 }}>
                 Aún no hay frases. Di la primera hoy.
+                <Gloss>{"No sentences yet. Say the first one today."}</Gloss>
               </p>
               <Link href="/practice" className="btn-primary" style={{ marginTop: 18, maxWidth: 260 }}>
-                <span className="lab">Empezar</span>
+                <span className="lab">Empezar<Gloss>{"Get started"}</Gloss></span>
                 <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden fill="none" stroke="currentColor" strokeWidth={1.7} strokeLinecap="round" strokeLinejoin="round">
                   <path d="M5 12h14M13 6l6 6-6 6" />
                 </svg>
@@ -137,21 +144,33 @@ export default function CuadernoPage() {
 
         {/* ===== ASIDE — el recuento ===== */}
         <aside className="hidden lg:flex lg:flex-col" style={{ paddingLeft: 40, borderLeft: "1px solid var(--rule)" }}>
-          <h2 className="font-display text-ink" style={{ fontWeight: 300, fontSize: 24 }}>El recuento</h2>
+          <h2 className="font-display text-ink" style={{ fontWeight: 300, fontSize: 24 }}>
+            El recuento
+            <Gloss>{"The count"}</Gloss>
+          </h2>
 
           <div className="flex" style={{ gap: 14, marginTop: 24 }}>
             <div style={{ flex: 1, padding: 18, background: "var(--surface)", border: "1px solid var(--rule)", borderRadius: 14 }}>
               <span className="font-display" style={{ fontWeight: 300, fontSize: 34, color: "var(--accent)" }}>{saidLabel}</span>
-              <p className="mono-cap" style={{ margin: "6px 0 0" }}>frases dichas</p>
+              <p className="mono-cap" style={{ margin: "6px 0 0" }}>
+                frases dichas
+                <Gloss>{"sentences said"}</Gloss>
+              </p>
             </div>
             <div style={{ flex: 1, padding: 18, background: "var(--surface)", border: "1px solid var(--rule)", borderRadius: 14 }}>
               <span className="font-display text-ink" style={{ fontWeight: 300, fontSize: 34 }}>{hydrated ? streak : "—"}</span>
-              <p className="mono-cap" style={{ margin: "6px 0 0" }}>días de racha</p>
+              <p className="mono-cap" style={{ margin: "6px 0 0" }}>
+                días de racha
+                <Gloss>{"days streak"}</Gloss>
+              </p>
             </div>
           </div>
 
           <div style={{ marginTop: 26 }}>
-            <span className="mono-cap">Por temporada</span>
+            <span className="mono-cap">
+              Por temporada
+              <Gloss>{"By season"}</Gloss>
+            </span>
             {SEASONS.map((s) => {
               const count = perSeason.get(s.index) ?? 0;
               const reached = s.index <= currentSeasonIndex || count > 0;
@@ -167,6 +186,7 @@ export default function CuadernoPage() {
 
           <p className="font-display text-ink-mute" style={{ fontStyle: "italic", fontSize: 15, lineHeight: 1.5, margin: "26px 0 0" }}>
             Cada frase aquí la dijiste tú. Nadie te la tradujo.
+            <Gloss>{"Every sentence here, you said it. Nobody translated it for you."}</Gloss>
           </p>
 
           <Link href="/thoughts" className="mono-cap transition-colors hover:text-accent" style={{ marginTop: 18 }}>

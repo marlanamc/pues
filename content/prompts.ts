@@ -42,8 +42,12 @@ export type SpeakDay = {
   day: number;
   /** Spanish theme label for the day cap, e.g. "La vida diaria". */
   themeEs: string;
+  /** English translation of the theme label. */
+  themeEn: string;
   /** One warm Spanish sentence shown on Home. */
   line: string;
+  /** English translation of the motivational line. */
+  lineEn: string;
   prompts: SpeakPrompt[];
 };
 
@@ -51,7 +55,9 @@ export const speakDays: SpeakDay[] = [
   {
     day: 1,
     themeEs: "Deseos y planes",
+    themeEn: "Wishes & plans",
     line: "Cinco minutos son una conversación entera.",
+    lineEn: "Five minutes is a whole conversation.",
     prompts: [
       {
         id: "d1-quiero",
@@ -129,7 +135,9 @@ export const speakDays: SpeakDay[] = [
   {
     day: 2,
     themeEs: "La vida diaria",
+    themeEn: "Daily life",
     line: "Lo cotidiano también merece palabras.",
+    lineEn: "Everyday things deserve words too.",
     prompts: [
       {
         id: "d2-tengo",
@@ -214,7 +222,9 @@ export const speakDays: SpeakDay[] = [
   {
     day: 3,
     themeEs: "Creencias e ideas",
+    themeEn: "Beliefs & ideas",
     line: "Tus ideas suenan distinto en voz alta.",
+    lineEn: "Your ideas sound different out loud.",
     prompts: [
       {
         id: "d3-creo",
@@ -292,7 +302,9 @@ export const speakDays: SpeakDay[] = [
   {
     day: 4,
     themeEs: "Gustos y disgustos",
+    themeEn: "Likes & dislikes",
     line: "Di lo que de verdad te gusta.",
+    lineEn: "Say what you actually like.",
     prompts: [
       {
         id: "d4-me-gusta",
@@ -371,7 +383,9 @@ export const speakDays: SpeakDay[] = [
   {
     day: 5,
     themeEs: "La gente",
+    themeEn: "People",
     line: "Las personas se cuentan, no se traducen.",
+    lineEn: "People are told, not translated.",
     prompts: [
       {
         id: "d5-mi-amigo",
@@ -454,7 +468,9 @@ export const speakDays: SpeakDay[] = [
   {
     day: 6,
     themeEs: "El pasado",
+    themeEn: "The past",
     line: "El pasado se dice con calma.",
+    lineEn: "The past is said calmly.",
     prompts: [
       {
         id: "d6-ayer",
@@ -538,7 +554,9 @@ export const speakDays: SpeakDay[] = [
   {
     day: 7,
     themeEs: "Aprender",
+    themeEn: "Learning",
     line: "Aprender es repetir sin miedo.",
+    lineEn: "Learning is repeating without fear.",
     prompts: [
       {
         id: "d7-estoy-aprendiendo",
@@ -621,7 +639,9 @@ export const speakDays: SpeakDay[] = [
   {
     day: 8,
     themeEs: "Las emociones",
+    themeEn: "Emotions",
     line: "Nombrar lo que sientes ya es avanzar.",
+    lineEn: "Naming what you feel is already progress.",
     prompts: [
       {
         id: "d8-me-siento",
@@ -702,7 +722,9 @@ export const speakDays: SpeakDay[] = [
   {
     day: 9,
     themeEs: "Los retos",
+    themeEn: "Challenges",
     line: "Lo difícil se vuelve dicho.",
+    lineEn: "The hard thing becomes said.",
     prompts: [
       {
         id: "d9-es-dificil",
@@ -788,7 +810,9 @@ export const speakDays: SpeakDay[] = [
   {
     day: 10,
     themeEs: "El futuro",
+    themeEn: "The future",
     line: "El futuro empieza en una frase.",
+    lineEn: "The future starts with a sentence.",
     prompts: [
       {
         id: "d10-espero",
@@ -873,7 +897,9 @@ export const speakDays: SpeakDay[] = [
   {
     day: 11,
     themeEs: "Trabajo y propósito",
+    themeEn: "Work & purpose",
     line: "Tu trabajo cabe en una oración.",
+    lineEn: "Your work fits in a sentence.",
     prompts: [
       {
         id: "d11-trabajo-en",
@@ -960,7 +986,9 @@ export const speakDays: SpeakDay[] = [
   {
     day: 12,
     themeEs: "Experiencias",
+    themeEn: "Experiences",
     line: "Lo que viviste, cuéntalo.",
+    lineEn: "What you lived through — tell it.",
     prompts: [
       {
         id: "d12-he-estado",
@@ -1047,7 +1075,9 @@ export const speakDays: SpeakDay[] = [
   {
     day: 13,
     themeEs: "Posibilidades",
+    themeEn: "Possibilities",
     line: "Imagina en voz alta, sin límites.",
+    lineEn: "Imagine out loud, without limits.",
     prompts: [
       {
         id: "d13-si-pudiera",
@@ -1135,7 +1165,9 @@ export const speakDays: SpeakDay[] = [
   {
     day: 14,
     themeEs: "Tu historia",
+    themeEn: "Your story",
     line: "Tu historia, dicha por ti.",
+    lineEn: "Your story, told by you.",
     prompts: [
       {
         id: "d14-soy",

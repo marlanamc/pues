@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useMemo } from "react";
+import { Gloss } from "@/components/Gloss";
 import { PageHeader, Wordmark } from "@/components/PageHeader";
 import { useStats } from "@/hooks/useStats";
 import { useThoughts } from "@/hooks/useThoughts";
@@ -14,49 +15,69 @@ const SEASON_DAYS = 90;
 type Temporada = {
   index: 1 | 2 | 3 | 4;
   range: string;
+  rangeEn: string;
   seasonLabel: string;
   color: string;
   title: string;
+  titleEn: string;
   body: string;
+  bodyEn: string;
   goals: string[];
+  goalsEn: string[];
 };
 
 const TEMPORADAS: Temporada[] = [
   {
     index: 1,
     range: "Jun – Ago · verano",
+    rangeEn: "Jun – Aug · summer",
     seasonLabel: "verano",
     color: SEASONS[0].color,
     title: "El verano que hablo",
+    titleEn: "The summer I speak",
     body: "Una conversación simple, sin pánico — y tu primera noticia corta.",
+    bodyEn: "One simple conversation, no panic — and your first short news story.",
     goals: ["Una conversación simple, sin pánico.", "Leer una noticia corta, entera."],
+    goalsEn: ["One simple conversation, no panic.", "Read one short news article, all the way through."],
   },
   {
     index: 2,
     range: "Sep – Nov · otoño",
+    rangeEn: "Sep – Nov · fall",
     seasonLabel: "otoño",
     color: SEASONS[1].color,
     title: "Seguir el hilo",
+    titleEn: "Follow the thread",
     body: "Sigues una historia en las noticias · hablas un minuto sin parar.",
+    bodyEn: "You follow a story in the news · you speak for a minute without stopping.",
     goals: ["Seguir una historia varios días.", "Hablar un minuto sin parar."],
+    goalsEn: ["Follow one story for several days.", "Speak for a minute without stopping."],
   },
   {
     index: 3,
     range: "Dic – Feb · invierno",
+    rangeEn: "Dec – Feb · winter",
     seasonLabel: "invierno",
     color: SEASONS[2].color,
     title: "Sin subtítulos",
+    titleEn: "No subtitles",
     body: "Ves algo sin subtítulos, sin perderte · una charla de ida y vuelta.",
+    bodyEn: "You watch something without subtitles, without getting lost · a back-and-forth conversation.",
     goals: ["Ver algo sin subtítulos.", "Una charla de ida y vuelta."],
+    goalsEn: ["Watch something without subtitles.", "A back-and-forth conversation."],
   },
   {
     index: 4,
     range: "Mar – May · primavera",
+    rangeEn: "Mar – May · spring",
     seasonLabel: "primavera",
     color: SEASONS[3].color,
     title: "Conversación completa",
+    titleEn: "Full conversation",
     body: "Una conversación larga, con bromas y silencios, sin esfuerzo.",
+    bodyEn: "A long conversation, with jokes and silences, effortlessly.",
     goals: ["Una conversación larga y natural.", "Bromas y silencios, sin esfuerzo."],
+    goalsEn: ["A long, natural conversation.", "Jokes and silences, effortlessly."],
   },
 ];
 
@@ -86,15 +107,20 @@ export default function CaminoPage() {
       <div className="lg:mt-8 lg:grid lg:grid-cols-[1.4fr_1fr] lg:items-start lg:gap-12">
         {/* ===== MAIN — the year as a journey ===== */}
         <div style={{ marginTop: 22 }}>
-          <p className="mono-cap">El Camino · un año</p>
+          <p className="mono-cap">
+            El Camino · un año
+            <Gloss>{"The Path · one year"}</Gloss>
+          </p>
           <h1 className="text-display-2xl text-ink" style={{ marginTop: 8 }}>
             Cuatro temporadas.
+            <Gloss>{"Four seasons."}</Gloss>
           </h1>
           <p
             className="text-display-italic text-[1.0625rem]"
             style={{ margin: "12px 0 0", maxWidth: "40ch" }}
           >
             De una conversación con pánico, a olvidar que estás traduciendo.
+            <Gloss>{"From a conversation with panic, to forgetting you're translating."}</Gloss>
           </p>
 
           <div style={{ position: "relative", marginTop: 40, maxWidth: 620 }}>
@@ -139,14 +165,20 @@ export default function CaminoPage() {
                     {active && (
                       <span className="mono-cap" style={{ color: "var(--accent)" }}>
                         Estás aquí · Día {dayLabel}
+                        <Gloss>{`You are here · Day ${dayLabel}`}</Gloss>
                       </span>
                     )}
                     <h3 className="font-display" style={{ fontWeight: 300, fontSize: 24, lineHeight: 1.1, color: titleCol, margin: active ? "4px 0 3px" : "0 0 3px" }}>
                       T{t.index} — {t.title}
+                      <Gloss>{t.titleEn}</Gloss>
                     </h3>
-                    <span className="mono-cap" style={{ color: t.color }}>{t.range}</span>
+                    <span className="mono-cap" style={{ color: t.color }}>
+                      {t.range}
+                      <Gloss>{t.rangeEn}</Gloss>
+                    </span>
                     <p className="text-gloss" style={{ color: bodyCol, margin: "8px 0 0", maxWidth: "46ch" }}>
                       {t.body}
+                      <Gloss>{t.bodyEn}</Gloss>
                     </p>
                   </div>
                 </div>
@@ -159,9 +191,13 @@ export default function CaminoPage() {
                 <span style={{ display: "block", width: 11, height: 11, borderRadius: "50%", margin: "5px 0 0 8px", background: "var(--bg)", border: "2px dashed var(--ink-mute)" }} />
               </div>
               <div>
-                <span className="mono-cap">El horizonte</span>
+                <span className="mono-cap">
+                  El horizonte
+                  <Gloss>{"The horizon"}</Gloss>
+                </span>
                 <p className="font-display text-ink-soft" style={{ fontStyle: "italic", fontWeight: 300, fontSize: 19, lineHeight: 1.32, margin: "5px 0 0" }}>
                   Hablas, y se te olvida que estás traduciendo.
+                  <Gloss>{"You speak, and you forget you're translating."}</Gloss>
                 </p>
               </div>
             </div>
@@ -170,9 +206,13 @@ export default function CaminoPage() {
 
         {/* ===== ASIDE — current temporada ===== */}
         <aside className="hidden lg:flex lg:flex-col" style={{ paddingLeft: 40, borderLeft: "1px solid var(--rule)" }}>
-          <span className="mono-cap" style={{ color: "var(--accent)" }}>Estás aquí · Día {dayLabel}</span>
+          <span className="mono-cap" style={{ color: "var(--accent)" }}>
+            Estás aquí · Día {dayLabel}
+            <Gloss>{`You are here · Day ${dayLabel}`}</Gloss>
+          </span>
           <h2 className="font-display text-ink" style={{ fontWeight: 300, fontSize: 27, lineHeight: 1.08, marginTop: 8 }}>
             {current.title}
+            <Gloss>{current.titleEn}</Gloss>
           </h2>
           <span className="mono-cap" style={{ color: current.color, marginTop: 6 }}>
             Temporada {current.index} · {current.seasonLabel}
@@ -180,7 +220,10 @@ export default function CaminoPage() {
 
           <div style={{ marginTop: 26, padding: 18, background: "var(--surface)", border: "1px solid var(--rule)", borderRadius: 16 }}>
             <div className="flex items-baseline justify-between">
-              <span className="mono-cap">Progreso</span>
+              <span className="mono-cap">
+                Progreso
+                <Gloss>{"Progress"}</Gloss>
+              </span>
               <span className="mono-cap" style={{ color: "var(--accent)" }}>{dayNum} / {SEASON_DAYS} días</span>
             </div>
             <div style={{ position: "relative", height: 6, borderRadius: 3, background: "var(--bg)", marginTop: 12, overflow: "hidden" }}>
@@ -188,11 +231,15 @@ export default function CaminoPage() {
             </div>
             <p className="font-display text-ink-soft" style={{ fontSize: 15, lineHeight: 1.5, margin: "16px 0 0" }}>
               {current.body}
+              <Gloss>{current.bodyEn}</Gloss>
             </p>
           </div>
 
           <div style={{ marginTop: 22 }}>
-            <span className="mono-cap">Metas de la temporada</span>
+            <span className="mono-cap">
+              Metas de la temporada
+              <Gloss>{"Season goals"}</Gloss>
+            </span>
             {current.goals.map((goal, i) => {
               const done = i === 0 && streak > 0;
               return (
@@ -206,6 +253,7 @@ export default function CaminoPage() {
                   )}
                   <span className="font-display" style={{ fontSize: 16, color: done ? "var(--ink-soft)" : "var(--ink-mute)" }}>
                     {goal}
+                    <Gloss>{current.goalsEn[i]}</Gloss>
                   </span>
                 </div>
               );
@@ -213,7 +261,7 @@ export default function CaminoPage() {
           </div>
 
           <Link href="/practice" className="btn-primary" style={{ marginTop: "auto" }}>
-            <span className="lab">Practicar lo de hoy</span>
+            <span className="lab">Practicar lo de hoy<Gloss>{"Practice today's"}</Gloss></span>
             <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden fill="none" stroke="currentColor" strokeWidth={1.7} strokeLinecap="round" strokeLinejoin="round">
               <path d="M5 12h14M13 6l6 6-6 6" />
             </svg>

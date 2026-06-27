@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { Gloss } from "@/components/Gloss";
 import { PageHeader, Wordmark } from "@/components/PageHeader";
 import { speakDayForIndex } from "@/content/prompts";
 import { useStats } from "@/hooks/useStats";
@@ -100,9 +101,11 @@ export default function HomePage() {
         <div className="flex flex-col" style={{ marginTop: 22 }}>
           <p className="text-display-italic text-sm" style={{ margin: 0 }}>
             {streak > 0 ? `${streak} ${streak === 1 ? "día seguido" : "días seguidos"},` : "Hoy empieza,"}
+            <Gloss>{streak > 0 ? `${streak} ${streak === 1 ? "day" : "days"} in a row,` : "Today starts,"}</Gloss>
           </p>
           <h1 className="text-display-2xl text-ink" style={{ marginTop: 6 }}>
             {streak > 0 ? "no rompas la racha." : "di tu primera frase."}
+            <Gloss>{streak > 0 ? "don't break the streak." : "say your first sentence."}</Gloss>
           </h1>
 
           {/* Weekday ribbon */}
@@ -146,13 +149,17 @@ export default function HomePage() {
                 <span className="mono-cap" style={{ color: "var(--accent)" }}>
                   Lo de hoy · {todayEs}
                 </span>
-                <span className="mono-cap">{day.themeEs}</span>
+                <span className="mono-cap">
+                  {day.themeEs}
+                  <Gloss>{day.themeEn}</Gloss>
+                </span>
               </div>
               <p
                 className="font-display text-ink"
                 style={{ fontWeight: 300, fontSize: 34, lineHeight: 1.26, margin: "16px 0 0" }}
               >
                 {day.line}
+                <Gloss>{day.lineEn}</Gloss>
               </p>
               <div className="flex items-center" style={{ gap: 18, marginTop: 26 }}>
                 <Link
@@ -179,6 +186,7 @@ export default function HomePage() {
                   style={{ fontStyle: "italic", fontSize: 18, lineHeight: 1.35 }}
                 >
                   Dílo en voz alta — o graba 20&nbsp;s.
+                  <Gloss>{"Say it out loud — or record 20 s."}</Gloss>
                 </span>
               </div>
             </div>
@@ -234,17 +242,20 @@ export default function HomePage() {
           <div className="flex items-baseline justify-between gap-3">
             <h2 className="font-display text-ink" style={{ fontWeight: 300, fontSize: 27 }}>
               Tu cuaderno
+              <Gloss>{"Your notebook"}</Gloss>
             </h2>
             <span className="mono-cap">{said} frases</span>
           </div>
           <p className="font-display text-ink-mute" style={{ fontStyle: "italic", fontSize: 14, margin: "6px 0 0" }}>
             Todo lo que ya dijiste en voz alta.
+            <Gloss>{"Everything you've already said out loud."}</Gloss>
           </p>
 
           <div style={{ marginTop: 22, flex: 1 }}>
             {recent.length === 0 ? (
               <p className="font-display text-ink-mute" style={{ fontStyle: "italic", fontSize: 15, paddingTop: 18, borderTop: "1px solid var(--rule)" }}>
                 Aún no hay frases. Di la primera hoy.
+                <Gloss>{"No sentences yet. Say the first one today."}</Gloss>
               </p>
             ) : (
               recent.map((t) => <NotebookRow key={t.id} thought={t} />)
@@ -268,6 +279,7 @@ export default function HomePage() {
       >
         <p className="mono-cap" style={{ marginBottom: 14 }}>
           Más en Pues
+          <Gloss>{"More in Pues"}</Gloss>
         </p>
         <div className="grid grid-cols-2 md:grid-cols-4" style={{ columnGap: 14, rowGap: 14 }}>
           <Shortcut zone="var(--zone-practica)" zoneLabel="Práctica" title="Juegos" href="/practice/games"
@@ -364,6 +376,7 @@ function CuadernoPreview({ said, entry }: { said: number; entry?: Thought }) {
       <Link href="/cuaderno" className="flex items-baseline justify-between gap-3 transition-colors hover:text-accent">
         <span className="font-display text-ink" style={{ fontSize: 17 }}>
           Tu cuaderno
+          <Gloss>{"Your notebook"}</Gloss>
         </span>
         <span className="mono-cap">{said} frases · ver →</span>
       </Link>
@@ -376,6 +389,7 @@ function CuadernoPreview({ said, entry }: { said: number; entry?: Thought }) {
       ) : (
         <p className="font-display text-ink-mute" style={{ fontStyle: "italic", fontSize: 14, padding: "12px 0 0", marginTop: 8, borderTop: "1px solid var(--rule)" }}>
           Aún no hay frases. Di la primera hoy.
+          <Gloss>{"No sentences yet. Say the first one today."}</Gloss>
         </p>
       )}
     </div>
