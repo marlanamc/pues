@@ -43,21 +43,27 @@ export default function FlowLayout({ children }: { children: React.ReactNode }) 
           Salir
         </Link>
         <div className="flex items-center gap-2.5 lg:contents">
-          <div
-            className="flex items-center gap-1.5 lg:justify-self-center"
-            aria-hidden
-          >
-            {[1, 2, 3].map((n) => (
-              <span
-                key={n}
-                className="rounded-full transition-all"
-                style={{
-                  width: n === current ? 16 : 6,
-                  height: 6,
-                  background: n <= current ? "var(--accent)" : "var(--rule)",
-                }}
-              />
-            ))}
+          <div className="flex items-center gap-2 lg:justify-self-center">
+            <div className="flex items-center gap-1.5" aria-hidden>
+              {[1, 2, 3].map((n) => (
+                <span
+                  key={n}
+                  className="rounded-full transition-all"
+                  style={{
+                    width: n === current ? 16 : 6,
+                    height: 6,
+                    background: n <= current ? "var(--accent)" : "var(--rule)",
+                  }}
+                />
+              ))}
+            </div>
+            <span
+              className="mono-cap"
+              style={{ fontSize: 9, color: "var(--ink-mute)" }}
+              aria-label={`Paso ${current} de 3`}
+            >
+              {current} / 3
+            </span>
           </div>
           <div className="lg:justify-self-end">
             <SettingsMenuButton />
