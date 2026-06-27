@@ -2,6 +2,7 @@ import Link from "next/link";
 import { AccountCard } from "@/components/AccountCard";
 import { ThemePicker } from "@/components/ThemePicker";
 import { AudioSpeedToggle } from "@/components/AudioSpeedToggle";
+import { EnglishGlossToggle } from "@/components/EnglishGlossToggle";
 
 export default function SettingsPage() {
   return (
@@ -48,6 +49,20 @@ export default function SettingsPage() {
               </p>
             </div>
             <AudioSpeedToggle />
+          </div>
+        </li>
+
+        <li className="rounded-lg border border-rule bg-surface p-6 space-y-4">
+          <div className="flex items-start justify-between gap-4">
+            <div className="min-w-0 space-y-1">
+              <p className="font-display text-[1.125rem] text-ink leading-tight">
+                English glosses
+              </p>
+              <p className="text-sm text-ink-mute leading-relaxed">
+                Show a small English translation under Spanish UI phrases.
+              </p>
+            </div>
+            <EnglishGlossToggle />
           </div>
         </li>
 

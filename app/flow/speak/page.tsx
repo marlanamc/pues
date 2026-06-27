@@ -9,6 +9,7 @@ import { useFlowDraft } from "@/hooks/useFlowDraft";
 import { useRecorder } from "@/hooks/useRecorder";
 import { MicButton } from "@/components/MicButton";
 import { ClickablePrompt } from "@/components/ClickablePrompt";
+import { Gloss } from "@/components/Gloss";
 
 export default function SpeakPage() {
   const router = useRouter();
@@ -127,6 +128,7 @@ export default function SpeakPage() {
 
         <p className="mono-cap mt-7 mb-3 lg:mt-5 lg:mb-2.5">
           Dilo en español
+          <Gloss>Say it in Spanish</Gloss>
         </p>
         <ClickablePrompt text={prompt.english} wordHints={prompt.wordHints} />
       </div>
@@ -159,6 +161,7 @@ export default function SpeakPage() {
         </svg>
         <span className="mono-cap" style={{ color: "var(--ink-soft)" }}>
           La respuesta se revela después
+          <Gloss>The answer is revealed after</Gloss>
         </span>
       </div>
     </div>

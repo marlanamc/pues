@@ -12,6 +12,7 @@ import { useFlowDraft } from "@/hooks/useFlowDraft";
 import { useThoughts } from "@/hooks/useThoughts";
 import { PlayButton } from "@/components/PlayButton";
 import { RecordingPlayButton } from "@/components/RecordingPlayButton";
+import { Gloss } from "@/components/Gloss";
 
 export default function SavedPage() {
   const router = useRouter();
@@ -119,6 +120,7 @@ export default function SavedPage() {
         >
           ¡Bien dicho!
         </h1>
+        <Gloss>Well said!</Gloss>
         <p
           className="font-display"
           style={{

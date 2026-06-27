@@ -8,6 +8,7 @@ import { Ledger, ZoneRow } from "@/components/ZoneList";
 import { MicButton } from "@/components/MicButton";
 import { ClickablePrompt } from "@/components/ClickablePrompt";
 import { games } from "@/content/games";
+import { Gloss } from "@/components/Gloss";
 import { speakDayForIndex, promptForSession } from "@/content/prompts";
 import { getSessionIndex } from "@/lib/store";
 import { useStats } from "@/hooks/useStats";
@@ -154,12 +155,14 @@ export default function PracticeActPage() {
           <p className="text-display-italic text-[1.0625rem]" style={{ margin: "2px 0 0" }}>
             Tres frases, dos verbos, una dicha en voz alta.
           </p>
+          <Gloss>Three sentences, two verbs, one said aloud.</Gloss>
 
           <div className="flex flex-wrap" style={{ gap: 40, marginTop: 34 }}>
             {/* left — read 3, recognize 2 */}
             <div style={{ flex: 1, minWidth: 260, maxWidth: 380 }}>
               <div style={{ paddingTop: 18, borderTop: "1px solid var(--rule)" }}>
                 <span className="mono-cap">Tres frases</span>
+                <Gloss>Three sentences</Gloss>
                 <p
                   className="font-display text-ink"
                   style={{ fontWeight: 400, fontSize: 19, lineHeight: 1.85, margin: "10px 0 0" }}
@@ -174,6 +177,7 @@ export default function PracticeActPage() {
               </div>
               <div style={{ paddingTop: 18, marginTop: 14, borderTop: "1px solid var(--rule)" }}>
                 <span className="mono-cap">Dos verbos</span>
+                <Gloss>Two verbs</Gloss>
                 <p
                   className="font-display text-ink"
                   style={{ fontWeight: 400, fontSize: 20, margin: "10px 0 0" }}
@@ -213,6 +217,7 @@ export default function PracticeActPage() {
                   <span className="mono-cap" style={{ color: "var(--accent)" }}>
                     Uno en voz alta
                   </span>
+                  <Gloss>One aloud</Gloss>
                   <div className="font-display" style={{ fontStyle: "italic", fontWeight: 300, fontSize: 23, lineHeight: 1.42, color: "var(--ink)", marginTop: 12 }}>
                     <ClickablePrompt text={prompt.english} wordHints={prompt.wordHints} />
                   </div>
@@ -232,11 +237,12 @@ export default function PracticeActPage() {
           <h2 className="font-display text-ink" style={{ fontWeight: 300, fontSize: 24 }}>
             Cómo funciona
           </h2>
+          <Gloss>How it works</Gloss>
           <div style={{ marginTop: 22 }}>
             {[
-              { n: 3, t: "Lees tres frases para entrar en tema." },
-              { n: 2, t: "Reconoces dos verbos del día." },
-              { n: 1, t: "Dices una frase en voz alta. Eso mantiene la racha." },
+              { n: 3, t: "Lees tres frases para entrar en tema.", en: "Read three sentences to get into the topic." },
+              { n: 2, t: "Reconoces dos verbos del día.", en: "Notice two verbs from today." },
+              { n: 1, t: "Dices una frase en voz alta. Eso mantiene la racha.", en: "Say one sentence out loud. That keeps the streak." },
             ].map((s, i, arr) => (
               <div
                 key={s.n}
@@ -253,6 +259,7 @@ export default function PracticeActPage() {
                 </span>
                 <span className="font-display text-ink-soft" style={{ fontSize: 16, lineHeight: 1.4 }}>
                   {s.t}
+                  <Gloss>{s.en}</Gloss>
                 </span>
               </div>
             ))}
@@ -261,7 +268,7 @@ export default function PracticeActPage() {
             className="flex items-center justify-between"
             style={{ marginTop: "auto", paddingTop: 18, borderTop: "1px solid var(--rule)" }}
           >
-            <span className="mono-cap">Dichas</span>
+            <span className="mono-cap">Dichas<Gloss>Said aloud</Gloss></span>
             <span className="font-display text-ink" style={{ fontSize: 22 }}>
               {statsHydrated ? said : thoughts.length}
             </span>

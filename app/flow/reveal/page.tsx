@@ -10,11 +10,12 @@ import { isRecorderSupported } from "@/hooks/useRecorder";
 import { PlayButton } from "@/components/PlayButton";
 import { RecordingPlayButton } from "@/components/RecordingPlayButton";
 import { RecordingCaptureButton } from "@/components/RecordingCaptureButton";
+import { Gloss } from "@/components/Gloss";
 
-const options: { value: Reflection; label: string }[] = [
-  { value: "yes", label: "Lo dije con soltura" },
-  { value: "maybe", label: "Casi — por poco" },
-  { value: "not_really", label: "Quiero practicarla" },
+const options: { value: Reflection; label: string; en: string }[] = [
+  { value: "yes", label: "Lo dije con soltura", en: "I said it naturally" },
+  { value: "maybe", label: "Casi — por poco", en: "Almost — close enough" },
+  { value: "not_really", label: "Quiero practicarla", en: "I want to practice this one" },
 ];
 
 export default function RevealPage() {
@@ -45,6 +46,7 @@ export default function RevealPage() {
     >
       <p className="mono-cap mt-6 mb-3 lg:mt-4 lg:mb-2.5">
         Una forma natural de decirlo
+        <Gloss>A natural way to say it</Gloss>
       </p>
 
       <div className="border-t-2 border-accent pt-4">
@@ -142,6 +144,7 @@ export default function RevealPage() {
       <div className="mt-6 lg:mt-8">
         <p className="mb-3 font-display text-base italic text-ink">
           ¿Cómo se sintió la tuya?
+          <Gloss>How did yours feel?</Gloss>
         </p>
 
         <div className="mb-4 flex flex-col gap-2 lg:mb-0">
@@ -161,7 +164,7 @@ export default function RevealPage() {
               }}
             >
               <span
-                className="inline-flex items-center justify-center rounded-full"
+                className="inline-flex flex-shrink-0 items-center justify-center rounded-full"
                 style={{
                   width: 16,
                   height: 16,
@@ -169,7 +172,10 @@ export default function RevealPage() {
                 }}
                 aria-hidden
               />
-              {o.label}
+              <span>
+                {o.label}
+                <Gloss>{o.en}</Gloss>
+              </span>
             </button>
           ))}
         </div>
