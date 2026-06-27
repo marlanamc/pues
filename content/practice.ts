@@ -1,5 +1,5 @@
 /**
- * Práctica hub — active practice: journal, progress, and future games.
+ * Práctica hub — active practice: the phrase plan, bedtime reading, and games.
  */
 
 export type PracticeHubItem = {
@@ -7,49 +7,43 @@ export type PracticeHubItem = {
   label: string;
   description: string;
   meta?: string;
-  iconId: "journal" | "games";
+  iconId: "plan" | "read";
   disabled?: boolean;
 };
 
 export const practiceOverview = {
   pill: "Do the work",
   title: "Speak, save, play.",
-  gloss:
-    "Práctica is where you use Spanish — not just read about it. Open your journal and try the games as they land.",
 };
 
-export function practiceHubItems(thoughtCount?: number): PracticeHubItem[] {
+export function practiceHubItems(opts?: {
+  planDay?: { current: number; total: number };
+  readingDay?: { current: number; total: number; doneToday?: boolean };
+}): PracticeHubItem[] {
+  const planDay = opts?.planDay;
+  const readingDay = opts?.readingDay;
+
   return [
     {
-      href: "/thoughts",
-      label: "Diario",
-      description: "Every sentence you've spoken out loud.",
-      meta:
-        thoughtCount && thoughtCount > 0
-          ? `${thoughtCount} ${thoughtCount === 1 ? "frase" : "frases"}`
-          : undefined,
-      iconId: "journal",
+      href: "/practice/plan",
+      label: "El plan",
+      description: "The 14-day phrase schedule — themes, frames, and prompts.",
+      meta: planDay
+        ? `Día ${String(planDay.current).padStart(2, "0")} de ${planDay.total}`
+        : undefined,
+      iconId: "plan",
     },
     {
-      href: "/practice/la-linea",
-      label: "La Línea",
-      description: "Spanish tenses, drawn on a timeline.",
-      meta: "Juego",
-      iconId: "games",
-    },
-    {
-      href: "/practice/marcadores",
-      label: "Marcadores",
-      description: "Time words and the tense they call for.",
-      meta: "Juego",
-      iconId: "games",
-    },
-    {
-      href: "/practice/ser-estar",
-      label: "Ser vs Estar",
-      description: "Sort sentences into ser or estar.",
-      meta: "Juego",
-      iconId: "games",
+      href: "/read",
+      label: "La lectura",
+      description:
+        "A short dialogue before bed — vocab first, then read at your pace.",
+      meta: readingDay
+        ? readingDay.doneToday
+          ? "Leído esta noche ✓"
+          : `Día ${String(readingDay.current).padStart(2, "0")} de ${readingDay.total}`
+        : undefined,
+      iconId: "read",
     },
   ];
 }

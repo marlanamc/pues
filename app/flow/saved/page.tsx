@@ -2,12 +2,17 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { PROMPTS_PER_DAY } from "@/content/prompts";
-import { advanceSession, flagForPractice } from "@/lib/store";
+import { PROMPTS_PER_DAY, speakDays } from "@/content/prompts";
+import {
+  advanceSession,
+  completeCurrentDay,
+  flagForPractice,
+} from "@/lib/store";
 import { useFlowDraft } from "@/hooks/useFlowDraft";
 import { useThoughts } from "@/hooks/useThoughts";
 import { PlayButton } from "@/components/PlayButton";
 import { RecordingPlayButton } from "@/components/RecordingPlayButton";
+import { Gloss } from "@/components/Gloss";
 
 export default function SavedPage() {
   const router = useRouter();
@@ -55,7 +60,14 @@ export default function SavedPage() {
         ? `/situations/${draft.situationSlug}`
         : "/situations"
     );
-    setCount(isSituationPractice ? null : advanceSession(PROMPTS_PER_DAY));
+    if (isSituationPractice) {
+      setCount(null);
+    } else {
+      const newCount = advanceSession(PROMPTS_PER_DAY);
+      setCount(newCount);
+      // Finishing the day's last prompt advances the 14-day phrase schedule.
+      if (newCount >= PROMPTS_PER_DAY) completeCurrentDay(speakDays.length);
+    }
   }, [hydrated, draft, add, router]);
 
   const isSituationPractice = savedSource === "situation";
@@ -108,6 +120,7 @@ export default function SavedPage() {
         >
           ¡Bien dicho!
         </h1>
+        <Gloss>Well said!</Gloss>
         <p
           className="font-display"
           style={{

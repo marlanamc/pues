@@ -24,6 +24,8 @@ function write(key: string, value: unknown) {
   try {
     localStorage.setItem(key, JSON.stringify(value));
     window.dispatchEvent(new Event("pues:questionnaire-change"));
+    // Let the cloud sync layer (lib/sync.ts) mirror this write upstream.
+    window.dispatchEvent(new CustomEvent("pues:mutate", { detail: { key } }));
   } catch {
     /* ignore quota / private mode */
   }

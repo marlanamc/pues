@@ -36,8 +36,6 @@ export function ClickablePrompt({ text, wordHints }: ClickablePromptProps) {
     return () => document.removeEventListener("pointerdown", onPointerDown);
   }, [activeKey]);
 
-  const activeGloss = activeKey ? hintMap.get(activeKey) : null;
-
   return (
     <p
       ref={containerRef}

@@ -37,21 +37,33 @@ export async function POST(req: Request) {
     );
   }
 
-  const res = await fetch(`${ELEVENLABS_API}/${voiceId}`, {
-    method: "POST",
-    headers: {
-      "xi-api-key": apiKey,
-      "Content-Type": "application/json",
-      Accept: "audio/mpeg",
-    },
-    body: JSON.stringify({
-      text,
-      model_id: "eleven_multilingual_v2",
-      language_code: lang,
-      ...(contextBefore ? { previous_text: contextBefore } : {}),
-      voice_settings: { stability: 0.5, similarity_boost: 0.75 },
-    }),
-  });
+  let res: Response;
+  try {
+    res = await fetch(`${ELEVENLABS_API}/${voiceId}`, {
+      method: "POST",
+      headers: {
+        "xi-api-key": apiKey,
+        "Content-Type": "application/json",
+        Accept: "audio/mpeg",
+      },
+      body: JSON.stringify({
+        text,
+        model_id: "eleven_multilingual_v2",
+        language_code: lang,
+        ...(contextBefore ? { previous_text: contextBefore } : {}),
+        voice_settings: { stability: 0.5, similarity_boost: 0.75 },
+      }),
+      // Bound the upstream call so a hung provider can't hold the function open.
+      signal: AbortSignal.timeout(20000),
+    });
+  } catch (err) {
+    const timedOut = err instanceof Error && err.name === "TimeoutError";
+    console.error(`[tts] ElevenLabs ${timedOut ? "timeout" : "network error"}:`, err);
+    return NextResponse.json(
+      { error: timedOut ? "ElevenLabs timed out" : "ElevenLabs unreachable" },
+      { status: 504 }
+    );
+  }
 
   if (!res.ok) {
     const detail = await res.text().catch(() => "");

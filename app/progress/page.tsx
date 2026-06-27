@@ -41,6 +41,25 @@ export default function ProgressPage() {
       </header>
       <PageHeader title={<Wordmark>Progreso</Wordmark>} />
 
+      <Link
+        href="/thoughts"
+        className="flex items-center justify-between gap-4 rounded-lg border border-rule bg-surface px-5 py-4 transition-colors active:bg-surface-sunk"
+      >
+        <div className="min-w-0">
+          <p className="font-display text-[1.125rem] text-ink leading-tight">
+            Diario
+          </p>
+          <p className="mt-0.5 text-sm text-ink-mute leading-snug">
+            Every sentence you&apos;ve spoken out loud.
+          </p>
+        </div>
+        <span className="mono-cap shrink-0">
+          {spoken === 0
+            ? "Ver"
+            : `${spoken} ${spoken === 1 ? "frase" : "frases"}`}
+        </span>
+      </Link>
+
       <div className="space-y-8 lg:grid lg:grid-cols-2 lg:items-start lg:gap-8 lg:space-y-0">
       <div className="space-y-8">
       <section className="space-y-4">

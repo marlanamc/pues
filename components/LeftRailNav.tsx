@@ -48,7 +48,7 @@ export function LeftRailNav() {
   return (
     <nav
       aria-label="Primary"
-      className={`hidden border-r border-rule bg-bg py-6 transition-[width] duration-200 lg:sticky lg:top-0 lg:flex lg:h-dvh lg:shrink-0 lg:flex-col ${
+      className={`hidden border-r border-rule bg-bg py-6 transition-[width] duration-200 lg:sticky lg:top-0 lg:z-30 lg:flex lg:h-dvh lg:shrink-0 lg:flex-col ${
         expanded ? "lg:w-60 lg:px-4" : "lg:w-[4.5rem] lg:px-2"
       }`}
     >
@@ -92,19 +92,24 @@ export function LeftRailNav() {
                 aria-current={active ? "page" : undefined}
                 aria-label={item.label}
                 title={expanded ? undefined : item.label}
-                className={`flex items-center rounded-full transition-colors ${
+                className={`flex items-center transition-colors ${
                   expanded
-                    ? "gap-3 px-3 py-2.5"
-                    : "mx-auto h-10 w-10 justify-center"
+                    ? "gap-3 px-3.5 py-2.5 rounded-2xl"
+                    : "mx-auto h-10 w-10 justify-center rounded-full"
                 }`}
                 style={{
-                  color: active ? "var(--accent)" : "var(--ink-mute)",
-                  background: active ? "var(--surface)" : "transparent",
+                  color: active ? item.zone : "var(--ink-soft)",
+                  background: active
+                    ? `color-mix(in oklab, ${item.zone} 10%, transparent)`
+                    : "transparent",
+                  fontWeight: active ? 500 : 400,
                 }}
               >
                 {item.icon}
                 {expanded && (
-                  <span className="font-display">{item.label}</span>
+                  <span className="font-display" style={{ fontSize: 15 }}>
+                    {item.label}
+                  </span>
                 )}
               </Link>
             </li>

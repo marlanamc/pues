@@ -10,6 +10,7 @@ Pues is a personal Spanish-practice PWA built around sentence frames and real si
 - Tailwind CSS 4 (dark-default editorial palette)
 - ElevenLabs TTS for Spanish audio
 - localStorage persistence (data model designed for a future Supabase swap)
+- Supabase scaffold: schema, auth callback, and client libs — see `supabase/README.md`
 - PWA-ready (manifest + icons, installable on iPhone)
 
 ## Running locally
@@ -28,8 +29,10 @@ Open <http://localhost:3000>.
 | --- | --- |
 | `ELEVENLABS_API_KEY` | ElevenLabs API key. Used server-side only in `app/api/tts/route.ts`. |
 | `ELEVENLABS_VOICE_ID` | Voice ID for Spanish playback. Pick a Latin American Spanish voice from the ElevenLabs voice library. |
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL (optional until cloud sync is enabled). |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon/public key (safe for the browser with RLS). |
 
-If either is missing, the TTS endpoint returns 500 but the rest of the app works fine.
+If ElevenLabs keys are missing, the TTS endpoint returns 500 but the rest of the app works fine. Without Supabase keys, data stays in the browser as today.
 
 ## Project layout
 

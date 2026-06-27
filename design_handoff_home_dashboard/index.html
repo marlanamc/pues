@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<title>Pues — Hoy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F6EFE2;
+    --cream-2:#F1E8D6;
+    --oat:#EADFC7;
+    --ink:#2B2620;
+    --ink-2:#5A5147;
+    --muted:#8B8273;
+    --line:rgba(43,38,32,0.08);
+    --line-2:rgba(43,38,32,0.12);
+    --orange:#C95A2C;
+    --sage:#7E9C73;
+    --blue:#6A8AB0;
+    --plum:#9B7BA8;
+    --card:#FBF6EB;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:'Inter',system-ui,sans-serif;
+    color:var(--ink);
+    background:var(--cream);
+    -webkit-font-smoothing:antialiased;
+    letter-spacing:0.005em;
+  }
+  .stage{
+    min-height:100vh;
+    background:
+      radial-gradient(1200px 700px at 92% 8%, rgba(155,123,168,0.18), transparent 60%),
+      radial-gradient(900px 700px at 100% 95%, rgba(201,90,44,0.10), transparent 65%),
+      radial-gradient(900px 700px at 0% 100%, rgba(126,156,115,0.10), transparent 60%),
+      radial-gradient(800px 600px at 0% 0%, rgba(106,138,176,0.10), transparent 60%),
+      linear-gradient(180deg,#F6EFE2 0%,#F2E9D6 100%);
+    position:relative;
+  }
+  .stage::before{
+    content:"";
+    position:absolute;inset:0;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.2  0 0 0 0 0.18  0 0 0 0 0.14  0 0 0 0.06 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    opacity:0.55;pointer-events:none;mix-blend-mode:multiply;
+  }
+  .app{
+    display:grid;
+    grid-template-columns:230px minmax(0,1fr) 320px;
+    gap:32px;
+    max-width:1480px;
+    margin:0 auto;
+    padding:36px 40px 56px;
+    position:relative;
+  }
+
+  /* SIDEBAR */
+  .sidebar{
+    position:sticky;top:36px;align-self:start;
+    height:calc(100vh - 72px);
+    display:flex;flex-direction:column;
+    padding:8px 12px;
+  }
+  .wordmark{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:34px;
+    letter-spacing:-0.01em;
+    color:var(--ink);
+    padding:6px 14px 36px;
+  }
+  .nav{display:flex;flex-direction:column;gap:4px}
+  .nav a{
+    display:flex;align-items:center;gap:12px;
+    padding:11px 14px;
+    border-radius:14px;
+    color:var(--ink-2);
+    text-decoration:none;
+    font-size:15px;font-weight:500;
+    transition:background .2s;
+  }
+  .nav a:hover{background:rgba(43,38,32,0.04)}
+  .nav a.active{
+    background:rgba(201,90,44,0.10);
+    color:var(--orange);
+  }
+  .nav svg{width:18px;height:18px;stroke-width:1.6;flex:none}
+  .settings{margin-top:auto;padding:10px 14px}
+  .settings button{
+    width:36px;height:36px;border-radius:50%;
+    border:1px solid var(--line-2);
+    background:rgba(255,255,255,0.4);
+    display:grid;place-items:center;cursor:pointer;
+  }
+  .settings svg{width:16px;height:16px;color:var(--ink-2)}
+
+  /* MAIN */
+  .main{min-width:0}
+  .header{
+    display:flex;align-items:flex-start;justify-content:space-between;
+    margin-bottom:28px;
+  }
+  .greeting-eyebrow{
+    font-family:'Fraunces',serif;font-style:italic;
+    font-size:18px;color:var(--ink-2);font-weight:400;
+    margin-bottom:2px;
+  }
+  .greeting-name{
+    font-family:'Fraunces',serif;
+    font-size:52px;line-height:1.05;
+    font-weight:400;letter-spacing:-0.02em;
+    color:var(--ink);
+  }
+  .header-right{display:flex;align-items:center;gap:14px;padding-top:14px}
+  .racha-chip{
+    font-size:11px;letter-spacing:0.18em;
+    color:var(--ink-2);font-weight:500;
+  }
+  .icon-btn{
+    width:38px;height:38px;border-radius:50%;
+    border:1px solid var(--line-2);
+    background:rgba(255,255,255,0.55);
+    display:grid;place-items:center;cursor:pointer;
+  }
+  .icon-btn svg{width:16px;height:16px;color:var(--ink-2)}
+
+  .eyebrow{
+    font-size:11px;letter-spacing:0.22em;
+    color:var(--muted);font-weight:600;text-transform:uppercase;
+  }
+  .hero-eyebrow{margin-bottom:14px}
+  .hero-title{
+    font-family:'Fraunces',serif;
+    font-size:36px;line-height:1.25;
+    font-weight:400;letter-spacing:-0.01em;
+    color:var(--ink);
+    max-width:720px;
+    margin-bottom:24px;
+  }
+  .cta{
+    display:flex;align-items:center;justify-content:space-between;
+    width:100%;
+    padding:22px 30px;
+    border:none;cursor:pointer;
+    border-radius:18px;
+    color:#FBF6EB;
+    font-family:'Fraunces',serif;
+    font-size:22px;font-weight:400;font-style:italic;
+    background:linear-gradient(90deg,#C95A2C 0%,#C9893A 22%,#9DAE60 48%,#6A8AB0 74%,#9B7BA8 100%);
+    box-shadow:0 12px 30px -14px rgba(155,123,168,0.55),0 6px 16px -10px rgba(201,90,44,0.45);
+    letter-spacing:-0.005em;
+  }
+  .cta .arrow{
+    width:34px;height:34px;border-radius:50%;
+    background:rgba(255,255,255,0.18);
+    display:grid;place-items:center;
+  }
+  .cta .arrow svg{width:16px;height:16px;color:#fff}
+  .progress-line{
+    margin-top:14px;
+    font-size:11px;letter-spacing:0.22em;
+    color:var(--muted);font-weight:600;
+  }
+
+  /* SECTION */
+  .section{margin-top:38px}
+  .section-label{
+    font-size:11px;letter-spacing:0.22em;
+    color:var(--muted);font-weight:600;
+    text-transform:uppercase;
+    margin-bottom:14px;
+  }
+
+  /* MINIMUM CARDS */
+  .min-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:14px;
+  }
+  .min-card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:18px 20px;
+    display:flex;gap:14px;align-items:flex-start;
+    box-shadow:0 1px 0 rgba(255,255,255,0.6) inset;
+  }
+  .badge{
+    width:34px;height:34px;border-radius:50%;
+    display:grid;place-items:center;
+    font-family:'Fraunces',serif;font-size:16px;font-weight:500;
+    color:var(--ink);
+    flex:none;
+  }
+  .badge.b1{background:rgba(201,90,44,0.14);color:#A8481F}
+  .badge.b2{background:rgba(106,138,176,0.16);color:#3F628B}
+  .badge.b3{background:rgba(155,123,168,0.18);color:#6F4F7E}
+  .min-card h3{
+    font-family:'Fraunces',serif;font-weight:500;
+    font-size:17px;color:var(--ink);
+    margin-bottom:4px;letter-spacing:-0.005em;
+  }
+  .min-card p{font-size:13px;color:var(--muted);line-height:1.45}
+
+  /* ANCHOR */
+  .anchor{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:20px 22px;
+    display:flex;align-items:center;gap:20px;
+  }
+  .anchor-icon{
+    width:54px;height:54px;border-radius:14px;
+    background:rgba(126,156,115,0.18);
+    display:grid;place-items:center;flex:none;
+  }
+  .anchor-icon svg{width:24px;height:24px;color:#5C7B53}
+  .anchor-body{flex:1;min-width:0}
+  .anchor-tag{
+    font-size:10px;letter-spacing:0.22em;font-weight:600;
+    color:var(--orange);text-transform:uppercase;
+    margin-bottom:4px;
+  }
+  .anchor-title{
+    font-family:'Fraunces',serif;font-size:20px;
+    font-weight:500;color:var(--ink);letter-spacing:-0.005em;
+    margin-bottom:5px;
+  }
+  .anchor-meta{font-size:13px;color:var(--muted)}
+  .anchor-arrow{
+    width:36px;height:36px;border-radius:50%;
+    border:1px solid var(--line-2);
+    display:grid;place-items:center;flex:none;
+  }
+  .anchor-arrow svg{width:15px;height:15px;color:var(--ink-2)}
+
+  /* WEEKLY */
+  .week{
+    display:grid;grid-template-columns:repeat(7,1fr);gap:10px;
+  }
+  .day{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:12px 10px;
+    text-align:center;
+  }
+  .day .d{
+    font-size:9.5px;letter-spacing:0.2em;color:var(--muted);
+    font-weight:600;text-transform:uppercase;margin-bottom:8px;
+  }
+  .day .icon{
+    width:20px;height:20px;margin:0 auto 6px;
+    display:grid;place-items:center;
+  }
+  .day .icon svg{width:16px;height:16px;color:var(--ink-2)}
+  .day .label{font-size:12.5px;color:var(--ink);font-weight:500}
+  .day.active{
+    border:1px solid rgba(201,90,44,0.45);
+    background:rgba(201,90,44,0.06);
+    box-shadow:0 4px 14px -8px rgba(201,90,44,0.35);
+  }
+  .day.active .d{color:var(--orange)}
+  .day.active .icon svg{color:var(--orange)}
+  .day.active .label{color:var(--orange)}
+
+  /* SHORTCUTS */
+  .shortcuts{
+    margin-top:30px;
+    display:grid;grid-template-columns:repeat(4,1fr);gap:14px;
+    padding-top:24px;border-top:1px solid var(--line);
+  }
+  .shortcut{
+    display:flex;align-items:center;gap:12px;
+    text-decoration:none;
+  }
+  .shortcut .ico{
+    width:36px;height:36px;border-radius:10px;
+    display:grid;place-items:center;flex:none;
+  }
+  .shortcut .ico svg{width:17px;height:17px}
+  .shortcut.s1 .ico{background:rgba(201,90,44,0.12)}
+  .shortcut.s1 .ico svg{color:var(--orange)}
+  .shortcut.s1 .t{color:var(--orange)}
+  .shortcut.s2 .ico{background:rgba(126,156,115,0.16)}
+  .shortcut.s2 .ico svg{color:#5C7B53}
+  .shortcut.s2 .t{color:#5C7B53}
+  .shortcut.s3 .ico{background:rgba(106,138,176,0.16)}
+  .shortcut.s3 .ico svg{color:#3F628B}
+  .shortcut.s3 .t{color:#3F628B}
+  .shortcut.s4 .ico{background:rgba(155,123,168,0.18)}
+  .shortcut.s4 .ico svg{color:#7A5A8B}
+  .shortcut.s4 .t{color:#7A5A8B}
+  .shortcut .t{
+    font-family:'Fraunces',serif;font-size:16px;font-weight:500;
+    letter-spacing:-0.005em;line-height:1.1;
+  }
+  .shortcut .sub{font-size:12px;color:var(--muted);margin-top:2px}
+
+  /* RIGHT CARD */
+  .rail{position:sticky;top:36px;align-self:start}
+  .cuaderno{
+    background:rgba(251,246,235,0.85);
+    backdrop-filter:blur(6px);
+    border:1px solid var(--line);
+    border-radius:22px;
+    padding:22px 22px 24px;
+    box-shadow:0 20px 50px -30px rgba(43,38,32,0.25);
+  }
+  .cuaderno .title{
+    font-size:11px;letter-spacing:0.22em;
+    color:var(--muted);font-weight:600;text-transform:uppercase;
+    margin-bottom:18px;
+  }
+  .racha-label{
+    font-size:10px;letter-spacing:0.22em;color:var(--muted);
+    font-weight:600;text-transform:uppercase;margin-bottom:6px;
+  }
+  .racha-num{
+    display:flex;align-items:center;gap:8px;
+    margin-bottom:22px;
+  }
+  .racha-num .flame{width:18px;height:18px;color:var(--orange)}
+  .racha-num span{
+    font-family:'Fraunces',serif;font-size:30px;color:var(--ink);
+    font-weight:400;line-height:1;
+  }
+  .days-label{
+    font-size:10px;letter-spacing:0.22em;color:var(--muted);
+    font-weight:600;text-transform:uppercase;margin-bottom:10px;
+  }
+  .days{display:flex;justify-content:space-between;margin-bottom:22px}
+  .days .dot{
+    width:28px;height:28px;border-radius:50%;
+    border:1px solid var(--line-2);
+    display:grid;place-items:center;
+    font-size:10.5px;font-weight:600;color:var(--ink-2);
+    letter-spacing:0.05em;
+  }
+  .days .dot.today{
+    background:#3F628B;border-color:#3F628B;color:#FBF6EB;
+  }
+  .days .dot.future{opacity:0.6}
+  .progress-row{
+    display:flex;justify-content:space-between;align-items:baseline;
+    margin-bottom:8px;
+  }
+  .progress-row .l{
+    font-size:10px;letter-spacing:0.22em;color:var(--muted);
+    font-weight:600;text-transform:uppercase;
+  }
+  .progress-row .r{
+    font-size:10px;letter-spacing:0.22em;color:var(--muted);
+    font-weight:600;
+  }
+  .bar{
+    height:3px;background:rgba(43,38,32,0.08);border-radius:3px;
+    overflow:hidden;margin-bottom:22px;
+  }
+  .bar i{
+    display:block;height:100%;width:2%;
+    background:linear-gradient(90deg,var(--orange),var(--plum));
+    border-radius:3px;
+  }
+  .note{
+    display:flex;gap:10px;align-items:flex-start;
+    font-family:'Fraunces',serif;font-style:italic;
+    font-size:14px;line-height:1.45;color:var(--ink-2);
+    padding-top:18px;border-top:1px solid var(--line);
+  }
+  .note svg{width:14px;height:14px;color:var(--orange);flex:none;margin-top:4px}
+
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="wordmark">Pues</div>
+      <nav class="nav">
+        <a href="#" class="active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1V11z"/></svg>
+          Hoy
+        </a>
+        <a href="#">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 18l5-6 4 3 5-7 4 5"/></svg>
+          Camino
+        </a>
+        <a href="#">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 3h9l4 4v14H6z"/><path d="M9 12h7M9 16h5M9 8h4"/></svg>
+          Práctica
+        </a>
+        <a href="#">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4z"/><path d="M5 17h11"/></svg>
+          Cuaderno
+        </a>
+      </nav>
+      <div class="settings">
+        <button>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5h0a1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+      <header class="header">
+        <div>
+          <div class="greeting-eyebrow">Buenas noches,</div>
+          <h1 class="greeting-name">Marlana</h1>
+        </div>
+        <div class="header-right">
+          <div class="racha-chip">RACHA · 0</div>
+          <button class="icon-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 6h10M4 12h16M4 18h7"/><circle cx="17" cy="6" r="2"/><circle cx="14" cy="18" r="2"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <div class="eyebrow hero-eyebrow">JUEVES · SEMANA 1</div>
+      <h2 class="hero-title">Hoy lees, guardas y dices una cosa en español.</h2>
+
+      <button class="cta">
+        <span>Empezar</span>
+        <span class="arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </span>
+      </button>
+      <div class="progress-line">DÍA 01 · 14 DÍAS</div>
+
+      <!-- MINIMUM -->
+      <section class="section">
+        <div class="section-label">Tu mínimo de hoy</div>
+        <div class="min-grid">
+          <div class="min-card">
+            <div class="badge b1">1</div>
+            <div>
+              <h3>3 frases útiles</h3>
+              <p>Guárdalas y dilo<br/>en voz alta</p>
+            </div>
+          </div>
+          <div class="min-card">
+            <div class="badge b2">2</div>
+            <div>
+              <h3>2 verbos</h3>
+              <p>leer · entender</p>
+            </div>
+          </div>
+          <div class="min-card">
+            <div class="badge b3">3</div>
+            <div>
+              <h3>1 salida corta</h3>
+              <p>Resume el artículo<br/>en una frase</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ANCHOR -->
+      <section class="section">
+        <div class="section-label">Ancla de hoy</div>
+        <div class="anchor">
+          <div class="anchor-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 5c3 0 6 1 9 3 3-2 6-3 9-3v14c-3 0-6 1-9 3-3-2-6-3-9-3V5z"/><path d="M12 8v14"/></svg>
+          </div>
+          <div class="anchor-body">
+            <div class="anchor-tag">Jueves · Leer</div>
+            <div class="anchor-title">Lee un artículo corto</div>
+            <div class="anchor-meta">5–10 min · Guarda 3 palabras · Di: “El artículo habla de…”</div>
+          </div>
+          <div class="anchor-arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </div>
+        </div>
+      </section>
+
+      <!-- WEEK -->
+      <section class="section">
+        <div class="section-label">Camino semanal</div>
+        <div class="week">
+          <div class="day">
+            <div class="d">Lunes</div>
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></div>
+            <div class="label">Podcast</div>
+          </div>
+          <div class="day">
+            <div class="d">Martes</div>
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 5c3 0 6 1 9 3 3-2 6-3 9-3v14c-3 0-6 1-9 3-3-2-6-3-9-3V5z"/></svg></div>
+            <div class="label">Leer</div>
+          </div>
+          <div class="day">
+            <div class="d">Miércoles</div>
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5h16v11H8l-4 4V5z"/></svg></div>
+            <div class="label">Habla</div>
+          </div>
+          <div class="day active">
+            <div class="d">Jueves</div>
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h2M8 7v10M12 4v16M16 8v8M20 12h0"/></svg></div>
+            <div class="label">Sombra</div>
+          </div>
+          <div class="day">
+            <div class="d">Viernes</div>
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l2 5 5 .5-4 3.5 1.5 5L12 14l-4.5 3 1.5-5-4-3.5L10 8z"/></svg></div>
+            <div class="label">Vida real</div>
+          </div>
+          <div class="day">
+            <div class="d">Sábado</div>
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 5c3 0 6 1 9 3 3-2 6-3 9-3v14c-3 0-6 1-9 3-3-2-6-3-9-3V5z"/></svg></div>
+            <div class="label">Leer</div>
+          </div>
+          <div class="day">
+            <div class="d">Domingo</div>
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 12a8 8 0 1 1-3-6.2"/><path d="M20 4v5h-5"/></svg></div>
+            <div class="label">Reset</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SHORTCUTS -->
+      <section class="shortcuts">
+        <a class="shortcut s1" href="#">
+          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3h9l4 4v14H6z"/><path d="M9 12h7M9 16h5"/></svg></span>
+          <div><div class="t">Práctica</div><div class="sub">Repite</div></div>
+        </a>
+        <a class="shortcut s2" href="#">
+          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4z"/></svg></span>
+          <div><div class="t">Cuaderno</div><div class="sub">Guardado</div></div>
+        </a>
+        <a class="shortcut s3" href="#">
+          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="7" cy="7" r="3"/><circle cx="17" cy="7" r="3"/><circle cx="7" cy="17" r="3"/><circle cx="17" cy="17" r="3"/></svg></span>
+          <div><div class="t">Guías</div><div class="sub">Patrones</div></div>
+        </a>
+        <a class="shortcut s4" href="#">
+          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 10a6 6 0 1 1 12 0v4a4 4 0 0 1-4 4h-1v-7"/></svg></span>
+          <div><div class="t">Lab</div><div class="sub">El oído</div></div>
+        </a>
+      </section>
+    </main>
+
+    <!-- RIGHT RAIL -->
+    <aside class="rail">
+      <div class="cuaderno">
+        <div class="title">Tu Cuaderno</div>
+
+        <div class="racha-label">Racha actual</div>
+        <div class="racha-num">
+          <svg class="flame" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2s4 4 4 8a4 4 0 0 1-1 2.6c1.5.5 3 2.4 3 4.4a6 6 0 1 1-12 0c0-2 1-3.5 2.5-4.5C7 11 7 9 8 7c1.5 2 2 3 4-5z"/></svg>
+          <span>0</span>
+        </div>
+
+        <div class="days-label">Días de racha</div>
+        <div class="days">
+          <div class="dot" style="border-color:rgba(201,90,44,0.45);color:var(--orange)">V</div>
+          <div class="dot" style="border-color:rgba(126,156,115,0.45);color:#5C7B53">S</div>
+          <div class="dot" style="border-color:rgba(106,138,176,0.45);color:#3F628B">D</div>
+          <div class="dot" style="border-color:rgba(155,123,168,0.45);color:#7A5A8B">L</div>
+          <div class="dot future">M</div>
+          <div class="dot future">M</div>
+          <div class="dot today">J</div>
+        </div>
+
+        <div class="progress-row">
+          <span class="l">Hoy</span>
+          <span class="r">0 DE 5</span>
+        </div>
+        <div class="bar"><i></i></div>
+
+        <div class="note">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/></svg>
+          <span>Pequeños pasos, grandes cambios.<br/>Tú puedes.</span>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+</div>
+</body>
+</html>

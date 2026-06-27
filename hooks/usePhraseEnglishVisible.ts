@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import {
   getPhraseEnglishVisible,
   setPhraseEnglishVisible as persistPhraseEnglishVisible,
@@ -8,28 +8,24 @@ import {
 
 const PHRASE_ENGLISH_EVENT = "pues:phrase-english-visible-change";
 
+function subscribe(callback: () => void) {
+  window.addEventListener(PHRASE_ENGLISH_EVENT, callback);
+  window.addEventListener("storage", callback);
+  return () => {
+    window.removeEventListener(PHRASE_ENGLISH_EVENT, callback);
+    window.removeEventListener("storage", callback);
+  };
+}
+
 export function usePhraseEnglishVisible() {
-  const [visible, setVisibleState] = useState(false);
-
-  useEffect(() => {
-    const current = getPhraseEnglishVisible();
-    setVisibleState(current);
-
-    function sync() {
-      setVisibleState(getPhraseEnglishVisible());
-    }
-
-    window.addEventListener(PHRASE_ENGLISH_EVENT, sync);
-    window.addEventListener("storage", sync);
-    return () => {
-      window.removeEventListener(PHRASE_ENGLISH_EVENT, sync);
-      window.removeEventListener("storage", sync);
-    };
-  }, []);
+  const visible = useSyncExternalStore(
+    subscribe,
+    () => getPhraseEnglishVisible(),
+    () => false,
+  );
 
   function setVisible(next: boolean) {
     persistPhraseEnglishVisible(next);
-    setVisibleState(next);
     window.dispatchEvent(new Event(PHRASE_ENGLISH_EVENT));
   }
 

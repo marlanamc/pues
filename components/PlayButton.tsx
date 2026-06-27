@@ -98,6 +98,8 @@ export function PlayButton({
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text, lang, contextBefore }),
+      // Don't let a hung endpoint pin the button in "loading" forever.
+      signal: AbortSignal.timeout(15000),
     });
     if (!res.ok) throw new Error(`TTS failed: ${res.status}`);
     const blob = await res.blob();
