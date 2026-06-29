@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { Gloss } from "@/components/Gloss";
 import { PageHeader, Wordmark } from "@/components/PageHeader";
 import { speakDayForIndex } from "@/content/prompts";
 import { useStats } from "@/hooks/useStats";
@@ -19,6 +20,12 @@ const SEASON_TITLES: Record<number, string> = {
   2: "Seguir el hilo",
   3: "Sin subtítulos",
   4: "Conversación completa",
+};
+const SEASON_TITLES_EN: Record<number, string> = {
+  1: "The summer I speak",
+  2: "Follow the thread",
+  3: "No subtitles",
+  4: "Full conversation",
 };
 
 const ws = {
@@ -63,6 +70,12 @@ const IconBook = (
   </svg>
 );
 
+const STEPS = [
+  { icon: IconSay, verb: "Di", verbEn: "Say", note: "3 frases", noteEn: "3 sentences" },
+  { icon: IconMic, verb: "Graba", verbEn: "Record", note: "20 segundos", noteEn: "20 seconds" },
+  { icon: IconBookmark, verb: "Guarda", verbEn: "Save", note: "1 frase", noteEn: "1 sentence" },
+];
+
 export default function HomePage() {
   const { stats } = useStats();
   const { thoughts } = useThoughts();
@@ -86,12 +99,19 @@ export default function HomePage() {
 
   const season = useMemo(() => seasonForDate(now ?? new Date()), [now]);
   const seasonTitle = SEASON_TITLES[season.index];
+  const seasonTitleEn = SEASON_TITLES_EN[season.index];
 
   const greeting = useMemo(() => {
     const h = now ? now.getHours() : 9;
     if (h < 12) return "Buenos días";
     if (h < 19) return "Buenas tardes";
     return "Buenas noches";
+  }, [now]);
+  const greetingEn = useMemo(() => {
+    const h = now ? now.getHours() : 9;
+    if (h < 12) return "Good morning";
+    if (h < 19) return "Good afternoon";
+    return "Good evening";
   }, [now]);
 
   const latest = thoughts[0];
@@ -110,9 +130,11 @@ export default function HomePage() {
           <h1 className="text-display-2xl text-ink" style={{ marginTop: 10 }}>
             ¿Listo para hablar español?
           </h1>
+          <Gloss>Ready to speak Spanish?</Gloss>
           <p className="text-gloss" style={{ color: "var(--ink-mute)", marginTop: 8 }}>
             Pequeños pasos, grandes conversaciones.
           </p>
+          <Gloss>Small steps, big conversations.</Gloss>
         </div>
 
         {/* ===== Tu misión de hoy — the one lit card ===== */}
@@ -146,6 +168,7 @@ export default function HomePage() {
               <span aria-hidden style={{ display: "inline-flex" }}>{IconSun}</span>
               Día {dayNum} · {day.themeEs}
             </span>
+            <Gloss>{`Day ${dayNum} · ${day.themeEn}`}</Gloss>
 
             <p className="font-display" style={{ fontWeight: 300, fontSize: 13, letterSpacing: 0.2, textTransform: "uppercase", color: "var(--ink-mute)", margin: "16px 0 0" }}>
               Tu misión de hoy
@@ -164,11 +187,7 @@ export default function HomePage() {
 
             {/* Di · Graba · Guarda */}
             <div className="grid grid-cols-3" style={{ gap: 10, marginTop: 24 }}>
-              {[
-                { icon: IconSay, verb: "Di", note: "3 frases" },
-                { icon: IconMic, verb: "Graba", note: "20 segundos" },
-                { icon: IconBookmark, verb: "Guarda", note: "1 frase" },
-              ].map((s) => (
+              {STEPS.map((s) => (
                 <div
                   key={s.verb}
                   className="flex flex-col items-center text-center"
@@ -177,6 +196,7 @@ export default function HomePage() {
                   <span aria-hidden style={{ color: "var(--accent)" }}>{s.icon}</span>
                   <span className="font-display text-ink" style={{ fontSize: 15 }}>{s.verb}</span>
                   <span className="mono-cap" style={{ fontSize: 9 }}>{s.note}</span>
+                  <Gloss>{`${s.verbEn} · ${s.noteEn}`}</Gloss>
                 </div>
               ))}
             </div>
@@ -185,11 +205,14 @@ export default function HomePage() {
               <span aria-hidden style={{ display: "inline-flex" }}>{IconMic}</span>
               <span className="lab">Comenzar práctica de hoy</span>
             </Link>
+            <div style={{ textAlign: "center" }}>
+              <Gloss>Start today&apos;s practice</Gloss>
+            </div>
           </div>
         </div>
 
         {/* ===== Tu progreso en el camino ===== */}
-        <SectionHead label="Tu progreso en el camino" href="/camino" cta="Ver" />
+        <SectionHead label="Tu progreso en el camino" labelEn="Your progress on the path" href="/camino" cta="Ver" />
         <Link
           href="/camino"
           className="flex items-center transition-colors active:bg-surface-sunk"
@@ -212,7 +235,9 @@ export default function HomePage() {
             <span className="font-display text-ink" style={{ fontSize: 17, lineHeight: 1.2 }}>
               T{season.index} – {seasonTitle}
             </span>
+            <Gloss>{`S${season.index} – ${seasonTitleEn}`}</Gloss>
             <span className="mono-cap" style={{ marginTop: 4 }}>Estás aquí</span>
+            <Gloss>You&apos;re here</Gloss>
             <span className="flex items-center" style={{ gap: 7, marginTop: 12 }}>
               {[0, 1, 2, 3, 4].map((i) => (
                 <span
@@ -232,20 +257,21 @@ export default function HomePage() {
         </Link>
 
         {/* ===== Tu cuaderno ===== */}
-        <SectionHead label="Tu cuaderno" href="/cuaderno" cta="Ver todo" />
+        <SectionHead label="Tu cuaderno" labelEn="Your notebook" href="/cuaderno" cta="Ver todo" />
         <CuadernoCard said={said} latest={latest} />
 
         {/* ===== Más en Pues ===== */}
         <section aria-label="Más en Pues" style={{ marginTop: 30, paddingTop: 20, borderTop: "1px solid var(--rule)" }}>
-          <p className="mono-cap" style={{ marginBottom: 14 }}>Más en Pues</p>
+          <p className="mono-cap" style={{ marginBottom: 4 }}>Más en Pues</p>
+          <div style={{ marginBottom: 14 }}><Gloss>More in Pues</Gloss></div>
           <div className="grid grid-cols-2 md:grid-cols-4" style={{ columnGap: 14, rowGap: 14 }}>
-            <Shortcut zone="var(--zone-practica)" zoneLabel="Práctica" title="Juegos" href="/practice/games"
+            <Shortcut zone="var(--zone-practica)" zoneLabel="Práctica" title="Juegos" titleEn="Games" href="/practice/games"
               icon={<svg viewBox="0 0 24 24" width="17" height="17" {...ws}><path d="M6 3h9l4 4v14H6z" /><path d="M9 12h7M9 16h5" /></svg>} />
-            <Shortcut zone="var(--zone-lugares)" zoneLabel="Guías" title="Patrones" href="/guides"
+            <Shortcut zone="var(--zone-lugares)" zoneLabel="Guías" title="Patrones" titleEn="Patterns" href="/guides"
               icon={<svg viewBox="0 0 24 24" width="17" height="17" {...ws}><circle cx="7" cy="7" r="3" /><circle cx="17" cy="7" r="3" /><circle cx="7" cy="17" r="3" /><circle cx="17" cy="17" r="3" /></svg>} />
-            <Shortcut zone="var(--zone-lab)" zoneLabel="Lab" title="El oído" href="/lab"
+            <Shortcut zone="var(--zone-lab)" zoneLabel="Lab" title="El oído" titleEn="The ear" href="/lab"
               icon={<svg viewBox="0 0 24 24" width="17" height="17" {...ws}><path d="M6 10a6 6 0 1 1 12 0v4a4 4 0 0 1-4 4h-1v-7" /></svg>} />
-            <Shortcut zone="var(--zone-guias)" zoneLabel="Cuaderno" title="Guardado" href="/cuaderno"
+            <Shortcut zone="var(--zone-guias)" zoneLabel="Cuaderno" title="Guardado" titleEn="Saved" href="/cuaderno"
               icon={<svg viewBox="0 0 24 24" width="17" height="17" {...ws}><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4z" /></svg>} />
           </div>
         </section>
@@ -269,6 +295,7 @@ function CuadernoCard({ said, latest }: { said: number; latest?: Thought }) {
       </span>
       <div className="flex flex-col" style={{ minWidth: 0, flex: 1 }}>
         <span className="mono-cap">{said} {said === 1 ? "frase guardada" : "frases guardadas"}</span>
+        <Gloss>{`${said} saved ${said === 1 ? "sentence" : "sentences"}`}</Gloss>
         {latest ? (
           hasEnglish ? (
             <button
@@ -297,9 +324,12 @@ function CuadernoCard({ said, latest }: { said: number; latest?: Thought }) {
             </span>
           )
         ) : (
-          <span className="font-display text-ink-mute" style={{ fontStyle: "italic", fontSize: 15, marginTop: 6 }}>
-            Aún no hay frases. Di la primera hoy.
-          </span>
+          <>
+            <span className="font-display text-ink-mute" style={{ fontStyle: "italic", fontSize: 15, marginTop: 6 }}>
+              Aún no hay frases. Di la primera hoy.
+            </span>
+            <Gloss>No sentences yet. Say your first today.</Gloss>
+          </>
         )}
       </div>
       {latest && (
@@ -309,10 +339,13 @@ function CuadernoCard({ said, latest }: { said: number; latest?: Thought }) {
   );
 }
 
-function SectionHead({ label, href, cta }: { label: string; href: string; cta: string }) {
+function SectionHead({ label, labelEn, href, cta }: { label: string; labelEn?: string; href: string; cta: string }) {
   return (
     <div className="flex items-baseline justify-between" style={{ marginTop: 30, marginBottom: 12 }}>
-      <span className="mono-cap">{label}</span>
+      <span className="flex flex-col">
+        <span className="mono-cap">{label}</span>
+        {labelEn && <Gloss>{labelEn}</Gloss>}
+      </span>
       <Link href={href} className="mono-cap transition-colors hover:text-accent">
         {cta} →
       </Link>
@@ -324,12 +357,14 @@ function Shortcut({
   zone,
   zoneLabel,
   title,
+  titleEn,
   href,
   icon,
 }: {
   zone: string;
   zoneLabel: string;
   title: string;
+  titleEn?: string;
   href: string;
   icon: React.ReactNode;
 }) {
@@ -345,6 +380,7 @@ function Shortcut({
       <span className="flex flex-col" style={{ minWidth: 0 }}>
         <span className="font-display" style={{ fontSize: 14, lineHeight: 1.1, color: zone }}>{zoneLabel}</span>
         <span style={{ fontSize: 11, lineHeight: 1.2, color: "var(--ink-soft)", marginTop: 2 }}>{title}</span>
+        {titleEn && <Gloss>{titleEn}</Gloss>}
       </span>
     </Link>
   );

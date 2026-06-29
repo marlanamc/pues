@@ -8,6 +8,7 @@ import { Ledger, ZoneRow } from "@/components/ZoneList";
 import { MicButton } from "@/components/MicButton";
 import { PlayButton } from "@/components/PlayButton";
 import { ClickablePrompt } from "@/components/ClickablePrompt";
+import { Gloss } from "@/components/Gloss";
 import { games } from "@/content/games";
 import { speakDayForIndex, promptForSession, parseWhy, type SpeakPrompt } from "@/content/prompts";
 import { getSessionIndex } from "@/lib/store";
@@ -120,6 +121,8 @@ export default function PracticeActPage() {
 
   const micCaption =
     recorder.state === "recording" ? "Escuchando… toca al terminar." : "Toca para grabar · o mantén presionado";
+  const micCaptionEn =
+    recorder.state === "recording" ? "Listening… tap when done." : "Tap to record · or press and hold";
 
   return (
     <div
@@ -140,6 +143,7 @@ export default function PracticeActPage() {
         {/* ===== Mission restated ===== */}
         <div style={{ marginTop: 16 }}>
           <span className="mono-cap" style={{ color: "var(--accent)" }}>Día {dayNum} · {day.themeEs}</span>
+          <Gloss>{`Day ${dayNum} · ${day.themeEn}`}</Gloss>
           <h1 className="text-display-2xl text-ink" style={{ marginTop: 10 }}>
             {mission}
           </h1>
@@ -151,6 +155,7 @@ export default function PracticeActPage() {
           <p className="text-gloss" style={{ color: "var(--ink-mute)", marginTop: 8 }}>
             Algunas ideas para empezar.
           </p>
+          <Gloss>Some ideas to get started.</Gloss>
         </div>
 
         {/* ===== Examples — Spanish model phrases, tap to reveal English ===== */}
@@ -185,13 +190,16 @@ export default function PracticeActPage() {
           <h2 className="font-display text-ink" style={{ fontWeight: 300, fontSize: 26 }}>
             ¡Es tu turno!
           </h2>
+          <Gloss>Your turn!</Gloss>
           <p className="font-display text-ink-soft" style={{ fontSize: 18, lineHeight: 1.35, margin: "8px auto 0", maxWidth: "26ch" }}>
             Di 3 frases. {mission}
           </p>
+          {day.missionEn && <Gloss>{`Say 3 sentences. ${day.missionEn}`}</Gloss>}
 
           <div className="flex flex-col items-center" style={{ gap: 14, marginTop: 26 }}>
             <MicButton state={recorder.state} onTap={onTap} />
             <span className="mono-cap">{micCaption}</span>
+            <Gloss>{micCaptionEn}</Gloss>
           </div>
         </div>
 
@@ -203,6 +211,7 @@ export default function PracticeActPage() {
           <span aria-hidden className="flex-shrink-0" style={{ color: "var(--accent)", marginTop: 1 }}>{IconLightbulb}</span>
           <div>
             <p className="mono-cap" style={{ marginBottom: 6 }}>Consejo de hoy</p>
+            <Gloss>Today&apos;s tip</Gloss>
             <p className="font-display text-ink-soft" style={{ fontSize: 16, lineHeight: 1.5 }}>
               {parseWhy(prompt.why).map((seg, i) =>
                 seg.italic ? (
@@ -217,20 +226,28 @@ export default function PracticeActPage() {
 
         {/* ===== Más práctica — keep games / plan / reading reachable ===== */}
         <section style={{ marginTop: 32, paddingTop: 20, borderTop: "1px solid var(--rule)" }}>
-          <p className="mono-cap" style={{ marginBottom: 14 }}>Más práctica</p>
+          <p className="mono-cap" style={{ marginBottom: 4 }}>Más práctica</p>
+          <div style={{ marginBottom: 14 }}><Gloss>More practice</Gloss></div>
 
           <div className="grid grid-cols-1 gap-2.5 md:grid-cols-2" style={{ marginBottom: 18 }}>
             <Link href="/practice/plan" className="pill-lower">
-              <span className="font-display text-ink" style={{ fontSize: 16 }}>El plan</span>
+              <span className="flex flex-col">
+                <span className="font-display text-ink" style={{ fontSize: 16 }}>El plan</span>
+                <Gloss>The plan</Gloss>
+              </span>
               <span className="mono-cap" style={{ marginLeft: "auto" }}>14 días</span>
             </Link>
             <Link href="/read" className="pill-lower">
-              <span className="font-display text-ink" style={{ fontSize: 16 }}>La lectura</span>
+              <span className="flex flex-col">
+                <span className="font-display text-ink" style={{ fontSize: 16 }}>La lectura</span>
+                <Gloss>Reading</Gloss>
+              </span>
               <span className="mono-cap" style={{ marginLeft: "auto" }}>Leer →</span>
             </Link>
           </div>
 
-          <p className="mono-cap" style={{ marginBottom: 10 }}>Juegos</p>
+          <p className="mono-cap" style={{ marginBottom: 4 }}>Juegos</p>
+          <div style={{ marginBottom: 10 }}><Gloss>Games</Gloss></div>
           <Ledger>
             {games.map((game) => (
               <li key={game.href}>
