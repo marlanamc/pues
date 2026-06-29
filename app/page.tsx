@@ -2,21 +2,24 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { Gloss } from "@/components/Gloss";
 import { PageHeader, Wordmark } from "@/components/PageHeader";
 import { speakDayForIndex } from "@/content/prompts";
 import { useStats } from "@/hooks/useStats";
 import { useThoughts } from "@/hooks/useThoughts";
 import type { Thought } from "@/lib/store";
 import { currentStreak, practiceDatesFromThoughts } from "@/lib/streak";
-import { seasonForDate, yearFraction } from "@/lib/season";
+import { seasonForDate } from "@/lib/season";
 
-const DIA_SHORT = ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"];
-const RIBBON_LABELS = ["L", "M", "X", "J", "V", "S", "D"];
+/** Single-user personal app — greeting name. */
+const NAME = "Marlie";
 
-function dateKey(d: Date): string {
-  return d.toISOString().slice(0, 10);
-}
+/** Temporada titles, keyed by season index (1–4). Mirrors app/camino. */
+const SEASON_TITLES: Record<number, string> = {
+  1: "El verano que hablo",
+  2: "Seguir el hilo",
+  3: "Sin subtítulos",
+  4: "Conversación completa",
+};
 
 const ws = {
   fill: "none" as const,
@@ -26,25 +29,39 @@ const ws = {
   strokeLinejoin: "round" as const,
 };
 
+const IconSun = (
+  <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden {...ws}>
+    <circle cx="12" cy="12" r="4" />
+    <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+  </svg>
+);
+const IconSay = (
+  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...ws}>
+    <path d="M5 5h14a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H9l-4 4V7a2 2 0 0 1 2-2Z" />
+  </svg>
+);
 const IconMic = (
-  <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden {...ws} strokeWidth={1.7}>
+  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...ws}>
     <rect x="9" y="3" width="6" height="11" rx="3" />
-    <path d="M6 11a6 6 0 0 0 12 0" />
-    <path d="M12 17v3" />
+    <path d="M6 11a6 6 0 0 0 12 0M12 17v3" />
   </svg>
 );
-const IconCheck = (
-  <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden {...ws} strokeWidth={2.6}>
-    <path d="M5 12.5 10 17l9-10" />
+const IconBookmark = (
+  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...ws}>
+    <path d="M7 4h10v16l-5-3.5L7 20z" />
   </svg>
 );
-type RibbonDay = {
-  key: string;
-  label: string;
-  practiced: boolean;
-  isToday: boolean;
-  isFuture: boolean;
-};
+const IconHeart = (
+  <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden {...ws}>
+    <path d="M12 20s-7-4.6-7-9.4A3.6 3.6 0 0 1 12 7a3.6 3.6 0 0 1 7 3.6C19 15.4 12 20 12 20Z" />
+  </svg>
+);
+const IconBook = (
+  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden {...ws}>
+    <path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4z" />
+    <path d="M8 8h8M8 12h6" />
+  </svg>
+);
 
 export default function HomePage() {
   const { stats } = useStats();
@@ -63,31 +80,21 @@ export default function HomePage() {
   const said = stats.sentencesCreated;
 
   const day = speakDayForIndex(stats.currentDayIndex);
+  const dayNum = day.day.toString().padStart(2, "0");
+  const mission = day.missionEs ?? day.line;
+  const missionEn = day.missionEn;
+
   const season = useMemo(() => seasonForDate(now ?? new Date()), [now]);
+  const seasonTitle = SEASON_TITLES[season.index];
 
-  // Current calendar week, Monday→Sunday, against real practice dates.
-  const week: RibbonDay[] = useMemo(() => {
-    if (!now) return [];
-    const today = dateKey(now);
-    const dow = now.getDay(); // 0 = Sun
-    const toMonday = dow === 0 ? -6 : 1 - dow;
-    return RIBBON_LABELS.map((label, i) => {
-      const d = new Date(now);
-      d.setDate(now.getDate() + toMonday + i);
-      const key = dateKey(d);
-      return {
-        key,
-        label,
-        practiced: practiced.has(key),
-        isToday: key === today,
-        isFuture: key > today,
-      };
-    });
-  }, [now, practiced]);
+  const greeting = useMemo(() => {
+    const h = now ? now.getHours() : 9;
+    if (h < 12) return "Buenos días";
+    if (h < 19) return "Buenas tardes";
+    return "Buenas noches";
+  }, [now]);
 
-  const todayEs = now ? DIA_SHORT[now.getDay()] : "hoy";
-  const yearPct = Math.round(yearFraction(now ?? new Date()) * 100);
-  const recent = thoughts.slice(0, 4);
+  const latest = thoughts[0];
 
   return (
     <div className="fade-rise relative" style={{ paddingBottom: 96 }}>
@@ -96,302 +103,219 @@ export default function HomePage() {
         meta={<span className="mono-cap" style={{ color: "var(--accent)" }}>Racha · {streak}</span>}
       />
 
-      <div className="lg:mt-8 lg:grid lg:grid-cols-[1.4fr_1fr] lg:items-stretch lg:gap-12">
-        {/* ===== MAIN ===== */}
-        <div className="flex flex-col" style={{ marginTop: 22 }}>
-          <p className="text-display-italic text-sm" style={{ margin: 0 }}>
-            {streak > 0 ? `${streak} ${streak === 1 ? "día seguido" : "días seguidos"},` : "Hoy empieza,"}
-            <Gloss>{streak > 0 ? `${streak} ${streak === 1 ? "day" : "days"} in a row,` : "Today starts,"}</Gloss>
-          </p>
-          <h1 className="text-display-2xl text-ink" style={{ marginTop: 6 }}>
-            {streak > 0 ? "no rompas la racha." : "di tu primera frase."}
-            <Gloss>{streak > 0 ? "don't break the streak." : "say your first sentence."}</Gloss>
+      <div style={{ maxWidth: 640, margin: "0 auto" }}>
+        {/* ===== Greeting ===== */}
+        <div style={{ marginTop: 24 }}>
+          <p className="mono-cap">¡{greeting}, {NAME}!</p>
+          <h1 className="text-display-2xl text-ink" style={{ marginTop: 10 }}>
+            ¿Listo para hablar español?
           </h1>
+          <p className="text-gloss" style={{ color: "var(--ink-mute)", marginTop: 8 }}>
+            Pequeños pasos, grandes conversaciones.
+          </p>
+        </div>
 
-          {/* Weekday ribbon */}
+        {/* ===== Tu misión de hoy — the one lit card ===== */}
+        <div style={{ position: "relative", marginTop: 28 }}>
           <div
-            className="flex items-end justify-between md:justify-start md:gap-4"
-            style={{ marginTop: 30 }}
+            aria-hidden
+            style={{
+              position: "absolute",
+              left: "50%",
+              top: "50%",
+              transform: "translate(-50%,-50%)",
+              width: "92%",
+              height: 200,
+              background:
+                "radial-gradient(60% 60% at 50% 50%, color-mix(in oklab, var(--accent) 20%, transparent), transparent 70%)",
+              filter: "blur(14px)",
+            }}
+          />
+          <div
+            style={{
+              position: "relative",
+              background: "var(--surface)",
+              border: "1px solid color-mix(in oklab, var(--accent) 42%, var(--rule))",
+              borderRadius: 20,
+              padding: 26,
+              boxShadow:
+                "0 0 0 1px color-mix(in oklab, var(--accent) 18%, transparent), 0 22px 50px -18px color-mix(in oklab, var(--accent) 50%, transparent)",
+            }}
           >
-            {(week.length ? week : RIBBON_LABELS.map((label, i) => ({ key: `ph-${i}`, label, practiced: false, isToday: false, isFuture: true } as RibbonDay))).map((d) => (
-              <RibbonCircle key={d.key} day={d} />
-            ))}
-          </div>
+            <span className="mono-cap flex items-center" style={{ gap: 7, color: "var(--accent)" }}>
+              <span aria-hidden style={{ display: "inline-flex" }}>{IconSun}</span>
+              Día {dayNum} · {day.themeEs}
+            </span>
 
-          {/* Lit act card — the one element that glows */}
-          <div style={{ position: "relative", marginTop: 36 }}>
-            <div
-              aria-hidden
-              style={{
-                position: "absolute",
-                left: "50%",
-                top: "50%",
-                transform: "translate(-50%,-50%)",
-                width: "92%",
-                height: 170,
-                background:
-                  "radial-gradient(60% 60% at 50% 50%, color-mix(in oklab, var(--accent) 22%, transparent), transparent 70%)",
-                filter: "blur(12px)",
-              }}
-            />
-            <div
-              style={{
-                position: "relative",
-                background: "var(--surface)",
-                border: "1px solid color-mix(in oklab, var(--accent) 42%, var(--rule))",
-                borderRadius: 20,
-                padding: 30,
-                boxShadow:
-                  "0 0 0 1px color-mix(in oklab, var(--accent) 18%, transparent), 0 22px 50px -18px color-mix(in oklab, var(--accent) 50%, transparent)",
-              }}
+            <p className="font-display" style={{ fontWeight: 300, fontSize: 13, letterSpacing: 0.2, textTransform: "uppercase", color: "var(--ink-mute)", margin: "16px 0 0" }}>
+              Tu misión de hoy
+            </p>
+            <h2
+              className="font-display text-ink"
+              style={{ fontWeight: 300, fontSize: 30, lineHeight: 1.18, margin: "6px 0 0" }}
             >
-              <div className="flex items-baseline justify-between gap-3">
-                <span className="mono-cap" style={{ color: "var(--accent)" }}>
-                  Lo de hoy · {todayEs}
-                </span>
-                <span className="mono-cap">
-                  {day.themeEs}
-                  <Gloss>{day.themeEn}</Gloss>
-                </span>
-              </div>
-              <p
-                className="font-display text-ink"
-                style={{ fontWeight: 300, fontSize: 34, lineHeight: 1.26, margin: "16px 0 0" }}
-              >
-                {day.line}
-                <Gloss>{day.lineEn}</Gloss>
+              {mission}
+            </h2>
+            {missionEn && (
+              <p className="text-gloss" style={{ color: "var(--ink-mute)", margin: "6px 0 0" }}>
+                {missionEn}
               </p>
-              <div className="flex items-center" style={{ gap: 18, marginTop: 26 }}>
-                <Link
-                  href="/practice"
-                  aria-label="Practicar lo de hoy"
-                  className="flex flex-shrink-0 items-center justify-center transition-transform hover:scale-105 motion-reduce:transition-none motion-reduce:hover:scale-100"
-                  style={{
-                    width: 62,
-                    height: 62,
-                    borderRadius: "50%",
-                    background: "var(--accent)",
-                    color: "var(--accent-ink)",
-                    boxShadow: "0 0 0 10px color-mix(in oklab, var(--accent) 15%, transparent)",
-                  }}
+            )}
+
+            {/* Di · Graba · Guarda */}
+            <div className="grid grid-cols-3" style={{ gap: 10, marginTop: 24 }}>
+              {[
+                { icon: IconSay, verb: "Di", note: "3 frases" },
+                { icon: IconMic, verb: "Graba", note: "20 segundos" },
+                { icon: IconBookmark, verb: "Guarda", note: "1 frase" },
+              ].map((s) => (
+                <div
+                  key={s.verb}
+                  className="flex flex-col items-center text-center"
+                  style={{ gap: 7, padding: "14px 6px", background: "var(--surface-2)", border: "1px solid var(--rule)", borderRadius: 14 }}
                 >
-                  <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden {...ws} strokeWidth={1.7}>
-                    <rect x="9" y="3" width="6" height="11" rx="3" />
-                    <path d="M6 11a6 6 0 0 0 12 0" />
-                    <path d="M12 17v3" />
-                  </svg>
-                </Link>
-                <span
-                  className="font-display text-ink-soft"
-                  style={{ fontStyle: "italic", fontSize: 18, lineHeight: 1.35 }}
-                >
-                  Dílo en voz alta — o graba 20&nbsp;s.
-                  <Gloss>{"Say it out loud — or record 20 s."}</Gloss>
-                </span>
-              </div>
+                  <span aria-hidden style={{ color: "var(--accent)" }}>{s.icon}</span>
+                  <span className="font-display text-ink" style={{ fontSize: 15 }}>{s.verb}</span>
+                  <span className="mono-cap" style={{ fontSize: 9 }}>{s.note}</span>
+                </div>
+              ))}
             </div>
-          </div>
 
-          {/* Mobile cuaderno preview (desktop uses the aside) */}
-          <div className="lg:hidden" style={{ marginTop: 30 }}>
-            <CuadernoPreview said={said} entry={recent[0]} />
-          </div>
-
-          <div className="flex-1" />
-
-          {/* Year line */}
-          <div
-            className="flex items-center"
-            style={{ gap: 16, marginTop: 34, paddingTop: 24, borderTop: "1px solid var(--rule)" }}
-          >
-            <div style={{ position: "relative", flex: 1, height: 12 }}>
-              <div style={{ position: "absolute", left: 0, right: 0, top: 5, height: 1, background: "var(--rule)" }} />
-              <div style={{ position: "absolute", left: 0, width: `${yearPct}%`, top: 5, height: 1.5, background: season.color }} />
-              {[0, 25, 50, 75].map((pos) => {
-                const filled = pos <= yearPct;
-                return (
-                  <span
-                    key={pos}
-                    style={{
-                      position: "absolute",
-                      left: `${pos === 0 ? 3 : pos === 75 ? 96 : pos}%`,
-                      top: 5,
-                      transform: "translate(-50%,-50%)",
-                      width: filled ? 8 : 5,
-                      height: filled ? 8 : 5,
-                      borderRadius: "50%",
-                      background: filled ? season.color : "var(--bg)",
-                      border: filled ? "none" : "1.5px solid var(--rule)",
-                    }}
-                  />
-                );
-              })}
-            </div>
-            <Link
-              href="/camino"
-              className="mono-cap transition-colors hover:text-accent"
-              style={{ whiteSpace: "nowrap" }}
-            >
-              {season.label} · el año →
+            <Link href="/practice" className="btn-primary btn-primary--center" style={{ marginTop: 22 }}>
+              <span aria-hidden style={{ display: "inline-flex" }}>{IconMic}</span>
+              <span className="lab">Comenzar práctica de hoy</span>
             </Link>
           </div>
         </div>
 
-        {/* ===== ASIDE (desktop) ===== */}
-        <aside className="hidden lg:flex lg:flex-col" style={{ paddingLeft: 40, borderLeft: "1px solid var(--rule)" }}>
-          <div className="flex items-baseline justify-between gap-3">
-            <h2 className="font-display text-ink" style={{ fontWeight: 300, fontSize: 27 }}>
-              Tu cuaderno
-              <Gloss>{"Your notebook"}</Gloss>
-            </h2>
-            <span className="mono-cap">{said} frases</span>
-          </div>
-          <p className="font-display text-ink-mute" style={{ fontStyle: "italic", fontSize: 14, margin: "6px 0 0" }}>
-            Todo lo que ya dijiste en voz alta.
-            <Gloss>{"Everything you've already said out loud."}</Gloss>
-          </p>
-
-          <div style={{ marginTop: 22, flex: 1 }}>
-            {recent.length === 0 ? (
-              <p className="font-display text-ink-mute" style={{ fontStyle: "italic", fontSize: 15, paddingTop: 18, borderTop: "1px solid var(--rule)" }}>
-                Aún no hay frases. Di la primera hoy.
-                <Gloss>{"No sentences yet. Say the first one today."}</Gloss>
-              </p>
-            ) : (
-              recent.map((t) => <NotebookRow key={t.id} thought={t} />)
-            )}
-          </div>
-
-          <Link
-            href="/cuaderno"
-            className="mono-cap transition-colors hover:text-accent"
-            style={{ marginTop: 18, textAlign: "center" }}
+        {/* ===== Tu progreso en el camino ===== */}
+        <SectionHead label="Tu progreso en el camino" href="/camino" cta="Ver" />
+        <Link
+          href="/camino"
+          className="flex items-center transition-colors active:bg-surface-sunk"
+          style={{ gap: 16, padding: "16px 18px", background: "var(--surface)", border: "1px solid var(--rule)", borderRadius: 16 }}
+        >
+          <span
+            className="flex flex-shrink-0 items-center justify-center font-display"
+            style={{
+              width: 52,
+              height: 52,
+              borderRadius: "50%",
+              border: `2px solid ${season.color}`,
+              color: "var(--ink)",
+              fontSize: 17,
+            }}
           >
-            ver el cuaderno entero →
-          </Link>
-        </aside>
+            {dayNum}
+          </span>
+          <span className="flex flex-col" style={{ minWidth: 0, flex: 1 }}>
+            <span className="font-display text-ink" style={{ fontSize: 17, lineHeight: 1.2 }}>
+              T{season.index} – {seasonTitle}
+            </span>
+            <span className="mono-cap" style={{ marginTop: 4 }}>Estás aquí</span>
+            <span className="flex items-center" style={{ gap: 7, marginTop: 12 }}>
+              {[0, 1, 2, 3, 4].map((i) => (
+                <span
+                  key={i}
+                  style={{
+                    width: i === 0 ? 9 : 7,
+                    height: i === 0 ? 9 : 7,
+                    borderRadius: "50%",
+                    background: i === 0 ? season.color : "transparent",
+                    border: i === 0 ? "none" : "1.5px solid var(--rule)",
+                  }}
+                />
+              ))}
+              <span style={{ flex: 1, height: 1, background: "var(--rule)", marginLeft: 2 }} />
+            </span>
+          </span>
+        </Link>
+
+        {/* ===== Tu cuaderno ===== */}
+        <SectionHead label="Tu cuaderno" href="/cuaderno" cta="Ver todo" />
+        <CuadernoCard said={said} latest={latest} />
+
+        {/* ===== Más en Pues ===== */}
+        <section aria-label="Más en Pues" style={{ marginTop: 30, paddingTop: 20, borderTop: "1px solid var(--rule)" }}>
+          <p className="mono-cap" style={{ marginBottom: 14 }}>Más en Pues</p>
+          <div className="grid grid-cols-2 md:grid-cols-4" style={{ columnGap: 14, rowGap: 14 }}>
+            <Shortcut zone="var(--zone-practica)" zoneLabel="Práctica" title="Juegos" href="/practice/games"
+              icon={<svg viewBox="0 0 24 24" width="17" height="17" {...ws}><path d="M6 3h9l4 4v14H6z" /><path d="M9 12h7M9 16h5" /></svg>} />
+            <Shortcut zone="var(--zone-lugares)" zoneLabel="Guías" title="Patrones" href="/guides"
+              icon={<svg viewBox="0 0 24 24" width="17" height="17" {...ws}><circle cx="7" cy="7" r="3" /><circle cx="17" cy="7" r="3" /><circle cx="7" cy="17" r="3" /><circle cx="17" cy="17" r="3" /></svg>} />
+            <Shortcut zone="var(--zone-lab)" zoneLabel="Lab" title="El oído" href="/lab"
+              icon={<svg viewBox="0 0 24 24" width="17" height="17" {...ws}><path d="M6 10a6 6 0 1 1 12 0v4a4 4 0 0 1-4 4h-1v-7" /></svg>} />
+            <Shortcut zone="var(--zone-guias)" zoneLabel="Cuaderno" title="Guardado" href="/cuaderno"
+              icon={<svg viewBox="0 0 24 24" width="17" height="17" {...ws}><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4z" /></svg>} />
+          </div>
+        </section>
       </div>
-
-      {/* ===== Shortcuts — keep the rest of the app reachable ===== */}
-      <section
-        aria-label="Atajos"
-        style={{ marginTop: 30, paddingTop: 20, borderTop: "1px solid var(--rule)" }}
-      >
-        <p className="mono-cap" style={{ marginBottom: 14 }}>
-          Más en Pues
-          <Gloss>{"More in Pues"}</Gloss>
-        </p>
-        <div className="grid grid-cols-2 md:grid-cols-4" style={{ columnGap: 14, rowGap: 14 }}>
-          <Shortcut zone="var(--zone-practica)" zoneLabel="Práctica" title="Juegos" href="/practice/games"
-            icon={<svg viewBox="0 0 24 24" width="17" height="17" {...ws}><path d="M6 3h9l4 4v14H6z" /><path d="M9 12h7M9 16h5" /></svg>} />
-          <Shortcut zone="var(--zone-guias)" zoneLabel="Cuaderno" title="Guardado" href="/cuaderno"
-            icon={<svg viewBox="0 0 24 24" width="17" height="17" {...ws}><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4z" /></svg>} />
-          <Shortcut zone="var(--zone-lugares)" zoneLabel="Guías" title="Patrones" href="/guides"
-            icon={<svg viewBox="0 0 24 24" width="17" height="17" {...ws}><circle cx="7" cy="7" r="3" /><circle cx="17" cy="7" r="3" /><circle cx="7" cy="17" r="3" /><circle cx="17" cy="17" r="3" /></svg>} />
-          <Shortcut zone="var(--zone-lab)" zoneLabel="Lab" title="El oído" href="/lab"
-            icon={<svg viewBox="0 0 24 24" width="17" height="17" {...ws}><path d="M6 10a6 6 0 1 1 12 0v4a4 4 0 0 1-4 4h-1v-7" /></svg>} />
-        </div>
-      </section>
     </div>
   );
 }
 
-function RibbonCircle({ day }: { day: RibbonDay }) {
-  const { practiced, isToday, isFuture, label } = day;
-
-  let circle: React.ReactNode;
-  if (isToday) {
-    circle = (
-      <span
-        className="flex items-center justify-center"
-        style={{
-          width: 42,
-          height: 42,
-          borderRadius: "50%",
-          background: "color-mix(in oklab, var(--accent) 20%, var(--surface))",
-          border: "1.5px solid var(--accent)",
-          color: "var(--accent)",
-          boxShadow: "0 0 0 4px color-mix(in oklab, var(--accent) 13%, transparent)",
-        }}
-      >
-        {IconMic}
-      </span>
-    );
-  } else if (practiced) {
-    circle = (
-      <span
-        className="flex items-center justify-center"
-        style={{ width: 34, height: 34, borderRadius: "50%", background: "var(--accent)", color: "var(--accent-ink)" }}
-      >
-        {IconCheck}
-      </span>
-    );
-  } else {
-    circle = (
-      <span
-        style={{
-          width: 34,
-          height: 34,
-          borderRadius: "50%",
-          border: "1.5px solid var(--rule)",
-          opacity: isFuture ? 0.7 : 1,
-        }}
-      />
-    );
-  }
+/** Latest saved phrase — Spanish, with its English revealed on tap. */
+function CuadernoCard({ said, latest }: { said: number; latest?: Thought }) {
+  const [showEn, setShowEn] = useState(false);
+  const hasEnglish = Boolean(latest?.english);
 
   return (
-    <span className="flex flex-col items-center" style={{ gap: 9 }}>
-      {circle}
-      <span className="mono-cap" style={{ fontSize: 9, color: isToday ? "var(--accent)" : "var(--ink-mute)" }}>
-        {label}
+    <div
+      className="flex items-start"
+      style={{ gap: 14, padding: "16px 18px", background: "var(--surface)", border: "1px solid var(--rule)", borderRadius: 16 }}
+    >
+      <span aria-hidden className="flex flex-shrink-0 items-center justify-center" style={{ width: 40, height: 40, borderRadius: 11, background: "color-mix(in oklab, var(--zone-guias) 14%, transparent)", color: "var(--zone-guias)" }}>
+        {IconBook}
       </span>
-    </span>
-  );
-}
-
-function NotebookRow({ thought }: { thought: Thought }) {
-  const d = new Date(thought.createdAt);
-  const day = Number.isNaN(d.getTime()) ? "" : DIA_SHORT[d.getDay()];
-  return (
-    <div className="flex items-start" style={{ gap: 12, padding: "17px 0", borderTop: "1px solid var(--rule)" }}>
-      <span className="mono-cap" style={{ fontSize: 8.5, paddingTop: 5, width: 28, flexShrink: 0 }}>
-        {day}
-      </span>
-      <span className="font-display text-ink-soft" style={{ fontSize: 17, lineHeight: 1.34, flex: 1 }}>
-        {thought.sentence}
-      </span>
-      <span style={{ flexShrink: 0, marginTop: 5, color: "var(--accent)" }} aria-hidden>
-        {IconCheck}
-      </span>
-    </div>
-  );
-}
-
-function CuadernoPreview({ said, entry }: { said: number; entry?: Thought }) {
-  const d = entry ? new Date(entry.createdAt) : null;
-  const day = d && !Number.isNaN(d.getTime()) ? DIA_SHORT[d.getDay()] : "";
-  return (
-    <div>
-      <Link href="/cuaderno" className="flex items-baseline justify-between gap-3 transition-colors hover:text-accent">
-        <span className="font-display text-ink" style={{ fontSize: 17 }}>
-          Tu cuaderno
-          <Gloss>{"Your notebook"}</Gloss>
-        </span>
-        <span className="mono-cap">{said} frases · ver →</span>
-      </Link>
-      {entry ? (
-        <div className="flex items-start" style={{ gap: 11, padding: "12px 0 0", marginTop: 8, borderTop: "1px solid var(--rule)" }}>
-          <span className="mono-cap" style={{ fontSize: 8, paddingTop: 4, width: 24, flexShrink: 0 }}>{day}</span>
-          <span className="font-display text-ink-soft" style={{ fontSize: 15, lineHeight: 1.32, flex: 1 }}>{entry.sentence}</span>
-          <span style={{ flexShrink: 0, marginTop: 4, color: "var(--accent)" }} aria-hidden>{IconCheck}</span>
-        </div>
-      ) : (
-        <p className="font-display text-ink-mute" style={{ fontStyle: "italic", fontSize: 14, padding: "12px 0 0", marginTop: 8, borderTop: "1px solid var(--rule)" }}>
-          Aún no hay frases. Di la primera hoy.
-          <Gloss>{"No sentences yet. Say the first one today."}</Gloss>
-        </p>
+      <div className="flex flex-col" style={{ minWidth: 0, flex: 1 }}>
+        <span className="mono-cap">{said} {said === 1 ? "frase guardada" : "frases guardadas"}</span>
+        {latest ? (
+          hasEnglish ? (
+            <button
+              type="button"
+              onClick={() => setShowEn((v) => !v)}
+              onMouseEnter={() => setShowEn(true)}
+              onMouseLeave={() => setShowEn(false)}
+              onFocus={() => setShowEn(true)}
+              onBlur={() => setShowEn(false)}
+              aria-expanded={showEn}
+              className="flex flex-col text-left"
+              style={{ gap: 4, marginTop: 6 }}
+            >
+              <span className="font-display text-ink-soft" style={{ fontSize: 16, lineHeight: 1.34 }}>
+                {latest.sentence}
+              </span>
+              {showEn ? (
+                <span className="text-gloss" style={{ color: "var(--ink-mute)" }}>{latest.english}</span>
+              ) : (
+                <span className="mono-cap" style={{ fontSize: 9 }}>toca o haz clic para ver el inglés</span>
+              )}
+            </button>
+          ) : (
+            <span className="font-display text-ink-soft" style={{ fontSize: 16, lineHeight: 1.34, marginTop: 6 }}>
+              {latest.sentence}
+            </span>
+          )
+        ) : (
+          <span className="font-display text-ink-mute" style={{ fontStyle: "italic", fontSize: 15, marginTop: 6 }}>
+            Aún no hay frases. Di la primera hoy.
+          </span>
+        )}
+      </div>
+      {latest && (
+        <span aria-hidden style={{ flexShrink: 0, marginTop: 2, color: "var(--accent)" }}>{IconHeart}</span>
       )}
+    </div>
+  );
+}
+
+function SectionHead({ label, href, cta }: { label: string; href: string; cta: string }) {
+  return (
+    <div className="flex items-baseline justify-between" style={{ marginTop: 30, marginBottom: 12 }}>
+      <span className="mono-cap">{label}</span>
+      <Link href={href} className="mono-cap transition-colors hover:text-accent">
+        {cta} →
+      </Link>
     </div>
   );
 }

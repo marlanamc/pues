@@ -6,17 +6,14 @@ import { useRouter } from "next/navigation";
 import { PageHeader, Wordmark } from "@/components/PageHeader";
 import { Ledger, ZoneRow } from "@/components/ZoneList";
 import { MicButton } from "@/components/MicButton";
+import { PlayButton } from "@/components/PlayButton";
 import { ClickablePrompt } from "@/components/ClickablePrompt";
 import { games } from "@/content/games";
-import { Gloss } from "@/components/Gloss";
-import { speakDayForIndex, promptForSession } from "@/content/prompts";
+import { speakDayForIndex, promptForSession, parseWhy, type SpeakPrompt } from "@/content/prompts";
 import { getSessionIndex } from "@/lib/store";
 import { useStats } from "@/hooks/useStats";
-import { useThoughts } from "@/hooks/useThoughts";
 import { useFlowDraft } from "@/hooks/useFlowDraft";
 import { useRecorder } from "@/hooks/useRecorder";
-
-const DIAS = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
 
 const stroke = {
   fill: "none",
@@ -55,37 +52,31 @@ const gameIcons: Record<string, ReactNode> = {
   ),
 };
 
-function leadVerb(stem: string): string {
-  return stem
-    .replace(/[….]+$/g, "")
-    .trim()
-    .split(/\s+/)[0]
-    .toLowerCase();
-}
+const IconLightbulb = (
+  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden {...stroke}>
+    <path d="M9 18h6M10 21h4M12 3a6 6 0 0 1 4 10.5c-.7.6-1 1-1 2H9c0-1-.3-1.4-1-2A6 6 0 0 1 12 3Z" />
+  </svg>
+);
 
 export default function PracticeActPage() {
   const router = useRouter();
-  const { stats, hydrated: statsHydrated } = useStats();
-  const { thoughts } = useThoughts();
+  const { stats } = useStats();
   const { patch } = useFlowDraft();
   const recorder = useRecorder();
 
   const [sessionIndex, setSessionIndex] = useState(0);
-  const [now, setNow] = useState<Date | null>(null);
+  const [showMore, setShowMore] = useState(false);
   const [advancing, setAdvancing] = useState(false);
 
   useEffect(() => {
     setSessionIndex(getSessionIndex());
-    setNow(new Date());
   }, []);
 
   const day = speakDayForIndex(stats.currentDayIndex);
   const dayNum = day.day.toString().padStart(2, "0");
-  const weekday = now ? DIAS[now.getDay()] : "Hoy";
-  const said = stats.sentencesCreated;
+  const mission = day.missionEs ?? day.line;
 
-  const tresFrases = day.prompts.slice(0, 3).map((p) => p.frameStem);
-  const dosVerbos = day.prompts.slice(0, 2).map((p) => leadVerb(p.frameStem));
+  const examples = day.prompts.slice(0, showMore ? 5 : 3);
 
   const prompt = useMemo(
     () => promptForSession(stats.currentDayIndex, sessionIndex),
@@ -127,8 +118,8 @@ export default function PracticeActPage() {
     if (!ok) finish(null); // mic denied / unsupported — honor the speak-first gate
   }
 
-  const micSubtitle =
-    recorder.state === "recording" ? "Escuchando… toca al terminar." : "Toca y dílo en voz alta.";
+  const micCaption =
+    recorder.state === "recording" ? "Escuchando… toca al terminar." : "Toca para grabar · o mantén presionado";
 
   return (
     <div
@@ -140,175 +131,148 @@ export default function PracticeActPage() {
         meta={<span className="mono-cap">Día {dayNum}</span>}
       />
 
-      <div className="lg:mt-8 lg:grid lg:grid-cols-[1.4fr_1fr] lg:items-start lg:gap-12">
-        {/* ===== MAIN — the 3·2·1 act ===== */}
-        <div style={{ marginTop: 22 }}>
-          <span className="day-pill">
-            <span className="sep" style={{ display: "none" }} />
-            <span style={{ width: 5, height: 5, borderRadius: 999, background: "var(--accent)" }} aria-hidden />
-            {weekday} · {day.themeEs} · Día {dayNum}
-          </span>
+      <div style={{ maxWidth: 640, margin: "0 auto" }}>
+        <Link href="/" className="mono-cap inline-flex items-center transition-colors hover:text-accent" style={{ gap: 6, marginTop: 18 }}>
+          <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden {...stroke}><path d="M15 6l-6 6 6 6" /></svg>
+          Hoy
+        </Link>
 
-          <h1 className="text-display-2xl text-ink" style={{ marginTop: 18 }}>
-            Lo de hoy.
+        {/* ===== Mission restated ===== */}
+        <div style={{ marginTop: 16 }}>
+          <span className="mono-cap" style={{ color: "var(--accent)" }}>Día {dayNum} · {day.themeEs}</span>
+          <h1 className="text-display-2xl text-ink" style={{ marginTop: 10 }}>
+            {mission}
           </h1>
-          <p className="text-display-italic text-[1.0625rem]" style={{ margin: "2px 0 0" }}>
-            Tres frases, dos verbos, una dicha en voz alta.
+          {day.missionEn && (
+            <p className="text-gloss" style={{ color: "var(--ink-mute)", marginTop: 6 }}>
+              {day.missionEn}
+            </p>
+          )}
+          <p className="text-gloss" style={{ color: "var(--ink-mute)", marginTop: 8 }}>
+            Algunas ideas para empezar.
           </p>
-          <Gloss>Three sentences, two verbs, one said aloud.</Gloss>
-
-          <div className="flex flex-wrap" style={{ gap: 40, marginTop: 34 }}>
-            {/* left — read 3, recognize 2 */}
-            <div style={{ flex: 1, minWidth: 260, maxWidth: 380 }}>
-              <div style={{ paddingTop: 18, borderTop: "1px solid var(--rule)" }}>
-                <span className="mono-cap">Tres frases</span>
-                <Gloss>Three sentences</Gloss>
-                <p
-                  className="font-display text-ink"
-                  style={{ fontWeight: 400, fontSize: 19, lineHeight: 1.85, margin: "10px 0 0" }}
-                >
-                  {tresFrases.map((f, i) => (
-                    <span key={i}>
-                      {f}
-                      {i < tresFrases.length - 1 ? <br /> : null}
-                    </span>
-                  ))}
-                </p>
-              </div>
-              <div style={{ paddingTop: 18, marginTop: 14, borderTop: "1px solid var(--rule)" }}>
-                <span className="mono-cap">Dos verbos</span>
-                <Gloss>Two verbs</Gloss>
-                <p
-                  className="font-display text-ink"
-                  style={{ fontWeight: 400, fontSize: 20, margin: "10px 0 0" }}
-                >
-                  {dosVerbos.join(" · ")}
-                </p>
-              </div>
-            </div>
-
-            {/* right — say 1 aloud */}
-            <div className="flex flex-col justify-center" style={{ flex: 1, minWidth: 260 }}>
-              <div style={{ position: "relative" }}>
-                <div
-                  aria-hidden
-                  style={{
-                    position: "absolute",
-                    left: "50%",
-                    top: "50%",
-                    transform: "translate(-50%,-50%)",
-                    width: "96%",
-                    height: 150,
-                    background:
-                      "radial-gradient(60% 60% at 50% 50%, color-mix(in oklab, var(--accent) 20%, transparent), transparent 70%)",
-                    filter: "blur(12px)",
-                  }}
-                />
-                <div
-                  style={{
-                    position: "relative",
-                    background: "var(--surface-2)",
-                    border: "1px solid color-mix(in oklab, var(--accent) 40%, var(--rule))",
-                    borderTop: "2px solid var(--accent)",
-                    borderRadius: 18,
-                    padding: 24,
-                  }}
-                >
-                  <span className="mono-cap" style={{ color: "var(--accent)" }}>
-                    Uno en voz alta
-                  </span>
-                  <Gloss>One aloud</Gloss>
-                  <div className="font-display" style={{ fontStyle: "italic", fontWeight: 300, fontSize: 23, lineHeight: 1.42, color: "var(--ink)", marginTop: 12 }}>
-                    <ClickablePrompt text={prompt.english} wordHints={prompt.wordHints} />
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex flex-col items-center" style={{ gap: 12, marginTop: 28 }}>
-                <MicButton state={recorder.state} onTap={onTap} />
-                <span className="text-display-italic text-center text-[1rem]">{micSubtitle}</span>
-              </div>
-            </div>
-          </div>
         </div>
 
-        {/* ===== ASIDE ===== */}
-        <aside className="hidden lg:flex lg:flex-col" style={{ paddingLeft: 40, borderLeft: "1px solid var(--rule)", minHeight: "100%" }}>
-          <h2 className="font-display text-ink" style={{ fontWeight: 300, fontSize: 24 }}>
-            Cómo funciona
-          </h2>
-          <Gloss>How it works</Gloss>
-          <div style={{ marginTop: 22 }}>
-            {[
-              { n: 3, t: "Lees tres frases para entrar en tema.", en: "Read three sentences to get into the topic." },
-              { n: 2, t: "Reconoces dos verbos del día.", en: "Notice two verbs from today." },
-              { n: 1, t: "Dices una frase en voz alta. Eso mantiene la racha.", en: "Say one sentence out loud. That keeps the streak." },
-            ].map((s, i, arr) => (
-              <div
-                key={s.n}
-                className="flex"
-                style={{
-                  gap: 14,
-                  padding: "16px 0",
-                  borderTop: "1px solid var(--rule)",
-                  borderBottom: i === arr.length - 1 ? "1px solid var(--rule)" : undefined,
-                }}
-              >
-                <span className="font-mono" style={{ fontSize: 11, color: "var(--accent)", flexShrink: 0, paddingTop: 2 }}>
-                  {s.n}
-                </span>
-                <span className="font-display text-ink-soft" style={{ fontSize: 16, lineHeight: 1.4 }}>
-                  {s.t}
-                  <Gloss>{s.en}</Gloss>
-                </span>
-              </div>
-            ))}
-          </div>
-          <div
-            className="flex items-center justify-between"
-            style={{ marginTop: "auto", paddingTop: 18, borderTop: "1px solid var(--rule)" }}
-          >
-            <span className="mono-cap">Dichas<Gloss>Said aloud</Gloss></span>
-            <span className="font-display text-ink" style={{ fontSize: 22 }}>
-              {statsHydrated ? said : thoughts.length}
-            </span>
-          </div>
-        </aside>
-      </div>
-
-      {/* ===== Más práctica — keep games / plan / reading reachable ===== */}
-      <section style={{ marginTop: 32, paddingTop: 20, borderTop: "1px solid var(--rule)" }}>
-        <p className="mono-cap" style={{ marginBottom: 14 }}>
-          Más práctica
-        </p>
-
-        <div className="grid grid-cols-1 gap-2.5 md:grid-cols-2" style={{ marginBottom: 18 }}>
-          <Link href="/practice/plan" className="pill-lower">
-            <span className="font-display text-ink" style={{ fontSize: 16 }}>El plan</span>
-            <span className="mono-cap" style={{ marginLeft: "auto" }}>14 días</span>
-          </Link>
-          <Link href="/read" className="pill-lower">
-            <span className="font-display text-ink" style={{ fontSize: 16 }}>La lectura</span>
-            <span className="mono-cap" style={{ marginLeft: "auto" }}>Leer →</span>
-          </Link>
-        </div>
-
-        <p className="mono-cap" style={{ marginBottom: 10 }}>Juegos</p>
-        <Ledger>
-          {games.map((game) => (
-            <li key={game.href}>
-              <Link href={game.href} className="block transition-colors active:bg-surface-sunk">
-                <ZoneRow
-                  icon={gameIcons[game.iconId]}
-                  title={game.label}
-                  description={game.description}
-                  meta={game.level}
-                />
-              </Link>
-            </li>
+        {/* ===== Examples — Spanish model phrases, tap to reveal English ===== */}
+        <div style={{ marginTop: 22, display: "flex", flexDirection: "column", gap: 10 }}>
+          {examples.map((p) => (
+            <ExampleCard key={p.id} prompt={p} />
           ))}
-        </Ledger>
-      </section>
+          {!showMore && day.prompts.length > 3 && (
+            <button
+              type="button"
+              onClick={() => setShowMore(true)}
+              className="mono-cap transition-colors hover:text-accent"
+              style={{ alignSelf: "flex-start", color: "var(--accent)", padding: "6px 2px" }}
+            >
+              + Ver más ejemplos
+            </button>
+          )}
+        </div>
+
+        {/* ===== ¡Es tu turno! — record ===== */}
+        <div
+          style={{
+            position: "relative",
+            marginTop: 26,
+            padding: 30,
+            background: "var(--surface)",
+            border: "1px solid color-mix(in oklab, var(--accent) 40%, var(--rule))",
+            borderRadius: 20,
+            textAlign: "center",
+          }}
+        >
+          <h2 className="font-display text-ink" style={{ fontWeight: 300, fontSize: 26 }}>
+            ¡Es tu turno!
+          </h2>
+          <p className="font-display text-ink-soft" style={{ fontSize: 18, lineHeight: 1.35, margin: "8px auto 0", maxWidth: "26ch" }}>
+            Di 3 frases. {mission}
+          </p>
+
+          <div className="flex flex-col items-center" style={{ gap: 14, marginTop: 26 }}>
+            <MicButton state={recorder.state} onTap={onTap} />
+            <span className="mono-cap">{micCaption}</span>
+          </div>
+        </div>
+
+        {/* ===== Consejo de hoy ===== */}
+        <div
+          className="flex"
+          style={{ gap: 14, marginTop: 18, padding: 18, background: "var(--surface-2)", border: "1px solid var(--rule)", borderRadius: 16 }}
+        >
+          <span aria-hidden className="flex-shrink-0" style={{ color: "var(--accent)", marginTop: 1 }}>{IconLightbulb}</span>
+          <div>
+            <p className="mono-cap" style={{ marginBottom: 6 }}>Consejo de hoy</p>
+            <p className="font-display text-ink-soft" style={{ fontSize: 16, lineHeight: 1.5 }}>
+              {parseWhy(prompt.why).map((seg, i) =>
+                seg.italic ? (
+                  <em key={i} className="font-display" style={{ fontStyle: "italic", color: "var(--ink)" }}>{seg.text}</em>
+                ) : (
+                  <span key={i}>{seg.text}</span>
+                ),
+              )}
+            </p>
+          </div>
+        </div>
+
+        {/* ===== Más práctica — keep games / plan / reading reachable ===== */}
+        <section style={{ marginTop: 32, paddingTop: 20, borderTop: "1px solid var(--rule)" }}>
+          <p className="mono-cap" style={{ marginBottom: 14 }}>Más práctica</p>
+
+          <div className="grid grid-cols-1 gap-2.5 md:grid-cols-2" style={{ marginBottom: 18 }}>
+            <Link href="/practice/plan" className="pill-lower">
+              <span className="font-display text-ink" style={{ fontSize: 16 }}>El plan</span>
+              <span className="mono-cap" style={{ marginLeft: "auto" }}>14 días</span>
+            </Link>
+            <Link href="/read" className="pill-lower">
+              <span className="font-display text-ink" style={{ fontSize: 16 }}>La lectura</span>
+              <span className="mono-cap" style={{ marginLeft: "auto" }}>Leer →</span>
+            </Link>
+          </div>
+
+          <p className="mono-cap" style={{ marginBottom: 10 }}>Juegos</p>
+          <Ledger>
+            {games.map((game) => (
+              <li key={game.href}>
+                <Link href={game.href} className="block transition-colors active:bg-surface-sunk">
+                  <ZoneRow
+                    icon={gameIcons[game.iconId]}
+                    title={game.label}
+                    description={game.description}
+                    meta={game.level}
+                  />
+                </Link>
+              </li>
+            ))}
+          </Ledger>
+        </section>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * An idea to start from: the English thought with tappable Spanish word-glosses
+ * (tap an underlined word → its Spanish), and audio that plays the Spanish model.
+ */
+function ExampleCard({ prompt }: { prompt: SpeakPrompt }) {
+  return (
+    <div
+      className="flex items-start"
+      style={{ gap: 12, padding: "16px 16px", background: "var(--surface)", border: "1px solid var(--rule)", borderRadius: 14 }}
+    >
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <ClickablePrompt
+          text={prompt.english}
+          wordHints={prompt.wordHints}
+          className="font-display font-light text-[1.0625rem] leading-snug"
+          quotes={false}
+        />
+        <span className="mono-cap" style={{ fontSize: 9, marginTop: 6, display: "inline-block" }}>
+          toca o pasa el cursor por una palabra · ▶ en español
+        </span>
+      </div>
+      <PlayButton text={prompt.spanish} label={`Escuchar: ${prompt.spanish}`} />
     </div>
   );
 }

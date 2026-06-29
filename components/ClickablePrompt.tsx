@@ -7,9 +7,18 @@ import { tokenizeEnglish } from "@/lib/tokenizeEnglish";
 type ClickablePromptProps = {
   text: string;
   wordHints?: WordHint[];
+  /** Size/typography class for the prompt. Defaults to the large speak-prompt style. */
+  className?: string;
+  /** Wrap the prompt in curly quotes. Defaults to true. */
+  quotes?: boolean;
 };
 
-export function ClickablePrompt({ text, wordHints }: ClickablePromptProps) {
+export function ClickablePrompt({
+  text,
+  wordHints,
+  className = "text-display-prompt",
+  quotes = true,
+}: ClickablePromptProps) {
   const hintMap = useMemo(() => {
     const map = new Map<string, string>();
     for (const hint of wordHints ?? []) {
@@ -39,9 +48,9 @@ export function ClickablePrompt({ text, wordHints }: ClickablePromptProps) {
   return (
     <p
       ref={containerRef}
-      className="text-display-prompt text-ink clickable-prompt"
+      className={`${className} text-ink clickable-prompt`}
     >
-      &ldquo;
+      {quotes && "“"}
       {tokens.map((token, i) => {
         if (!token.key) {
           return <span key={i}>{token.text}</span>;
@@ -63,6 +72,10 @@ export function ClickablePrompt({ text, wordHints }: ClickablePromptProps) {
               aria-expanded={isActive}
               aria-controls={isActive ? popoverId : undefined}
               onClick={() => setActiveKey(isActive ? null : token.key)}
+              onMouseEnter={() => setActiveKey(token.key)}
+              onMouseLeave={() => setActiveKey((k) => (k === token.key ? null : k))}
+              onFocus={() => setActiveKey(token.key)}
+              onBlur={() => setActiveKey((k) => (k === token.key ? null : k))}
             >
               {token.text}
             </button>
@@ -78,7 +91,7 @@ export function ClickablePrompt({ text, wordHints }: ClickablePromptProps) {
           </span>
         );
       })}
-      &rdquo;
+      {quotes && "”"}
     </p>
   );
 }

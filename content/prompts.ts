@@ -44,6 +44,14 @@ export type SpeakDay = {
   themeEs: string;
   /** English translation of the theme label. */
   themeEn: string;
+  /**
+   * Short imperative that tells the user exactly what to talk about today,
+   * e.g. "Habla sobre lo que te gusta." Shown on Hoy + Práctica. Falls back
+   * to `line` when absent.
+   */
+  missionEs?: string;
+  /** Plain-English translation of `missionEs`, shown under it so the task is always understood. */
+  missionEn?: string;
   /** One warm Spanish sentence shown on Home. */
   line: string;
   /** English translation of the motivational line. */
@@ -56,6 +64,8 @@ export const speakDays: SpeakDay[] = [
     day: 1,
     themeEs: "Deseos y planes",
     themeEn: "Wishes & plans",
+    missionEs: "Habla de lo que quieres hacer.",
+    missionEn: "Talk about what you want to do.",
     line: "Cinco minutos son una conversación entera.",
     lineEn: "Five minutes is a whole conversation.",
     prompts: [
@@ -135,6 +145,8 @@ export const speakDays: SpeakDay[] = [
   {
     day: 2,
     themeEs: "La vida diaria",
+    missionEs: "Habla de tu día normal.",
+    missionEn: "Talk about your everyday life.",
     themeEn: "Daily life",
     line: "Lo cotidiano también merece palabras.",
     lineEn: "Everyday things deserve words too.",
@@ -222,6 +234,8 @@ export const speakDays: SpeakDay[] = [
   {
     day: 3,
     themeEs: "Creencias e ideas",
+    missionEs: "Di lo que piensas.",
+    missionEn: "Say what you think.",
     themeEn: "Beliefs & ideas",
     line: "Tus ideas suenan distinto en voz alta.",
     lineEn: "Your ideas sound different out loud.",
@@ -302,6 +316,8 @@ export const speakDays: SpeakDay[] = [
   {
     day: 4,
     themeEs: "Gustos y disgustos",
+    missionEs: "Habla sobre lo que te gusta.",
+    missionEn: "Talk about what you like.",
     themeEn: "Likes & dislikes",
     line: "Di lo que de verdad te gusta.",
     lineEn: "Say what you actually like.",
@@ -383,6 +399,8 @@ export const speakDays: SpeakDay[] = [
   {
     day: 5,
     themeEs: "La gente",
+    missionEs: "Habla de las personas en tu vida.",
+    missionEn: "Talk about the people in your life.",
     themeEn: "People",
     line: "Las personas se cuentan, no se traducen.",
     lineEn: "People are told, not translated.",
@@ -468,6 +486,8 @@ export const speakDays: SpeakDay[] = [
   {
     day: 6,
     themeEs: "El pasado",
+    missionEs: "Cuenta algo que pasó.",
+    missionEn: "Tell about something that happened.",
     themeEn: "The past",
     line: "El pasado se dice con calma.",
     lineEn: "The past is said calmly.",
@@ -554,6 +574,8 @@ export const speakDays: SpeakDay[] = [
   {
     day: 7,
     themeEs: "Aprender",
+    missionEs: "Habla de lo que estás aprendiendo.",
+    missionEn: "Talk about what you're learning.",
     themeEn: "Learning",
     line: "Aprender es repetir sin miedo.",
     lineEn: "Learning is repeating without fear.",
@@ -639,6 +661,8 @@ export const speakDays: SpeakDay[] = [
   {
     day: 8,
     themeEs: "Las emociones",
+    missionEs: "Di cómo te sientes.",
+    missionEn: "Say how you feel.",
     themeEn: "Emotions",
     line: "Nombrar lo que sientes ya es avanzar.",
     lineEn: "Naming what you feel is already progress.",
@@ -722,6 +746,8 @@ export const speakDays: SpeakDay[] = [
   {
     day: 9,
     themeEs: "Los retos",
+    missionEs: "Habla de lo que te cuesta.",
+    missionEn: "Talk about what's hard for you.",
     themeEn: "Challenges",
     line: "Lo difícil se vuelve dicho.",
     lineEn: "The hard thing becomes said.",
@@ -810,6 +836,8 @@ export const speakDays: SpeakDay[] = [
   {
     day: 10,
     themeEs: "El futuro",
+    missionEs: "Habla de tus planes y sueños.",
+    missionEn: "Talk about your plans and dreams.",
     themeEn: "The future",
     line: "El futuro empieza en una frase.",
     lineEn: "The future starts with a sentence.",
@@ -897,6 +925,8 @@ export const speakDays: SpeakDay[] = [
   {
     day: 11,
     themeEs: "Trabajo y propósito",
+    missionEs: "Habla de tu trabajo.",
+    missionEn: "Talk about your work.",
     themeEn: "Work & purpose",
     line: "Tu trabajo cabe en una oración.",
     lineEn: "Your work fits in a sentence.",
@@ -986,6 +1016,8 @@ export const speakDays: SpeakDay[] = [
   {
     day: 12,
     themeEs: "Experiencias",
+    missionEs: "Cuenta algo que has vivido.",
+    missionEn: "Tell about something you've lived through.",
     themeEn: "Experiences",
     line: "Lo que viviste, cuéntalo.",
     lineEn: "What you lived through — tell it.",
@@ -1075,6 +1107,8 @@ export const speakDays: SpeakDay[] = [
   {
     day: 13,
     themeEs: "Posibilidades",
+    missionEs: "Imagina en voz alta.",
+    missionEn: "Imagine out loud.",
     themeEn: "Possibilities",
     line: "Imagina en voz alta, sin límites.",
     lineEn: "Imagine out loud, without limits.",
@@ -1165,6 +1199,8 @@ export const speakDays: SpeakDay[] = [
   {
     day: 14,
     themeEs: "Tu historia",
+    missionEs: "Cuenta tu historia.",
+    missionEn: "Tell your story.",
     themeEn: "Your story",
     line: "Tu historia, dicha por ti.",
     lineEn: "Your story, told by you.",
