@@ -423,6 +423,60 @@ export function readingDoneToday(): boolean {
   return getReadingLog().includes(todayKey());
 }
 
+/* ---------- Sentence Former (typed completions saved for review) ---------- */
+
+const K_SENTENCE_FORMER_SAVED = "pues:sentence-former-saved";
+
+export type SentenceFormerEntry = {
+  id: string;
+  day: number;
+  stem: string;
+  text: string;
+  createdAt: string;
+};
+
+function isSentenceFormerEntry(v: unknown): v is SentenceFormerEntry {
+  return (
+    isObject(v) &&
+    typeof v.id === "string" &&
+    typeof v.day === "number" &&
+    typeof v.stem === "string" &&
+    typeof v.text === "string" &&
+    typeof v.createdAt === "string"
+  );
+}
+
+export function listSentenceFormerEntries(): SentenceFormerEntry[] {
+  const raw = read<unknown>(K_SENTENCE_FORMER_SAVED, []);
+  const list = Array.isArray(raw) ? raw.filter(isSentenceFormerEntry) : [];
+  return list.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+}
+
+export function saveSentenceFormerEntry(
+  input: Omit<SentenceFormerEntry, "id" | "createdAt">,
+): SentenceFormerEntry {
+  const entry: SentenceFormerEntry = {
+    ...input,
+    id:
+      isBrowser() && "randomUUID" in crypto
+        ? crypto.randomUUID()
+        : `sf_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+    createdAt: new Date().toISOString(),
+  };
+  const next = [entry, ...read<SentenceFormerEntry[]>(K_SENTENCE_FORMER_SAVED, [])];
+  write(K_SENTENCE_FORMER_SAVED, next);
+  if (isBrowser()) window.dispatchEvent(new Event("pues:stats-change"));
+  return entry;
+}
+
+export function deleteSentenceFormerEntry(id: string): void {
+  const next = read<SentenceFormerEntry[]>(K_SENTENCE_FORMER_SAVED, []).filter(
+    (e) => e.id !== id,
+  );
+  write(K_SENTENCE_FORMER_SAVED, next);
+  if (isBrowser()) window.dispatchEvent(new Event("pues:stats-change"));
+}
+
 /* ---------- Audio ---------- */
 
 export function getAudioSpeed(): AudioSpeed {

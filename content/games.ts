@@ -13,7 +13,7 @@ export type GameItem = {
   group: string;
   /** Difficulty label shown as the row meta. */
   level: string;
-  iconId: "build" | "timeline" | "markers" | "scales";
+  iconId: "build" | "timeline" | "markers" | "scales" | "flash";
   /** At most one — rendered as the standout card above the ledger. */
   featured?: boolean;
 };
@@ -51,6 +51,14 @@ export const games: GameItem[] = [
     group: "Verbos",
     level: "Principiante 1",
     iconId: "scales",
+  },
+  {
+    href: "/practice/sentence-former",
+    label: "Formar la frase",
+    description: "Termina la frase antes de pensarlo demasiado.",
+    group: "Frases",
+    level: "Principiante 1",
+    iconId: "flash",
   },
 ];
 

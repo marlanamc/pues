@@ -51,6 +51,11 @@ const gameIcons: Record<string, ReactNode> = {
       <path d="M4 8h16M4 8l-2 5h4ZM20 8l-2 5h4Z" />
     </svg>
   ),
+  flash: (
+    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
+      <path d="M13 3 4 14h6l-1 7 9-11h-6l1-7Z" />
+    </svg>
+  ),
 };
 
 const IconLightbulb = (
