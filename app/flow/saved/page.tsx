@@ -65,7 +65,7 @@ export default function SavedPage() {
     } else {
       const newCount = advanceSession(PROMPTS_PER_DAY);
       setCount(newCount);
-      // Finishing the day's last prompt advances the 14-day phrase schedule.
+      // Finishing the day's last prompt advances the phrase schedule.
       if (newCount >= PROMPTS_PER_DAY) completeCurrentDay(speakDays.length);
     }
   }, [hydrated, draft, add, router]);

@@ -10,8 +10,6 @@ import { totalDays } from "@/content/frames";
 import { SEASONS, seasonForDate } from "@/lib/season";
 import { currentStreak, practiceDatesFromThoughts } from "@/lib/streak";
 
-const SEASON_DAYS = 90;
-
 type Temporada = {
   index: 1 | 2 | 3 | 4;
   range: string;
@@ -88,7 +86,7 @@ export default function CaminoPage() {
   const currentIndex = seasonForDate().index;
   const dayNum = (stats.currentDayIndex % totalDays) + 1;
   const dayLabel = String(dayNum).padStart(2, "0");
-  const progressPct = Math.min(100, (dayNum / SEASON_DAYS) * 100);
+  const progressPct = Math.min(100, (dayNum / totalDays) * 100);
 
   const streak = useMemo(
     () => currentStreak(practiceDatesFromThoughts(thoughts)),
@@ -224,7 +222,7 @@ export default function CaminoPage() {
                 Progreso
                 <Gloss>{"Progress"}</Gloss>
               </span>
-              <span className="mono-cap" style={{ color: "var(--accent)" }}>{dayNum} / {SEASON_DAYS} días</span>
+              <span className="mono-cap" style={{ color: "var(--accent)" }}>{dayNum} / {totalDays} días</span>
             </div>
             <div style={{ position: "relative", height: 6, borderRadius: 3, background: "var(--bg)", marginTop: 12, overflow: "hidden" }}>
               <div style={{ position: "absolute", inset: "0 auto 0 0", width: `${progressPct}%`, background: "var(--accent)", borderRadius: 3 }} />
