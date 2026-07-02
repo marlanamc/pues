@@ -10,7 +10,7 @@ import { PlayButton } from "@/components/PlayButton";
 import { ClickablePrompt } from "@/components/ClickablePrompt";
 import { Gloss } from "@/components/Gloss";
 import { games } from "@/content/games";
-import { speakDayForIndex, promptForSession, parseWhy, type SpeakPrompt } from "@/content/prompts";
+import { speakDayForIndex, promptForSession, parseWhy, PROMPTS_PER_DAY, type SpeakPrompt } from "@/content/prompts";
 import { getSessionIndex } from "@/lib/store";
 import { useStats } from "@/hooks/useStats";
 import { useFlowDraft } from "@/hooks/useFlowDraft";
@@ -192,9 +192,9 @@ export default function PracticeActPage() {
           </h2>
           <Gloss>Your turn!</Gloss>
           <p className="font-display text-ink-soft" style={{ fontSize: 18, lineHeight: 1.35, margin: "8px auto 0", maxWidth: "26ch" }}>
-            Di 3 frases. {mission}
+            Di {PROMPTS_PER_DAY} frases. {mission}
           </p>
-          {day.missionEn && <Gloss>{`Say 3 sentences. ${day.missionEn}`}</Gloss>}
+          {day.missionEn && <Gloss>{`Say ${PROMPTS_PER_DAY} sentences. ${day.missionEn}`}</Gloss>}
 
           <div className="flex flex-col items-center" style={{ gap: 14, marginTop: 26 }}>
             <MicButton state={recorder.state} onTap={onTap} />

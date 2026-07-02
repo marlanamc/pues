@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { Gloss } from "@/components/Gloss";
 import { PageHeader, Wordmark } from "@/components/PageHeader";
-import { speakDayForIndex } from "@/content/prompts";
+import { speakDayForIndex, PROMPTS_PER_DAY } from "@/content/prompts";
 import { useStats } from "@/hooks/useStats";
 import { useThoughts } from "@/hooks/useThoughts";
 import type { Thought } from "@/lib/store";
@@ -71,7 +71,7 @@ const IconBook = (
 );
 
 const STEPS = [
-  { icon: IconSay, verb: "Di", verbEn: "Say", note: "3 frases", noteEn: "3 sentences" },
+  { icon: IconSay, verb: "Di", verbEn: "Say", note: `${PROMPTS_PER_DAY} frases`, noteEn: `${PROMPTS_PER_DAY} sentences` },
   { icon: IconMic, verb: "Graba", verbEn: "Record", note: "20 segundos", noteEn: "20 seconds" },
   { icon: IconBookmark, verb: "Guarda", verbEn: "Save", note: "1 frase", noteEn: "1 sentence" },
 ];

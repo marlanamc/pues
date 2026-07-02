@@ -2525,6 +2525,2897 @@ export const frameDays: FrameDay[] = [
       },
     ],
   },
+  // ===== Week 7 — Explicar y describir / Explaining & describing =====
+  {
+    day: 43,
+    theme: "Describing a Place",
+    subtitle: "Your corner of the world, in words.",
+    frames: [
+      {
+        stem: "Mi barrio es…",
+        english: "My neighborhood is…",
+        scenarios: ["its character", "its best season", "its size"],
+        examples: [
+          "Mi barrio es tranquilo y tiene de todo.",
+          "Mi barrio es más bonito en otoño.",
+          "Mi barrio es pequeño, pero nunca me aburro.",
+        ],
+      },
+      {
+        stem: "Es un lugar…",
+        english: "It's a place…",
+        scenarios: ["for reading", "with history", "where people know you"],
+        examples: [
+          "Es un lugar perfecto para leer.",
+          "Es un lugar con mucha historia.",
+          "Es un lugar donde todos se conocen.",
+        ],
+        note: "Donde links a place to its description — no extra words needed.",
+      },
+      {
+        stem: "Tiene…",
+        english: "It has…",
+        scenarios: ["a park", "cafés", "a view"],
+        examples: [
+          "Tiene un parque enorme en el centro.",
+          "Tiene cafés en cada esquina.",
+          "Tiene una vista increíble del río.",
+        ],
+      },
+      {
+        stem: "Se siente…",
+        english: "It feels…",
+        scenarios: ["like a town", "safe", "seasonal"],
+        examples: [
+          "Se siente como un pueblo dentro de la ciudad.",
+          "Se siente seguro a cualquier hora.",
+          "Se siente diferente en cada estación.",
+        ],
+      },
+      {
+        stem: "Está lleno de…",
+        english: "It's full of…",
+        scenarios: ["students", "trees", "life"],
+        examples: [
+          "Está lleno de estudiantes durante el año escolar.",
+          "Está lleno de árboles viejos y casas de ladrillo.",
+          "Está lleno de vida los fines de semana.",
+        ],
+      },
+    ],
+  },
+  {
+    day: 44,
+    theme: "Describing a Person",
+    subtitle: "The people you love deserve good words.",
+    frames: [
+      {
+        stem: "Es una persona…",
+        english: "He/She is a … person",
+        scenarios: ["generous", "a listener", "unforgettable"],
+        examples: [
+          "Es una persona muy generosa.",
+          "Es una persona que escucha de verdad.",
+          "Es una persona difícil de olvidar.",
+        ],
+      },
+      {
+        stem: "Se parece a…",
+        english: "He/She looks like / is like…",
+        scenarios: ["family", "a movie character", "your younger self"],
+        examples: [
+          "Se parece a su mamá cuando sonríe.",
+          "Se parece a un profesor de película.",
+          "Se parece mucho a como era yo a su edad.",
+        ],
+        note: "Parecerse a = to resemble. Reflexive, like so many verbs about the self.",
+      },
+      {
+        stem: "Siempre…",
+        english: "He/She always…",
+        scenarios: ["stories", "the right words", "laughter"],
+        examples: [
+          "Siempre llega con una historia nueva.",
+          "Siempre sabe qué decir.",
+          "Siempre me hace reír.",
+        ],
+      },
+      {
+        stem: "Lo que me gusta de… es…",
+        english: "What I like about … is…",
+        scenarios: ["patience", "persistence", "energy"],
+        examples: [
+          "Lo que me gusta de ella es su paciencia.",
+          "Lo que me gusta de él es que nunca se rinde.",
+          "Lo que me gusta de mi clase es la energía.",
+        ],
+      },
+      {
+        stem: "Es de esas personas que…",
+        english: "He/She is one of those people who…",
+        scenarios: ["make you feel at home", "remember birthdays", "talk to everyone"],
+        examples: [
+          "Es de esas personas que te hacen sentir en casa.",
+          "Es de esas personas que recuerdan tu cumpleaños.",
+          "Es de esas personas que hablan con todos.",
+        ],
+        note: "Es de esas personas que… — a whole portrait in one frame.",
+      },
+    ],
+  },
+  {
+    day: 45,
+    theme: "Comparing",
+    subtitle: "More than, less than, just as much.",
+    frames: [
+      {
+        stem: "Es más… que…",
+        english: "… is more … than…",
+        scenarios: ["two cities", "two skills", "two routes"],
+        examples: [
+          "El verano en Atlanta es más húmedo que aquí.",
+          "Hablar es más difícil que leer, por ahora.",
+          "El tren es más rápido que el autobús a esta hora.",
+        ],
+      },
+      {
+        stem: "Es menos… que…",
+        english: "… is less … than…",
+        scenarios: ["noise", "cost", "fear"],
+        examples: [
+          "Boston es menos ruidoso de lo que esperaba.",
+          "Este barrio es menos caro que el centro.",
+          "La gramática es menos misteriosa que antes.",
+        ],
+      },
+      {
+        stem: "Es tan… como…",
+        english: "… is as … as…",
+        scenarios: ["skills", "seasons", "home cooking"],
+        examples: [
+          "Escuchar es tan importante como hablar.",
+          "El otoño aquí es tan bonito como dicen.",
+          "Cocinar en casa es tan rico como salir.",
+        ],
+        note: "Tan… como… — as… as. Equality, stated cleanly.",
+      },
+      {
+        stem: "No es tan… como…",
+        english: "… isn't as … as…",
+        scenarios: ["complexity", "winter", "fear"],
+        examples: [
+          "No es tan complicado como parece.",
+          "El invierno no es tan terrible como me advirtieron.",
+          "Hablar no es tan aterrador como era antes.",
+        ],
+      },
+      {
+        stem: "Es el/la más… de…",
+        english: "It's the most … in…",
+        scenarios: ["a bakery", "a month", "the language"],
+        examples: [
+          "Es la mejor panadería del barrio.",
+          "Es el mes más bonito del año.",
+          "Es la parte más difícil del idioma, dicen.",
+        ],
+        note: "Superlatives take de: the best del barrio — never 'en el barrio.'",
+      },
+    ],
+  },
+  {
+    day: 46,
+    theme: "How It Works",
+    subtitle: "Purpose, instructions, and what it runs on.",
+    frames: [
+      {
+        stem: "Sirve para…",
+        english: "It's for… / It's used to…",
+        scenarios: ["practice", "saving", "navigation"],
+        examples: [
+          "Sirve para practicar español todos los días.",
+          "Sirve para guardar tus frases favoritas.",
+          "Sirve para no perderte en la ciudad.",
+        ],
+        note: "Sirve para + infinitive — 'it serves to.' The purpose frame.",
+      },
+      {
+        stem: "Se usa para…",
+        english: "You use it to…",
+        scenarios: ["transit", "translation", "coffee"],
+        examples: [
+          "Se usa para pagar en el metro.",
+          "Se usa para traducir palabras rápido.",
+          "Se usa para hacer café sin electricidad.",
+        ],
+      },
+      {
+        stem: "Funciona con…",
+        english: "It works with/on…",
+        scenarios: ["a phone", "coins", "patience"],
+        examples: [
+          "Funciona con el teléfono.",
+          "Funciona con monedas nada más.",
+          "Funciona con paciencia, más que nada.",
+        ],
+        note: "Nada más — 'nothing more,' Latin America's favorite way to say 'only.'",
+      },
+      {
+        stem: "Primero tienes que…",
+        english: "First you have to…",
+        scenarios: ["an account", "a button", "waiting"],
+        examples: [
+          "Primero tienes que crear una cuenta.",
+          "Primero tienes que apretar este botón.",
+          "Primero tienes que dejar que se caliente.",
+        ],
+      },
+      {
+        stem: "Es fácil de…",
+        english: "It's easy to…",
+        scenarios: ["using", "learning", "finding"],
+        examples: [
+          "Es fácil de usar.",
+          "Es fácil de aprender si practicas un poco.",
+          "Es fácil de encontrar, está al lado de la estación.",
+        ],
+        note: "Fácil de + infinitive. The de is the grammar; the encouragement is the point.",
+      },
+    ],
+  },
+  {
+    day: 47,
+    theme: "It's Like…",
+    subtitle: "Analogies — the explainer's best friend.",
+    frames: [
+      {
+        stem: "Es como…",
+        english: "It's like…",
+        scenarios: ["a museum", "cilantro", "a puzzle"],
+        examples: [
+          "Es como un museo, pero al aire libre.",
+          "Es como el cilantro: o lo amas o lo odias.",
+          "Es como un rompecabezas que por fin tiene sentido.",
+        ],
+      },
+      {
+        stem: "Es parecido a…",
+        english: "It's similar to…",
+        scenarios: ["food", "English", "class"],
+        examples: [
+          "Es parecido a un crepe, pero más grueso.",
+          "Es parecido al inglés en esta parte.",
+          "Es parecido a lo que hacemos en clase.",
+        ],
+      },
+      {
+        stem: "Es un tipo de…",
+        english: "It's a kind of…",
+        scenarios: ["pastry", "wordplay", "dance"],
+        examples: [
+          "Es un tipo de pan dulce.",
+          "Es un tipo de juego de palabras.",
+          "Es un tipo de baile del Caribe.",
+        ],
+      },
+      {
+        stem: "Imagínate…",
+        english: "Imagine…",
+        scenarios: ["a tool library", "perfect fall", "jokes abroad"],
+        examples: [
+          "Imagínate una biblioteca, pero de herramientas.",
+          "Imagínate el otoño perfecto: eso es octubre aquí.",
+          "Imagínate explicar chistes en otro idioma.",
+        ],
+        note: "Imagínate — another warm tú command: put this in your head.",
+      },
+      {
+        stem: "Es la versión … de…",
+        english: "It's the … version of…",
+        scenarios: ["cornbread", "a festival", "your routine"],
+        examples: [
+          "Es la versión dulce del pan de maíz.",
+          "Es la versión pequeña de un festival.",
+          "Es la versión en español de mi rutina de siempre.",
+        ],
+      },
+    ],
+  },
+  {
+    day: 48,
+    theme: "Explaining Why",
+    subtitle: "Because, that's why, the thing is.",
+    frames: [
+      {
+        stem: "Porque…",
+        english: "Because…",
+        scenarios: ["the goal", "a walk", "Saturdays"],
+        examples: [
+          "Porque quiero pensar en español, no traducir.",
+          "Porque me hace bien caminar un rato.",
+          "Porque los sábados son para eso.",
+        ],
+      },
+      {
+        stem: "Por eso…",
+        english: "That's why…",
+        scenarios: ["the habit", "arriving early", "the barrio"],
+        examples: [
+          "Por eso practico un poco cada día.",
+          "Por eso llegué temprano hoy.",
+          "Por eso me gusta tanto este barrio.",
+        ],
+      },
+      {
+        stem: "Es que…",
+        english: "The thing is…",
+        scenarios: ["bad sleep", "a full train", "being Southern"],
+        examples: [
+          "Es que no dormí bien anoche.",
+          "Es que el tren venía lleno.",
+          "Es que soy del sur: el frío no es lo mío.",
+        ],
+        note: "Es que… — the great Spanish softener for explanations and excuses. Every conversation has one.",
+      },
+      {
+        stem: "La razón es que…",
+        english: "The reason is that…",
+        scenarios: ["students", "location", "the old one"],
+        examples: [
+          "La razón es que quiero hablar con mis estudiantes.",
+          "La razón es que me queda cerca del trabajo.",
+          "La razón es que el otro estaba agotado.",
+        ],
+      },
+      {
+        stem: "Como…",
+        english: "Since…",
+        scenarios: ["no plans", "rain", "late"],
+        examples: [
+          "Como no tenía planes, dije que sí.",
+          "Como llueve, mejor nos quedamos.",
+          "Como ya era tarde, lo dejamos para mañana.",
+        ],
+        note: "Como at the start of a sentence = 'since.' Same word as 'like/how,' new job.",
+      },
+    ],
+  },
+  {
+    day: 49,
+    theme: "Repaso: Explaining",
+    subtitle: "The week's frames, aimed at your real life.",
+    frames: [
+      {
+        stem: "Se siente…",
+        english: "It feels…",
+        scenarios: ["speaking freely", "vacation", "progress"],
+        examples: [
+          "Se siente raro hablar sin miedo, pero me gusta.",
+          "Se siente como el primer día de vacaciones.",
+          "Se siente más fácil cada semana.",
+        ],
+      },
+      {
+        stem: "Siempre…",
+        english: "Always…",
+        scenarios: ["new words", "extra bread", "sad movies"],
+        examples: [
+          "Siempre encuentro una palabra nueva en este mercado.",
+          "Siempre termino comprando pan de más.",
+          "Siempre me pasa lo mismo con las películas tristes.",
+        ],
+      },
+      {
+        stem: "No es tan… como…",
+        english: "It isn't as … as…",
+        scenarios: ["price", "distance", "seriousness"],
+        examples: [
+          "No es tan caro como pensaba.",
+          "No es tan lejos como parece en el mapa.",
+          "No es tan serio como suena.",
+        ],
+      },
+      {
+        stem: "Es como…",
+        english: "It's like…",
+        scenarios: ["two lives", "a game", "coming home"],
+        examples: [
+          "Es como tener dos vidas en una ciudad.",
+          "Es como un juego que por fin entiendo.",
+          "Es como volver a casa por un camino nuevo.",
+        ],
+      },
+      {
+        stem: "Es que…",
+        english: "The thing is…",
+        scenarios: ["golden hour", "new words", "energy"],
+        examples: [
+          "Es que me encanta esa hora de la tarde.",
+          "Es que las palabras nuevas me emocionan.",
+          "Es que hoy amanecí con energía.",
+        ],
+      },
+    ],
+  },
+  // ===== Week 8 — Consejos y ánimo / Advice & encouragement =====
+  {
+    day: 50,
+    theme: "You Should…",
+    subtitle: "Advice in the conditional — soft on purpose.",
+    frames: [
+      {
+        stem: "Deberías…",
+        english: "You should…",
+        scenarios: ["rest", "a class", "directness"],
+        examples: [
+          "Deberías descansar un poco.",
+          "Deberías probar la clase de baile.",
+          "Deberías preguntarle directamente.",
+        ],
+        note: "Deberías — conditional of deber: softer than 'debes,' kinder than silence.",
+      },
+      {
+        stem: "No deberías…",
+        english: "You shouldn't…",
+        scenarios: ["self-criticism", "overwork", "big decisions"],
+        examples: [
+          "No deberías ser tan dura contigo misma.",
+          "No deberías trabajar hasta tan tarde.",
+          "No deberías decidir eso hoy.",
+        ],
+      },
+      {
+        stem: "Podrías…",
+        english: "You could…",
+        scenarios: ["try first", "ask someone", "join us"],
+        examples: [
+          "Podrías intentarlo primero y decidir después.",
+          "Podrías preguntarle a la directora.",
+          "Podrías venir con nosotras el sábado.",
+        ],
+      },
+      {
+        stem: "Sería bueno…",
+        english: "It would be good…",
+        scenarios: ["in person", "gradually", "a second opinion"],
+        examples: [
+          "Sería bueno hablarlo en persona.",
+          "Sería bueno empezar poco a poco.",
+          "Sería bueno pedir una segunda opinión.",
+        ],
+      },
+      {
+        stem: "Te haría bien…",
+        english: "It would do you good…",
+        scenarios: ["going out", "an empty weekend", "talking"],
+        examples: [
+          "Te haría bien salir un rato.",
+          "Te haría bien un fin de semana sin planes.",
+          "Te haría bien hablar con alguien de esto.",
+        ],
+        note: "Te haría bien — 'it would do you good.' Conditional + care.",
+      },
+    ],
+  },
+  {
+    day: 51,
+    theme: "Why Don't You…?",
+    subtitle: "Suggestions dressed as questions.",
+    frames: [
+      {
+        stem: "¿Por qué no…?",
+        english: "Why don't you / we…?",
+        scenarios: ["retry", "together", "just ask"],
+        examples: [
+          "¿Por qué no lo intentas otra vez?",
+          "¿Por qué no vamos juntas?",
+          "¿Por qué no le preguntas y ya?",
+        ],
+      },
+      {
+        stem: "¿Has probado…?",
+        english: "Have you tried…?",
+        scenarios: ["study tricks", "food", "speaking alone"],
+        examples: [
+          "¿Has probado estudiar con música?",
+          "¿Has probado el café de la esquina?",
+          "¿Has probado hablar en voz alta cuando estás sola?",
+        ],
+      },
+      {
+        stem: "¿Qué tal si…?",
+        english: "What if…?",
+        scenarios: ["small starts", "Friday", "more people"],
+        examples: [
+          "¿Qué tal si empezamos con algo pequeño?",
+          "¿Qué tal si lo dejamos para el viernes?",
+          "¿Qué tal si invitamos a más gente?",
+        ],
+      },
+      {
+        stem: "¿Y si…?",
+        english: "And what if…?",
+        scenarios: ["the train", "writing first", "optimism"],
+        examples: [
+          "¿Y si tomamos el tren en vez de manejar?",
+          "¿Y si le escribes primero?",
+          "¿Y si resulta mejor de lo que crees?",
+        ],
+      },
+      {
+        stem: "A lo mejor puedes…",
+        english: "Maybe you can…",
+        scenarios: ["the schedule", "a neighbor", "both"],
+        examples: [
+          "A lo mejor puedes cambiar el horario.",
+          "A lo mejor puedes practicar con tu vecina.",
+          "A lo mejor puedes hacer las dos cosas.",
+        ],
+        note: "A lo mejor = maybe, in everyday Latin American speech — takes plain indicative, no subjunctive needed.",
+      },
+    ],
+  },
+  {
+    day: 52,
+    theme: "I Recommend…",
+    subtitle: "Share what you love, specifically.",
+    frames: [
+      {
+        stem: "Te recomiendo…",
+        english: "I recommend (to you)…",
+        scenarios: ["a market", "audio first", "going early"],
+        examples: [
+          "Te recomiendo el mercado de los sábados.",
+          "Te recomiendo empezar por los audios.",
+          "Te recomiendo ir temprano, se llena rápido.",
+        ],
+      },
+      {
+        stem: "Te va a encantar…",
+        english: "You're going to love…",
+        scenarios: ["a book", "the sound", "the ending"],
+        examples: [
+          "Te va a encantar este libro.",
+          "Te va a encantar cómo suena en español.",
+          "Te va a encantar el final, no digo más.",
+        ],
+      },
+      {
+        stem: "No te pierdas…",
+        english: "Don't miss…",
+        scenarios: ["a sunset", "an exhibit", "tacos"],
+        examples: [
+          "No te pierdas el atardecer desde el puente.",
+          "No te pierdas la exposición nueva.",
+          "No te pierdas los tacos del camión rojo.",
+        ],
+        note: "No te pierdas — another negative tú command: don't lose it for yourself.",
+      },
+      {
+        stem: "Tienes que probar…",
+        english: "You have to try…",
+        scenarios: ["bread", "a dance class", "before leaving"],
+        examples: [
+          "Tienes que probar el pan de aquí.",
+          "Tienes que probar la clase de salsa.",
+          "Tienes que probar esto antes de irte.",
+        ],
+      },
+      {
+        stem: "Mi favorito es…",
+        english: "My favorite is…",
+        scenarios: ["chocolate", "a bookstore", "a season"],
+        examples: [
+          "Mi favorito es el de chocolate, sin duda.",
+          "Mi favorita es la librería que está cerca del parque.",
+          "Mi favorito es el otoño, con todo y lluvia.",
+        ],
+        note: "El de chocolate — 'the chocolate one.' De builds the 'one of' phrase.",
+      },
+    ],
+  },
+  {
+    day: 53,
+    theme: "If I Were You…",
+    subtitle: "Advice from inside their shoes.",
+    frames: [
+      {
+        stem: "Si yo fuera tú…",
+        english: "If I were you…",
+        scenarios: ["accepting", "worrying less", "today"],
+        examples: [
+          "Si yo fuera tú, aceptaría.",
+          "Si yo fuera tú, no me preocuparía tanto.",
+          "Si yo fuera tú, se lo diría hoy mismo.",
+        ],
+        note: "Fuera — past subjunctive of ser, frozen inside this classic phrase. Borrow it whole.",
+      },
+      {
+        stem: "Yo en tu lugar…",
+        english: "In your place, I…",
+        scenarios: ["resting", "more time", "the call"],
+        examples: [
+          "Yo en tu lugar descansaría primero.",
+          "Yo en tu lugar pediría más tiempo.",
+          "Yo en tu lugar haría la llamada.",
+        ],
+      },
+      {
+        stem: "Yo que tú…",
+        english: "If I were you (colloquial)…",
+        scenarios: ["going", "not waiting", "celebrating"],
+        examples: [
+          "Yo que tú, iría.",
+          "Yo que tú, no esperaría más.",
+          "Yo que tú, lo celebraría en grande.",
+        ],
+        note: "Yo que tú — the street version of si yo fuera tú. Three words, same job.",
+      },
+      {
+        stem: "Lo que yo haría es…",
+        english: "What I would do is…",
+        scenarios: ["asking first", "small steps", "sleeping on it"],
+        examples: [
+          "Lo que yo haría es preguntar primero.",
+          "Lo que yo haría es dividirlo en pasos pequeños.",
+          "Lo que yo haría es dormir y decidir mañana.",
+        ],
+      },
+      {
+        stem: "Yo empezaría por…",
+        english: "I would start with…",
+        scenarios: ["the easy part", "a list", "a conversation"],
+        examples: [
+          "Yo empezaría por lo más fácil.",
+          "Yo empezaría por hacer una lista.",
+          "Yo empezaría por hablar con ella.",
+        ],
+      },
+    ],
+  },
+  {
+    day: 54,
+    theme: "One Must…",
+    subtitle: "Life rules — nobody's name on them.",
+    frames: [
+      {
+        stem: "Hay que…",
+        english: "You have to / one must…",
+        scenarios: ["daily practice", "arriving early", "trying it"],
+        examples: [
+          "Hay que practicar todos los días, aunque sea poquito.",
+          "Hay que llegar temprano para encontrar mesa.",
+          "Hay que probarlo para entenderlo.",
+        ],
+        note: "Hay que + infinitive — obligation with nobody's name on it.",
+      },
+      {
+        stem: "No hay que…",
+        english: "One shouldn't / no need to…",
+        scenarios: ["perfectionism", "bring nothing", "lighten up"],
+        examples: [
+          "No hay que hacerlo perfecto, hay que hacerlo.",
+          "No hay que traer nada, solo ganas.",
+          "No hay que tomárselo tan en serio.",
+        ],
+      },
+      {
+        stem: "Lo importante es…",
+        english: "The important thing is…",
+        scenarios: ["not stopping", "being understood", "trying"],
+        examples: [
+          "Lo importante es no parar.",
+          "Lo importante es entenderse, no la gramática perfecta.",
+          "Lo importante es que lo intentaste.",
+        ],
+      },
+      {
+        stem: "No hace falta…",
+        english: "There's no need to…",
+        scenarios: ["reservations", "many words", "perfection"],
+        examples: [
+          "No hace falta reservar.",
+          "No hace falta decir mucho, con estar ahí basta.",
+          "No hace falta ser perfecta para empezar.",
+        ],
+        note: "No hace falta — 'it's not lacking' = no need. Permission, granted.",
+      },
+      {
+        stem: "Con el tiempo…",
+        english: "With time…",
+        scenarios: ["fluency", "lighter loads", "even winter"],
+        examples: [
+          "Con el tiempo se vuelve natural.",
+          "Con el tiempo todo pesa menos.",
+          "Con el tiempo vas a extrañar hasta el invierno.",
+        ],
+      },
+    ],
+  },
+  {
+    day: 55,
+    theme: "Teacher's Advice",
+    subtitle: "What you tell students — now in Spanish, also for you.",
+    frames: [
+      {
+        stem: "Intenta…",
+        english: "Try…",
+        scenarios: ["out loud", "again", "your own words"],
+        examples: [
+          "Intenta leerlo en voz alta primero.",
+          "Intenta otra vez, sin prisa.",
+          "Intenta explicármelo con tus palabras.",
+        ],
+      },
+      {
+        stem: "No tengas miedo de…",
+        english: "Don't be afraid to…",
+        scenarios: ["mistakes", "questions", "sounding strange"],
+        examples: [
+          "No tengas miedo de equivocarte.",
+          "No tengas miedo de preguntar.",
+          "No tengas miedo de sonar rara al principio.",
+        ],
+        note: "No tengas — negative tú command of tener. The advice every language learner needs on a card.",
+      },
+      {
+        stem: "Recuerda que…",
+        english: "Remember that…",
+        scenarios: ["progress", "everyone starts", "listening counts"],
+        examples: [
+          "Recuerda que ya sabes más que ayer.",
+          "Recuerda que todos empezamos desde cero.",
+          "Recuerda que entender también cuenta.",
+        ],
+      },
+      {
+        stem: "Poco a poco…",
+        english: "Little by little…",
+        scenarios: ["far", "steady", "the ear"],
+        examples: [
+          "Poco a poco se llega lejos.",
+          "Poco a poco, pero sin parar.",
+          "Poco a poco el oído se acostumbra.",
+        ],
+        note: "Poco a poco — the unofficial motto of every language learner who made it.",
+      },
+      {
+        stem: "Confía en…",
+        english: "Trust…",
+        scenarios: ["your ear", "the process", "your practice"],
+        examples: [
+          "Confía en tu oído.",
+          "Confía en el proceso, aunque no lo veas.",
+          "Confía en lo que ya has practicado.",
+        ],
+      },
+    ],
+  },
+  {
+    day: 56,
+    theme: "Repaso: Advice",
+    subtitle: "Advise like a friend, not a judge.",
+    frames: [
+      {
+        stem: "Deberías…",
+        english: "You should…",
+        scenarios: ["your progress", "a day off", "a song"],
+        examples: [
+          "Deberías escucharte hablando ahora — has mejorado muchísimo.",
+          "Deberías tomarte el viernes libre.",
+          "Deberías enseñarle esa canción a tu clase.",
+        ],
+      },
+      {
+        stem: "¿Has probado…?",
+        english: "Have you tried…?",
+        scenarios: ["thinking-while-walking", "new soup", "write then say"],
+        examples: [
+          "¿Has probado pensar en español mientras caminas?",
+          "¿Has probado la sopa del lugar nuevo?",
+          "¿Has probado escribirlo primero y decirlo después?",
+        ],
+      },
+      {
+        stem: "Tienes que probar…",
+        english: "You have to try…",
+        scenarios: ["mango con chile", "the river route", "five minutes"],
+        examples: [
+          "Tienes que probar el mango con chile.",
+          "Tienes que probar la ruta por el río.",
+          "Tienes que probar esto: cinco minutos y ya.",
+        ],
+      },
+      {
+        stem: "Yo que tú…",
+        english: "If I were you…",
+        scenarios: ["save the phrase", "arrive early", "say yes"],
+        examples: [
+          "Yo que tú, guardaría esa frase en el cuaderno.",
+          "Yo que tú, llegaría media hora antes.",
+          "Yo que tú, diría que sí sin pensarlo.",
+        ],
+      },
+      {
+        stem: "No tengas miedo de…",
+        english: "Don't be afraid to…",
+        scenarios: ["speaking first", "asking again", "sounding new"],
+        examples: [
+          "No tengas miedo de hablar primero.",
+          "No tengas miedo de pedir que te repitan.",
+          "No tengas miedo de sonar como principiante: eso pasa.",
+        ],
+      },
+    ],
+  },
+  // ===== Week 9 — Hacer planes juntos / Making plans together =====
+  {
+    day: 57,
+    theme: "Proposing",
+    subtitle: "Float the idea. Someone has to.",
+    frames: [
+      {
+        stem: "¿Te parece si…?",
+        english: "How about if…?",
+        scenarios: ["Thursday", "over coffee", "ten o'clock"],
+        examples: [
+          "¿Te parece si nos vemos el jueves?",
+          "¿Te parece si lo hablamos con un café?",
+          "¿Te parece si empezamos a las diez?",
+        ],
+        note: "¿Te parece si…? — 'does it seem right to you if…' Consent built into the grammar.",
+      },
+      {
+        stem: "¿Qué te parece…?",
+        english: "What do you think of…?",
+        scenarios: ["a morning", "the plan", "a picnic"],
+        examples: [
+          "¿Qué te parece el sábado por la mañana?",
+          "¿Qué te parece el plan?",
+          "¿Qué te parece un picnic en el parque?",
+        ],
+      },
+      {
+        stem: "Podemos…",
+        english: "We can…",
+        scenarios: ["after work", "bring food", "improvise"],
+        examples: [
+          "Podemos vernos después del trabajo.",
+          "Podemos llevar algo de comer.",
+          "Podemos decidir sobre la marcha.",
+        ],
+        note: "Sobre la marcha — 'on the march' = as we go. For plans that prefer freedom.",
+      },
+      {
+        stem: "¿Hacemos…?",
+        english: "Shall we…?",
+        scenarios: ["the weekend", "a list", "half and half"],
+        examples: [
+          "¿Hacemos algo este fin de semana?",
+          "¿Hacemos una lista antes de ir?",
+          "¿Hacemos la mitad hoy y la mitad mañana?",
+        ],
+        note: "Present tense as proposal: ¿hacemos…? = shall we?",
+      },
+      {
+        stem: "Tengo una idea:…",
+        english: "I have an idea:…",
+        scenarios: ["breakfast first", "a class", "an exchange"],
+        examples: [
+          "Tengo una idea: desayuno y después el mercado.",
+          "Tengo una idea: clase de cocina juntas.",
+          "Tengo una idea: te enseño inglés y me enseñas español.",
+        ],
+      },
+    ],
+  },
+  {
+    day: 58,
+    theme: "When & Where",
+    subtitle: "Pin it down — time, place, day.",
+    frames: [
+      {
+        stem: "Quedamos a las…",
+        english: "Let's meet at (time)…",
+        scenarios: ["six", "nine", "lunch"],
+        examples: [
+          "Quedamos a las seis en la entrada.",
+          "Quedamos a las nueve, ¿te parece?",
+          "Quedamos a la una para almorzar.",
+        ],
+        note: "Quedar = to arrange to meet. Quedamos a las seis — deal sealed.",
+      },
+      {
+        stem: "Nos vemos en…",
+        english: "See you at (place)…",
+        scenarios: ["the station", "the usual café", "the movies"],
+        examples: [
+          "Nos vemos en la estación.",
+          "Nos vemos en el café de siempre.",
+          "Nos vemos en la puerta del cine.",
+        ],
+      },
+      {
+        stem: "¿Te queda bien…?",
+        english: "Does … work for you?",
+        scenarios: ["Tuesday", "five o'clock", "my neighborhood"],
+        examples: [
+          "¿Te queda bien el martes?",
+          "¿Te queda bien a las cinco?",
+          "¿Te queda bien por mi barrio?",
+        ],
+        note: "Quedar again, third job: quedarle bien a alguien = to suit someone.",
+      },
+      {
+        stem: "Mejor el…",
+        english: "Better on (day)…",
+        scenarios: ["Sunday", "Thursday", "whatever's easy"],
+        examples: [
+          "Mejor el domingo, sin prisa.",
+          "Mejor el jueves; el miércoles tengo clase.",
+          "Mejor el que te quede más fácil.",
+        ],
+      },
+      {
+        stem: "¿A qué hora te viene bien?",
+        english: "What time works for you?",
+        scenarios: ["open question", "starting", "flexible"],
+        examples: [
+          "¿A qué hora te viene bien?",
+          "¿A qué hora te viene bien empezar?",
+          "¿A qué hora te viene bien? Yo estoy libre toda la tarde.",
+        ],
+        note: "Venir bien — to come well = to suit. The scheduling verb you'll use weekly.",
+      },
+    ],
+  },
+  {
+    day: 59,
+    theme: "Availability",
+    subtitle: "When you can — and when you can't.",
+    frames: [
+      {
+        stem: "Me viene bien…",
+        english: "… works for me",
+        scenarios: ["Saturday", "later", "almost any day"],
+        examples: [
+          "Me viene bien el sábado.",
+          "Me viene bien más tarde, como a las siete.",
+          "Me viene bien cualquier día menos el lunes.",
+        ],
+      },
+      {
+        stem: "No me viene bien…",
+        english: "… doesn't work for me",
+        scenarios: ["this week", "so early", "downtown"],
+        examples: [
+          "No me viene bien esta semana, ¿la próxima?",
+          "No me viene bien tan temprano.",
+          "No me viene bien el centro, mejor por acá.",
+        ],
+      },
+      {
+        stem: "Estoy libre…",
+        english: "I'm free…",
+        scenarios: ["Friday", "after four", "the whole weekend"],
+        examples: [
+          "Estoy libre el viernes por la tarde.",
+          "Estoy libre después de las cuatro.",
+          "Estoy libre todo el fin de semana, milagrosamente.",
+        ],
+      },
+      {
+        stem: "Tengo un compromiso…",
+        english: "I have a commitment…",
+        scenarios: ["Thursday", "family", "unmovable"],
+        examples: [
+          "Tengo un compromiso el jueves, pero el viernes sí puedo.",
+          "Tengo un compromiso familiar ese día.",
+          "Tengo un compromiso que no puedo mover.",
+        ],
+        note: "Compromiso — commitment, not 'compromise.' Another false friend defused.",
+      },
+      {
+        stem: "Puedo a partir de…",
+        english: "I can from … on",
+        scenarios: ["five o'clock", "Wednesday", "next week"],
+        examples: [
+          "Puedo a partir de las cinco.",
+          "Puedo a partir del miércoles.",
+          "Puedo a partir de la próxima semana.",
+        ],
+        note: "A partir de — from … onward. Precise and useful daily.",
+      },
+    ],
+  },
+  {
+    day: 60,
+    theme: "Inviting",
+    subtitle: "An invitation is an open door.",
+    frames: [
+      {
+        stem: "¿Vienes a…?",
+        english: "Are you coming to…?",
+        scenarios: ["dinner", "a walk", "the festival"],
+        examples: [
+          "¿Vienes a la cena del viernes?",
+          "¿Vienes a caminar con nosotras?",
+          "¿Vienes a la escuela para el festival?",
+        ],
+      },
+      {
+        stem: "Te invito a…",
+        english: "Let me treat you to…",
+        scenarios: ["coffee", "dinner at home", "a concert"],
+        examples: [
+          "Te invito a un café.",
+          "Te invito a cenar a la casa.",
+          "Te invito al concierto, tengo dos boletos.",
+        ],
+        note: "Te invito a… means you're paying — the invitation and the treat are one verb.",
+      },
+      {
+        stem: "Va a haber…",
+        english: "There's going to be…",
+        scenarios: ["food", "live music", "good people"],
+        examples: [
+          "Va a haber comida de sobra.",
+          "Va a haber música en vivo.",
+          "Va a haber gente muy querida.",
+        ],
+        note: "Va a haber — the future of hay. Still never changes for plural.",
+      },
+      {
+        stem: "Trae a…",
+        english: "Bring (someone)…",
+        scenarios: ["a sister", "anyone", "the dog"],
+        examples: [
+          "Trae a tu hermana si quiere venir.",
+          "Trae a quien quieras.",
+          "Trae a tu perro, es bienvenido.",
+        ],
+      },
+      {
+        stem: "Avísame si…",
+        english: "Let me know if…",
+        scenarios: ["you can come", "you change your mind", "you need directions"],
+        examples: [
+          "Avísame si puedes venir.",
+          "Avísame si cambias de opinión.",
+          "Avísame si necesitas la dirección.",
+        ],
+        note: "Avísame — 'advise me': the everyday way to say keep me posted.",
+      },
+    ],
+  },
+  {
+    day: 61,
+    theme: "Changing Plans",
+    subtitle: "Plans move; the affection doesn't.",
+    frames: [
+      {
+        stem: "¿Podemos dejarlo para…?",
+        english: "Can we leave it for…?",
+        scenarios: ["Sunday", "next week", "a calmer time"],
+        examples: [
+          "¿Podemos dejarlo para el domingo?",
+          "¿Podemos dejarlo para la próxima semana?",
+          "¿Podemos dejarlo para cuando estés menos ocupada?",
+        ],
+      },
+      {
+        stem: "Se me complicó…",
+        english: "Things got complicated for me…",
+        scenarios: ["the day", "work", "the afternoon"],
+        examples: [
+          "Se me complicó el día, perdón.",
+          "Se me complicó con el trabajo.",
+          "Se me complicó la tarde: ¿lo movemos?",
+        ],
+        note: "Se me complicó — the day did it to you; Spanish spares you the blame again.",
+      },
+      {
+        stem: "¿Lo movemos a…?",
+        english: "Shall we move it to…?",
+        scenarios: ["seven", "Tuesday", "your side of town"],
+        examples: [
+          "¿Lo movemos a las siete?",
+          "¿Lo movemos al martes?",
+          "¿Lo movemos a tu barrio esta vez?",
+        ],
+      },
+      {
+        stem: "Perdón por avisar tarde…",
+        english: "Sorry for the late notice…",
+        scenarios: ["not making it", "checking in", "canceling"],
+        examples: [
+          "Perdón por avisar tarde, no voy a llegar.",
+          "Perdón por avisar tarde, ¿sigue en pie el plan?",
+          "Perdón por avisar tarde: hoy no puedo.",
+        ],
+        note: "¿Sigue en pie? — 'is it still standing?' The idiom for is-it-still-on.",
+      },
+      {
+        stem: "Otro día sin falta…",
+        english: "Another day, without fail…",
+        scenarios: ["a promise", "your treat", "their pick"],
+        examples: [
+          "Otro día sin falta, te lo prometo.",
+          "Otro día sin falta, y yo invito.",
+          "Otro día sin falta: elige tú la fecha.",
+        ],
+      },
+    ],
+  },
+  {
+    day: 62,
+    theme: "Confirming",
+    subtitle: "A confirmed plan is already half a memory.",
+    frames: [
+      {
+        stem: "Entonces quedamos así:…",
+        english: "So it's settled:…",
+        scenarios: ["day and time", "who brings what", "final"],
+        examples: [
+          "Entonces quedamos así: el sábado a las diez.",
+          "Entonces quedamos así: tú traes el postre.",
+          "Entonces quedamos así, ¿va?",
+        ],
+        note: "¿Va? — 'does it go?' A one-word deal-sealer across Latin America.",
+      },
+      {
+        stem: "Confirmado…",
+        english: "Confirmed…",
+        scenarios: ["see you there", "reservation", "tickets"],
+        examples: [
+          "Confirmado, ahí nos vemos.",
+          "Confirmado: reservé para cuatro.",
+          "Confirmado, ya compré los boletos.",
+        ],
+      },
+      {
+        stem: "Ahí estaré…",
+        english: "I'll be there…",
+        scenarios: ["punctual", "at eight", "don't start"],
+        examples: [
+          "Ahí estaré, puntual como siempre.",
+          "Ahí estaré a las ocho.",
+          "Ahí estaré, no empiecen sin mí.",
+        ],
+        note: "Estaré — plain future tense; rarer in speech, perfect for promises.",
+      },
+      {
+        stem: "Nos vemos el…",
+        english: "See you on…",
+        scenarios: ["Thursday", "the fifteenth", "festival day"],
+        examples: [
+          "Nos vemos el jueves entonces.",
+          "Nos vemos el quince en la mañana.",
+          "Nos vemos el día del festival.",
+        ],
+      },
+      {
+        stem: "Cualquier cosa, me escribes…",
+        english: "If anything comes up, text me…",
+        scenarios: ["the basic", "problem-solving", "fast replies"],
+        examples: [
+          "Cualquier cosa, me escribes.",
+          "Cualquier cosa, me escribes y lo resolvemos.",
+          "Cualquier cosa, me escribes; contesto rápido.",
+        ],
+        note: "Cualquier cosa — 'any thing' — the all-purpose safety net at the end of every plan.",
+      },
+    ],
+  },
+  {
+    day: 63,
+    theme: "Repaso: Plans",
+    subtitle: "Idea → time → yes/no → invite → sealed.",
+    frames: [
+      {
+        stem: "Tengo una idea:…",
+        english: "I have an idea:…",
+        scenarios: ["market + café", "movies", "cooking in"],
+        examples: [
+          "Tengo una idea: mercado primero, café después.",
+          "Tengo una idea: cine en español con subtítulos.",
+          "Tengo una idea: cocinamos en vez de salir.",
+        ],
+      },
+      {
+        stem: "Quedamos a las…",
+        english: "Let's meet at (time)…",
+        scenarios: ["Sunday-late", "the park", "straight from work"],
+        examples: [
+          "Quedamos a las once, que es domingo.",
+          "Quedamos a las cuatro en el parque de siempre.",
+          "Quedamos a las ocho; llego directo del trabajo.",
+        ],
+      },
+      {
+        stem: "No me viene bien…",
+        english: "… doesn't work for me",
+        scenarios: ["today", "weeknights", "that café"],
+        examples: [
+          "No me viene bien hoy, de verdad lo siento.",
+          "No me viene bien tan tarde entre semana.",
+          "No me viene bien ese café; ¿el otro?",
+        ],
+      },
+      {
+        stem: "¿Vienes a…?",
+        english: "Are you coming to…?",
+        scenarios: ["a reading", "meeting friends", "the fair"],
+        examples: [
+          "¿Vienes a la lectura de poesía el jueves?",
+          "¿Vienes a conocer a mis amigos?",
+          "¿Vienes a la feria del barrio conmigo?",
+        ],
+      },
+      {
+        stem: "Entonces quedamos así:…",
+        english: "So it's settled:…",
+        scenarios: ["who brings what", "check in Friday", "no more changes"],
+        examples: [
+          "Entonces quedamos así: yo llevo el café, tú los cuentos.",
+          "Entonces quedamos así: nos escribimos el viernes.",
+          "Entonces quedamos así y no se cambia más.",
+        ],
+      },
+    ],
+  },
+  // ===== Week 10 — Opiniones con matices / Opinions with nuance =====
+  {
+    day: 64,
+    theme: "Both Sides",
+    subtitle: "On one hand, on the other.",
+    frames: [
+      {
+        stem: "Por un lado…",
+        english: "On one hand…",
+        scenarios: ["missing home", "liking a plan", "an idea"],
+        examples: [
+          "Por un lado, extraño Atlanta.",
+          "Por un lado, el plan suena perfecto.",
+          "Por un lado, me encanta la idea.",
+        ],
+      },
+      {
+        stem: "Por otro lado…",
+        english: "On the other hand…",
+        scenarios: ["life here", "time limits", "never tried"],
+        examples: [
+          "Por otro lado, mi vida está aquí ahora.",
+          "Por otro lado, no tenemos mucho tiempo.",
+          "Por otro lado, nunca lo hemos intentado.",
+        ],
+      },
+      {
+        stem: "Lo bueno es que…",
+        english: "The good thing is…",
+        scenarios: ["flexible dates", "close by", "lessons learned"],
+        examples: [
+          "Lo bueno es que se puede cambiar la fecha.",
+          "Lo bueno es que queda cerca.",
+          "Lo bueno es que aprendí algo, hasta del error.",
+        ],
+      },
+      {
+        stem: "Lo malo es que…",
+        english: "The bad thing is…",
+        scenarios: ["early closing", "reservations", "summer ending"],
+        examples: [
+          "Lo malo es que cierra temprano.",
+          "Lo malo es que hay que reservar con meses.",
+          "Lo malo es que el verano se acaba.",
+        ],
+      },
+      {
+        stem: "Al mismo tiempo…",
+        english: "At the same time…",
+        scenarios: ["their point", "no rush", "both true"],
+        examples: [
+          "Al mismo tiempo, entiendo su punto.",
+          "Al mismo tiempo, no quiero apurarme.",
+          "Al mismo tiempo, las dos cosas son ciertas.",
+        ],
+        note: "Las dos cosas son ciertas — the sentence that ends most arguments kindly.",
+      },
+    ],
+  },
+  {
+    day: 65,
+    theme: "Maybe",
+    subtitle: "Quizás, tal vez — room to think.",
+    frames: [
+      {
+        stem: "Puede ser que…",
+        english: "It may be that…",
+        scenarios: ["they're right", "rain", "too soon"],
+        examples: [
+          "Puede ser que tengas razón.",
+          "Puede ser que llueva más tarde.",
+          "Puede ser que sea demasiado pronto para saber.",
+        ],
+        note: "Puede ser que + subjunctive (tengas, llueva, sea). Borrow these three whole — the pattern comes in invierno.",
+      },
+      {
+        stem: "Quizás…",
+        english: "Perhaps…",
+        scenarios: ["courage", "time", "a re-listen"],
+        examples: [
+          "Quizás me animo y pregunto.",
+          "Quizás es cuestión de tiempo.",
+          "Quizás necesito escucharlo otra vez.",
+        ],
+        note: "Animarse — to work up the nerve. The learner's most important reflexive verb.",
+      },
+      {
+        stem: "Tal vez…",
+        english: "Maybe…",
+        scenarios: ["next year", "undecided", "a re-listen"],
+        examples: [
+          "Tal vez el año que viene.",
+          "Tal vez sí, tal vez no — todavía no sé.",
+          "Tal vez necesito caminar y pensarlo.",
+        ],
+      },
+      {
+        stem: "Es posible que…",
+        english: "It's possible that…",
+        scenarios: ["changing minds", "another way", "staying"],
+        examples: [
+          "Es posible que cambie de opinión.",
+          "Es posible que haya otra manera.",
+          "Es posible que me quede un año más.",
+        ],
+      },
+      {
+        stem: "Seguramente…",
+        english: "Surely / most likely…",
+        scenarios: ["an explanation", "forgetfulness", "good endings"],
+        examples: [
+          "Seguramente hay una explicación.",
+          "Seguramente se le olvidó, no es nada personal.",
+          "Seguramente va a salir bien.",
+        ],
+      },
+    ],
+  },
+  {
+    day: 66,
+    theme: "I Don't Think So",
+    subtitle: "Doubt flips the grammar — borrow the chunks.",
+    frames: [
+      {
+        stem: "No creo que…",
+        english: "I don't think that…",
+        scenarios: ["severity", "timing", "reservations"],
+        examples: [
+          "No creo que sea tan grave.",
+          "No creo que llegue a tiempo.",
+          "No creo que haga falta reservar.",
+        ],
+        note: "Creo que takes normal verbs; no creo que flips to subjunctive (sea, llegue, haga). Doubt changes the grammar.",
+      },
+      {
+        stem: "Dudo que…",
+        english: "I doubt that…",
+        scenarios: ["opening hours", "coincidence", "intent"],
+        examples: [
+          "Dudo que abran tan temprano.",
+          "Dudo que sea coincidencia.",
+          "Dudo que lo hayan hecho a propósito.",
+        ],
+      },
+      {
+        stem: "No me parece que…",
+        english: "It doesn't seem to me that…",
+        scenarios: ["fairness", "readiness", "arguing"],
+        examples: [
+          "No me parece que sea justo.",
+          "No me parece que esté listo todavía.",
+          "No me parece que valga la pena discutir.",
+        ],
+      },
+      {
+        stem: "No es que…",
+        english: "It's not that…",
+        scenarios: ["wanting", "difficulty", "bothering"],
+        examples: [
+          "No es que no quiera, es que no puedo.",
+          "No es que sea difícil, es que es nuevo.",
+          "No es que me moleste, pero pregunto.",
+        ],
+        note: "No es que… es que… — deny the wrong reading, give the right one. Peak conversational Spanish.",
+      },
+      {
+        stem: "No estoy convencida de que…",
+        english: "I'm not convinced that…",
+        scenarios: ["the best option", "how it works", "deciding now"],
+        examples: [
+          "No estoy convencida de que sea la mejor opción.",
+          "No estoy convencida de que funcione así.",
+          "No estoy convencida de que haya que decidir ya.",
+        ],
+      },
+    ],
+  },
+  {
+    day: 67,
+    theme: "Nuancing",
+    subtitle: "Up to a point, more like, let's say.",
+    frames: [
+      {
+        stem: "Hasta cierto punto…",
+        english: "Up to a point…",
+        scenarios: ["agreement", "truth", "shared blame"],
+        examples: [
+          "Hasta cierto punto, estoy de acuerdo.",
+          "Hasta cierto punto, es verdad.",
+          "Hasta cierto punto, todos tenemos la culpa.",
+        ],
+      },
+      {
+        stem: "En general…, pero…",
+        english: "In general…, but…",
+        scenarios: ["moods", "the neighborhood", "it depends"],
+        examples: [
+          "En general me gusta, pero hoy no.",
+          "En general es tranquilo, pero los viernes no tanto.",
+          "En general sí, pero depende del día.",
+        ],
+      },
+      {
+        stem: "Más bien…",
+        english: "Rather / more like…",
+        scenarios: ["a misunderstanding", "habit", "luck"],
+        examples: [
+          "Más bien fue un malentendido.",
+          "Más bien es cuestión de costumbre.",
+          "Más bien diría que fue suerte.",
+        ],
+        note: "Más bien — 'rather.' A gentle steering wheel for conversations.",
+      },
+      {
+        stem: "No tanto… sino…",
+        english: "Not so much… but rather…",
+        scenarios: ["money vs time", "grammar vs confidence", "cold vs wind"],
+        examples: [
+          "No tanto por el dinero, sino por el tiempo.",
+          "No tanto la gramática, sino la confianza.",
+          "No tanto el frío, sino el viento.",
+        ],
+        note: "Sino — the 'but' of corrections. Pero contrasts; sino replaces.",
+      },
+      {
+        stem: "Digamos que…",
+        english: "Let's say…",
+        scenarios: ["a rough day", "a tie", "kitchen incidents"],
+        examples: [
+          "Digamos que no fue mi mejor día.",
+          "Digamos que quedamos en empate.",
+          "Digamos que el pastel no sobrevivió al viaje.",
+        ],
+      },
+    ],
+  },
+  {
+    day: 68,
+    theme: "According To…",
+    subtitle: "Name your sources — even when it's your neighbor.",
+    frames: [
+      {
+        stem: "Según…",
+        english: "According to…",
+        scenarios: ["a neighbor", "the news", "your mom"],
+        examples: [
+          "Según mi vecina, el mejor pan sale a las ocho.",
+          "Según las noticias, va a hacer calor toda la semana.",
+          "Según mi mamá, siempre hay tiempo para llamar.",
+        ],
+      },
+      {
+        stem: "Dicen que…",
+        english: "They say that…",
+        scenarios: ["the seasons", "a restaurant", "study habits"],
+        examples: [
+          "Dicen que el otoño llega temprano este año.",
+          "Dicen que ese restaurante es buenísimo.",
+          "Dicen que hablar solo es señal de buen estudiante.",
+        ],
+      },
+      {
+        stem: "He leído que…",
+        english: "I've read that…",
+        scenarios: ["sleep science", "city news", "book vs movie"],
+        examples: [
+          "He leído que dormir bien ayuda con los idiomas.",
+          "He leído que la ciudad va a arreglar el parque.",
+          "He leído que el libro es mejor que la película.",
+        ],
+      },
+      {
+        stem: "Por lo que entiendo…",
+        english: "From what I understand…",
+        scenarios: ["a date", "sign-ups", "nothing decided"],
+        examples: [
+          "Por lo que entiendo, el cambio es en septiembre.",
+          "Por lo que entiendo, no hace falta inscribirse.",
+          "Por lo que entiendo, todavía no hay nada decidido.",
+        ],
+        note: "Por lo que entiendo — claims exactly as much as you know, no more.",
+      },
+      {
+        stem: "En mi experiencia…",
+        english: "In my experience…",
+        scenarios: ["laughter", "daily practice", "kind strangers"],
+        examples: [
+          "En mi experiencia, los estudiantes aprenden más riéndose.",
+          "En mi experiencia, quince minutos diarios ganan.",
+          "En mi experiencia, la gente quiere ayudar.",
+        ],
+      },
+    ],
+  },
+  {
+    day: 69,
+    theme: "Your Take, Calmly",
+    subtitle: "An opinion without an apology.",
+    frames: [
+      {
+        stem: "Desde mi punto de vista…",
+        english: "From my point of view…",
+        scenarios: ["worth trying", "the real problem", "on track"],
+        examples: [
+          "Desde mi punto de vista, vale la pena intentarlo.",
+          "Desde mi punto de vista, el problema es otro.",
+          "Desde mi punto de vista, vamos bien.",
+        ],
+      },
+      {
+        stem: "Siendo honesta…",
+        english: "Being honest…",
+        scenarios: ["unconvinced", "a little scared", "staying in"],
+        examples: [
+          "Siendo honesta, no me convence.",
+          "Siendo honesta, me da un poco de miedo.",
+          "Siendo honesta, prefiero quedarme en casa hoy.",
+        ],
+        note: "Me da miedo — 'it gives me fear.' Feelings arrive via dar in Spanish.",
+      },
+      {
+        stem: "Lo veo así:…",
+        english: "The way I see it:…",
+        scenarios: ["opportunity", "asking", "every sentence"],
+        examples: [
+          "Lo veo así: es una oportunidad, no una amenaza.",
+          "Lo veo así: si no pregunto, nunca voy a saber.",
+          "Lo veo así: cada frase cuenta.",
+        ],
+      },
+      {
+        stem: "Al final de cuentas…",
+        english: "At the end of the day…",
+        scenarios: ["your call", "what matters", "nobody's perfect"],
+        examples: [
+          "Al final de cuentas, es mi decisión.",
+          "Al final de cuentas, lo que importa es la gente.",
+          "Al final de cuentas, nadie lo hace perfecto.",
+        ],
+        note: "Al final de cuentas — 'at the end of the accounts.' Where opinions cash out.",
+      },
+      {
+        stem: "Puede que sí, pero…",
+        english: "Maybe so, but…",
+        scenarios: ["seeing first", "not today", "second opinions"],
+        examples: [
+          "Puede que sí, pero quiero verlo primero.",
+          "Puede que sí, pero no hoy.",
+          "Puede que sí, pero me gustaría otra opinión.",
+        ],
+      },
+    ],
+  },
+  {
+    day: 70,
+    theme: "Repaso: Nuance",
+    subtitle: "Think out loud, the way you actually think.",
+    frames: [
+      {
+        stem: "Lo bueno es que…",
+        english: "The good thing is…",
+        scenarios: ["Friday", "asking for help", "fixable"],
+        examples: [
+          "Lo bueno es que mañana es viernes.",
+          "Lo bueno es que ya sé pedir ayuda en español.",
+          "Lo bueno es que el error se arregla fácil.",
+        ],
+      },
+      {
+        stem: "Tal vez…",
+        english: "Maybe…",
+        scenarios: ["small changes", "walking", "overthinking"],
+        examples: [
+          "Tal vez es hora de un cambio pequeño.",
+          "Tal vez la respuesta llega caminando.",
+          "Tal vez exagero, pero mejor preguntar.",
+        ],
+      },
+      {
+        stem: "No es que…",
+        english: "It's not that…",
+        scenarios: ["style", "hurry", "early starts"],
+        examples: [
+          "No es que no me guste, es que no es mi estilo.",
+          "No es que tenga prisa, es que quiero llegar con calma.",
+          "No es que sea tarde, es que empezamos temprano.",
+        ],
+      },
+      {
+        stem: "Digamos que…",
+        english: "Let's say…",
+        scenarios: ["that meeting", "first attempts", "almost Friday"],
+        examples: [
+          "Digamos que la reunión pudo ser un correo.",
+          "Digamos que mi primer intento no salió como en el video.",
+          "Digamos que ya casi es fin de semana.",
+        ],
+      },
+      {
+        stem: "Según…",
+        english: "According to…",
+        scenarios: ["your students", "the forecast", "yourself"],
+        examples: [
+          "Según mis estudiantes, mi español va mejorando.",
+          "Según el pronóstico, mañana sí sale el sol.",
+          "Según yo, ya estamos listas.",
+        ],
+        note: "Según yo — 'according to me': playful, self-aware, very spoken.",
+      },
+    ],
+  },
+  // ===== Week 11 — Resolver problemas / Fixing problems =====
+  {
+    day: 71,
+    theme: "Something's Broken",
+    subtitle: "Naming the problem is half the fix.",
+    frames: [
+      {
+        stem: "No funciona…",
+        english: "… isn't working",
+        scenarios: ["wifi", "a button", "as it should"],
+        examples: [
+          "No funciona el wifi otra vez.",
+          "No funciona el botón de guardar.",
+          "No funciona como debería.",
+        ],
+      },
+      {
+        stem: "Está roto/a…",
+        english: "… is broken",
+        scenarios: ["the printer", "a zipper", "the coffee machine"],
+        examples: [
+          "Está rota la impresora de la escuela.",
+          "Está roto el cierre de mi mochila.",
+          "Está rota la máquina de café — emergencia real.",
+        ],
+        note: "Roto/rota agrees with the broken thing. Some things never change, in any country.",
+      },
+      {
+        stem: "No prende…",
+        english: "… won't turn on",
+        scenarios: ["the computer", "a light", "after checking"],
+        examples: [
+          "No prende la computadora.",
+          "No prende la luz del pasillo.",
+          "No prende y ya revisé el cable.",
+        ],
+        note: "Prender = to turn on, in most of Latin America. In Spain: encender.",
+      },
+      {
+        stem: "Se descompuso…",
+        english: "… broke down",
+        scenarios: ["the dishwasher", "the train", "worst timing"],
+        examples: [
+          "Se descompuso el lavaplatos.",
+          "Se descompuso el tren y llegué tarde.",
+          "Se descompuso justo cuando más lo necesitaba.",
+        ],
+        note: "Descomponerse — Latin America's word for machines giving up. In Spain: estropearse.",
+      },
+      {
+        stem: "Deja de funcionar cuando…",
+        english: "It stops working when…",
+        scenarios: ["too many tabs", "heat", "the projector"],
+        examples: [
+          "Deja de funcionar cuando abro muchas pestañas.",
+          "Deja de funcionar cuando hace mucho calor.",
+          "Deja de funcionar cuando lo conecto al proyector.",
+        ],
+        note: "Dejar de + infinitive — to stop doing. These are your repro steps, en español.",
+      },
+    ],
+  },
+  {
+    day: 72,
+    theme: "Polite Complaints (usted)",
+    subtitle: "You can complain and stay kind.",
+    frames: [
+      {
+        stem: "Disculpe, …",
+        english: "Excuse me, … (usted)",
+        scenarios: ["a bill", "a wait", "getting attention"],
+        examples: [
+          "Disculpe, creo que hay un error en la cuenta.",
+          "Disculpe, pedí esto hace media hora.",
+          "Disculpe, ¿me puede atender cuando pueda?",
+        ],
+        note: "Disculpe (usted) opens every polite complaint. Disculpa is the tú version, for friends.",
+      },
+      {
+        stem: "Hubo un problema con…",
+        english: "There was a problem with…",
+        scenarios: ["a reservation", "a payment", "a delivery"],
+        examples: [
+          "Hubo un problema con mi reserva.",
+          "Hubo un problema con el pago.",
+          "Hubo un problema con la entrega.",
+        ],
+        note: "Hubo — the preterite of hay. One-time event: there was.",
+      },
+      {
+        stem: "Creo que hay un error en…",
+        english: "I think there's a mistake in…",
+        scenarios: ["an invoice", "an order", "a date"],
+        examples: [
+          "Creo que hay un error en la factura.",
+          "Creo que hay un error en mi pedido.",
+          "Creo que hay un error en la fecha.",
+        ],
+      },
+      {
+        stem: "Pedí… pero…",
+        english: "I ordered… but…",
+        scenarios: ["decaf", "sizes", "quantities"],
+        examples: [
+          "Pedí un café descafeinado, pero creo que este no lo es.",
+          "Pedí la talla mediana, pero me llegó la grande.",
+          "Pedí dos, pero solo llegó uno.",
+        ],
+      },
+      {
+        stem: "¿Me puede ayudar con…?",
+        english: "Can you help me with…? (usted)",
+        scenarios: ["this", "a seat change", "a form"],
+        examples: [
+          "¿Me puede ayudar con esto, por favor?",
+          "¿Me puede ayudar con un cambio de asiento?",
+          "¿Me puede ayudar con el formulario? No entiendo esta parte.",
+        ],
+      },
+    ],
+  },
+  {
+    day: 73,
+    theme: "Misunderstandings",
+    subtitle: "Crossed wires, uncrossed by talking.",
+    frames: [
+      {
+        stem: "Creo que nos entendimos mal…",
+        english: "I think we misunderstood each other…",
+        scenarios: ["the time", "the topic", "no harm done"],
+        examples: [
+          "Creo que nos entendimos mal con la hora.",
+          "Creo que nos entendimos mal, yo hablaba de otra cosa.",
+          "Creo que nos entendimos mal y no pasa nada.",
+        ],
+        note: "Nos entendimos mal — we understood each other badly. Mutual, blameless.",
+      },
+      {
+        stem: "No quise decir eso…",
+        english: "I didn't mean that…",
+        scenarios: ["apologizing", "a bad phrasing", "emphatically"],
+        examples: [
+          "No quise decir eso, perdón.",
+          "No quise decir eso; me salió mal la frase.",
+          "No quise decir eso para nada.",
+        ],
+        note: "Quise — preterite of querer: no quise decir = I didn't mean. Meaning-changing preterite again.",
+      },
+      {
+        stem: "Lo que quería decir es…",
+        english: "What I meant was…",
+        scenarios: ["a compliment", "something else", "yes, but later"],
+        examples: [
+          "Lo que quería decir es que me encanta la idea.",
+          "Lo que quería decir es otra cosa.",
+          "Lo que quería decir es que sí, pero más tarde.",
+        ],
+      },
+      {
+        stem: "Pensé que habías dicho…",
+        english: "I thought you'd said…",
+        scenarios: ["a day", "coming", "the opposite"],
+        examples: [
+          "Pensé que habías dicho el martes.",
+          "Pensé que habías dicho que venías.",
+          "Pensé que habías dicho lo contrario.",
+        ],
+        note: "Habías dicho — past perfect: what you 'had said' before the wires crossed.",
+      },
+      {
+        stem: "Empecemos de nuevo…",
+        english: "Let's start over…",
+        scenarios: ["an offer", "both sides", "from the top"],
+        examples: [
+          "Empecemos de nuevo, ¿te parece?",
+          "Empecemos de nuevo: yo decía una cosa y tú otra.",
+          "Empecemos de nuevo desde el principio.",
+        ],
+        note: "Empecemos — a nosotros command: let's start. Repair, offered as a team.",
+      },
+    ],
+  },
+  {
+    day: 74,
+    theme: "Lost Things",
+    subtitle: "Everything lost teaches vocabulary.",
+    frames: [
+      {
+        stem: "Perdí…",
+        english: "I lost…",
+        scenarios: ["a transit card", "the thread", "count"],
+        examples: [
+          "Perdí mi tarjeta del metro.",
+          "Perdí el hilo de la conversación.",
+          "Perdí la cuenta de cuántas veces lo intenté.",
+        ],
+        note: "Perder el hilo — to lose the thread. (Otoño's mission is to keep it.)",
+      },
+      {
+        stem: "Se me perdió…",
+        english: "… got lost on me",
+        scenarios: ["an umbrella", "keys", "a glove"],
+        examples: [
+          "Se me perdió el paraguas otra vez.",
+          "Se me perdieron las llaves.",
+          "Se me perdió un guante, como siempre.",
+        ],
+        note: "Se me perdió — the object wandered off; you're the victim, not the culprit. Spanish's kindest grammar.",
+      },
+      {
+        stem: "Dejé … en…",
+        english: "I left … in/at…",
+        scenarios: ["a coat", "the exams", "the phone"],
+        examples: [
+          "Dejé mi abrigo en el restaurante.",
+          "Dejé los exámenes en la escuela.",
+          "Dejé el teléfono en casa y sobreviví.",
+        ],
+      },
+      {
+        stem: "¿Alguien ha visto…?",
+        english: "Has anyone seen…?",
+        scenarios: ["glasses", "a notebook", "the cat"],
+        examples: [
+          "¿Alguien ha visto mis lentes?",
+          "¿Alguien ha visto un cuaderno rojo?",
+          "¿Alguien ha visto al gato?",
+        ],
+      },
+      {
+        stem: "La última vez que lo vi…",
+        english: "The last time I saw it…",
+        scenarios: ["the kitchen", "someone had it", "the bag"],
+        examples: [
+          "La última vez que lo vi fue en la cocina.",
+          "La última vez que lo vi lo tenías tú.",
+          "La última vez que lo vi estaba en mi bolsa.",
+        ],
+      },
+    ],
+  },
+  {
+    day: 75,
+    theme: "Asking for Fixes (usted)",
+    subtitle: "A fix isn't a fight — it's forward motion.",
+    frames: [
+      {
+        stem: "¿Me lo puede cambiar…?",
+        english: "Can you exchange it for me…?",
+        scenarios: ["another size", "it came broken", "no receipt"],
+        examples: [
+          "¿Me lo puede cambiar por otra talla?",
+          "¿Me lo puede cambiar? Este vino roto.",
+          "¿Me lo puede cambiar aunque no tenga el recibo?",
+        ],
+        note: "Me lo puede cambiar — three little pronouns in a row, all earning their place.",
+      },
+      {
+        stem: "¿Me pueden devolver…?",
+        english: "Can you (all) refund…?",
+        scenarios: ["money", "a deposit", "an extra charge"],
+        examples: [
+          "¿Me pueden devolver el dinero?",
+          "¿Me pueden devolver el depósito?",
+          "¿Me pueden devolver el cobro extra?",
+        ],
+      },
+      {
+        stem: "¿Hay alguna manera de…?",
+        english: "Is there any way to…?",
+        scenarios: ["a flight", "recovery", "today"],
+        examples: [
+          "¿Hay alguna manera de cambiar el vuelo?",
+          "¿Hay alguna manera de recuperarlo?",
+          "¿Hay alguna manera de resolverlo hoy?",
+        ],
+        note: "¿Hay alguna manera de…? — the door-opener when the first answer was no.",
+      },
+      {
+        stem: "¿Qué me sugiere?",
+        english: "What do you suggest? (usted)",
+        scenarios: ["this case", "urgency", "prevention"],
+        examples: [
+          "¿Qué me sugiere en este caso?",
+          "¿Qué me sugiere? Necesito una solución pronto.",
+          "¿Qué me sugiere para que no vuelva a pasar?",
+        ],
+        note: "¿Qué me sugiere? — hand the problem back, respectfully. Experts love this question.",
+      },
+      {
+        stem: "Necesito resolver esto…",
+        english: "I need to get this resolved…",
+        scenarios: ["today", "by Friday", "escalating"],
+        examples: [
+          "Necesito resolver esto hoy mismo.",
+          "Necesito resolver esto antes del viernes.",
+          "Necesito resolver esto, ¿con quién puedo hablar?",
+        ],
+      },
+    ],
+  },
+  {
+    day: 76,
+    theme: "Apologizing",
+    subtitle: "A good apology has a verb and a plan.",
+    frames: [
+      {
+        stem: "Perdón por…",
+        english: "Sorry for…",
+        scenarios: ["the mess", "slow replies", "confusion"],
+        examples: [
+          "Perdón por el desorden.",
+          "Perdón por no contestar antes.",
+          "Perdón por la confusión de ayer.",
+        ],
+      },
+      {
+        stem: "Fue mi culpa…",
+        english: "It was my fault…",
+        scenarios: ["wrong time", "not asking", "sincerely"],
+        examples: [
+          "Fue mi culpa, yo anoté mal la hora.",
+          "Fue mi culpa por no preguntar.",
+          "Fue mi culpa, y lo siento de verdad.",
+        ],
+      },
+      {
+        stem: "No me di cuenta de que…",
+        english: "I didn't realize that…",
+        scenarios: ["the hour", "waiting", "an unsent message"],
+        examples: [
+          "No me di cuenta de que era tan tarde.",
+          "No me di cuenta de que estabas esperando.",
+          "No me di cuenta de que el mensaje no se envió.",
+        ],
+      },
+      {
+        stem: "¿Cómo lo arreglo?",
+        english: "How do I fix it?",
+        scenarios: ["ready to act", "carefully", "with you"],
+        examples: [
+          "¿Cómo lo arreglo? Dime y lo hago.",
+          "¿Cómo lo arreglo sin empeorarlo?",
+          "¿Cómo lo arreglo contigo?",
+        ],
+      },
+      {
+        stem: "No va a volver a pasar…",
+        english: "It won't happen again…",
+        scenarios: ["a promise", "an alarm", "lesson learned"],
+        examples: [
+          "No va a volver a pasar, te lo prometo.",
+          "No va a volver a pasar; ya puse una alarma.",
+          "No va a volver a pasar, aprendí la lección.",
+        ],
+        note: "Volver a + infinitive = to do again. No va a volver a pasar — it won't re-happen.",
+      },
+    ],
+  },
+  {
+    day: 77,
+    theme: "Repaso: Problems",
+    subtitle: "Solved problems make the best stories.",
+    frames: [
+      {
+        stem: "No funciona…",
+        english: "… isn't working",
+        scenarios: ["the elevator", "your usual plan", "the mic"],
+        examples: [
+          "No funciona el ascensor, vamos por la escalera.",
+          "No funciona mi plan de siempre, necesito otro.",
+          "No funciona el micrófono, ¿me escuchan?",
+        ],
+      },
+      {
+        stem: "Hubo un problema con…",
+        english: "There was a problem with…",
+        scenarios: ["the schedule", "the app", "a book order"],
+        examples: [
+          "Hubo un problema con el horario, pero ya está resuelto.",
+          "Hubo un problema con la aplicación esta mañana.",
+          "Hubo un problema con el pedido de los libros.",
+        ],
+      },
+      {
+        stem: "Se me perdió…",
+        english: "… got lost on me",
+        scenarios: ["a ticket", "half the audio", "the habit"],
+        examples: [
+          "Se me perdió el boleto, qué pena.",
+          "Se me perdió la mitad del audio, ¿lo repites?",
+          "Se me perdió la costumbre, hay que retomarla.",
+        ],
+      },
+      {
+        stem: "¿Hay alguna manera de…?",
+        english: "Is there any way to…?",
+        scenarios: ["arriving early", "real-life practice", "paying online"],
+        examples: [
+          "¿Hay alguna manera de llegar antes de las tres?",
+          "¿Hay alguna manera de practicar esto en la vida real?",
+          "¿Hay alguna manera de pagar en línea?",
+        ],
+      },
+      {
+        stem: "Perdón por…",
+        english: "Sorry for…",
+        scenarios: ["noise", "changed plans", "app talk"],
+        examples: [
+          "Perdón por el ruido de anoche.",
+          "Perdón por cambiar los planes otra vez.",
+          "Perdón por hablar tanto de mi aplicación.",
+        ],
+      },
+    ],
+  },
+  // ===== Week 12 — Decir lo que sientes / Saying what you feel =====
+  {
+    day: 78,
+    theme: "What You Love Most",
+    subtitle: "Name it in detail — it becomes more yours.",
+    frames: [
+      {
+        stem: "Lo que más me gusta de… es…",
+        english: "What I like most about… is…",
+        scenarios: ["teaching", "Boston", "Spanish"],
+        examples: [
+          "Lo que más me gusta de enseñar es ver el clic.",
+          "Lo que más me gusta de Boston es el otoño.",
+          "Lo que más me gusta del español es cómo suena.",
+        ],
+      },
+      {
+        stem: "Lo que menos me gusta de… es…",
+        english: "What I like least about… is…",
+        scenarios: ["winter", "early mornings", "traffic"],
+        examples: [
+          "Lo que menos me gusta del invierno es la oscuridad.",
+          "Lo que menos me gusta es madrugar, no lo niego.",
+          "Lo que menos me gusta de la ciudad es el tráfico.",
+        ],
+        note: "Madrugar — to get up at dawn. One verb for a whole struggle.",
+      },
+      {
+        stem: "Me llena de…",
+        english: "It fills me with…",
+        scenarios: ["pride", "energy", "peace"],
+        examples: [
+          "Me llena de orgullo ver a mis estudiantes hablar.",
+          "Me llena de energía caminar por la mañana.",
+          "Me llena de paz leer antes de dormir.",
+        ],
+      },
+      {
+        stem: "Disfruto mucho…",
+        english: "I really enjoy…",
+        scenarios: ["slow mornings", "cooking", "self-talk"],
+        examples: [
+          "Disfruto mucho las mañanas lentas.",
+          "Disfruto mucho cocinar sin prisa.",
+          "Disfruto mucho estas conversaciones conmigo misma.",
+        ],
+        note: "Disfrutar — to enjoy. It takes the thing directly, no preposition needed.",
+      },
+      {
+        stem: "Me hace feliz…",
+        english: "It makes me happy…",
+        scenarios: ["coffee smell", "a joke", "company"],
+        examples: [
+          "Me hace feliz el olor a café.",
+          "Me hace feliz entender un chiste en español.",
+          "Me hace feliz que estés aquí.",
+        ],
+      },
+    ],
+  },
+  {
+    day: 79,
+    theme: "Missing",
+    subtitle: "Missing is loving at a distance.",
+    frames: [
+      {
+        stem: "Extraño…",
+        english: "I miss…",
+        scenarios: ["long summers", "mom's cooking", "family close"],
+        examples: [
+          "Extraño los veranos largos de Atlanta.",
+          "Extraño la comida de mi mamá.",
+          "Extraño tener a mi familia cerca.",
+        ],
+        note: "Extrañar — to miss, in Latin America. In Spain: echar de menos. Both live in this day.",
+      },
+      {
+        stem: "Echo de menos…",
+        english: "I miss… (Spain's version)",
+        scenarios: ["porch evenings", "college friends", "car karaoke"],
+        examples: [
+          "Echo de menos las tardes en el porche.",
+          "Echo de menos a mis amigas de la universidad.",
+          "Echo de menos cantar en el carro a todo volumen.",
+        ],
+      },
+      {
+        stem: "Me acuerdo mucho de…",
+        english: "I think a lot about…",
+        scenarios: ["grandma", "Sunday breakfasts", "your first class"],
+        examples: [
+          "Me acuerdo mucho de mi abuela en esta época.",
+          "Me acuerdo mucho de esos desayunos de domingo.",
+          "Me acuerdo mucho de mi primera clase.",
+        ],
+        note: "Acordarse de = to remember (reflexive). Recordar works too — Spanish gives you two.",
+      },
+      {
+        stem: "Ojalá pudiera…",
+        english: "I wish I could…",
+        scenarios: ["two places", "seeing them", "staying longer"],
+        examples: [
+          "Ojalá pudiera estar en dos lugares a la vez.",
+          "Ojalá pudiera verlos más seguido.",
+          "Ojalá pudiera quedarme un rato más.",
+        ],
+        note: "Ojalá — from Arabic 'inshallah' — plus past subjunctive: the grammar of longing. Borrow it whole.",
+      },
+      {
+        stem: "Cuando pienso en…, siento…",
+        english: "When I think of…, I feel…",
+        scenarios: ["home", "a trip", "the future"],
+        examples: [
+          "Cuando pienso en casa, siento calorcito.",
+          "Cuando pienso en ese viaje, siento gratitud.",
+          "Cuando pienso en el futuro, siento curiosidad.",
+        ],
+      },
+    ],
+  },
+  {
+    day: 80,
+    theme: "Gratitude",
+    subtitle: "Gratitude spoken is worth double.",
+    frames: [
+      {
+        stem: "Estoy agradecida por…",
+        english: "I'm grateful for…",
+        scenarios: ["this chapter", "your people", "fresh starts"],
+        examples: [
+          "Estoy agradecida por esta etapa de mi vida.",
+          "Estoy agradecida por la gente que me rodea.",
+          "Estoy agradecida por poder empezar de nuevo.",
+        ],
+      },
+      {
+        stem: "Gracias a…, yo…",
+        english: "Thanks to…, I…",
+        scenarios: ["students", "mom", "this summer"],
+        examples: [
+          "Gracias a mis estudiantes, yo también aprendo.",
+          "Gracias a mi mamá, sé trabajar duro.",
+          "Gracias a este verano, hablo con menos miedo.",
+        ],
+      },
+      {
+        stem: "No sé qué haría sin…",
+        english: "I don't know what I'd do without…",
+        scenarios: ["morning coffee", "friends", "lists"],
+        examples: [
+          "No sé qué haría sin mi café de la mañana.",
+          "No sé qué haría sin mis amigas.",
+          "No sé qué haría sin listas.",
+        ],
+      },
+      {
+        stem: "Significa mucho para mí…",
+        english: "It means a lot to me…",
+        scenarios: ["being asked", "this notebook", "saying it"],
+        examples: [
+          "Significa mucho para mí que preguntes.",
+          "Significa mucho para mí este cuaderno de frases.",
+          "Significa mucho para mí poder decir esto en español.",
+        ],
+      },
+      {
+        stem: "Nunca te he dicho que…",
+        english: "I've never told you that…",
+        scenarios: ["admiration", "learning from them", "their support"],
+        examples: [
+          "Nunca te he dicho que admiro tu paciencia.",
+          "Nunca te he dicho que aprendí mucho de ti.",
+          "Nunca te he dicho que tu apoyo me cambió el año.",
+        ],
+        note: "Nunca te he dicho — present perfect opening the vault. Today's the day.",
+      },
+    ],
+  },
+  {
+    day: 81,
+    theme: "Worries Out Loud",
+    subtitle: "Worries weigh less once said.",
+    frames: [
+      {
+        stem: "Últimamente me preocupa…",
+        english: "Lately I've been worried about…",
+        scenarios: ["screen time", "a student", "rest"],
+        examples: [
+          "Últimamente me preocupa el tiempo que paso en pantallas.",
+          "Últimamente me preocupa una estudiante en particular.",
+          "Últimamente me preocupa no descansar lo suficiente.",
+        ],
+      },
+      {
+        stem: "No dejo de pensar en…",
+        english: "I can't stop thinking about…",
+        scenarios: ["a conversation", "the career change", "time flying"],
+        examples: [
+          "No dejo de pensar en esa conversación.",
+          "No dejo de pensar en el cambio de carrera.",
+          "No dejo de pensar en lo rápido que pasa el año.",
+        ],
+        note: "No dejo de + infinitive — 'I don't stop.' Lo rápido que… — how fast.",
+      },
+      {
+        stem: "Me da miedo…",
+        english: "I'm afraid of…",
+        scenarios: ["plateauing", "asking too much", "forgetting"],
+        examples: [
+          "Me da miedo estancarme.",
+          "Me da miedo pedir demasiado.",
+          "Me da miedo que se me olvide lo aprendido.",
+        ],
+      },
+      {
+        stem: "A veces siento que…",
+        english: "Sometimes I feel like…",
+        scenarios: ["running late on life", "not enough", "good days"],
+        examples: [
+          "A veces siento que voy tarde a todo.",
+          "A veces siento que no es suficiente.",
+          "A veces siento que sí puedo — y ese día gano.",
+        ],
+      },
+      {
+        stem: "Necesito hablar de…",
+        english: "I need to talk about…",
+        scenarios: ["something nagging", "class logistics", "with someone safe"],
+        examples: [
+          "Necesito hablar de algo que me tiene inquieta.",
+          "Necesito hablar de cómo organizamos las clases.",
+          "Necesito hablar de esto con alguien de confianza.",
+        ],
+        note: "Me tiene inquieta — 'has me restless.' Tener, describing a state it's holding you in.",
+      },
+    ],
+  },
+  {
+    day: 82,
+    theme: "Hopes",
+    subtitle: "Looking forward is a plan too.",
+    frames: [
+      {
+        stem: "Me hace ilusión…",
+        english: "I'm looking forward to…",
+        scenarios: ["a long conversation", "the school year", "a year from now"],
+        examples: [
+          "Me hace ilusión mi primera conversación larga en español.",
+          "Me hace ilusión empezar el año escolar.",
+          "Me hace ilusión pensar en dónde estaré en un año.",
+        ],
+        note: "Hacer ilusión — joy-in-advance. One of Spanish's untranslatable gifts.",
+      },
+      {
+        stem: "Estoy contando los días para…",
+        english: "I'm counting the days until…",
+        scenarios: ["vacation", "family", "a concert"],
+        examples: [
+          "Estoy contando los días para las vacaciones.",
+          "Estoy contando los días para ver a mi familia.",
+          "Estoy contando los días para el concierto.",
+        ],
+      },
+      {
+        stem: "Lo que más espero de… es…",
+        english: "What I most hope for from… is…",
+        scenarios: ["fall", "this year", "a trip"],
+        examples: [
+          "Lo que más espero del otoño es tiempo para leer.",
+          "Lo que más espero de este año es confianza.",
+          "Lo que más espero del viaje es desconectarme.",
+        ],
+      },
+      {
+        stem: "Sería un sueño…",
+        english: "It would be a dream…",
+        scenarios: ["two languages", "a month away", "no subtitles"],
+        examples: [
+          "Sería un sueño enseñar en dos idiomas.",
+          "Sería un sueño pasar un mes en América Latina.",
+          "Sería un sueño no necesitar subtítulos.",
+        ],
+      },
+      {
+        stem: "Ya quiero…",
+        english: "I can't wait to…",
+        scenarios: ["Friday", "telling everyone", "the ending"],
+        examples: [
+          "Ya quiero que sea viernes.",
+          "Ya quiero contarle a todos.",
+          "Ya quiero ver cómo termina esta historia.",
+        ],
+        note: "Ya quiero… — 'I already want…' = I can't wait. Impatience, the warm kind.",
+      },
+    ],
+  },
+  {
+    day: 83,
+    theme: "Saying It to Someone",
+    subtitle: "Kind words aren't for saving.",
+    frames: [
+      {
+        stem: "Quiero que sepas que…",
+        english: "I want you to know that…",
+        scenarios: ["counting on them", "it matters", "you noticed"],
+        examples: [
+          "Quiero que sepas que cuento contigo.",
+          "Quiero que sepas que esto me importa.",
+          "Quiero que sepas que lo noté.",
+        ],
+        note: "Quiero que sepas — subjunctive (sepas) after wanting something of someone. A chunk worth its weight.",
+      },
+      {
+        stem: "Eres muy importante para mí…",
+        english: "You're very important to me…",
+        scenarios: ["undersaid", "family", "for years"],
+        examples: [
+          "Eres muy importante para mí, aunque no lo diga mucho.",
+          "Eres muy importante para mí y para esta familia.",
+          "Eres muy importante para mí desde hace años.",
+        ],
+      },
+      {
+        stem: "Admiro cómo…",
+        english: "I admire how…",
+        scenarios: ["hard things", "making people feel seen", "always learning"],
+        examples: [
+          "Admiro cómo manejas las cosas difíciles.",
+          "Admiro cómo haces que todos se sientan vistos.",
+          "Admiro cómo sigues aprendiendo siempre.",
+        ],
+      },
+      {
+        stem: "Gracias por estar…",
+        english: "Thank you for being there…",
+        scenarios: ["good and bad", "checking in", "no reason"],
+        examples: [
+          "Gracias por estar en las buenas y en las malas.",
+          "Gracias por estar pendiente de mí.",
+          "Gracias por estar, así, sin más.",
+        ],
+        note: "Estar pendiente de — to keep an eye out for, lovingly.",
+      },
+      {
+        stem: "Contigo puedo…",
+        english: "With you I can…",
+        scenarios: ["being yourself", "any topic", "mistakes"],
+        examples: [
+          "Contigo puedo ser yo misma.",
+          "Contigo puedo hablar de cualquier cosa.",
+          "Contigo puedo equivocarme sin miedo.",
+        ],
+      },
+    ],
+  },
+  {
+    day: 84,
+    theme: "Repaso: Feelings",
+    subtitle: "Feeling in two languages is living twice.",
+    frames: [
+      {
+        stem: "Me llena de…",
+        english: "It fills me with…",
+        scenarios: ["old sentences", "small wins", "the ritual"],
+        examples: [
+          "Me llena de ternura ver mis primeras frases del cuaderno.",
+          "Me llena de ganas de seguir cada pequeño avance.",
+          "Me llena de calma este ritual de cinco minutos.",
+        ],
+      },
+      {
+        stem: "Extraño…",
+        english: "I miss…",
+        scenarios: ["cicadas", "old prices", "your people"],
+        examples: [
+          "Extraño el ruido de las cigarras en verano.",
+          "Extraño los precios de hace unos años, como todos.",
+          "Extraño a mi gente, pero aquí estoy construyendo la mía.",
+        ],
+      },
+      {
+        stem: "Estoy agradecida por…",
+        english: "I'm grateful for…",
+        scenarios: ["neighbors", "an unhurried summer", "new words"],
+        examples: [
+          "Estoy agradecida por las vecinas que me saludan en español.",
+          "Estoy agradecida por un verano que no me pidió prisa.",
+          "Estoy agradecida por cada palabra nueva.",
+        ],
+      },
+      {
+        stem: "A veces siento que…",
+        english: "Sometimes I feel like…",
+        scenarios: ["it lives in you", "words arriving", "just beginning"],
+        examples: [
+          "A veces siento que el español ya vive en mí.",
+          "A veces siento que las palabras llegan solas.",
+          "A veces siento que esto apenas empieza.",
+        ],
+      },
+      {
+        stem: "Ya quiero…",
+        english: "I can't wait to…",
+        scenarios: ["a year from now", "effortless talk", "fall in Spanish"],
+        examples: [
+          "Ya quiero leer mi cuaderno dentro de un año.",
+          "Ya quiero tener esa conversación sin pensar.",
+          "Ya quiero ver el otoño desde este nuevo idioma.",
+        ],
+      },
+    ],
+  },
+  // ===== Week 13 — La conversación entera / The whole conversation =====
+  {
+    day: 85,
+    theme: "Openings",
+    subtitle: "Whoever says hi first, wins.",
+    frames: [
+      {
+        stem: "¡Hola! ¿Qué tal…?",
+        english: "Hi! How's…?",
+        scenarios: ["their day", "everything", "back to school"],
+        examples: [
+          "¡Hola! ¿Qué tal tu día?",
+          "¡Hola! ¿Qué tal todo?",
+          "¡Hola! ¿Qué tal el regreso a clases?",
+        ],
+      },
+      {
+        stem: "¿Cómo has estado?",
+        english: "How have you been?",
+        scenarios: ["long time", "busy season", "since the trip"],
+        examples: [
+          "¿Cómo has estado? Hace mucho que no hablamos.",
+          "¿Cómo has estado? Te vi muy ocupada.",
+          "¿Cómo has estado desde el viaje?",
+        ],
+        note: "Hace mucho que no… — 'it's been long since.' Time expressions doing warm work.",
+      },
+      {
+        stem: "¡Tanto tiempo!",
+        english: "It's been so long!",
+        scenarios: ["surprise meeting", "seeing them", "catching up"],
+        examples: [
+          "¡Tanto tiempo! ¿Cómo estás?",
+          "¡Tanto tiempo sin verte!",
+          "¡Tanto tiempo! Tenemos que ponernos al día.",
+        ],
+        note: "Ponerse al día — to catch up. The whole point of running into someone.",
+      },
+      {
+        stem: "¿Cómo va todo con…?",
+        english: "How's everything going with…?",
+        scenarios: ["a new job", "family", "a move"],
+        examples: [
+          "¿Cómo va todo con el trabajo nuevo?",
+          "¿Cómo va todo con la familia?",
+          "¿Cómo va todo con la mudanza?",
+        ],
+      },
+      {
+        stem: "Qué gusto verte…",
+        english: "So good to see you…",
+        scenarios: ["around here", "looking well", "sincerely"],
+        examples: [
+          "Qué gusto verte por aquí.",
+          "Qué gusto verte tan bien.",
+          "Qué gusto verte, de verdad.",
+        ],
+      },
+    ],
+  },
+  {
+    day: 86,
+    theme: "Small Talk",
+    subtitle: "Small talk opens big doors.",
+    frames: [
+      {
+        stem: "¿Qué me cuentas de…?",
+        english: "What's new with…?",
+        scenarios: ["their summer", "family", "anything"],
+        examples: [
+          "¿Qué me cuentas de tu verano?",
+          "¿Qué me cuentas de la familia?",
+          "¿Qué me cuentas de nuevo?",
+        ],
+        note: "¿Qué me cuentas? — 'what do you tell me?' — the small-talk engine of Latin America.",
+      },
+      {
+        stem: "Por aquí todo…",
+        english: "Around here everything's…",
+        scenarios: ["fine", "calm", "the same"],
+        examples: [
+          "Por aquí todo bien, gracias a Dios.",
+          "Por aquí todo tranquilo, como siempre.",
+          "Por aquí todo igual, trabajando mucho.",
+        ],
+      },
+      {
+        stem: "Últimamente…",
+        english: "Lately…",
+        scenarios: ["river walks", "busy but happy", "the heat"],
+        examples: [
+          "Últimamente he caminado mucho por el río.",
+          "Últimamente ando ocupada, pero contenta.",
+          "Últimamente hace un calor tremendo, ¿verdad?",
+        ],
+        note: "Ando ocupada — andar as 'to be lately.' Very spoken, very natural.",
+      },
+      {
+        stem: "¿Sigues…?",
+        english: "Are you still…?",
+        scenarios: ["same school", "morning runs", "dance class"],
+        examples: [
+          "¿Sigues en la misma escuela?",
+          "¿Sigues corriendo por las mañanas?",
+          "¿Sigues con las clases de baile?",
+        ],
+        note: "Remembering someone's life back to them is the real small talk.",
+      },
+      {
+        stem: "El clima está…",
+        english: "The weather is…",
+        scenarios: ["perfect", "crazy", "improving"],
+        examples: [
+          "El clima está perfecto para caminar.",
+          "El clima está loco esta semana.",
+          "El clima está mejor que la semana pasada, al menos.",
+        ],
+      },
+    ],
+  },
+  {
+    day: 87,
+    theme: "Transitions",
+    subtitle: "Bueno, pues, oye — conversation's oil.",
+    frames: [
+      {
+        stem: "Bueno, …",
+        english: "Well, …",
+        scenarios: ["shifting gears", "your turn", "here's the thing"],
+        examples: [
+          "Bueno, cambiando de tema…",
+          "Bueno, tú dirás.",
+          "Bueno, la cosa es así.",
+        ],
+        note: "Bueno at the start of a sentence isn't 'good' — it's the sound of a conversation shifting gears.",
+      },
+      {
+        stem: "Pues…",
+        english: "Well / so…",
+        scenarios: ["turns out", "your view", "wrapping up"],
+        examples: [
+          "Pues resulta que sí.",
+          "Pues yo lo veo diferente.",
+          "Pues nada, así quedó la cosa.",
+        ],
+        note: "Pues — the app's namesake. The word that buys you a breath while your Spanish catches up.",
+      },
+      {
+        stem: "Oye, …",
+        english: "Hey, …",
+        scenarios: ["their opinion", "before forgetting", "a compliment"],
+        examples: [
+          "Oye, ¿y tú qué piensas?",
+          "Oye, antes de que se me olvide…",
+          "Oye, qué bonito lo que dijiste.",
+        ],
+      },
+      {
+        stem: "Hablando de…",
+        english: "Speaking of…",
+        scenarios: ["food", "trips", "a story"],
+        examples: [
+          "Hablando de comida, ¿ya almorzaste?",
+          "Hablando de viajes, ¿cómo estuvo el tuyo?",
+          "Hablando de eso, tengo una historia.",
+        ],
+      },
+      {
+        stem: "Cambiando de tema…",
+        english: "Changing the subject…",
+        scenarios: ["the news", "advice", "plans"],
+        examples: [
+          "Cambiando de tema, ¿viste las noticias?",
+          "Cambiando de tema, necesito tu consejo.",
+          "Cambiando de tema, ¿qué planes tienes?",
+        ],
+      },
+    ],
+  },
+  {
+    day: 88,
+    theme: "Holding Your Turn",
+    subtitle: "Think out loud without losing the floor.",
+    frames: [
+      {
+        stem: "Espera, déjame pensar…",
+        english: "Wait, let me think…",
+        scenarios: ["finding words", "a second", "an example"],
+        examples: [
+          "Espera, déjame pensar cómo decirlo.",
+          "Espera, déjame pensar un segundo.",
+          "Espera, déjame pensar en un ejemplo.",
+        ],
+        note: "Déjame pensar — 'let me think.' Holding your turn beats losing it.",
+      },
+      {
+        stem: "¿Cómo te explico?",
+        english: "How do I explain…?",
+        scenarios: ["complex feelings", "no drawing", "untranslatable"],
+        examples: [
+          "¿Cómo te explico? Es complicado y simple a la vez.",
+          "¿Cómo te explico sin hacer un dibujo?",
+          "¿Cómo te explico? Es difícil de traducir, pero fácil de sentir.",
+        ],
+      },
+      {
+        stem: "Es decir…",
+        english: "That is to say…",
+        scenarios: ["conditions", "the opposite", "starting over"],
+        examples: [
+          "Es decir, sí, pero con condiciones.",
+          "Es decir, lo contrario de lo que pensaba.",
+          "Es decir, que empezamos de cero otra vez.",
+        ],
+      },
+      {
+        stem: "O sea…",
+        english: "I mean…",
+        scenarios: ["calibrating", "emphasis", "double-checking"],
+        examples: [
+          "O sea, no es tan grave, pero tampoco es nada.",
+          "O sea, me encantó, punto.",
+          "O sea, que sí vienes, ¿verdad?",
+        ],
+        note: "O sea — the great Spanish 'I mean.' Invierno makes it fast; today makes it yours.",
+      },
+      {
+        stem: "Lo que pasa es que…",
+        english: "The thing is…",
+        scenarios: ["not daring", "schedule changes", "high standards"],
+        examples: [
+          "Lo que pasa es que no me atrevía a decirlo.",
+          "Lo que pasa es que el horario cambió.",
+          "Lo que pasa es que quiero hacerlo bien.",
+        ],
+        note: "Atreverse a — to dare to. Me atrevía — imperfect: the not-daring lasted a while. It's over now.",
+      },
+    ],
+  },
+  {
+    day: 89,
+    theme: "Graceful Exits",
+    subtitle: "A good goodbye sets up the next hello.",
+    frames: [
+      {
+        stem: "Bueno, me tengo que ir…",
+        english: "Well, I have to go…",
+        scenarios: ["with a promise", "the train", "early morning"],
+        examples: [
+          "Bueno, me tengo que ir, pero seguimos.",
+          "Bueno, me tengo que ir o pierdo el tren.",
+          "Bueno, me tengo que ir; mañana madrugamos.",
+        ],
+      },
+      {
+        stem: "Fue un gusto…",
+        english: "It was a pleasure…",
+        scenarios: ["seeing them", "finally meeting", "in Spanish"],
+        examples: [
+          "Fue un gusto verte.",
+          "Fue un gusto conocerte por fin.",
+          "Fue un gusto hablar contigo en español.",
+        ],
+      },
+      {
+        stem: "Te dejo, pero…",
+        english: "I'll let you go, but…",
+        scenarios: ["talk soon", "a coffee debt", "updates"],
+        examples: [
+          "Te dejo, pero hablamos pronto.",
+          "Te dejo, pero me debes un café.",
+          "Te dejo, pero cuéntame cómo te va.",
+        ],
+        note: "Te dejo — 'I leave you': the standard soft exit on calls and chats.",
+      },
+      {
+        stem: "Seguimos hablando…",
+        english: "We'll keep talking…",
+        scenarios: ["this week", "it got good", "by message"],
+        examples: [
+          "Seguimos hablando en la semana.",
+          "Seguimos hablando, que esto se puso bueno.",
+          "Seguimos hablando por mensaje.",
+        ],
+      },
+      {
+        stem: "Saludos a…",
+        english: "Say hi to…",
+        scenarios: ["family", "everyone", "their mom"],
+        examples: [
+          "Saludos a tu familia.",
+          "Saludos a todos por allá.",
+          "Saludos a tu mamá de mi parte.",
+        ],
+        note: "De mi parte — 'from me.' The tiny bow on a Spanish goodbye.",
+      },
+    ],
+  },
+  {
+    day: 90,
+    theme: "Your Season",
+    subtitle: "Day 90. Before, now, next.",
+    frames: [
+      {
+        stem: "Hace tres meses…",
+        english: "Three months ago…",
+        scenarios: ["the fear", "day one", "just an idea"],
+        examples: [
+          "Hace tres meses no me atrevía a hablar.",
+          "Hace tres meses empezó este cuaderno.",
+          "Hace tres meses esto era solo una idea.",
+        ],
+      },
+      {
+        stem: "Ahora puedo…",
+        english: "Now I can…",
+        scenarios: ["the skills", "no translating", "the season goal"],
+        examples: [
+          "Ahora puedo pedir, preguntar y contar historias.",
+          "Ahora puedo hablar sin traducir cada palabra.",
+          "Ahora puedo tener una conversación simple, sin pánico.",
+        ],
+        note: "That third sentence was Verano's goal, word for word. Say it slowly.",
+      },
+      {
+        stem: "Lo más difícil fue…",
+        english: "The hardest part was…",
+        scenarios: ["starting", "the first time", "the slow weeks"],
+        examples: [
+          "Lo más difícil fue empezar.",
+          "Lo más difícil fue hablar en voz alta la primera vez.",
+          "Lo más difícil fue no rendirme en las semanas flojas.",
+        ],
+      },
+      {
+        stem: "Lo que más me sorprendió fue…",
+        english: "What surprised me most was…",
+        scenarios: ["comprehension", "kind people", "enjoying it"],
+        examples: [
+          "Lo que más me sorprendió fue cuánto entiendo ya.",
+          "Lo que más me sorprendió fue lo amable que es la gente.",
+          "Lo que más me sorprendió fue disfrutarlo tanto.",
+        ],
+      },
+      {
+        stem: "El próximo paso es…",
+        english: "The next step is…",
+        scenarios: ["fall's thread", "a full minute", "real conversations"],
+        examples: [
+          "El próximo paso es seguir el hilo en otoño.",
+          "El próximo paso es hablar un minuto sin parar.",
+          "El próximo paso es buscar más conversaciones reales.",
+        ],
+      },
+    ],
+  },
+  {
+    day: 91,
+    theme: "Repaso: The Whole Conversation",
+    subtitle: "Hola to adiós — one conversation, five beats. Yours.",
+    frames: [
+      {
+        stem: "¡Tanto tiempo!",
+        english: "It's been so long!",
+        scenarios: ["thinking of them", "the neighborhood", "playfully"],
+        examples: [
+          "¡Tanto tiempo! Pensé en ti el otro día.",
+          "¡Tanto tiempo! ¿Sigues por el barrio?",
+          "¡Tanto tiempo! Casi no te reconozco con el sombrero.",
+        ],
+      },
+      {
+        stem: "¿Qué me cuentas de…?",
+        english: "What's new with…?",
+        scenarios: ["your classes", "life", "that old project"],
+        examples: [
+          "¿Qué me cuentas de tus clases de español?",
+          "¿Qué me cuentas de la vida?",
+          "¿Qué me cuentas de aquel proyecto que tenías?",
+        ],
+      },
+      {
+        stem: "Hablando de…",
+        english: "Speaking of…",
+        scenarios: ["projects", "coffee", "the time"],
+        examples: [
+          "Hablando de proyectos, terminé mi temporada de verano.",
+          "Hablando de café, conozco un lugar nuevo.",
+          "Hablando de tiempo, ¿ya viste qué tarde es?",
+        ],
+      },
+      {
+        stem: "Lo que pasa es que…",
+        english: "The thing is…",
+        scenarios: ["ninety days", "two languages", "love"],
+        examples: [
+          "Lo que pasa es que llevo noventa días practicando.",
+          "Lo que pasa es que ahora pienso en dos idiomas.",
+          "Lo que pasa es que me enamoré de este idioma.",
+        ],
+        note: "Llevar + time + gerund — llevo noventa días practicando: the grammar of persistence.",
+      },
+      {
+        stem: "Bueno, me tengo que ir…",
+        english: "Well, I have to go…",
+        scenarios: ["a coffee soon", "next season", "sincerely"],
+        examples: [
+          "Bueno, me tengo que ir, pero esto merece un café pronto.",
+          "Bueno, me tengo que ir; mañana empieza otra temporada.",
+          "Bueno, me tengo que ir — fue un gusto, de verdad.",
+        ],
+      },
+    ],
+  },
 ];
 
 export const totalDays = frameDays.length;
