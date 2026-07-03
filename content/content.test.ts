@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { frameDays, totalDays } from "@/content/frames";
 import { speakDays, PROMPTS_PER_DAY } from "@/content/prompts";
+import { sentenceFormerDays } from "@/content/sentenceFormer";
 
 /**
  * Shape guard for the coupled content files. frames.ts and prompts.ts are
@@ -74,6 +75,47 @@ describe("frame integrity", () => {
       fd.frames.forEach((f) => {
         expect(f.scenarios.length, `day ${fd.day} "${f.stem}" scenarios`).toBeGreaterThan(0);
         expect(f.examples.length, `day ${fd.day} "${f.stem}" examples`).toBeGreaterThan(0);
+      });
+    });
+  });
+});
+
+describe("sentenceFormer.ts / frames.ts coupling", () => {
+  it("has no duplicate SentenceFormerDay numbers", () => {
+    const days = sentenceFormerDays.map((d) => d.day);
+    expect(new Set(days).size).toBe(days.length);
+  });
+
+  it("every SentenceFormerDay exists in frames and stems match", () => {
+    sentenceFormerDays.forEach((sfd) => {
+      const fd = frameDays.find((f) => f.day === sfd.day);
+      expect(fd, `sentenceFormer day ${sfd.day}: no matching frameDay`).toBeDefined();
+
+      expect(sfd.stems, `day ${sfd.day} stems`).toHaveLength(PROMPTS_PER_DAY);
+      sfd.stems.forEach((stem) => {
+        const frame = fd!.frames.find((f) => f.stem === stem.stem);
+        expect(frame, `day ${sfd.day}: no frame with stem "${stem.stem}"`).toBeDefined();
+      });
+    });
+  });
+
+  it("every completion es string starts lowercase (appended after the stem)", () => {
+    sentenceFormerDays.forEach((sfd) => {
+      sfd.stems.forEach((stem) => {
+        stem.completions.forEach((c) => {
+          expect(
+            c.es.charAt(0),
+            `day ${sfd.day} "${stem.stem}" completion "${c.es}"`
+          ).toBe(c.es.charAt(0).toLowerCase());
+        });
+      });
+    });
+  });
+
+  it("every SentenceFormerDay has five stems with at least one completion each", () => {
+    sentenceFormerDays.forEach((sfd) => {
+      sfd.stems.forEach((stem) => {
+        expect(stem.completions.length, `day ${sfd.day} "${stem.stem}"`).toBeGreaterThan(0);
       });
     });
   });
