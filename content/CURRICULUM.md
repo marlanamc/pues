@@ -140,6 +140,138 @@ Context coverage across days (all four should keep appearing):
 
 ---
 
+## Otoño, week by week (arcs)
+
+> **Status: 📝 planned — arcs only.** For Otoño, Invierno, and Primavera,
+> day-level stem specs get authored at each season boundary (late August,
+> late November, late February), so they match Marlana's actual level by
+> then. The arcs below are the commitments; the day specs are the
+> just-in-time part.
+
+Spine: **comprehension-led speaking** — read or hear something, then retell
+and react. Season goals: seguir una historia varios días; hablar un minuto
+sin parar. Phases: *retell* (weeks 1–4) → *connect* (weeks 5–8) → *react &
+sustain* (weeks 9–13). Same shape as Verano: 13 weeks × (6 new days +
+1 repaso), 91 days.
+
+| Wk | Tema | Focus |
+|---|---|---|
+| 1 | Resumir | Retell a short read in 3–4 sentences: *Trata de…* · *Lo importante es que…* · *En pocas palabras…* · *Al final…* |
+| 2 | Dice que… | Reported speech, present: *Dice que…* · *Según…* · *Explica que…* · *Se trata de…* |
+| 3 | Dijo que… | Reported speech, past: *Dijo que…* · *Me contó que…* · *Mencionó que…* · *Preguntó si…* |
+| 4 | Ya había pasado | Past perfect for backstory: *Ya había…* · *Todavía no había…* · *Nunca había…* |
+| 5 | Además | Adding ideas: *además* · *también* · *aparte de eso* · *no solo… sino también* |
+| 6 | Sin embargo | Contrasting: *sin embargo* · *aunque* · *en cambio* · *a pesar de* |
+| 7 | Por eso | Cause & consequence: *por eso* · *así que* · *como…* · *debido a* |
+| 8 | Ordenar las ideas | Discourse skeleton: *primero que nada* · *en cuanto a* · *por último* · *volviendo a lo de…* |
+| 9 | ¿Te enteraste? | Sharing news: *¿Te enteraste de…?* · *Vi que…* · *Salió una noticia sobre…* · *Resulta que…* |
+| 10 | Opinar sobre lo leído | Reacting to input: *Lo que más me llamó la atención fue…* · *Lo que no entiendo es…* · *Me dio gusto leer que…* |
+| 11 | Seguir la historia | Serialized retelling (the season-goal week): *La última vez…* · *Mientras tanto…* · *Al día siguiente…* · *Ahora resulta que…* |
+| 12 | El minuto entero | Scaffolded monologue: *Hoy quiero hablar de…* · *Hay tres cosas que…* · *Lo primero es…* · *Para terminar…* |
+| 13 | Capstone | Retell + react + sustain in one; day-90-equivalent season retrospective; repaso = a one-minute retell of the season |
+
+**The structural idea for Otoño:** La Lectura graduates from bedtime extra
+to the season's input backbone. Each week gets a **serialized mini-story**
+(6 installments + a repaso recap) in `readings.ts`, and the day's speaking
+prompts retell/react to that day's installment — read → retell → react.
+That literally implements "seguir una historia varios días," and it's why
+readings were held at 14 days through Verano. Coupling readings to prompts
+is new: extend `content/content.test.ts` to cover it when authoring starts,
+and apply convention 7 (per-season files re-exported through existing
+paths) at the same boundary.
+
+## Invierno, week by week (arcs)
+
+Spine: **natural, fast, real** — colloquial glue, the subjunctive as
+chunks (the way week 6 taught preterite/imperfect: as stems you complete,
+never as tables), and real-time conversation mechanics. Phases: *sound
+natural* (weeks 1–4) → *subjunctive chunks* (weeks 5–8) → *real-time*
+(weeks 9–13). Invierno has 90 calendar days for 91 content days — fine;
+day advance is index-based and guilt-free.
+
+| Wk | Tema | Focus |
+|---|---|---|
+| 1 | Muletillas I | *pues* · *bueno* · *o sea* · *es que* · *a ver* — the app's namesake week |
+| 2 | Muletillas II | *fíjate que* · *la verdad es que* · *digo* · *¿me entiendes?* · *total, que* |
+| 3 | Al teléfono | *¿Aló?* · *Le habla…* · *¿De parte de quién?* · *¿Me escuchas?* · *Se cortó* |
+| 4 | Notas de voz | Voice-message Spanish: *Te mando un audio porque…* · *Era para decirte que…* · *Avísame cuando puedas* |
+| 5 | Quiero que… | Subjunctive chunk 1 — wanting: *quiero que* · *necesito que* · *prefiero que* · *me gustaría que* |
+| 6 | Cuando llegues… | Subjunctive chunk 2 — future time: *cuando + subj* · *en cuanto* · *hasta que* · *antes de que* |
+| 7 | Ojalá | Subjunctive chunk 3 — wishes as set phrases: *ojalá* · *espero que* · *que te vaya bien* · *que descanses* |
+| 8 | Es mejor que… | Subjunctive chunk 4 — advice II: *es mejor que* · *es importante que* · *no hace falta que* · *te sugiero que* |
+| 9 | Interrumpir con gracia | *Perdona que te interrumpa* · *Espera, espera* · *Antes de que se me olvide* · *Una cosa…* |
+| 10 | El turno | Holding & passing the floor: *¿Y tú qué opinas?* · *Déjame terminar* · *A eso voy* · *Como te decía* |
+| 11 | Sin captar todo | Gist toolkit — extends (never repeats) day 16's clarification stems: *Más o menos entendí que…* · *Lo que sí entendí fue…* · *¿Dijiste que…?* |
+| 12 | A velocidad real | Linking & reductions in fast exchanges — ties to the existing `content/linking.ts` / pronunciation surfaces |
+| 13 | Capstone | Una charla de ida y vuelta — fillers, interruptions, repairs in one conversation; retrospective |
+
+**Boundary decision:** the "sin subtítulos" goal wants listen-first input.
+A cheap option that reuses the TTS pipeline: La Lectura days where the
+audio plays *before* the text reveals. Decide at the Invierno boundary,
+not before.
+
+## Primavera, week by week (arcs)
+
+Spine: **personality and length** — humor, color, gentle debate, and the
+15-minute conversation. Phases: *your voice* (weeks 1–4) → *holding your
+own* (weeks 5–8) → *going long* (weeks 9–13).
+
+| Wk | Tema | Focus |
+|---|---|---|
+| 1 | Tu estilo | Self-description with flair: *Soy de las que…* · *Lo mío es…* · *Si algo me define es…* |
+| 2 | Humor ligero | Teasing & taking a joke: *Te estoy tomando el pelo* · *¡Qué va!* · *No exageres* · *Mira quién habla* |
+| 3 | Exagerar con gracia | Color through hyperbole: *Me muero de…* · *Tardé mil años* · *Es lo mejor/peor del mundo* |
+| 4 | Historias con sabor | Storytelling II — drama: *No te vas a creer lo que…* · *Para colmo…* · *Y de repente, ¡pum!* |
+| 5 | Debate suave I | Disagreeing warmly: *Entiendo tu punto, pero…* · *Yo lo veo distinto* · *¿No crees que…?* |
+| 6 | Debate suave II | Conceding & holding ground: *Puede que tengas razón en…* · *Aun así…* · *No había pensado en eso* |
+| 7 | Cambiar de registro | tú ↔ usted on the fly — same message both ways (school families, formal calls); the year's third usted week, notes per convention 3 |
+| 8 | Temas grandes | Abstractions — education, technology, language: *En el fondo…* · *Hoy en día…* · *Cada vez más…* |
+| 9 | Profundizar | Follow-up chains that keep one topic alive five turns: *¿Y eso?* · *¿Cómo así?* · *¿Y qué pasó con…?* |
+| 10 | Sin preparación | Cold prompts, zero prep: *Lo primero que se me ocurre es…* |
+| 11 | La conversación larga I | Architecture of a long talk — bridges & callbacks: *Volviendo a lo que dijiste…* · *Como te contaba…* |
+| 12 | La conversación larga II | Re-energizing a lull: *Bueno, ¿y qué más?* · *Se me olvidaba contarte…* · *Oye, y cambiando de tema…* |
+| 13 | Capstone | El año entero — year retrospective (*Hace un año no podía…*) + the final full conversation |
+
+---
+
+## Supporting surfaces
+
+The daily frames/prompts are the spine; this section keeps the supporting
+content from falling a season behind. (The cautionary tale: Sentence
+Former shipped covering days 1–7 while frames were already at 91.)
+
+### Sentence Former (`content/sentenceFormer.ts`)
+
+- **Backfill Verano:** extend day-aligned banks from 8 → 91 in weekly
+  batches of 7 days. Start with the week around the current in-app day for
+  immediate play value, then fill outward.
+- Per day: mirror all 5 frame stems; ~5 completions each; hints
+  (`que`/`como`/`cuando`) only where natural — omit a group rather than
+  force it.
+- **Going forward:** banks are authored in the same pass as the week's
+  frames/prompts (checklist step 3 below).
+- With the first backfill batch (not before), add a `content.test.ts`
+  guard: every `SentenceFormerDay.day` exists in frames, every stem
+  matches a `Frame.stem` of that day, no duplicate days, `es` lowercase —
+  and update the file's header comment, which currently says it isn't
+  coupling-tested.
+- Two flags to resolve during the backfill: the flat day-selector UI won't
+  scale to 91 days (group by week/tema, or default to the current day);
+  and the `category` enum (`food/time/activity/opinion/other`) may need
+  widening for later weeks (feelings, problems) — or just default to
+  `other`.
+
+### La Lectura (`content/readings.ts`)
+
+- **Verano: stays at 14 days.** A purely receptive bedtime extra;
+  Verano's spine is production, so there is no gap to fix.
+- **Otoño: daily and load-bearing** — the serialized weekly mini-stories
+  described above, coupled to the day's prompts.
+- **Invierno: possible listen-first variant** (audio before text) —
+  boundary decision.
+
+---
+
 ## Authoring conventions
 
 1. **Coupled files, index-aligned.** `frames.ts` and `prompts.ts` must have
@@ -182,6 +314,13 @@ Context coverage across days (all four should keep appearing):
 2. Append 7 matching `SpeakDay` objects to `content/prompts.ts`
    (ids like `d15-donde-esta`; `spanish` verbatim from an example;
    `situationLabel` short and in Spanish; `why` with italics; `wordHints`).
-3. `npm run typecheck && npm run test && npm run lint`.
-4. Review pass: register (convention 3), duplicates (convention 8), voice
+3. Append 7 matching `SentenceFormerDay` banks to
+   `content/sentenceFormer.ts` (stems verbatim from the week's frames;
+   ~5 completions each; hints only where natural). Same pass, always —
+   see [Supporting surfaces](#supporting-surfaces).
+4. From Otoño on: append the week's `ReadingDay` installments to
+   `content/readings.ts` (the serialized mini-story; vocab pulled from the
+   text itself).
+5. `npm run typecheck && npm run test && npm run lint`.
+6. Review pass: register (convention 3), duplicates (convention 8), voice
    (convention 6).

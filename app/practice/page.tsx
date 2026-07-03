@@ -1,15 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import { useRouter } from "next/navigation";
 import { PageHeader, Wordmark } from "@/components/PageHeader";
-import { Ledger, ZoneRow } from "@/components/ZoneList";
 import { MicButton } from "@/components/MicButton";
 import { PlayButton } from "@/components/PlayButton";
 import { ClickablePrompt } from "@/components/ClickablePrompt";
 import { Gloss } from "@/components/Gloss";
-import { games } from "@/content/games";
+import { totalDays } from "@/content/frames";
 import { speakDayForIndex, promptForSession, parseWhy, PROMPTS_PER_DAY, type SpeakPrompt } from "@/content/prompts";
 import { getSessionIndex } from "@/lib/store";
 import { useStats } from "@/hooks/useStats";
@@ -22,40 +21,6 @@ const stroke = {
   strokeWidth: 1.5,
   strokeLinecap: "round" as const,
   strokeLinejoin: "round" as const,
-};
-
-const gameIcons: Record<string, ReactNode> = {
-  build: (
-    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
-      <rect x="3" y="6" width="8" height="5" rx="1.5" />
-      <rect x="13" y="6" width="8" height="5" rx="1.5" />
-      <rect x="3" y="14" width="13" height="5" rx="1.5" />
-    </svg>
-  ),
-  timeline: (
-    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
-      <path d="M3 12h18" />
-      <circle cx="7" cy="12" r="2" />
-      <circle cx="17" cy="12" r="2" />
-      <path d="M7 9V6M17 15v3" />
-    </svg>
-  ),
-  markers: (
-    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
-      <path d="M5 4v16M5 5h11l-2 3 2 3H5" />
-    </svg>
-  ),
-  scales: (
-    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
-      <path d="M12 4v16M7 20h10" />
-      <path d="M4 8h16M4 8l-2 5h4ZM20 8l-2 5h4Z" />
-    </svg>
-  ),
-  flash: (
-    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
-      <path d="M13 3 4 14h6l-1 7 9-11h-6l1-7Z" />
-    </svg>
-  ),
 };
 
 const IconLightbulb = (
@@ -229,47 +194,38 @@ export default function PracticeActPage() {
           </div>
         </div>
 
-        {/* ===== Más práctica — keep games / plan / reading reachable ===== */}
+        {/* ===== Más práctica — five quiet doors, one line each ===== */}
         <section style={{ marginTop: 32, paddingTop: 20, borderTop: "1px solid var(--rule)" }}>
           <p className="mono-cap" style={{ marginBottom: 4 }}>Más práctica</p>
-          <div style={{ marginBottom: 14 }}><Gloss>More practice</Gloss></div>
+          <div style={{ marginBottom: 6 }}><Gloss>More practice</Gloss></div>
 
-          <div className="grid grid-cols-1 gap-2.5 md:grid-cols-2" style={{ marginBottom: 18 }}>
-            <Link href="/practice/plan" className="pill-lower">
-              <span className="flex flex-col">
-                <span className="font-display text-ink" style={{ fontSize: 16 }}>El plan</span>
-                <Gloss>The plan</Gloss>
-              </span>
-              <span className="mono-cap" style={{ marginLeft: "auto" }}>14 días</span>
-            </Link>
-            <Link href="/read" className="pill-lower">
-              <span className="flex flex-col">
-                <span className="font-display text-ink" style={{ fontSize: 16 }}>La lectura</span>
-                <Gloss>Reading</Gloss>
-              </span>
-              <span className="mono-cap" style={{ marginLeft: "auto" }}>Leer →</span>
-            </Link>
-          </div>
-
-          <p className="mono-cap" style={{ marginBottom: 4 }}>Juegos</p>
-          <div style={{ marginBottom: 10 }}><Gloss>Games</Gloss></div>
-          <Ledger>
-            {games.map((game) => (
-              <li key={game.href}>
-                <Link href={game.href} className="block transition-colors active:bg-surface-sunk">
-                  <ZoneRow
-                    icon={gameIcons[game.iconId]}
-                    title={game.label}
-                    description={game.description}
-                    meta={game.level}
-                  />
-                </Link>
-              </li>
-            ))}
-          </Ledger>
+          <MoreRow href="/read" title="La lectura" titleEn="Reading" meta="antes de dormir" />
+          <MoreRow href="/situations" title="Situaciones" titleEn="Situations" meta="escenas reales" />
+          <MoreRow href="/lab" title="El oído" titleEn="The ear" meta="pronunciación" />
+          <MoreRow href="/practice/plan" title="El plan" titleEn="The plan" meta={`${totalDays} días`} />
         </section>
       </div>
     </div>
+  );
+}
+
+/** One quiet door in the Más práctica list. */
+function MoreRow({ href, title, titleEn, meta }: { href: string; title: string; titleEn: string; meta: string }) {
+  return (
+    <Link
+      href={href}
+      className="flex items-center transition-colors active:bg-surface-sunk"
+      style={{ gap: 12, padding: "14px 2px", borderTop: "1px solid var(--rule)" }}
+    >
+      <span className="flex flex-col" style={{ flex: 1, minWidth: 0 }}>
+        <span className="font-display text-ink" style={{ fontSize: 17 }}>{title}</span>
+        <Gloss>{titleEn}</Gloss>
+      </span>
+      <span className="mono-cap" style={{ flexShrink: 0 }}>{meta}</span>
+      <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden {...stroke} style={{ color: "var(--ink-mute)", flexShrink: 0 }}>
+        <path d="M9 6l6 6-6 6" />
+      </svg>
+    </Link>
   );
 }
 

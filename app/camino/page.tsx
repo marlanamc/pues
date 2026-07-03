@@ -7,77 +7,100 @@ import { PageHeader, Wordmark } from "@/components/PageHeader";
 import { useStats } from "@/hooks/useStats";
 import { useThoughts } from "@/hooks/useThoughts";
 import { totalDays } from "@/content/frames";
+import { TEMPORADAS, type Temporada } from "@/content/temporadas";
 import { SEASONS, seasonForDate } from "@/lib/season";
 import { currentStreak, practiceDatesFromThoughts } from "@/lib/streak";
 
-type Temporada = {
-  index: 1 | 2 | 3 | 4;
-  range: string;
-  rangeEn: string;
-  seasonLabel: string;
-  color: string;
-  title: string;
-  titleEn: string;
-  body: string;
-  bodyEn: string;
-  goals: string[];
-  goalsEn: string[];
-};
 
-const TEMPORADAS: Temporada[] = [
-  {
-    index: 1,
-    range: "Jun – Ago · verano",
-    rangeEn: "Jun – Aug · summer",
-    seasonLabel: "verano",
-    color: SEASONS[0].color,
-    title: "El verano que hablo",
-    titleEn: "The summer I speak",
-    body: "Una conversación simple, sin pánico — y tu primera noticia corta.",
-    bodyEn: "One simple conversation, no panic — and your first short news story.",
-    goals: ["Una conversación simple, sin pánico.", "Leer una noticia corta, entera."],
-    goalsEn: ["One simple conversation, no panic.", "Read one short news article, all the way through."],
-  },
-  {
-    index: 2,
-    range: "Sep – Nov · otoño",
-    rangeEn: "Sep – Nov · fall",
-    seasonLabel: "otoño",
-    color: SEASONS[1].color,
-    title: "Seguir el hilo",
-    titleEn: "Follow the thread",
-    body: "Sigues una historia en las noticias · hablas un minuto sin parar.",
-    bodyEn: "You follow a story in the news · you speak for a minute without stopping.",
-    goals: ["Seguir una historia varios días.", "Hablar un minuto sin parar."],
-    goalsEn: ["Follow one story for several days.", "Speak for a minute without stopping."],
-  },
-  {
-    index: 3,
-    range: "Dic – Feb · invierno",
-    rangeEn: "Dec – Feb · winter",
-    seasonLabel: "invierno",
-    color: SEASONS[2].color,
-    title: "Sin subtítulos",
-    titleEn: "No subtitles",
-    body: "Ves algo sin subtítulos, sin perderte · una charla de ida y vuelta.",
-    bodyEn: "You watch something without subtitles, without getting lost · a back-and-forth conversation.",
-    goals: ["Ver algo sin subtítulos.", "Una charla de ida y vuelta."],
-    goalsEn: ["Watch something without subtitles.", "A back-and-forth conversation."],
-  },
-  {
-    index: 4,
-    range: "Mar – May · primavera",
-    rangeEn: "Mar – May · spring",
-    seasonLabel: "primavera",
-    color: SEASONS[3].color,
-    title: "Conversación completa",
-    titleEn: "Full conversation",
-    body: "Una conversación larga, con bromas y silencios, sin esfuerzo.",
-    bodyEn: "A long conversation, with jokes and silences, effortlessly.",
-    goals: ["Una conversación larga y natural.", "Bromas y silencios, sin esfuerzo."],
-    goalsEn: ["A long, natural conversation.", "Jokes and silences, effortlessly."],
-  },
-];
+function ActiveTemporadaCard({
+  t,
+  dayLabel,
+  weekNum,
+}: {
+  t: Temporada;
+  dayLabel: string;
+  weekNum: number;
+}) {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+      <div
+        style={{
+          padding: "18px 20px",
+          background: "var(--surface)",
+          border: "1px solid color-mix(in oklab, var(--accent) 38%, var(--rule))",
+          borderRadius: 16,
+          boxShadow: "0 0 0 1px color-mix(in oklab, var(--accent) 12%, transparent)",
+        }}
+      >
+        <span className="mono-cap" style={{ color: "var(--accent)" }}>
+          Estás aquí · Día {dayLabel}
+          <Gloss>{`You are here · Day ${dayLabel}`}</Gloss>
+        </span>
+        <h3 className="font-display text-ink" style={{ fontWeight: 300, fontSize: 26, lineHeight: 1.12, margin: "8px 0 4px" }}>
+          T{t.index} — {t.title}
+          <Gloss>{t.titleEn}</Gloss>
+        </h3>
+        <span className="mono-cap" style={{ color: t.color }}>
+          {t.range}
+          <Gloss>{t.rangeEn}</Gloss>
+        </span>
+      </div>
+
+      <div style={{ padding: "16px 18px", background: "var(--surface)", border: "1px solid var(--rule)", borderRadius: 14 }}>
+        <p className="font-display text-ink-soft" style={{ fontSize: 16, lineHeight: 1.45, margin: 0 }}>
+          {t.body}
+          <Gloss>{t.bodyEn}</Gloss>
+        </p>
+      </div>
+
+      <div style={{ padding: "14px 16px", background: "var(--surface-2)", border: "1px solid var(--rule)", borderRadius: 12 }}>
+        <p className="mono-cap" style={{ marginBottom: 6 }}>
+          Arco de la temporada
+          <Gloss>Season arc</Gloss>
+        </p>
+        <p className="font-display text-ink-soft" style={{ fontSize: 15, lineHeight: 1.4, margin: 0 }}>
+          {t.arc}
+          <Gloss>{t.arcEn}</Gloss>
+        </p>
+      </div>
+
+      <div style={{ padding: "16px 18px", background: "var(--surface)", border: "1px solid var(--rule)", borderRadius: 14 }}>
+        <div className="flex items-baseline justify-between" style={{ marginBottom: 12 }}>
+          <span className="mono-cap">
+            Semana {weekNum} de 13
+            <Gloss>{`Week ${weekNum} of 13`}</Gloss>
+          </span>
+          <span className="mono-cap" style={{ color: "var(--accent)" }}>{t.weeks[weekNum - 1]}</span>
+        </div>
+        <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 8 }}>
+          {t.weeks.map((tema, i) => {
+            const current = i === weekNum - 1;
+            return (
+              <li
+                key={tema}
+                className="flex items-baseline"
+                style={{
+                  gap: 10,
+                  padding: current ? "8px 10px" : "0 10px",
+                  borderRadius: 8,
+                  background: current ? "color-mix(in oklab, var(--accent) 10%, var(--surface))" : "transparent",
+                }}
+              >
+                <span className="mono-cap" style={{ width: 18, flexShrink: 0, fontSize: 9, color: current ? "var(--accent)" : "var(--ink-mute)" }}>
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span style={{ fontSize: 13, lineHeight: 1.35, color: current ? "var(--ink)" : "var(--ink-mute)", fontWeight: current ? 500 : 400 }}>
+                  {tema}
+                  {current && <Gloss>{t.weeksEn[i]}</Gloss>}
+                </span>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </div>
+  );
+}
 
 export default function CaminoPage() {
   const { stats } = useStats();
@@ -87,6 +110,8 @@ export default function CaminoPage() {
   const dayNum = (stats.currentDayIndex % totalDays) + 1;
   const dayLabel = String(dayNum).padStart(2, "0");
   const progressPct = Math.min(100, (dayNum / totalDays) * 100);
+  // Every week is 6 new days + 1 repaso, so the week is a straight division.
+  const weekNum = Math.min(13, Math.ceil(dayNum / 7));
 
   const streak = useMemo(
     () => currentStreak(practiceDatesFromThoughts(thoughts)),
@@ -139,7 +164,6 @@ export default function CaminoPage() {
               const active = t.index === currentIndex;
               const past = t.index < currentIndex;
               const titleCol = active || past ? "var(--ink)" : "var(--ink-soft)";
-              const bodyCol = active ? "var(--ink-soft)" : "var(--ink-mute)";
               return (
                 <div key={t.index} style={{ position: "relative", display: "grid", gridTemplateColumns: "28px 1fr", gap: 20, padding: "0 0 28px" }}>
                   <div>
@@ -160,24 +184,33 @@ export default function CaminoPage() {
                     />
                   </div>
                   <div>
-                    {active && (
-                      <span className="mono-cap" style={{ color: "var(--accent)" }}>
-                        Estás aquí · Día {dayLabel}
-                        <Gloss>{`You are here · Day ${dayLabel}`}</Gloss>
-                      </span>
+                    {active ? (
+                      <ActiveTemporadaCard t={t} dayLabel={dayLabel} weekNum={weekNum} />
+                    ) : (
+                      <div
+                        style={{
+                          padding: "14px 16px",
+                          background: past ? "var(--surface)" : "transparent",
+                          border: past ? "1px solid var(--rule)" : "none",
+                          borderRadius: 14,
+                        }}
+                      >
+                        <h3 className="font-display" style={{ fontWeight: 300, fontSize: 20, lineHeight: 1.15, color: titleCol, margin: 0 }}>
+                          T{t.index} — {t.title}
+                          <Gloss>{t.titleEn}</Gloss>
+                        </h3>
+                        <span className="mono-cap" style={{ color: t.color, marginTop: 6, display: "inline-block" }}>
+                          {t.range}
+                          <Gloss>{t.rangeEn}</Gloss>
+                        </span>
+                        {past && (
+                          <p className="text-gloss" style={{ color: "var(--ink-mute)", margin: "8px 0 0", maxWidth: "42ch", fontSize: 13 }}>
+                            {t.body}
+                            <Gloss>{t.bodyEn}</Gloss>
+                          </p>
+                        )}
+                      </div>
                     )}
-                    <h3 className="font-display" style={{ fontWeight: 300, fontSize: 24, lineHeight: 1.1, color: titleCol, margin: active ? "4px 0 3px" : "0 0 3px" }}>
-                      T{t.index} — {t.title}
-                      <Gloss>{t.titleEn}</Gloss>
-                    </h3>
-                    <span className="mono-cap" style={{ color: t.color }}>
-                      {t.range}
-                      <Gloss>{t.rangeEn}</Gloss>
-                    </span>
-                    <p className="text-gloss" style={{ color: bodyCol, margin: "8px 0 0", maxWidth: "46ch" }}>
-                      {t.body}
-                      <Gloss>{t.bodyEn}</Gloss>
-                    </p>
                   </div>
                 </div>
               );
@@ -227,6 +260,10 @@ export default function CaminoPage() {
             <div style={{ position: "relative", height: 6, borderRadius: 3, background: "var(--bg)", marginTop: 12, overflow: "hidden" }}>
               <div style={{ position: "absolute", inset: "0 auto 0 0", width: `${progressPct}%`, background: "var(--accent)", borderRadius: 3 }} />
             </div>
+            <p className="mono-cap" style={{ margin: "12px 0 0" }}>
+              Semana {weekNum} de 13 · {current.weeks[weekNum - 1]}
+              <Gloss>{`Week ${weekNum} of 13 · ${current.weeksEn[weekNum - 1]}`}</Gloss>
+            </p>
             <p className="font-display text-ink-soft" style={{ fontSize: 15, lineHeight: 1.5, margin: "16px 0 0" }}>
               {current.body}
               <Gloss>{current.bodyEn}</Gloss>

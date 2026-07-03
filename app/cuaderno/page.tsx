@@ -140,6 +140,11 @@ export default function CuadernoPage() {
               ))}
             </div>
           )}
+
+          {/* Mobile-reachable door to the full journal (the aside is desktop-only). */}
+          <Link href="/thoughts" className="mono-cap transition-colors hover:text-accent lg:hidden" style={{ display: "inline-block", marginTop: 34 }}>
+            ver el diario completo →
+          </Link>
         </div>
 
         {/* ===== ASIDE — el recuento ===== */}
