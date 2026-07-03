@@ -16,7 +16,10 @@ import {
   type SentenceFormerHint,
   type SentenceFormerStem,
 } from "@/content/sentenceFormer";
+import { speakDays } from "@/content/prompts";
 import { saveSentenceFormerEntry } from "@/lib/store";
+
+const dayThemeEs = new Map(speakDays.map((d) => [d.day, d.themeEs]));
 
 const ROUNDS_PER_SESSION = 5;
 
@@ -111,7 +114,7 @@ function StartScreen({
   onBack: () => void;
   onStart: () => void;
 }) {
-  const availableDays = sentenceFormerDays.map((d) => d.day);
+  const availableDays = sentenceFormerDays;
   return (
     <div className="flex flex-col lg:max-w-xl lg:mx-auto lg:w-full">
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -130,22 +133,23 @@ function StartScreen({
 
       <Cap style={{ marginBottom: 8 }}>Días</Cap>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 20 }}>
-        {availableDays.map((day) => {
-          const active = selectedDays.includes(day);
+        {availableDays.map((d) => {
+          const active = selectedDays.includes(d.day);
+          const themeEs = dayThemeEs.get(d.day) ?? d.theme;
           return (
             <button
-              key={day}
+              key={d.day}
               type="button"
-              onClick={() => onToggleDay(day)}
-              style={{ padding: "6px 13px", borderRadius: 999, background: active ? "var(--accent)" : "transparent", color: active ? "var(--accent-ink)" : "var(--ink-soft)", border: `1px solid ${active ? "var(--accent)" : "var(--rule)"}`, fontFamily: MONO, fontSize: 9.5, letterSpacing: "0.06em", textTransform: "uppercase", cursor: "pointer" }}
+              onClick={() => onToggleDay(d.day)}
+              style={{ padding: "7px 13px", borderRadius: 999, background: active ? "var(--accent)" : "transparent", color: active ? "var(--accent-ink)" : "var(--ink-soft)", border: `1px solid ${active ? "var(--accent)" : "var(--rule)"}`, fontFamily: MONO, fontSize: 10, letterSpacing: "0.02em", cursor: "pointer" }}
             >
-              Día {day}
+              {d.day} — {themeEs}
             </button>
           );
         })}
       </div>
       <p style={{ fontSize: 11.5, color: "var(--ink-mute)", margin: "-12px 0 20px" }}>
-        Sin ningún día marcado, la ronda mezcla los tres.
+        Sin ningún día marcado, la ronda mezcla los {sentenceFormerDays.length}.
       </p>
 
       <Cap style={{ marginBottom: 8 }}>Modo</Cap>
@@ -207,8 +211,8 @@ function Hint({ stem, target }: { stem: SentenceFormerStem; target: SentenceForm
   if (groups.length === 0) return null;
 
   return (
-    <div style={{ marginTop: 14 }}>
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+    <div style={{ marginTop: 16 }}>
+      <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 6 }}>
         {groups.map((g) => {
           const active = openKey === g.key;
           return (
@@ -263,12 +267,23 @@ function RoundScreen({
   return (
     <div className="flex flex-col lg:max-w-xl lg:mx-auto lg:w-full">
       <PlayHeader onExit={onExit} total={total} index={index} />
-      <Cap style={{ margin: "20px 0 4px" }}>Día {round.day} · {mode === "hablar" ? "dilo en voz alta" : "escríbela"}</Cap>
 
-      <p style={{ fontFamily: SERIF, fontWeight: 300, fontSize: 34, lineHeight: 1.15, margin: "10px 0 2px", color: "var(--ink)" }}>
-        {round.stem.stem}
-      </p>
-      <p style={{ fontSize: 13, color: "var(--ink-mute)", margin: "0 0 10px" }}>{round.stem.english}</p>
+      <Cap style={{ margin: "20px 0 8px", textAlign: "center" }}>Día {round.day} · {mode === "hablar" ? "dilo en voz alta" : "escríbela"}</Cap>
+
+      <div
+        style={{
+          padding: "26px 22px 22px",
+          textAlign: "center",
+          background: "color-mix(in oklab, var(--accent) 7%, var(--surface))",
+          border: "1px solid color-mix(in oklab, var(--accent) 18%, var(--rule))",
+          borderRadius: 16,
+        }}
+      >
+        <p style={{ fontFamily: SERIF, fontWeight: 500, fontSize: 34, lineHeight: 1.15, margin: "0 0 8px", color: "var(--ink)", textWrap: "balance" }}>
+          {round.stem.stem}
+        </p>
+        <p style={{ fontSize: 13, color: "var(--ink-mute)", margin: 0 }}>{round.stem.english}</p>
+      </div>
 
       <Hint stem={round.stem} target={round.target} />
 
