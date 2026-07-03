@@ -9,7 +9,7 @@
  * day in frames.ts, but this file isn't part of the frames/prompts coupling
  * enforced by content/content.test.ts.
  *
- * Verano batches 1–2: days 1–21 (weeks 1–3). Stems must match frames.ts for the
+ * Verano batches 1–4: days 1–35 (weeks 1–5). Stems must match frames.ts for the
  * same day (enforced by content/content.test.ts).
  */
 
@@ -2290,6 +2290,1372 @@ export const sentenceFormerDays: SentenceFormerDay[] = [
           { es: "probar un poco", en: "try a little", category: "food" },
           { es: "tomar un café", en: "get a coffee", category: "food" },
           { es: "practicar un rato", en: "practice for a bit", category: "activity" },
+        ],
+      },
+    ],
+  },
+  {
+    day: 22,
+    theme: "At the Café",
+    stems: [
+      {
+        stem: "Me da…, por favor",
+        english: "I'll have…, please",
+        hints: {
+          que: [
+            { es: "un café con leche", en: "a coffee with milk" },
+            { es: "un té y un pan dulce", en: "a tea and a sweet bread" },
+            { es: "lo mismo de ayer", en: "the same as yesterday" },
+          ],
+        },
+        completions: [
+          { es: "un café con leche", en: "a coffee with milk", category: "food" },
+          { es: "un té y un pan dulce", en: "a tea and a sweet bread", category: "food" },
+          { es: "lo mismo de ayer", en: "the same as yesterday", category: "food" },
+          { es: "un capuchino mediano", en: "a medium cappuccino", category: "food" },
+          { es: "un vaso de agua", en: "a glass of water", category: "food" },
+        ],
+      },
+      {
+        stem: "Quisiera…",
+        english: "I would like… (extra polite)",
+        hints: {
+          que: [
+            { es: "un capuchino mediano", en: "a medium cappuccino" },
+            { es: "algo sin azúcar", en: "something without sugar" },
+            { es: "probar el café de temporada", en: "to try the seasonal coffee" },
+          ],
+        },
+        completions: [
+          { es: "un capuchino mediano", en: "a medium cappuccino", category: "food" },
+          { es: "algo sin azúcar", en: "something without sugar", category: "food" },
+          { es: "probar el café de temporada", en: "to try the seasonal coffee", category: "food" },
+          { es: "un té caliente", en: "a hot tea", category: "food" },
+          { es: "sentarme cerca de la ventana", en: "to sit near the window", category: "other" },
+        ],
+      },
+      {
+        stem: "Para mí…",
+        english: "For me…",
+        hints: {
+          que: [
+            { es: "un café negro", en: "a black coffee" },
+            { es: "lo de siempre", en: "the usual" },
+            { es: "el desayuno número dos", en: "breakfast number two" },
+          ],
+        },
+        completions: [
+          { es: "un café negro", en: "a black coffee", category: "food" },
+          { es: "lo de siempre", en: "the usual", category: "food" },
+          { es: "el desayuno número dos", en: "breakfast number two", category: "food" },
+          { es: "el mismo de la última vez", en: "the same as last time", category: "food" },
+          { es: "algo ligero", en: "something light", category: "food" },
+        ],
+      },
+      {
+        stem: "¿Me trae…?",
+        english: "Could you bring me…?",
+        hints: {
+          que: [
+            { es: "un vaso de agua, por favor", en: "a glass of water, please" },
+            { es: "una servilleta", en: "a napkin" },
+            { es: "otro café cuando pueda", en: "another coffee when you can" },
+          ],
+        },
+        completions: [
+          { es: "un vaso de agua, por favor", en: "a glass of water, please", category: "food" },
+          { es: "una servilleta", en: "a napkin", category: "other" },
+          { es: "otro café cuando pueda", en: "another coffee when you can", category: "food" },
+          { es: "la cuenta", en: "the check", category: "other" },
+          { es: "más azúcar", en: "more sugar", category: "food" },
+        ],
+      },
+      {
+        stem: "¿Cuánto cuesta…?",
+        english: "How much does … cost?",
+        hints: {
+          que: [
+            { es: "el café grande", en: "the large coffee" },
+            { es: "este pastel", en: "this pastry" },
+            { es: "los sándwiches", en: "the sandwiches" },
+          ],
+        },
+        completions: [
+          { es: "el café grande", en: "the large coffee", category: "food" },
+          { es: "este pastel", en: "this pastry", category: "food" },
+          { es: "los sándwiches", en: "the sandwiches", category: "food" },
+          { es: "el menú del día", en: "the daily special", category: "food" },
+          { es: "todo esto", en: "all of this", category: "other" },
+        ],
+      },
+    ],
+  },
+  {
+    day: 23,
+    theme: "At the Shop",
+    stems: [
+      {
+        stem: "Estoy buscando…",
+        english: "I'm looking for…",
+        hints: {
+          que: [
+            { es: "un regalo para mi mamá", en: "a gift for my mom" },
+            { es: "algo para el frío", en: "something for the cold" },
+            { es: "el pasillo de los cuadernos", en: "the notebook aisle" },
+          ],
+        },
+        completions: [
+          { es: "un regalo para mi mamá", en: "a gift for my mom", category: "other" },
+          { es: "algo para el frío", en: "something for the cold", category: "other" },
+          { es: "el pasillo de los cuadernos", en: "the notebook aisle", category: "other" },
+          { es: "pilas", en: "batteries", category: "other" },
+          { es: "algo más barato", en: "something cheaper", category: "other" },
+        ],
+      },
+      {
+        stem: "¿Tienen…?",
+        english: "Do you have…? (to a shop)",
+        hints: {
+          que: [
+            { es: "esto en otro color", en: "this in another color" },
+            { es: "pilas", en: "batteries" },
+            { es: "algo más barato", en: "something cheaper" },
+          ],
+        },
+        completions: [
+          { es: "esto en otro color", en: "this in another color", category: "other" },
+          { es: "pilas", en: "batteries", category: "other" },
+          { es: "algo más barato", en: "something cheaper", category: "other" },
+          { es: "otra talla", en: "another size", category: "other" },
+          { es: "esto en azul", en: "this in blue", category: "other" },
+        ],
+      },
+      {
+        stem: "¿Dónde encuentro…?",
+        english: "Where do I find…?",
+        hints: {
+          que: [
+            { es: "la leche", en: "the milk" },
+            { es: "el papel de regalo", en: "the wrapping paper" },
+            { es: "la salsa picante", en: "the hot sauce" },
+          ],
+        },
+        completions: [
+          { es: "la leche", en: "the milk", category: "food" },
+          { es: "el papel de regalo", en: "the wrapping paper", category: "other" },
+          { es: "la salsa picante", en: "the hot sauce", category: "food" },
+          { es: "los cuadernos", en: "the notebooks", category: "other" },
+          { es: "el pan", en: "the bread", category: "food" },
+        ],
+      },
+      {
+        stem: "¿Me puede mostrar…?",
+        english: "Can you show me…? (usted)",
+        hints: {
+          que: [
+            { es: "ese anillo", en: "that ring" },
+            { es: "cómo funciona", en: "how it works" },
+            { es: "otra talla", en: "another size" },
+          ],
+        },
+        completions: [
+          { es: "ese anillo", en: "that ring", category: "other" },
+          { es: "cómo funciona", en: "how it works", category: "other" },
+          { es: "otra talla", en: "another size", category: "other" },
+          { es: "ese modelo en rojo", en: "that model in red", category: "other" },
+          { es: "la diferencia entre estos dos", en: "the difference between these two", category: "other" },
+        ],
+      },
+      {
+        stem: "Me llevo…",
+        english: "I'll take…",
+        hints: {
+          que: [
+            { es: "este", en: "this one" },
+            { es: "los dos", en: "both" },
+            { es: "el azul, gracias", en: "the blue one, thanks" },
+          ],
+        },
+        completions: [
+          { es: "este", en: "this one", category: "other" },
+          { es: "los dos", en: "both", category: "other" },
+          { es: "el azul, gracias", en: "the blue one, thanks", category: "other" },
+          { es: "el más barato", en: "the cheaper one", category: "other" },
+          { es: "estos tres", en: "these three", category: "other" },
+        ],
+      },
+    ],
+  },
+  {
+    day: 24,
+    theme: "Getting Around",
+    stems: [
+      {
+        stem: "¿Cómo llego a…?",
+        english: "How do I get to…?",
+        hints: {
+          que: [
+            { es: "la estación de tren", en: "the train station" },
+            { es: "el aeropuerto desde aquí", en: "the airport from here" },
+            { es: "la terminal de autobuses", en: "the bus terminal" },
+          ],
+        },
+        completions: [
+          { es: "la estación de tren", en: "the train station", category: "other" },
+          { es: "el aeropuerto desde aquí", en: "the airport from here", category: "activity" },
+          { es: "la terminal de autobuses", en: "the bus terminal", category: "other" },
+          { es: "el centro", en: "downtown", category: "other" },
+          { es: "cambridge", en: "Cambridge", category: "other" },
+        ],
+      },
+      {
+        stem: "¿Este tren va a…?",
+        english: "Does this train go to…?",
+        hints: {
+          que: [
+            { es: "el centro", en: "downtown" },
+            { es: "cambridge o tengo que cambiar", en: "Cambridge or do I need to transfer" },
+            { es: "hacia el norte", en: "northbound" },
+          ],
+        },
+        completions: [
+          { es: "el centro", en: "downtown", category: "other" },
+          { es: "cambridge o tengo que cambiar", en: "Cambridge or do I need to transfer", category: "activity" },
+          { es: "hacia el norte", en: "northbound", category: "other" },
+          { es: "south station", en: "South Station", category: "other" },
+          { es: "la última parada", en: "the last stop", category: "other" },
+        ],
+      },
+      {
+        stem: "Necesito llegar a…",
+        english: "I need to get to…",
+        hints: {
+          que: [
+            { es: "la escuela antes de las ocho", en: "school before eight" },
+            { es: "el aeropuerto a las seis", en: "the airport at six" },
+            { es: "temprano mañana", en: "early tomorrow" },
+          ],
+          cuando: [
+            { es: "a tiempo", en: "on time" },
+            { es: "antes de las ocho", en: "before eight" },
+          ],
+        },
+        completions: [
+          { es: "la escuela antes de las ocho", en: "school before eight", category: "time" },
+          { es: "el aeropuerto a las seis", en: "the airport at six", category: "time" },
+          { es: "temprano mañana", en: "early tomorrow", category: "time" },
+          { es: "la reunión a las cuatro", en: "the meeting at four", category: "time" },
+          { es: "mi clase sin retrasarme", en: "my class without being late", category: "time" },
+        ],
+      },
+      {
+        stem: "Queda…",
+        english: "It's (located)…",
+        hints: {
+          que: [
+            { es: "cerca del parque", en: "near the park" },
+            { es: "a dos cuadras de aquí", en: "two blocks from here" },
+            { es: "lejos, mejor toma el metro", en: "far — better take the subway" },
+          ],
+        },
+        completions: [
+          { es: "cerca del parque", en: "near the park", category: "other" },
+          { es: "a dos cuadras de aquí", en: "two blocks from here", category: "other" },
+          { es: "lejos, mejor toma el metro", en: "far — better take the subway", category: "other" },
+          { es: "al final de esta calle", en: "at the end of this street", category: "other" },
+          { es: "en la esquina", en: "on the corner", category: "other" },
+        ],
+      },
+      {
+        stem: "Está a … de…",
+        english: "It's … (away) from…",
+        hints: {
+          que: [
+            { es: "diez minutos de mi casa", en: "ten minutes from my house" },
+            { es: "tres paradas de aquí", en: "three stops from here" },
+            { es: "una hora de boston en tren", en: "an hour from Boston by train" },
+          ],
+        },
+        completions: [
+          { es: "diez minutos de mi casa", en: "ten minutes from my house", category: "time" },
+          { es: "tres paradas de aquí", en: "three stops from here", category: "other" },
+          { es: "una hora de boston en tren", en: "an hour from Boston by train", category: "time" },
+          { es: "cinco minutos caminando", en: "five minutes on foot", category: "time" },
+          { es: "dos cuadras de la escuela", en: "two blocks from the school", category: "other" },
+        ],
+      },
+    ],
+  },
+  {
+    day: 25,
+    theme: "With Families (usted)",
+    stems: [
+      {
+        stem: "¿Me puede firmar…?",
+        english: "Could you sign … for me? (usted)",
+        hints: {
+          que: [
+            { es: "este formulario, por favor", en: "this form, please" },
+            { es: "el permiso para la excursión", en: "the permission slip for the field trip" },
+            { es: "aquí, cuando tenga un momento", en: "here, when you have a moment" },
+          ],
+        },
+        completions: [
+          { es: "este formulario, por favor", en: "this form, please", category: "other" },
+          { es: "el permiso para la excursión", en: "the permission slip for the field trip", category: "other" },
+          { es: "aquí, cuando tenga un momento", en: "here, when you have a moment", category: "time" },
+          { es: "esta hoja", en: "this sheet", category: "other" },
+          { es: "el documento de autorización", en: "the authorization document", category: "other" },
+        ],
+      },
+      {
+        stem: "Su hijo/a necesita…",
+        english: "Your son/daughter needs… (usted)",
+        hints: {
+          que: [
+            { es: "practicar la lectura en casa", en: "to practice reading at home" },
+            { es: "traer el cuaderno mañana", en: "to bring the notebook tomorrow" },
+            { es: "más apoyo con la escritura", en: "more support with writing" },
+          ],
+        },
+        completions: [
+          { es: "practicar la lectura en casa", en: "to practice reading at home", category: "activity" },
+          { es: "traer el cuaderno mañana", en: "to bring the notebook tomorrow", category: "other" },
+          { es: "más apoyo con la escritura", en: "more support with writing", category: "activity" },
+          { es: "llegar un poco más temprano", en: "to arrive a little earlier", category: "time" },
+          { es: "más práctica con las matemáticas", en: "more practice with math", category: "activity" },
+        ],
+      },
+      {
+        stem: "La reunión es…",
+        english: "The meeting is…",
+        hints: {
+          que: [
+            { es: "el jueves a las cuatro", en: "on Thursday at four" },
+            { es: "en el salón doce", en: "in room twelve" },
+            { es: "corta, media hora nada más", en: "short, just half an hour" },
+          ],
+          cuando: [
+            { es: "el jueves", en: "on Thursday" },
+            { es: "la próxima semana", en: "next week" },
+          ],
+        },
+        completions: [
+          { es: "el jueves a las cuatro", en: "on Thursday at four", category: "time" },
+          { es: "en el salón doce", en: "in room twelve", category: "other" },
+          { es: "corta, media hora nada más", en: "short, just half an hour", category: "time" },
+          { es: "por la tarde", en: "in the afternoon", category: "time" },
+          { es: "mañana a las tres", en: "tomorrow at three", category: "time" },
+        ],
+      },
+      {
+        stem: "¿Puede venir…?",
+        english: "Can you come…? (usted)",
+        hints: {
+          que: [
+            { es: "el martes por la tarde", en: "Tuesday afternoon" },
+            { es: "unos minutos antes", en: "a few minutes early" },
+            { es: "a la presentación de los estudiantes", en: "to the students' presentation" },
+          ],
+          cuando: [
+            { es: "el martes", en: "on Tuesday" },
+            { es: "esta semana", en: "this week" },
+          ],
+        },
+        completions: [
+          { es: "el martes por la tarde", en: "Tuesday afternoon", category: "time" },
+          { es: "unos minutos antes", en: "a few minutes early", category: "time" },
+          { es: "a la presentación de los estudiantes", en: "to the students' presentation", category: "other" },
+          { es: "a la conferencia", en: "to the conference", category: "other" },
+          { es: "el viernes por la mañana", en: "Friday morning", category: "time" },
+        ],
+      },
+      {
+        stem: "Le voy a mandar…",
+        english: "I'm going to send you… (usted)",
+        hints: {
+          que: [
+            { es: "un mensaje con la fecha", en: "a message with the date" },
+            { es: "la información por correo", en: "the information by email" },
+            { es: "fotos del proyecto de su hija", en: "photos of your daughter's project" },
+          ],
+        },
+        completions: [
+          { es: "un mensaje con la fecha", en: "a message with the date", category: "other" },
+          { es: "la información por correo", en: "the information by email", category: "other" },
+          { es: "fotos del proyecto de su hija", en: "photos of your daughter's project", category: "other" },
+          { es: "los materiales esta tarde", en: "the materials this afternoon", category: "other" },
+          { es: "un recordatorio mañana", en: "a reminder tomorrow", category: "time" },
+        ],
+      },
+    ],
+  },
+  {
+    day: 26,
+    theme: "Favors",
+    stems: [
+      {
+        stem: "¿Me haces un favor…?",
+        english: "Will you do me a favor…?",
+        hints: {
+          que: [
+            { es: "es cortito", en: "it's quick" },
+            { es: "cuando tengas tiempo", en: "when you have time" },
+          ],
+        },
+        completions: [
+          { es: "es cortito", en: "it's quick", category: "other" },
+          { es: "cuando tengas tiempo", en: "when you have time", category: "time" },
+          { es: "un momentito", en: "for a sec", category: "time" },
+          { es: "con esto", en: "with this", category: "other" },
+          { es: "rápido", en: "real quick", category: "time" },
+        ],
+      },
+      {
+        stem: "¿Me prestas…?",
+        english: "Will you lend me…?",
+        hints: {
+          que: [
+            { es: "un bolígrafo", en: "a pen" },
+            { es: "tu cargador un momento", en: "your charger for a moment" },
+            { es: "ese libro cuando lo termines", en: "that book when you finish it" },
+          ],
+        },
+        completions: [
+          { es: "un bolígrafo", en: "a pen", category: "other" },
+          { es: "tu cargador un momento", en: "your charger for a moment", category: "other" },
+          { es: "ese libro cuando lo termines", en: "that book when you finish it", category: "other" },
+          { es: "cinco dólares", en: "five dollars", category: "other" },
+          { es: "tu paraguas", en: "your umbrella", category: "other" },
+        ],
+      },
+      {
+        stem: "¿Me acompañas a…?",
+        english: "Will you come with me to…?",
+        hints: {
+          que: [
+            { es: "la farmacia", en: "the pharmacy" },
+            { es: "comprar el regalo", en: "buy the gift" },
+            { es: "el mercado el sábado", en: "the market on Saturday" },
+          ],
+        },
+        completions: [
+          { es: "la farmacia", en: "the pharmacy", category: "other" },
+          { es: "comprar el regalo", en: "buy the gift", category: "activity" },
+          { es: "el mercado el sábado", en: "the market on Saturday", category: "activity" },
+          { es: "la tienda", en: "the store", category: "other" },
+          { es: "caminar un rato", en: "walk for a bit", category: "activity" },
+        ],
+      },
+      {
+        stem: "¿Te importa si…?",
+        english: "Do you mind if…?",
+        hints: {
+          que: [
+            { es: "abro la ventana", en: "I open the window" },
+            { es: "llegamos un poco tarde", en: "we arrive a little late" },
+            { es: "invito a mi vecina", en: "I invite my neighbor" },
+          ],
+        },
+        completions: [
+          { es: "abro la ventana", en: "I open the window", category: "other" },
+          { es: "llegamos un poco tarde", en: "we arrive a little late", category: "time" },
+          { es: "invito a mi vecina", en: "I invite my neighbor", category: "other" },
+          { es: "me siento aquí", en: "I sit here", category: "other" },
+          { es: "cambiamos de mesa", en: "we change tables", category: "other" },
+        ],
+      },
+      {
+        stem: "Te agradezco…",
+        english: "I'm grateful (to you) for…",
+        hints: {
+          que: [
+            { es: "la ayuda", en: "the help" },
+            { es: "mucho el consejo", en: "so much for the advice" },
+            { es: "la paciencia conmigo", en: "your patience with me" },
+          ],
+        },
+        completions: [
+          { es: "la ayuda", en: "the help", category: "other" },
+          { es: "mucho el consejo", en: "so much for the advice", category: "other" },
+          { es: "la paciencia conmigo", en: "your patience with me", category: "other" },
+          { es: "que hayas venido", en: "that you came", category: "other" },
+          { es: "tu tiempo", en: "your time", category: "time" },
+        ],
+      },
+    ],
+  },
+  {
+    day: 27,
+    theme: "Eating Out",
+    stems: [
+      {
+        stem: "Una mesa para…",
+        english: "A table for…",
+        hints: {
+          que: [
+            { es: "dos, por favor", en: "two, please" },
+            { es: "cuatro, cerca de la ventana si se puede", en: "four, by the window if possible" },
+            { es: "una — sí, solo yo", en: "one — yes, just me" },
+          ],
+        },
+        completions: [
+          { es: "dos, por favor", en: "two, please", category: "other" },
+          { es: "cuatro, cerca de la ventana si se puede", en: "four, by the window if possible", category: "other" },
+          { es: "una — sí, solo yo", en: "one — yes, just me", category: "other" },
+          { es: "tres", en: "three", category: "other" },
+          { es: "dos, en la terraza", en: "two, on the patio", category: "other" },
+        ],
+      },
+      {
+        stem: "¿Qué me recomienda…?",
+        english: "What do you recommend…? (usted)",
+        hints: {
+          que: [
+            { es: "de postre", en: "for dessert" },
+            { es: "si me gusta lo picante", en: "if I like spicy food" },
+          ],
+        },
+        completions: [
+          { es: "de postre", en: "for dessert", category: "food" },
+          { es: "si me gusta lo picante", en: "if I like spicy food", category: "food" },
+          { es: "para empezar", en: "to start with", category: "food" },
+          { es: "de la carta", en: "from the menu", category: "food" },
+          { es: "para alguien vegetariano", en: "for someone vegetarian", category: "food" },
+        ],
+      },
+      {
+        stem: "Sin…, por favor",
+        english: "Without…, please",
+        hints: {
+          que: [
+            { es: "cebolla", en: "onion" },
+            { es: "hielo", en: "ice" },
+            { es: "cilantro", en: "cilantro" },
+          ],
+        },
+        completions: [
+          { es: "cebolla", en: "onion", category: "food" },
+          { es: "hielo", en: "ice", category: "food" },
+          { es: "cilantro", en: "cilantro", category: "food" },
+          { es: "queso", en: "cheese", category: "food" },
+          { es: "picante", en: "spice / heat", category: "food" },
+        ],
+      },
+      {
+        stem: "¿Está incluido…?",
+        english: "Is … included?",
+        hints: {
+          que: [
+            { es: "la propina", en: "the tip" },
+            { es: "el postre en el menú del día", en: "dessert in the daily special" },
+            { es: "el desayuno", en: "breakfast" },
+          ],
+        },
+        completions: [
+          { es: "la propina", en: "the tip", category: "other" },
+          { es: "el postre en el menú del día", en: "dessert in the daily special", category: "food" },
+          { es: "el desayuno", en: "breakfast", category: "food" },
+          { es: "el servicio", en: "the service charge", category: "other" },
+          { es: "el pan", en: "the bread", category: "food" },
+        ],
+      },
+      {
+        stem: "¿Nos trae…?",
+        english: "Could you bring us…?",
+        hints: {
+          que: [
+            { es: "la cuenta, por favor", en: "the check, please" },
+            { es: "más pan, por favor", en: "more bread, please" },
+            { es: "la cuenta cuando pueda", en: "the check when you can" },
+          ],
+        },
+        completions: [
+          { es: "la cuenta, por favor", en: "the check, please", category: "other" },
+          { es: "más pan, por favor", en: "more bread, please", category: "food" },
+          { es: "la cuenta cuando pueda", en: "the check when you can", category: "other" },
+          { es: "agua para la mesa", en: "water for the table", category: "food" },
+          { es: "dos cucharas más", en: "two more spoons", category: "other" },
+        ],
+      },
+    ],
+  },
+  {
+    day: 28,
+    theme: "Repaso: Asking",
+    stems: [
+      {
+        stem: "Me da…, por favor",
+        english: "I'll have…, please",
+        hints: {
+          que: [
+            { es: "dos empanadas", en: "two empanadas" },
+            { es: "un boleto para las tres", en: "a ticket for three o'clock" },
+            { es: "una bolsa", en: "a bag" },
+          ],
+        },
+        completions: [
+          { es: "dos empanadas", en: "two empanadas", category: "food" },
+          { es: "un boleto para las tres", en: "a ticket for three o'clock", category: "other" },
+          { es: "una bolsa", en: "a bag", category: "other" },
+          { es: "uno de cada", en: "one of each", category: "food" },
+          { es: "tres tamales", en: "three tamales", category: "food" },
+        ],
+      },
+      {
+        stem: "Estoy buscando…",
+        english: "I'm looking for…",
+        hints: {
+          que: [
+            { es: "la sección de niños", en: "the children's section" },
+            { es: "un vestido para una boda", en: "a dress for a wedding" },
+            { es: "un lugar tranquilo para leer", en: "a quiet place to read" },
+          ],
+        },
+        completions: [
+          { es: "la sección de niños", en: "the children's section", category: "other" },
+          { es: "un vestido para una boda", en: "a dress for a wedding", category: "other" },
+          { es: "un lugar tranquilo para leer", en: "a quiet place to read", category: "other" },
+          { es: "la salida", en: "the exit", category: "other" },
+          { es: "algo para regalar", en: "something to give as a gift", category: "other" },
+        ],
+      },
+      {
+        stem: "¿Cómo llego a…?",
+        english: "How do I get to…?",
+        hints: {
+          que: [
+            { es: "la playa desde aquí", en: "the beach from here" },
+            { es: "el hotel si no hay taxis", en: "the hotel if there are no taxis" },
+            { es: "el mercado central", en: "the central market" },
+          ],
+        },
+        completions: [
+          { es: "la playa desde aquí", en: "the beach from here", category: "activity" },
+          { es: "el hotel si no hay taxis", en: "the hotel if there are no taxis", category: "activity" },
+          { es: "el mercado central", en: "the central market", category: "other" },
+          { es: "la estación más cercana", en: "the nearest station", category: "other" },
+          { es: "el museo", en: "the museum", category: "other" },
+        ],
+      },
+      {
+        stem: "¿Me prestas…?",
+        english: "Will you lend me…?",
+        hints: {
+          que: [
+            { es: "tu paraguas", en: "your umbrella" },
+            { es: "cinco dólares", en: "five dollars" },
+            { es: "tus apuntes de la reunión", en: "your notes from the meeting" },
+          ],
+        },
+        completions: [
+          { es: "tu paraguas", en: "your umbrella", category: "other" },
+          { es: "cinco dólares", en: "five dollars", category: "other" },
+          { es: "tus apuntes de la reunión", en: "your notes from the meeting", category: "other" },
+          { es: "tu cargador", en: "your charger", category: "other" },
+          { es: "un bolígrafo", en: "a pen", category: "other" },
+        ],
+      },
+      {
+        stem: "¿Qué me recomienda…?",
+        english: "What do you recommend…? (usted)",
+        hints: {
+          que: [
+            { es: "para llevar a casa", en: "to take home" },
+            { es: "de la región", en: "from the region" },
+            { es: "para alguien que apenas está aprendiendo español", en: "for someone just learning Spanish" },
+          ],
+        },
+        completions: [
+          { es: "para llevar a casa", en: "to take home", category: "food" },
+          { es: "de la región", en: "from the region", category: "food" },
+          { es: "para alguien que apenas está aprendiendo español", en: "for someone just learning Spanish", category: "food" },
+          { es: "de postre", en: "for dessert", category: "food" },
+          { es: "si no como carne", en: "if I don't eat meat", category: "food" },
+        ],
+      },
+    ],
+  },
+  {
+    day: 29,
+    theme: "Good News",
+    stems: [
+      {
+        stem: "¡Qué bueno que…!",
+        english: "I'm so glad that…!",
+        hints: {
+          que: [
+            { es: "viniste", en: "you came" },
+            { es: "pasaste el examen", en: "you passed the exam" },
+            { es: "ya te sientes mejor", en: "you're feeling better now" },
+          ],
+        },
+        completions: [
+          { es: "viniste", en: "you came", category: "other" },
+          { es: "pasaste el examen", en: "you passed the exam", category: "other" },
+          { es: "ya te sientes mejor", en: "you're feeling better now", category: "other" },
+          { es: "llegaste bien", en: "you arrived safely", category: "other" },
+          { es: "encontraste apartamento", en: "you found an apartment", category: "other" },
+        ],
+      },
+      {
+        stem: "¡Felicidades por…!",
+        english: "Congratulations on…!",
+        hints: {
+          que: [
+            { es: "el trabajo nuevo", en: "the new job" },
+            { es: "tu graduación", en: "your graduation" },
+            { es: "el bebé", en: "the baby" },
+          ],
+        },
+        completions: [
+          { es: "el trabajo nuevo", en: "the new job", category: "other" },
+          { es: "tu graduación", en: "your graduation", category: "other" },
+          { es: "el bebé", en: "the baby", category: "other" },
+          { es: "el ascenso", en: "the promotion", category: "other" },
+          { es: "tu proyecto", en: "your project", category: "other" },
+        ],
+      },
+      {
+        stem: "Me alegro por…",
+        english: "I'm happy for…",
+        hints: {
+          que: [
+            { es: "ti", en: "you" },
+            { es: "ustedes dos", en: "you two" },
+            { es: "tu familia", en: "your family" },
+          ],
+        },
+        completions: [
+          { es: "ti", en: "you", category: "other" },
+          { es: "ustedes dos", en: "you two", category: "other" },
+          { es: "tu familia", en: "your family", category: "other" },
+          { es: "todos", en: "everyone", category: "other" },
+          { es: "el equipo", en: "the team", category: "other" },
+        ],
+      },
+      {
+        stem: "¡No me digas! Cuéntame…",
+        english: "No way! Tell me…",
+        hints: {
+          que: [
+            { es: "todo", en: "everything" },
+            { es: "cómo pasó", en: "how it happened" },
+            { es: "más", en: "more" },
+          ],
+        },
+        completions: [
+          { es: "todo", en: "everything", category: "other" },
+          { es: "cómo pasó", en: "how it happened", category: "other" },
+          { es: "más", en: "more", category: "other" },
+          { es: "los detalles", en: "the details", category: "other" },
+          { es: "cómo te fue", en: "how it went for you", category: "other" },
+        ],
+      },
+      {
+        stem: "Qué emoción…",
+        english: "How exciting…",
+        hints: {
+          que: [
+            { es: "ya quiero verlo", en: "I can't wait to see it" },
+            { es: "lo de tu viaje", en: "your trip news" },
+          ],
+          cuando: [
+            { es: "¿cuándo empiezas?", en: "when do you start?" },
+          ],
+        },
+        completions: [
+          { es: "ya quiero verlo", en: "I can't wait to see it", category: "other" },
+          { es: "lo de tu viaje", en: "your trip news", category: "activity" },
+          { es: "me muero por saber más", en: "I'm dying to know more", category: "other" },
+          { es: "no veo la hora", en: "I can't wait", category: "other" },
+          { es: "qué buena noticia", en: "what great news", category: "other" },
+        ],
+      },
+    ],
+  },
+  {
+    day: 30,
+    theme: "Hard News",
+    stems: [
+      {
+        stem: "Lo siento mucho por…",
+        english: "I'm so sorry about…",
+        hints: {
+          que: [
+            { es: "tu pérdida", en: "your loss" },
+            { es: "lo que pasó", en: "what happened" },
+            { es: "las malas noticias", en: "the bad news" },
+          ],
+        },
+        completions: [
+          { es: "tu pérdida", en: "your loss", category: "other" },
+          { es: "lo que pasó", en: "what happened", category: "other" },
+          { es: "las malas noticias", en: "the bad news", category: "other" },
+          { es: "esa semana tan dura", en: "that hard week", category: "other" },
+          { es: "todo esto", en: "all of this", category: "other" },
+        ],
+      },
+      {
+        stem: "Qué difícil…",
+        english: "How hard…",
+        hints: {
+          que: [
+            { es: "no sé qué decir", en: "I don't know what to say" },
+            { es: "lo que estás pasando", en: "what you're going through" },
+            { es: "para toda la familia", en: "for the whole family" },
+          ],
+        },
+        completions: [
+          { es: "no sé qué decir", en: "I don't know what to say", category: "other" },
+          { es: "lo que estás pasando", en: "what you're going through", category: "other" },
+          { es: "para toda la familia", en: "for the whole family", category: "other" },
+          { es: "esa decisión", en: "that decision", category: "other" },
+          { es: "cuando pasa todo a la vez", en: "when everything happens at once", category: "other" },
+        ],
+      },
+      {
+        stem: "Espero que se mejore…",
+        english: "I hope they get better…",
+        hints: {
+          que: [
+            { es: "pronto", en: "soon" },
+            { es: "tu mamá", en: "your mom" },
+            { es: "todo en casa", en: "everything at home" },
+          ],
+          cuando: [
+            { es: "rápido", en: "quickly" },
+          ],
+        },
+        completions: [
+          { es: "pronto", en: "soon", category: "other" },
+          { es: "tu mamá", en: "your mom", category: "other" },
+          { es: "todo en casa", en: "everything at home", category: "other" },
+          { es: "tu situación", en: "your situation", category: "other" },
+          { es: "en poco tiempo", en: "in a little while", category: "time" },
+        ],
+      },
+      {
+        stem: "Cuenta conmigo para…",
+        english: "Count on me for…",
+        hints: {
+          que: [
+            { es: "lo que necesites", en: "whatever you need" },
+            { es: "cuidar a los niños", en: "watching the kids" },
+            { es: "lo que sea", en: "anything" },
+          ],
+        },
+        completions: [
+          { es: "lo que necesites", en: "whatever you need", category: "other" },
+          { es: "cuidar a los niños", en: "watching the kids", category: "activity" },
+          { es: "lo que sea", en: "anything", category: "other" },
+          { es: "ayudarte mañana", en: "helping you tomorrow", category: "activity" },
+          { es: "escuchar", en: "listening", category: "other" },
+        ],
+      },
+      {
+        stem: "Si necesitas algo…",
+        english: "If you need anything…",
+        hints: {
+          que: [
+            { es: "me avisas", en: "let me know" },
+            { es: "aquí estoy", en: "I'm here" },
+            { es: "llámame a cualquier hora", en: "call me anytime" },
+          ],
+        },
+        completions: [
+          { es: "me avisas", en: "let me know", category: "other" },
+          { es: "aquí estoy", en: "I'm here", category: "other" },
+          { es: "llámame a cualquier hora", en: "call me anytime", category: "other" },
+          { es: "escríbeme", en: "write me", category: "other" },
+          { es: "dímelo", en: "tell me", category: "other" },
+        ],
+      },
+    ],
+  },
+  {
+    day: 31,
+    theme: "Agreeing",
+    stems: [
+      {
+        stem: "Estoy de acuerdo con…",
+        english: "I agree with…",
+        hints: {
+          que: [
+            { es: "ti", en: "you" },
+            { es: "esa idea", en: "that idea" },
+            { es: "casi todo lo que dijiste", en: "almost everything you said" },
+          ],
+        },
+        completions: [
+          { es: "ti", en: "you", category: "opinion" },
+          { es: "esa idea", en: "that idea", category: "opinion" },
+          { es: "casi todo lo que dijiste", en: "almost everything you said", category: "opinion" },
+          { es: "tu plan", en: "your plan", category: "opinion" },
+          { es: "lo que propones", en: "what you're proposing", category: "opinion" },
+        ],
+      },
+      {
+        stem: "Tienes razón en…",
+        english: "You're right about…",
+        hints: {
+          que: [
+            { es: "eso", en: "that" },
+            { es: "lo del horario", en: "the schedule thing" },
+            { es: "no lo había pensado así", en: "I hadn't thought of it that way" },
+          ],
+        },
+        completions: [
+          { es: "eso", en: "that", category: "opinion" },
+          { es: "lo del horario", en: "the schedule thing", category: "opinion" },
+          { es: "no lo había pensado así", en: "I hadn't thought of it that way", category: "opinion" },
+          { es: "lo del precio", en: "the price thing", category: "opinion" },
+          { es: "todo eso", en: "all of that", category: "opinion" },
+        ],
+      },
+      {
+        stem: "Claro que…",
+        english: "Of course…",
+        hints: {
+          que: [
+            { es: "sí", en: "yes" },
+            { es: "vale la pena", en: "it's worth it" },
+            { es: "puedes", en: "you can" },
+          ],
+        },
+        completions: [
+          { es: "sí", en: "yes", category: "opinion" },
+          { es: "vale la pena", en: "it's worth it", category: "opinion" },
+          { es: "puedes", en: "you can", category: "other" },
+          { es: "cuenta conmigo", en: "count on me", category: "other" },
+          { es: "lo intentaremos", en: "we'll try", category: "activity" },
+        ],
+      },
+      {
+        stem: "Yo también…",
+        english: "Me too / I also…",
+        hints: {
+          que: [
+            { es: "lo creo", en: "I believe it too" },
+            { es: "estoy cansada hoy", en: "I'm tired today too" },
+            { es: "quiero ir", en: "I want to go too" },
+          ],
+        },
+        completions: [
+          { es: "lo creo", en: "I believe it too", category: "opinion" },
+          { es: "estoy cansada hoy", en: "I'm tired today too", category: "other" },
+          { es: "quiero ir", en: "I want to go too", category: "activity" },
+          { es: "pensé lo mismo", en: "I thought the same thing", category: "opinion" },
+          { es: "necesito un descanso", en: "I need a break too", category: "other" },
+        ],
+      },
+      {
+        stem: "A mí también…",
+        english: "Me too (with gustar-verbs)",
+        hints: {
+          que: [
+            { es: "me gusta", en: "I like it too" },
+            { es: "me encanta ese lugar", en: "I love that place too" },
+            { es: "me gusta el café", en: "I like coffee too" },
+          ],
+        },
+        completions: [
+          { es: "me gusta", en: "I like it too", category: "opinion" },
+          { es: "me encanta ese lugar", en: "I love that place too", category: "opinion" },
+          { es: "me gusta caminar por la mañana", en: "I like walking in the morning too", category: "activity" },
+          { es: "me parece bien", en: "it seems fine to me too", category: "opinion" },
+          { es: "me interesa", en: "I'm interested too", category: "opinion" },
+        ],
+      },
+    ],
+  },
+  {
+    day: 32,
+    theme: "Disagreeing Softly",
+    stems: [
+      {
+        stem: "Sí, pero…",
+        english: "Yes, but…",
+        hints: {
+          que: [
+            { es: "no es tan fácil", en: "it's not that easy" },
+            { es: "hay otra manera de verlo", en: "there's another way to see it" },
+            { es: "primero tengo que terminar esto", en: "first I have to finish this" },
+          ],
+        },
+        completions: [
+          { es: "no es tan fácil", en: "it's not that easy", category: "opinion" },
+          { es: "hay otra manera de verlo", en: "there's another way to see it", category: "opinion" },
+          { es: "primero tengo que terminar esto", en: "first I have to finish this", category: "other" },
+          { es: "depende del día", en: "it depends on the day", category: "opinion" },
+          { es: "necesito pensarlo más", en: "I need to think about it more", category: "opinion" },
+        ],
+      },
+      {
+        stem: "Depende de…",
+        english: "It depends on…",
+        hints: {
+          que: [
+            { es: "cómo lo mires", en: "how you look at it" },
+            { es: "la situación", en: "the situation" },
+            { es: "el horario", en: "the schedule" },
+          ],
+        },
+        completions: [
+          { es: "cómo lo mires", en: "how you look at it", category: "opinion" },
+          { es: "la situación", en: "the situation", category: "other" },
+          { es: "el horario", en: "the schedule", category: "time" },
+          { es: "cuánto tiempo tengas", en: "how much time you have", category: "time" },
+          { es: "los detalles", en: "the details", category: "other" },
+        ],
+      },
+      {
+        stem: "No estoy tan segura de…",
+        english: "I'm not so sure about…",
+        hints: {
+          que: [
+            { es: "eso", en: "that" },
+            { es: "que sea buena idea", en: "that it's a good idea" },
+            { es: "el plan", en: "the plan" },
+          ],
+        },
+        completions: [
+          { es: "eso", en: "that", category: "opinion" },
+          { es: "que sea buena idea", en: "that it's a good idea", category: "opinion" },
+          { es: "el plan", en: "the plan", category: "opinion" },
+          { es: "que funcione así", en: "that it works that way", category: "opinion" },
+          { es: "tener razón ahí", en: "being right about that", category: "opinion" },
+        ],
+      },
+      {
+        stem: "No sé, creo que…",
+        english: "I don't know, I think…",
+        hints: {
+          que: [
+            { es: "es más complicado", en: "it's more complicated" },
+            { es: "hay mejores opciones", en: "there are better options" },
+            { es: "yo lo haría diferente", en: "I'd do it differently" },
+          ],
+        },
+        completions: [
+          { es: "es más complicado", en: "it's more complicated", category: "opinion" },
+          { es: "hay mejores opciones", en: "there are better options", category: "opinion" },
+          { es: "yo lo haría diferente", en: "I'd do it differently", category: "opinion" },
+          { es: "necesitamos más tiempo", en: "we need more time", category: "time" },
+          { es: "podemos esperar", en: "we can wait", category: "opinion" },
+        ],
+      },
+      {
+        stem: "En mi caso…",
+        english: "In my case…",
+        hints: {
+          que: [
+            { es: "fue al revés", en: "it was the opposite" },
+            { es: "funciona mejor por la mañana", en: "it works better in the morning" },
+            { es: "el café es obligatorio", en: "coffee is mandatory" },
+          ],
+        },
+        completions: [
+          { es: "fue al revés", en: "it was the opposite", category: "other" },
+          { es: "funciona mejor por la mañana", en: "it works better in the morning", category: "time" },
+          { es: "el café es obligatorio", en: "coffee is mandatory", category: "food" },
+          { es: "prefiero ir despacio", en: "I prefer to go slowly", category: "opinion" },
+          { es: "me ayuda practicar en voz alta", en: "practicing out loud helps me", category: "activity" },
+        ],
+      },
+    ],
+  },
+  {
+    day: 33,
+    theme: "Showing Interest",
+    stems: [
+      {
+        stem: "¿En serio?",
+        english: "Really?",
+        hints: {
+          que: [
+            { es: "no lo puedo creer", en: "I can't believe it" },
+            { es: "¿y qué dijiste?", en: "and what did you say?" },
+            { es: "¿cuándo pasó eso?", en: "when did that happen?" },
+          ],
+        },
+        completions: [
+          { es: "no lo puedo creer", en: "I can't believe it", category: "other" },
+          { es: "¿y qué dijiste?", en: "and what did you say?", category: "other" },
+          { es: "¿cuándo pasó eso?", en: "when did that happen?", category: "time" },
+          { es: "cuéntame más", en: "tell me more", category: "other" },
+          { es: "qué locura", en: "how crazy", category: "other" },
+        ],
+      },
+      {
+        stem: "¿Y luego qué pasó con…?",
+        english: "And then what happened with…?",
+        hints: {
+          que: [
+            { es: "tu vecino", en: "your neighbor" },
+            { es: "la entrevista", en: "the interview" },
+            { es: "el proyecto", en: "the project" },
+          ],
+        },
+        completions: [
+          { es: "tu vecino", en: "your neighbor", category: "other" },
+          { es: "la entrevista", en: "the interview", category: "other" },
+          { es: "el proyecto", en: "the project", category: "other" },
+          { es: "la mudanza", en: "the move", category: "other" },
+          { es: "el examen", en: "the exam", category: "other" },
+        ],
+      },
+      {
+        stem: "Cuéntame más de…",
+        english: "Tell me more about…",
+        hints: {
+          que: [
+            { es: "tu viaje", en: "your trip" },
+            { es: "esa amiga", en: "that friend" },
+            { es: "tu nuevo trabajo", en: "your new job" },
+          ],
+        },
+        completions: [
+          { es: "tu viaje", en: "your trip", category: "activity" },
+          { es: "esa amiga", en: "that friend", category: "other" },
+          { es: "tu nuevo trabajo", en: "your new job", category: "other" },
+          { es: "tu familia", en: "your family", category: "other" },
+          { es: "cómo te sientes", en: "how you're feeling", category: "other" },
+        ],
+      },
+      {
+        stem: "¿Cómo te fue con…?",
+        english: "How did it go with…?",
+        hints: {
+          que: [
+            { es: "el doctor", en: "the doctor" },
+            { es: "el examen", en: "the exam" },
+            { es: "la mudanza", en: "the move" },
+          ],
+        },
+        completions: [
+          { es: "el doctor", en: "the doctor", category: "other" },
+          { es: "el examen", en: "the exam", category: "other" },
+          { es: "la mudanza", en: "the move", category: "other" },
+          { es: "la presentación", en: "the presentation", category: "other" },
+          { es: "tu mamá el domingo", en: "your mom on Sunday", category: "other" },
+        ],
+      },
+      {
+        stem: "Suena…",
+        english: "That sounds…",
+        hints: {
+          que: [
+            { es: "increíble", en: "incredible" },
+            { es: "complicado", en: "complicated" },
+            { es: "a que necesitas unas vacaciones", en: "like you need a vacation" },
+          ],
+        },
+        completions: [
+          { es: "increíble", en: "incredible", category: "other" },
+          { es: "complicado", en: "complicated", category: "other" },
+          { es: "a que necesitas unas vacaciones", en: "like you need a vacation", category: "other" },
+          { es: "emocionante", en: "exciting", category: "other" },
+          { es: "difícil", en: "hard", category: "other" },
+        ],
+      },
+    ],
+  },
+  {
+    day: 34,
+    theme: "Encouraging",
+    stems: [
+      {
+        stem: "Lo estás haciendo…",
+        english: "You're doing it…",
+        hints: {
+          que: [
+            { es: "muy bien", en: "very well" },
+            { es: "mejor de lo que crees", en: "better than you think" },
+            { es: "con mucho cuidado", en: "with a lot of care" },
+          ],
+          como: [
+            { es: "muy bien", en: "very well" },
+            { es: "con calma", en: "calmly" },
+          ],
+        },
+        completions: [
+          { es: "muy bien", en: "very well", category: "other" },
+          { es: "mejor de lo que crees", en: "better than you think", category: "other" },
+          { es: "con mucho cuidado", en: "with a lot of care", category: "other" },
+          { es: "genial", en: "great", category: "other" },
+          { es: "mejor cada día", en: "better every day", category: "other" },
+        ],
+      },
+      {
+        stem: "Vas muy bien con…",
+        english: "You're doing great with…",
+        hints: {
+          que: [
+            { es: "la lectura", en: "reading" },
+            { es: "el inglés", en: "English" },
+            { es: "los verbos", en: "verbs" },
+          ],
+        },
+        completions: [
+          { es: "la lectura", en: "reading", category: "activity" },
+          { es: "el inglés", en: "English", category: "activity" },
+          { es: "los verbos", en: "verbs", category: "activity" },
+          { es: "la pronunciación", en: "pronunciation", category: "activity" },
+          { es: "las conversaciones", en: "conversations", category: "activity" },
+        ],
+      },
+      {
+        stem: "No te preocupes por…",
+        english: "Don't worry about…",
+        hints: {
+          que: [
+            { es: "los errores", en: "mistakes" },
+            { es: "el examen", en: "the exam" },
+            { es: "eso ahora", en: "that right now" },
+          ],
+        },
+        completions: [
+          { es: "los errores", en: "mistakes", category: "other" },
+          { es: "el examen", en: "the exam", category: "other" },
+          { es: "eso ahora", en: "that right now", category: "other" },
+          { es: "equivocarte", en: "making mistakes", category: "other" },
+          { es: "lo que piensen los demás", en: "what others think", category: "other" },
+        ],
+      },
+      {
+        stem: "Sigue practicando…",
+        english: "Keep practicing…",
+        hints: {
+          que: [
+            { es: "todos los días", en: "every day" },
+            { es: "en voz alta", en: "out loud" },
+          ],
+          como: [
+            { es: "poco a poco", en: "little by little" },
+            { es: "con calma", en: "calmly" },
+          ],
+        },
+        completions: [
+          { es: "todos los días", en: "every day", category: "time" },
+          { es: "en voz alta", en: "out loud", category: "activity" },
+          { es: "un poco cada mañana", en: "a little each morning", category: "time" },
+          { es: "sin miedo", en: "without fear", category: "other" },
+          { es: "vas a llegar", en: "you'll get there", category: "other" },
+        ],
+      },
+      {
+        stem: "Cada día… mejor",
+        english: "Every day… better",
+        hints: {
+          que: [
+            { es: "hablas", en: "you speak" },
+            { es: "entiendes más", en: "you understand more" },
+            { es: "un poco", en: "a little" },
+          ],
+        },
+        completions: [
+          { es: "hablas", en: "you speak", category: "activity" },
+          { es: "entiendes más", en: "you understand more", category: "activity" },
+          { es: "un poco", en: "a little", category: "other" },
+          { es: "suena más natural", en: "it sounds more natural", category: "activity" },
+          { es: "te sientes más segura", en: "you feel more confident", category: "other" },
+        ],
+      },
+    ],
+  },
+  {
+    day: 35,
+    theme: "Repaso: Reacting",
+    stems: [
+      {
+        stem: "¡Qué bueno que…!",
+        english: "I'm so glad that…!",
+        hints: {
+          que: [
+            { es: "encontraste apartamento", en: "you found an apartment" },
+            { es: "te dieron el puesto", en: "you got the job" },
+            { es: "llegaste bien", en: "you arrived safely" },
+          ],
+        },
+        completions: [
+          { es: "encontraste apartamento", en: "you found an apartment", category: "other" },
+          { es: "te dieron el puesto", en: "you got the job", category: "other" },
+          { es: "llegaste bien", en: "you arrived safely", category: "other" },
+          { es: "pasaste la entrevista", en: "you passed the interview", category: "other" },
+          { es: "todo salió bien", en: "everything went well", category: "other" },
+        ],
+      },
+      {
+        stem: "Qué difícil…",
+        english: "How hard…",
+        hints: {
+          que: [
+            { es: "esa semana, de verdad", en: "that week, really" },
+            { es: "decisión", en: "decision" },
+            { es: "cuando pasa todo a la vez", en: "when everything happens at once" },
+          ],
+        },
+        completions: [
+          { es: "esa semana, de verdad", en: "that week, really", category: "other" },
+          { es: "decisión", en: "decision", category: "other" },
+          { es: "cuando pasa todo a la vez", en: "when everything happens at once", category: "other" },
+          { es: "lo que te pasó", en: "what happened to you", category: "other" },
+          { es: "para ti", en: "for you", category: "other" },
+        ],
+      },
+      {
+        stem: "Yo también…",
+        english: "Me too / I also…",
+        hints: {
+          que: [
+            { es: "tuve una semana así", en: "I had a week like that" },
+            { es: "necesito un descanso", en: "I need a break" },
+            { es: "pensé lo mismo", en: "I thought the same thing" },
+          ],
+        },
+        completions: [
+          { es: "tuve una semana así", en: "I had a week like that", category: "other" },
+          { es: "necesito un descanso", en: "I need a break", category: "other" },
+          { es: "pensé lo mismo", en: "I thought the same thing", category: "opinion" },
+          { es: "estoy agotada", en: "I'm exhausted", category: "other" },
+          { es: "me sentí así", en: "I felt that way", category: "other" },
+        ],
+      },
+      {
+        stem: "¿Cómo te fue con…?",
+        english: "How did it go with…?",
+        hints: {
+          que: [
+            { es: "la presentación al final", en: "the presentation in the end" },
+            { es: "tu mamá el domingo", en: "your mom on Sunday" },
+            { es: "el resto de la semana", en: "the rest of the week" },
+          ],
+        },
+        completions: [
+          { es: "la presentación al final", en: "the presentation in the end", category: "other" },
+          { es: "tu mamá el domingo", en: "your mom on Sunday", category: "other" },
+          { es: "el resto de la semana", en: "the rest of the week", category: "time" },
+          { es: "el médico", en: "the doctor", category: "other" },
+          { es: "la conversación difícil", en: "the hard conversation", category: "other" },
+        ],
+      },
+      {
+        stem: "No te preocupes por…",
+        english: "Don't worry about…",
+        hints: {
+          que: [
+            { es: "contestarme rápido", en: "replying quickly" },
+            { es: "la cena, yo llevo algo", en: "dinner — I'll bring something" },
+            { es: "lo que piensen los demás", en: "what others think" },
+          ],
+        },
+        completions: [
+          { es: "contestarme rápido", en: "replying quickly", category: "other" },
+          { es: "la cena, yo llevo algo", en: "dinner — I'll bring something", category: "food" },
+          { es: "lo que piensen los demás", en: "what others think", category: "other" },
+          { es: "los errores", en: "mistakes", category: "other" },
+          { es: "eso ahora", en: "that right now", category: "other" },
         ],
       },
     ],
