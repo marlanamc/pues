@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, afterEach } from "vitest";
 import {
   currentStreak,
   last7Days,
@@ -8,7 +8,7 @@ import type { Thought } from "@/lib/store";
 
 const now = new Date("2026-06-23T12:00:00Z");
 
-function on(date: string): Thought {
+function on(date: string, time = "10:00:00Z"): Thought {
   return {
     id: date,
     frameStem: "yo",
@@ -16,9 +16,16 @@ function on(date: string): Thought {
     situationLabel: "S",
     sentence: "hola",
     reflection: "yes",
-    createdAt: `${date}T10:00:00Z`,
+    createdAt: `${date}T${time}`,
   };
 }
+
+const originalTz = process.env.TZ;
+
+afterEach(() => {
+  if (originalTz === undefined) delete process.env.TZ;
+  else process.env.TZ = originalTz;
+});
 
 describe("practiceDatesFromThoughts", () => {
   it("collapses thoughts to unique YYYY-MM-DD days", () => {
@@ -45,6 +52,14 @@ describe("currentStreak", () => {
 
   it("is zero with no practice", () => {
     expect(currentStreak(new Set(), now)).toBe(0);
+  });
+
+  it("counts yesterday evening practice in US Eastern time", () => {
+    process.env.TZ = "America/New_York";
+    const practiced = practiceDatesFromThoughts([
+      on("2026-07-02", "23:00:00.000Z"),
+    ]);
+    expect(currentStreak(practiced, new Date("2026-07-03T23:00:00.000Z"))).toBe(1);
   });
 });
 

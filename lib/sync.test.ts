@@ -37,7 +37,7 @@ describe("mergeStats", () => {
     expect([...merged.framesExplored].sort()).toEqual(["tu", "yo"]);
   });
 
-  it("keeps local day progress when the local write is newer (same calendar day)", () => {
+  it("keeps the furthest curriculum day when devices disagree", () => {
     const local = { ...baseStats, currentDayIndex: 3, lastSessionDate: "2026-06-23" };
     const remote = {
       days_practiced: 0,
@@ -46,23 +46,23 @@ describe("mergeStats", () => {
       last_session_date: "2026-06-23",
       current_day_index: 5,
     };
-    // Local written at 10:05, remote at 10:00 — local is newer.
     const merged = mergeStats(local, remote, "2026-06-23T10:05:00Z", "2026-06-23T10:00:00Z");
-    expect(merged.currentDayIndex).toBe(3);
+    expect(merged.currentDayIndex).toBe(5);
     expect(merged.lastSessionDate).toBe("2026-06-23");
   });
 
-  it("adopts remote day progress when the remote write is newer", () => {
+  it("does not roll back day progress when the remote write is newer but lower", () => {
     const local = { ...baseStats, currentDayIndex: 3, lastSessionDate: "2026-06-23" };
     const remote = {
       days_practiced: 0,
       sentences_created: 0,
       frames_explored: [],
-      last_session_date: "2026-06-23",
-      current_day_index: 5,
+      last_session_date: "2026-06-22",
+      current_day_index: 0,
     };
     const merged = mergeStats(local, remote, "2026-06-23T10:00:00Z", "2026-06-23T10:05:00Z");
-    expect(merged.currentDayIndex).toBe(5);
+    expect(merged.currentDayIndex).toBe(3);
+    expect(merged.lastSessionDate).toBe("2026-06-23");
   });
 });
 

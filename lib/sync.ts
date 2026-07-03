@@ -19,8 +19,9 @@
  * module listens for that, debounces, and pushes the changed key upstream.
  *
  * Durability:
- *  - Merges are last-write-wins by *timestamp* (not date string), so two devices
- *    practicing the same day don't clobber each other's day progress.
+ *  - Merges are last-write-wins by *timestamp* for preferences and questionnaire
+ *    fields. Additive stats (counters, curriculum day) take the max from each
+ *    side so a stale device cannot roll back progress.
  *  - Voice recordings (IndexedDB) round-trip through the `recordings` bucket so
  *    they appear on every device, not just where they were captured.
  *  - Failed pushes are queued in localStorage and retried when the connection
@@ -302,31 +303,36 @@ type StatsRow = {
 };
 
 /**
- * Merge stats. Additive counters take the max from each side; the cyclic
- * `currentDayIndex` and `lastSessionDate` follow last-write-wins by timestamp so
- * the device that practiced most recently keeps its day progression. Pure —
- * exported for unit testing.
+ * Merge stats. Additive counters take the max from each side. Curriculum day
+ * (`currentDayIndex`) and `lastSessionDate` also take the max so a stale device
+ * that syncs later cannot roll back progress made on another device.
  */
 export function mergeStats(
   local: SessionStats,
   remote: StatsRow,
-  localUpdated: string,
-  remoteUpdated: string
+  _localUpdated: string,
+  _remoteUpdated: string
 ): SessionStats {
-  const remoteNewer = (remoteUpdated ?? "") > (localUpdated ?? "");
+  const remoteIndex = remote.current_day_index ?? 0;
+  const localIndex = local.currentDayIndex ?? 0;
   return {
     daysPracticed: Math.max(local.daysPracticed, remote.days_practiced ?? 0),
     sentencesCreated: Math.max(local.sentencesCreated, remote.sentences_created ?? 0),
     framesExplored: Array.from(
       new Set([...(local.framesExplored ?? []), ...(remote.frames_explored ?? [])])
     ),
-    lastSessionDate: remoteNewer
-      ? remote.last_session_date ?? local.lastSessionDate
-      : local.lastSessionDate,
-    currentDayIndex: remoteNewer
-      ? remote.current_day_index ?? local.currentDayIndex
-      : local.currentDayIndex,
+    lastSessionDate: laterSessionDate(local.lastSessionDate, remote.last_session_date),
+    currentDayIndex: Math.max(localIndex, remoteIndex),
   };
+}
+
+function laterSessionDate(
+  local: string | null | undefined,
+  remote: string | null | undefined
+): string | null {
+  if (!local) return remote ?? null;
+  if (!remote) return local;
+  return local > remote ? local : remote;
 }
 
 async function pullStats(supabase: Supabase) {
@@ -345,16 +351,24 @@ async function pullStats(supabase: Supabase) {
 
 async function pushStats(supabase: Supabase) {
   if (!userId) return;
-  const s = readLocal<SessionStats>(K.stats, EMPTY_STATS);
+  const local = readLocal<SessionStats>(K.stats, EMPTY_STATS);
+  const localUpdated = readLocal<string>(K.statsUpdated, "");
+  const { data } = await supabase.from("session_stats").select("*").maybeSingle();
+  const merged =
+    data && typeof (data as StatsRow).days_practiced === "number"
+      ? mergeStats(local, data as StatsRow, localUpdated, (data as StatsRow).updated_at ?? "")
+      : local;
+  writeLocalRaw(K.stats, merged);
+
   const now = new Date().toISOString();
   const { error } = await supabase.from("session_stats").upsert(
     {
       user_id: userId,
-      days_practiced: s.daysPracticed,
-      sentences_created: s.sentencesCreated,
-      frames_explored: s.framesExplored,
-      last_session_date: s.lastSessionDate,
-      current_day_index: s.currentDayIndex,
+      days_practiced: merged.daysPracticed,
+      sentences_created: merged.sentencesCreated,
+      frames_explored: merged.framesExplored,
+      last_session_date: merged.lastSessionDate,
+      current_day_index: merged.currentDayIndex,
       updated_at: now,
     },
     { onConflict: "user_id" }
@@ -673,7 +687,7 @@ export async function startSync() {
     return;
   }
   if (started && userId === user.id) {
-    hydrating = false;
+    await pullAll(supabase);
     return;
   }
 

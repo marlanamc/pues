@@ -1,24 +1,35 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { PageHeader, Wordmark } from "@/components/PageHeader";
 import { SettingsMenuButton } from "@/components/SettingsMenu";
 import { frameDays, totalDays } from "@/content/frames";
 import { useStats } from "@/hooks/useStats";
 import { useThoughts } from "@/hooks/useThoughts";
-
-const DAY_LETTERS = ["S", "M", "T", "W", "T", "F", "S"];
+import { currentStreak, last7Days, practiceDatesFromThoughts } from "@/lib/streak";
 
 export default function ProgressPage() {
   const { stats, hydrated } = useStats();
   const { thoughts } = useThoughts();
+  const [now, setNow] = useState<Date | null>(null);
 
-  const [today, setToday] = useState(-1);
   useEffect(() => {
-    setToday(new Date().getDay());
+    setNow(new Date());
   }, []);
-  const streak = stats.daysPracticed;
+
+  const practiced = useMemo(
+    () => practiceDatesFromThoughts(thoughts),
+    [thoughts],
+  );
+  const streak = useMemo(
+    () => currentStreak(practiced, now ?? new Date()),
+    [practiced, now],
+  );
+  const week = useMemo(
+    () => last7Days(practiced, now ?? new Date()),
+    [practiced, now],
+  );
 
   const spoken = thoughts.length;
   const todaysFrames = frameDays[stats.currentDayIndex % totalDays].frames;
@@ -93,28 +104,25 @@ export default function ProgressPage() {
             </span>
           </div>
           <div className="flex items-center justify-between gap-2">
-            {DAY_LETTERS.map((letter, i) => {
-              const active = i <= today && i > today - streak;
-              return (
-                <div
-                  key={i}
-                  className="flex flex-col items-center gap-1.5 flex-1"
+            {week.map((day) => (
+              <div
+                key={day.date}
+                className="flex flex-col items-center gap-1.5 flex-1"
+              >
+                <span
+                  className="inline-flex h-7 w-7 items-center justify-center rounded-full text-xs font-medium"
+                  style={{
+                    background: day.practiced ? "var(--accent)" : "transparent",
+                    color: day.practiced ? "var(--bg)" : "var(--ink-mute)",
+                    border: day.practiced
+                      ? "1px solid var(--accent)"
+                      : "1px solid var(--rule)",
+                  }}
                 >
-                  <span
-                    className="inline-flex h-7 w-7 items-center justify-center rounded-full text-xs font-medium"
-                    style={{
-                      background: active ? "var(--accent)" : "transparent",
-                      color: active ? "var(--bg)" : "var(--ink-mute)",
-                      border: active
-                        ? "1px solid var(--accent)"
-                        : "1px solid var(--rule)",
-                    }}
-                  >
-                    {letter}
-                  </span>
-                </div>
-              );
-            })}
+                  {day.label}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
       </section>

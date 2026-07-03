@@ -1,3 +1,4 @@
+import { addCalendarDays, calendarDateKey } from "@/lib/calendarDate";
 import type { Thought } from "@/lib/store";
 
 export type DayActivity = {
@@ -10,22 +11,22 @@ export type DayActivity = {
 const DAY_LABELS = ["D", "L", "M", "M", "J", "V", "S"] as const;
 
 export function practiceDatesFromThoughts(thoughts: Thought[]): Set<string> {
-  return new Set(thoughts.map((t) => t.createdAt.slice(0, 10)));
+  return new Set(thoughts.map((t) => calendarDateKey(new Date(t.createdAt))));
 }
 
 /** Consecutive practice days ending today, or yesterday if today is still open. */
 export function currentStreak(practiced: Set<string>, now = new Date()): number {
-  const cursor = new Date(now);
-  const today = toDateKey(cursor);
+  const today = calendarDateKey(now);
+  let cursor = now;
 
   if (!practiced.has(today)) {
-    cursor.setDate(cursor.getDate() - 1);
+    cursor = addCalendarDays(now, -1);
   }
 
   let streak = 0;
-  while (practiced.has(toDateKey(cursor))) {
+  while (practiced.has(calendarDateKey(cursor))) {
     streak += 1;
-    cursor.setDate(cursor.getDate() - 1);
+    cursor = addCalendarDays(cursor, -1);
   }
 
   return streak;
@@ -35,9 +36,8 @@ export function last7Days(practiced: Set<string>, now = new Date()): DayActivity
   const days: DayActivity[] = [];
 
   for (let offset = 6; offset >= 0; offset -= 1) {
-    const date = new Date(now);
-    date.setDate(date.getDate() - offset);
-    const key = toDateKey(date);
+    const date = addCalendarDays(now, -offset);
+    const key = calendarDateKey(date);
 
     days.push({
       date: key,
@@ -48,8 +48,4 @@ export function last7Days(practiced: Set<string>, now = new Date()): DayActivity
   }
 
   return days;
-}
-
-function toDateKey(date: Date): string {
-  return date.toISOString().slice(0, 10);
 }

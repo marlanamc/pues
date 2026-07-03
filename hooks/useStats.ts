@@ -11,7 +11,7 @@ const EMPTY: SessionStats = {
   currentDayIndex: 0,
 };
 
-const STATS_EVENT = "pues:stats-change";
+const STATS_EVENTS = ["pues:stats-change", "pues:sync-change"] as const;
 
 export function useStats() {
   const [stats, setStats] = useState<SessionStats>(EMPTY);
@@ -29,11 +29,15 @@ export function useStats() {
       refresh();
     }
 
-    window.addEventListener(STATS_EVENT, sync);
+    for (const event of STATS_EVENTS) {
+      window.addEventListener(event, sync);
+    }
     window.addEventListener("focus", sync);
     window.addEventListener("storage", sync);
     return () => {
-      window.removeEventListener(STATS_EVENT, sync);
+      for (const event of STATS_EVENTS) {
+        window.removeEventListener(event, sync);
+      }
       window.removeEventListener("focus", sync);
       window.removeEventListener("storage", sync);
     };

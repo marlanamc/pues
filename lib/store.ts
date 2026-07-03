@@ -6,6 +6,8 @@
  * without touching call sites.
  */
 
+import { calendarDateKey } from "@/lib/calendarDate";
+
 // Self-assessment from the Reveal screen (warm check-in, not a grade):
 //   yes        → "Lo dije con soltura"
 //   maybe      → "Casi — por poco"
@@ -122,7 +124,7 @@ const K_SIDEBAR_VISIBLE = "pues:sidebar-visible";
 const K_PHRASE_ENGLISH_VISIBLE = "pues:phrase-english-visible";
 
 function todayKey(): string {
-  return new Date().toISOString().slice(0, 10);
+  return calendarDateKey(new Date());
 }
 
 const EMPTY_STATS: SessionStats = {
@@ -271,7 +273,7 @@ export function setCurrentDayIndex(index: number): SessionStats {
 
 function bumpStats(thought: Thought) {
   const prev = getStats();
-  const today = thought.createdAt.slice(0, 10);
+  const today = calendarDateKey(new Date(thought.createdAt));
   const isNewDay = prev.lastSessionDate !== today;
   const framesExplored = prev.framesExplored.includes(thought.frameStem)
     ? prev.framesExplored
