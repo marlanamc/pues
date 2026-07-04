@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ThemePicker } from "@/components/ThemePicker";
 import { AudioSpeedToggle } from "@/components/AudioSpeedToggle";
+import { EnglishGlossToggle } from "@/components/EnglishGlossToggle";
+import { TextSizeToggle } from "@/components/TextSizeToggle";
 import { createClient } from "@/lib/supabase/client";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
 
@@ -106,14 +108,22 @@ export function SettingsMenuButton({
         <div
           role="menu"
           aria-label="Settings"
-          className={`absolute z-50 w-64 rounded-lg border border-rule bg-surface p-4 shadow-soft space-y-4 ${menuPositionClass[placement]}`}
+          className={`absolute z-50 w-72 rounded-lg border border-rule bg-surface p-4 shadow-soft space-y-4 ${menuPositionClass[placement]}`}
         >
           <div className="space-y-2">
             <span className="text-caption text-ink-mute">Tema</span>
             <ThemePicker compact />
           </div>
           <div className="flex items-center justify-between gap-3">
-            <span className="text-caption text-ink-mute">Audio</span>
+            <span className="text-caption text-ink-mute shrink-0">Texto</span>
+            <TextSizeToggle />
+          </div>
+          <div className="flex items-center justify-between gap-3">
+            <span className="text-caption text-ink-mute shrink-0">English</span>
+            <EnglishGlossToggle />
+          </div>
+          <div className="flex items-center justify-between gap-3">
+            <span className="text-caption text-ink-mute shrink-0">Audio</span>
             <AudioSpeedToggle />
           </div>
           <div className="border-t border-rule pt-3 space-y-3">
