@@ -6,6 +6,7 @@ import { Gloss } from "@/components/Gloss";
 import { PageHeader, Wordmark } from "@/components/PageHeader";
 import { speakDayForIndex, PROMPTS_PER_DAY } from "@/content/prompts";
 import { TEMPORADAS } from "@/content/temporadas";
+import { getSessionIndex } from "@/lib/store";
 import { useStats } from "@/hooks/useStats";
 import { useThoughts } from "@/hooks/useThoughts";
 import { currentStreak, practiceDatesFromThoughts } from "@/lib/streak";
@@ -28,22 +29,6 @@ const IconSun = (
     <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
   </svg>
 );
-const IconSay = (
-  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...ws}>
-    <path d="M5 5h14a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H9l-4 4V7a2 2 0 0 1 2-2Z" />
-  </svg>
-);
-const IconMic = (
-  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...ws}>
-    <rect x="9" y="3" width="6" height="11" rx="3" />
-    <path d="M6 11a6 6 0 0 0 12 0M12 17v3" />
-  </svg>
-);
-const IconBookmark = (
-  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...ws}>
-    <path d="M7 4h10v16l-5-3.5L7 20z" />
-  </svg>
-);
 const IconBook = (
   <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden {...ws}>
     <path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4z" />
@@ -51,19 +36,23 @@ const IconBook = (
   </svg>
 );
 
-const STEPS = [
-  { icon: IconSay, verb: "Di", verbEn: "Say", note: `${PROMPTS_PER_DAY} frases`, noteEn: `${PROMPTS_PER_DAY} sentences` },
-  { icon: IconMic, verb: "Graba", verbEn: "Record", note: "20 segundos", noteEn: "20 seconds" },
-  { icon: IconBookmark, verb: "Guarda", verbEn: "Save", note: "1 frase", noteEn: "1 sentence" },
-];
-
 export default function HomePage() {
   const { stats } = useStats();
   const { thoughts } = useThoughts();
   const [now, setNow] = useState<Date | null>(null);
+  const [sessionIndex, setSessionIndex] = useState(0);
 
   useEffect(() => {
     setNow(new Date());
+  }, []);
+
+  useEffect(() => {
+    function sync() {
+      setSessionIndex(getSessionIndex());
+    }
+    sync();
+    window.addEventListener("pues:stats-change", sync);
+    return () => window.removeEventListener("pues:stats-change", sync);
   }, []);
 
   const practiced = useMemo(
@@ -82,6 +71,8 @@ export default function HomePage() {
   const temporada = TEMPORADAS[season.index - 1];
   // Every week is 6 new days + 1 repaso, so the week is a straight division.
   const weekNum = Math.min(13, Math.ceil(day.day / 7));
+  const dayComplete = sessionIndex >= PROMPTS_PER_DAY;
+  const nextSentence = Math.min(sessionIndex + 1, PROMPTS_PER_DAY);
 
   const greeting = useMemo(() => {
     const h = now ? now.getHours() : 9;
@@ -113,75 +104,59 @@ export default function HomePage() {
           <Gloss>Ready to speak Spanish?</Gloss>
         </div>
 
-        {/* ===== Tu misión de hoy — the one lit card ===== */}
-        <div style={{ position: "relative", marginTop: 28 }}>
-          <div
-            aria-hidden
-            style={{
-              position: "absolute",
-              left: "50%",
-              top: "50%",
-              transform: "translate(-50%,-50%)",
-              width: "92%",
-              height: 200,
-              background:
-                "radial-gradient(60% 60% at 50% 50%, color-mix(in oklab, var(--accent) 20%, transparent), transparent 70%)",
-              filter: "blur(14px)",
-            }}
-          />
-          <div
-            style={{
-              position: "relative",
-              background: "var(--surface)",
-              border: "1px solid color-mix(in oklab, var(--accent) 42%, var(--rule))",
-              borderRadius: 20,
-              padding: 26,
-              boxShadow:
-                "0 0 0 1px color-mix(in oklab, var(--accent) 18%, transparent), 0 22px 50px -18px color-mix(in oklab, var(--accent) 50%, transparent)",
-            }}
-          >
-            <span className="mono-cap flex items-center" style={{ gap: 7, color: "var(--accent)" }}>
-              <span aria-hidden style={{ display: "inline-flex" }}>{IconSun}</span>
-              Día {dayNum} · {day.themeEs}
-            </span>
-            <Gloss>{`Day ${dayNum} · ${day.themeEn}`}</Gloss>
+        {/* ===== Today — quiet notebook entry, not a promo card ===== */}
+        <div
+          style={{
+            marginTop: 28,
+            padding: "22px 20px",
+            background: "var(--surface)",
+            border: "1px solid var(--rule)",
+            borderRadius: 14,
+          }}
+        >
+          <span className="mono-cap flex items-center" style={{ gap: 7, color: "var(--accent)" }}>
+            <span aria-hidden style={{ display: "inline-flex" }}>{IconSun}</span>
+            Día {dayNum} · {day.themeEs}
+          </span>
+          <Gloss>{`Day ${dayNum} · ${day.themeEn}`}</Gloss>
 
-            <p className="mono-cap" style={{ margin: "16px 0 0" }}>
-              Tu misión de hoy
+          <h2 className="text-display-xl text-ink" style={{ margin: "14px 0 0" }}>
+            {mission}
+          </h2>
+          {missionEn && (
+            <p className="text-gloss" style={{ color: "var(--ink-mute)", margin: "6px 0 0" }}>
+              {missionEn}
             </p>
-            <h2 className="text-display-xl text-ink" style={{ margin: "6px 0 0" }}>
-              {mission}
-            </h2>
-            {missionEn && (
-              <p className="text-gloss" style={{ color: "var(--ink-mute)", margin: "6px 0 0" }}>
-                {missionEn}
-              </p>
-            )}
+          )}
 
-            {/* Di · Graba · Guarda */}
-            <div className="grid grid-cols-3" style={{ gap: 10, marginTop: 24 }}>
-              {STEPS.map((s) => (
-                <div
-                  key={s.verb}
-                  className="flex flex-col items-center text-center"
-                  style={{ gap: 7, padding: "14px 6px", background: "var(--surface-2)", border: "1px solid var(--rule)", borderRadius: 14 }}
-                >
-                  <span aria-hidden style={{ color: "var(--accent)" }}>{s.icon}</span>
-                  <span className="font-display text-ink text-[0.9375rem]">{s.verb}</span>
-                  <span className="mono-cap">{s.note}</span>
-                  <Gloss>{`${s.verbEn} · ${s.noteEn}`}</Gloss>
-                </div>
-              ))}
-            </div>
+          <p className="mono-cap" style={{ margin: "18px 0 0", color: "var(--ink-soft)" }}>
+            {dayComplete
+              ? `${PROMPTS_PER_DAY} de ${PROMPTS_PER_DAY} · terminaste por hoy`
+              : `${sessionIndex} de ${PROMPTS_PER_DAY} · frase ${nextSentence}`}
+          </p>
+          <Gloss>
+            {dayComplete
+              ? `${PROMPTS_PER_DAY} of ${PROMPTS_PER_DAY} · done for today`
+              : `${sessionIndex} of ${PROMPTS_PER_DAY} · sentence ${nextSentence}`}
+          </Gloss>
 
-            <Link href="/practice" className="btn-primary btn-primary--center" style={{ marginTop: 22 }}>
-              <span aria-hidden style={{ display: "inline-flex" }}>{IconMic}</span>
-              <span className="lab">Comenzar práctica de hoy</span>
+          {dayComplete ? (
+            <p className="font-display text-ink-soft" style={{ fontSize: "1rem", lineHeight: 1.5, margin: "16px 0 0" }}>
+              Vuelve mañana, o repasa en tu cuaderno.
+            </p>
+          ) : (
+            <Link href="/flow/speak" className="btn-primary" style={{ marginTop: 18 }}>
+              <span className="lab">{sessionIndex === 0 ? "Comenzar" : "Continuar"}</span>
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden {...ws}>
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
             </Link>
-            <div style={{ textAlign: "center" }}>
-              <Gloss>Start today&apos;s practice</Gloss>
+          )}
+          {!dayComplete && (
+            <div style={{ marginTop: 6 }}>
+              <Gloss>{sessionIndex === 0 ? "Start today's practice" : "Continue where you left off"}</Gloss>
             </div>
-          </div>
+          )}
         </div>
 
         {/* ===== Tu progreso en el camino ===== */}

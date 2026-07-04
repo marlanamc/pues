@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { promptForSession } from "@/content/prompts";
+import { promptForSession, PROMPTS_PER_DAY } from "@/content/prompts";
 import { getSessionIndex } from "@/lib/store";
 import { useStats } from "@/hooks/useStats";
 import { useFlowDraft } from "@/hooks/useFlowDraft";
@@ -127,8 +127,17 @@ export default function SpeakPage() {
         </div>
 
         <p className="mono-cap mt-7 mb-3 lg:mt-5 lg:mb-2.5">
-          Dilo en español
-          <Gloss>Say it in Spanish</Gloss>
+          {draft.source === "situation" ? (
+            <>
+              Dilo en español
+              <Gloss>Say it in Spanish</Gloss>
+            </>
+          ) : (
+            <>
+              Frase {sessionIndex + 1} de {PROMPTS_PER_DAY}
+              <Gloss>{`Sentence ${sessionIndex + 1} of ${PROMPTS_PER_DAY}`}</Gloss>
+            </>
+          )}
         </p>
         <ClickablePrompt text={prompt.english} wordHints={prompt.wordHints} />
       </div>

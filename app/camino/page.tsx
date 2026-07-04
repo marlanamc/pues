@@ -295,7 +295,7 @@ export default function CaminoPage() {
             })}
           </div>
 
-          <Link href="/practice" className="btn-primary" style={{ marginTop: "auto" }}>
+          <Link href="/flow/speak" className="btn-primary" style={{ marginTop: "auto" }}>
             <span className="lab">Practicar lo de hoy<Gloss>{"Practice today's"}</Gloss></span>
             <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden fill="none" stroke="currentColor" strokeWidth={1.7} strokeLinecap="round" strokeLinejoin="round">
               <path d="M5 12h14M13 6l6 6-6 6" />
@@ -305,7 +305,7 @@ export default function CaminoPage() {
       </div>
 
       {/* mobile CTA */}
-      <Link href="/practice" className="btn-primary lg:hidden" style={{ marginTop: 32 }}>
+      <Link href="/flow/speak" className="btn-primary lg:hidden" style={{ marginTop: 32 }}>
         <span className="lab">Practicar lo de hoy</span>
         <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden fill="none" stroke="currentColor" strokeWidth={1.7} strokeLinecap="round" strokeLinejoin="round">
           <path d="M5 12h14M13 6l6 6-6 6" />

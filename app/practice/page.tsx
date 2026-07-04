@@ -2,9 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState, type CSSProperties } from "react";
-import { useRouter } from "next/navigation";
 import { PageHeader, Wordmark } from "@/components/PageHeader";
-import { MicButton } from "@/components/MicButton";
 import { PlayButton } from "@/components/PlayButton";
 import { ClickablePrompt } from "@/components/ClickablePrompt";
 import { Gloss } from "@/components/Gloss";
@@ -12,8 +10,6 @@ import { totalDays } from "@/content/frames";
 import { speakDayForIndex, promptForSession, parseWhy, PROMPTS_PER_DAY, type SpeakPrompt } from "@/content/prompts";
 import { getSessionIndex } from "@/lib/store";
 import { useStats } from "@/hooks/useStats";
-import { useFlowDraft } from "@/hooks/useFlowDraft";
-import { useRecorder } from "@/hooks/useRecorder";
 
 const stroke = {
   fill: "none",
@@ -30,14 +26,10 @@ const IconLightbulb = (
 );
 
 export default function PracticeActPage() {
-  const router = useRouter();
   const { stats } = useStats();
-  const { patch } = useFlowDraft();
-  const recorder = useRecorder();
 
   const [sessionIndex, setSessionIndex] = useState(0);
   const [showMore, setShowMore] = useState(false);
-  const [advancing, setAdvancing] = useState(false);
 
   useEffect(() => {
     setSessionIndex(getSessionIndex());
@@ -46,6 +38,8 @@ export default function PracticeActPage() {
   const day = speakDayForIndex(stats.currentDayIndex);
   const dayNum = day.day.toString().padStart(2, "0");
   const mission = day.missionEs ?? day.line;
+  const dayComplete = sessionIndex >= PROMPTS_PER_DAY;
+  const nextSentence = Math.min(sessionIndex + 1, PROMPTS_PER_DAY);
 
   const examples = day.prompts.slice(0, showMore ? 5 : 3);
 
@@ -53,46 +47,6 @@ export default function PracticeActPage() {
     () => promptForSession(stats.currentDayIndex, sessionIndex),
     [stats.currentDayIndex, sessionIndex],
   );
-
-  function finish(recordingId: string | null) {
-    if (advancing) return;
-    setAdvancing(true);
-    patch({
-      source: "daily",
-      promptId: prompt.id,
-      frameStem: prompt.frameStem,
-      englishPrompt: prompt.english,
-      spanishAnswer: prompt.spanish,
-      whyNote: prompt.why,
-      wordHints: prompt.wordHints,
-      situationLabel: prompt.situationLabel,
-      spoke: true,
-      recordingId: recordingId ?? undefined,
-    });
-    router.push("/flow/reveal");
-  }
-
-  // When a recording stops, hand off to Reveal with its id.
-  useEffect(() => {
-    if (recorder.state === "done") finish(recorder.recordingId);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [recorder.state, recorder.recordingId]);
-
-  async function onTap() {
-    if (advancing) return;
-    if (recorder.state === "recording") {
-      recorder.stop();
-      return;
-    }
-    if (recorder.state === "done") return;
-    const ok = await recorder.start();
-    if (!ok) finish(null); // mic denied / unsupported — honor the speak-first gate
-  }
-
-  const micCaption =
-    recorder.state === "recording" ? "Escuchando… toca al terminar." : "Toca para grabar · o mantén presionado";
-  const micCaptionEn =
-    recorder.state === "recording" ? "Listening… tap when done." : "Tap to record · or press and hold";
 
   return (
     <div
@@ -145,7 +99,7 @@ export default function PracticeActPage() {
           )}
         </div>
 
-        {/* ===== ¡Es tu turno! — record ===== */}
+        {/* ===== Una frase a la vez — enter the speak → reveal → save loop ===== */}
         <div
           style={{
             position: "relative",
@@ -157,20 +111,42 @@ export default function PracticeActPage() {
             textAlign: "center",
           }}
         >
-          <h2 className="font-display text-ink" style={{ fontWeight: 300, fontSize: 26 }}>
-            ¡Es tu turno!
-          </h2>
-          <Gloss>Your turn!</Gloss>
-          <p className="font-display text-ink-soft" style={{ fontSize: 18, lineHeight: 1.35, margin: "8px auto 0", maxWidth: "26ch" }}>
-            Di {PROMPTS_PER_DAY} frases. {mission}
-          </p>
-          {day.missionEn && <Gloss>{`Say ${PROMPTS_PER_DAY} sentences. ${day.missionEn}`}</Gloss>}
-
-          <div className="flex flex-col items-center" style={{ gap: 14, marginTop: 26 }}>
-            <MicButton state={recorder.state} onTap={onTap} />
-            <span className="mono-cap">{micCaption}</span>
-            <Gloss>{micCaptionEn}</Gloss>
-          </div>
+          {dayComplete ? (
+            <>
+              <h2 className="font-display text-ink" style={{ fontWeight: 300, fontSize: 26 }}>
+                Terminaste por hoy.
+              </h2>
+              <Gloss>You&apos;re done for today.</Gloss>
+              <p className="font-display text-ink-soft" style={{ fontSize: 18, lineHeight: 1.35, margin: "8px auto 0", maxWidth: "28ch" }}>
+                {PROMPTS_PER_DAY} frases guardadas. Vuelve mañana.
+              </p>
+              <Gloss>{`${PROMPTS_PER_DAY} sentences saved. See you tomorrow.`}</Gloss>
+              <Link href="/" className="btn-primary btn-primary--center" style={{ marginTop: 24 }}>
+                Volver a Hoy
+              </Link>
+            </>
+          ) : (
+            <>
+              <span className="mono-cap" style={{ color: "var(--accent)" }}>
+                Frase {nextSentence} de {PROMPTS_PER_DAY}
+              </span>
+              <Gloss>{`Sentence ${nextSentence} of ${PROMPTS_PER_DAY}`}</Gloss>
+              <h2 className="font-display text-ink" style={{ fontWeight: 300, fontSize: 26, marginTop: 10 }}>
+                ¡Es tu turno!
+              </h2>
+              <Gloss>Your turn!</Gloss>
+              <p className="font-display text-ink-soft" style={{ fontSize: 18, lineHeight: 1.35, margin: "8px auto 0", maxWidth: "30ch" }}>
+                Una frase a la vez: graba, revela la respuesta, y guarda.
+              </p>
+              <Gloss>One sentence at a time: record, reveal the answer, then save.</Gloss>
+              <Link href="/flow/speak" className="btn-primary btn-primary--center" style={{ marginTop: 24 }}>
+                {sessionIndex === 0 ? "Comenzar" : "Continuar"}
+              </Link>
+              <div style={{ textAlign: "center", marginTop: 8 }}>
+                <Gloss>{sessionIndex === 0 ? "Start" : "Continue"}</Gloss>
+              </div>
+            </>
+          )}
         </div>
 
         {/* ===== Consejo de hoy ===== */}

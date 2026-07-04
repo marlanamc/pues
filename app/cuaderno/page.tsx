@@ -113,7 +113,7 @@ export default function CuadernoPage() {
                 Aún no hay frases. Di la primera hoy.
                 <Gloss>{"No sentences yet. Say the first one today."}</Gloss>
               </p>
-              <Link href="/practice" className="btn-primary" style={{ marginTop: 18, maxWidth: 260 }}>
+              <Link href="/flow/speak" className="btn-primary" style={{ marginTop: 18, maxWidth: 260 }}>
                 <span className="lab">Empezar<Gloss>{"Get started"}</Gloss></span>
                 <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden fill="none" stroke="currentColor" strokeWidth={1.7} strokeLinecap="round" strokeLinejoin="round">
                   <path d="M5 12h14M13 6l6 6-6 6" />
