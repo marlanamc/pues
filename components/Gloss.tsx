@@ -10,7 +10,7 @@ export function Gloss({ children }: { children: string }) {
       className="font-display"
       style={{
         display: "block",
-        fontSize: 11,
+        fontSize: "0.8125rem",
         fontStyle: "italic",
         color: "var(--ink-mute)",
         marginTop: 3,

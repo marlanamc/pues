@@ -146,13 +146,10 @@ export default function HomePage() {
             </span>
             <Gloss>{`Day ${dayNum} · ${day.themeEn}`}</Gloss>
 
-            <p className="font-display" style={{ fontWeight: 300, fontSize: 13, letterSpacing: 0.2, textTransform: "uppercase", color: "var(--ink-mute)", margin: "16px 0 0" }}>
+            <p className="mono-cap" style={{ margin: "16px 0 0" }}>
               Tu misión de hoy
             </p>
-            <h2
-              className="font-display text-ink"
-              style={{ fontWeight: 300, fontSize: 30, lineHeight: 1.18, margin: "6px 0 0" }}
-            >
+            <h2 className="text-display-xl text-ink" style={{ margin: "6px 0 0" }}>
               {mission}
             </h2>
             {missionEn && (
@@ -170,8 +167,8 @@ export default function HomePage() {
                   style={{ gap: 7, padding: "14px 6px", background: "var(--surface-2)", border: "1px solid var(--rule)", borderRadius: 14 }}
                 >
                   <span aria-hidden style={{ color: "var(--accent)" }}>{s.icon}</span>
-                  <span className="font-display text-ink" style={{ fontSize: 15 }}>{s.verb}</span>
-                  <span className="mono-cap" style={{ fontSize: 9 }}>{s.note}</span>
+                  <span className="font-display text-ink text-[0.9375rem]">{s.verb}</span>
+                  <span className="mono-cap">{s.note}</span>
                   <Gloss>{`${s.verbEn} · ${s.noteEn}`}</Gloss>
                 </div>
               ))}
@@ -202,13 +199,13 @@ export default function HomePage() {
               borderRadius: "50%",
               border: `2px solid ${season.color}`,
               color: "var(--ink)",
-              fontSize: 17,
+              fontSize: "1.0625rem",
             }}
           >
             {dayNum}
           </span>
           <span className="flex flex-col" style={{ minWidth: 0, flex: 1 }}>
-            <span className="font-display text-ink" style={{ fontSize: 17, lineHeight: 1.2 }}>
+            <span className="font-display text-ink text-[1.0625rem] leading-snug">
               T{season.index} – {temporada.title}
             </span>
             <Gloss>{`S${season.index} – ${temporada.titleEn}`}</Gloss>
@@ -237,7 +234,7 @@ export default function HomePage() {
             {IconBook}
           </span>
           <span className="flex flex-col" style={{ minWidth: 0, flex: 1 }}>
-            <span className="font-display text-ink" style={{ fontSize: 17, lineHeight: 1.2 }}>
+            <span className="font-display text-ink text-[1.0625rem] leading-snug">
               Todo lo que dijiste.
             </span>
             <Gloss>Everything you said.</Gloss>

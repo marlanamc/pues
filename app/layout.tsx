@@ -3,6 +3,7 @@ import { Newsreader, Hanken_Grotesk, Spline_Sans_Mono } from "next/font/google";
 import { BottomTabNav } from "@/components/BottomTabNav";
 import { LeftRailNav } from "@/components/LeftRailNav";
 import { SupabaseBootstrap } from "@/components/SupabaseBootstrap";
+import { TextSizeBootstrap } from "@/components/TextSizeBootstrap";
 import "./globals.css";
 
 // Newsreader — display, headlines, and all Spanish sentences. The soul of the look.
@@ -56,6 +57,9 @@ try {
   var root = document.documentElement;
   root.dataset.theme = t;
   root.classList.toggle("light", t === "Papel" || t === "Niebla");
+  var ts = JSON.parse(localStorage.getItem("pues:text-size") || '"default"');
+  if (ts !== "comfortable" && ts !== "large") ts = "default";
+  root.dataset.textSize = ts;
 } catch {}
 `;
 
@@ -69,6 +73,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-dvh bg-bg text-ink antialiased lg:flex">
         <script dangerouslySetInnerHTML={{ __html: themeModeScript }} />
         <SupabaseBootstrap />
+        <TextSizeBootstrap />
         <LeftRailNav />
         <main className="w-full px-6 pt-3 pb-28 lg:flex lg:flex-1 lg:min-h-0 lg:min-w-0 lg:flex-col lg:px-0 lg:pt-10 lg:pb-12">
           <div className="mx-auto flex w-full max-w-[520px] flex-1 flex-col md:max-w-[720px] md:px-2 lg:max-w-[1080px] lg:px-12">

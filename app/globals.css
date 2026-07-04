@@ -187,6 +187,15 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Comfortable reading — scales all rem-based typography. */
+html[data-text-size="comfortable"] {
+  font-size: 112.5%; /* 18px root */
+}
+
+html[data-text-size="large"] {
+  font-size: 125%; /* 20px root */
+}
+
 @media (prefers-reduced-motion: no-preference) {
   html:has(.confusions-page) {
     scroll-behavior: smooth;
@@ -376,9 +385,9 @@ body > main {
 .mono-cap {
   font-family: var(--font-mono);
   font-weight: 400;
-  font-size: 0.65rem; /* ~10.5px */
-  line-height: 1.4;
-  letter-spacing: 0.13em;
+  font-size: 0.72rem; /* ~11.5px — metadata labels */
+  line-height: 1.45;
+  letter-spacing: 0.11em;
   text-transform: uppercase;
   color: var(--ink-mute);
 }
@@ -387,9 +396,9 @@ body > main {
 .text-caption {
   font-family: var(--font-mono);
   font-weight: 400;
-  font-size: 0.65rem;
-  line-height: 1.4;
-  letter-spacing: 0.13em;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  letter-spacing: 0.11em;
   text-transform: uppercase;
   color: var(--ink-mute);
 }

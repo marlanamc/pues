@@ -71,6 +71,9 @@ export type Session = {
 
 export type AudioSpeed = "normal" | "slow";
 
+/** UI text scale — affects rem-based typography across the app. */
+export type TextSize = "default" | "comfortable" | "large";
+
 /** The seven named theme palettes. Order = the order shown in Settings. */
 export type ThemeName =
   | "Almagre"
@@ -122,6 +125,7 @@ const K_AUDIO_SPEED = "pues:audio-speed";
 const K_THEME_MODE = "pues:theme-mode";
 const K_SIDEBAR_VISIBLE = "pues:sidebar-visible";
 const K_PHRASE_ENGLISH_VISIBLE = "pues:phrase-english-visible";
+const K_TEXT_SIZE = "pues:text-size";
 
 function todayKey(): string {
   return calendarDateKey(new Date());
@@ -530,4 +534,18 @@ export function getPhraseEnglishVisible(): boolean {
 export function setPhraseEnglishVisible(visible: boolean): boolean {
   write(K_PHRASE_ENGLISH_VISIBLE, visible);
   return visible;
+}
+
+/* ---------- Text size ---------- */
+
+const TEXT_SIZES: TextSize[] = ["default", "comfortable", "large"];
+
+export function getTextSize(): TextSize {
+  const size = read<string>(K_TEXT_SIZE, "default");
+  return TEXT_SIZES.includes(size as TextSize) ? (size as TextSize) : "default";
+}
+
+export function setTextSize(size: TextSize): TextSize {
+  write(K_TEXT_SIZE, size);
+  return size;
 }
