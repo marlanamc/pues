@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import { frameDays, totalDays } from "@/content/frames";
 import { speakDays, PROMPTS_PER_DAY } from "@/content/prompts";
 import { sentenceFormerDays } from "@/content/sentenceFormer";
+import { readingDays as laLecturaDays } from "@/content/readings";
 
 /**
  * Shape guard for the coupled content files. frames.ts and prompts.ts are
@@ -117,6 +118,27 @@ describe("sentenceFormer.ts / frames.ts coupling", () => {
       sfd.stems.forEach((stem) => {
         expect(stem.completions.length, `day ${sfd.day} "${stem.stem}"`).toBeGreaterThan(0);
       });
+    });
+  });
+});
+
+describe("readings.ts / speak plan alignment", () => {
+  it("has one reading per Verano speak day", () => {
+    expect(laLecturaDays.length).toBe(speakDays.length);
+    expect(laLecturaDays.length).toBe(91);
+  });
+
+  it("numbers days 1..N sequentially and themeEs matches speakDays", () => {
+    laLecturaDays.forEach((rd, i) => {
+      expect(rd.day).toBe(i + 1);
+      expect(rd.themeEs).toBe(speakDays[i].themeEs);
+    });
+  });
+
+  it("every reading has vocab and a dialogue with at least six lines", () => {
+    laLecturaDays.forEach((rd) => {
+      expect(rd.vocab.length, `day ${rd.day} vocab`).toBeGreaterThanOrEqual(4);
+      expect(rd.dialogue.lines.length, `day ${rd.day} lines`).toBeGreaterThanOrEqual(6);
     });
   });
 });

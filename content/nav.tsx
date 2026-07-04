@@ -10,6 +10,10 @@ export type NavItem = {
   zone: string;
 };
 
+export type NavSection = {
+  items: NavItem[];
+};
+
 const stroke = {
   fill: "none",
   stroke: "currentColor",
@@ -30,6 +34,33 @@ const IconPractice = (
   <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
     <path d="M5 4h11a2 2 0 0 1 2 2v14H7a2 2 0 0 1-2-2Z" />
     <path d="M9 8h6M9 12h6" />
+  </svg>
+);
+
+const IconFormer = (
+  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
+    <path d="M13 2 4 14h7l-1 8 10-14h-7l0-6Z" />
+  </svg>
+);
+
+const IconRead = (
+  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
+    <path d="M21 14.5A8.5 8.5 0 0 1 9.5 3 7 7 0 1 0 21 14.5Z" />
+  </svg>
+);
+
+const IconCamino = (
+  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
+    <circle cx="6" cy="18" r="2.5" />
+    <circle cx="18" cy="6" r="2.5" />
+    <path d="M8.5 16.5 15.5 8.5" />
+  </svg>
+);
+
+const IconCuaderno = (
+  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
+    <path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4z" />
+    <path d="M8 8h8M8 12h6" />
   </svg>
 );
 
@@ -57,14 +88,22 @@ const IconGuias = (
  */
 const gamePaths = ["/practice/games", ...games.map((g) => g.href)];
 const isGamePath = (p: string) => gamePaths.some((g) => p.startsWith(g));
+const isSentenceFormerPath = (p: string) => p.startsWith("/practice/sentence-former");
 
+const isPracticeHubPath = (p: string) =>
+  (p.startsWith("/practice") && !isGamePath(p) && !isSentenceFormerPath(p)) ||
+  p.startsWith("/situations") ||
+  p.startsWith("/lab");
+
+/** Mobile bottom tabs — four doors, unchanged. */
 export const navItems: NavItem[] = [
   {
     href: "/",
     label: "Hoy",
-    // Camino and Cuaderno are reached from the homepage, so they keep Hoy lit.
+    // Camino and Cuaderno aren't tabs on mobile; keep Hoy lit when you're there.
     match: (p) =>
       p === "/" ||
+      p.startsWith("/flow") ||
       p.startsWith("/camino") ||
       p.startsWith("/progress") ||
       p.startsWith("/cuaderno") ||
@@ -76,11 +115,8 @@ export const navItems: NavItem[] = [
     href: "/practice",
     label: "Práctica",
     match: (p) =>
-      (p.startsWith("/practice") && !isGamePath(p)) ||
-      p.startsWith("/situations") ||
-      p.startsWith("/lab") ||
-      p.startsWith("/read") ||
-      p.startsWith("/flow"),
+      isPracticeHubPath(p) ||
+      p.startsWith("/read"),
     icon: IconPractice,
     zone: "var(--zone-practica)",
   },
@@ -99,3 +135,77 @@ export const navItems: NavItem[] = [
     zone: "var(--zone-guias)",
   },
 ];
+
+/** Desktop left rail — every main page gets its own door. */
+export const sidebarSections: NavSection[] = [
+  {
+    items: [
+      {
+        href: "/",
+        label: "Hoy",
+        match: (p) => p === "/" || p.startsWith("/flow"),
+        icon: IconToday,
+        zone: "var(--accent)",
+      },
+      {
+        href: "/practice",
+        label: "Práctica",
+        match: isPracticeHubPath,
+        icon: IconPractice,
+        zone: "var(--zone-practica)",
+      },
+      {
+        href: "/practice/sentence-former",
+        label: "Formar la frase",
+        match: isSentenceFormerPath,
+        icon: IconFormer,
+        zone: "var(--zone-lugares)",
+      },
+      {
+        href: "/read",
+        label: "La lectura",
+        match: (p) => p.startsWith("/read"),
+        icon: IconRead,
+        zone: "var(--accent)",
+      },
+    ],
+  },
+  {
+    items: [
+      {
+        href: "/camino",
+        label: "Camino",
+        match: (p) => p.startsWith("/camino") || p.startsWith("/progress"),
+        icon: IconCamino,
+        zone: "var(--accent)",
+      },
+      {
+        href: "/cuaderno",
+        label: "Cuaderno",
+        match: (p) => p.startsWith("/cuaderno") || p.startsWith("/thoughts"),
+        icon: IconCuaderno,
+        zone: "var(--zone-guias)",
+      },
+    ],
+  },
+  {
+    items: [
+      {
+        href: "/practice/games",
+        label: "Juegos",
+        match: isGamePath,
+        icon: IconJuegos,
+        zone: "var(--zone-lugares)",
+      },
+      {
+        href: "/guides",
+        label: "Guías",
+        match: (p) => p.startsWith("/guides"),
+        icon: IconGuias,
+        zone: "var(--zone-guias)",
+      },
+    ],
+  },
+];
+
+export const sidebarNavItems = sidebarSections.flatMap((s) => s.items);

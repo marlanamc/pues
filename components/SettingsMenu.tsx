@@ -128,6 +128,14 @@ export function SettingsMenuButton({
           </div>
           <div className="border-t border-rule pt-3 space-y-3">
             <Link
+              href="/cuaderno"
+              onClick={() => setOpen(false)}
+              className="flex items-center justify-between text-sm text-ink-soft transition-colors hover:text-accent"
+            >
+              <span>Cuaderno</span>
+              <span aria-hidden>→</span>
+            </Link>
+            <Link
               href="/progress"
               onClick={() => setOpen(false)}
               className="flex items-center justify-between text-sm text-ink-soft transition-colors hover:text-accent"

@@ -21,7 +21,7 @@ export default function ReadPage() {
   }, []);
 
   const day = readingForIndex(stats.currentDayIndex);
-  const dayNum = String(stats.currentDayIndex + 1).padStart(2, "0");
+  const dayNum = String(day.day).padStart(2, "0");
 
   function toggleLine(i: number) {
     setRevealed((prev) => {
@@ -41,10 +41,10 @@ export default function ReadPage() {
     <div className="fade-rise" style={{ maxWidth: 640, margin: "0 auto" }}>
       <header className="flex items-center justify-between" style={{ marginBottom: 32 }}>
         <Link
-          href="/practice"
+          href="/"
           className="text-caption text-ink-mute hover:text-accent transition-colors min-h-[40px] inline-flex items-center"
         >
-          ← Práctica
+          ← Hoy
         </Link>
         <p className="text-caption text-ink-mute">La lectura</p>
         <span className="w-16" aria-hidden />

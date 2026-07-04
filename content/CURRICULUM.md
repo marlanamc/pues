@@ -28,8 +28,8 @@ entera.
 and react. Weekly arcs around summarizing something read or heard, reported
 speech (*dijo que…*, *según…*), past perfect, discourse connectors (*sin
 embargo*, *además*, *por eso*), and building to one minute of unbroken
-speech. `content/readings.ts` (currently 14 days) is the natural companion to
-extend this season.
+speech. `content/readings.ts` (91 Verano days, day-aligned with speak) is the
+natural companion to extend further in Otoño.
 
 **T3 Invierno (Dic–Feb) — "Sin subtítulos."** Natural, fast, real. Colloquial
 fillers (*pues*, *o sea*, *bueno*, *fíjate*), the core subjunctive taught as
@@ -54,6 +54,7 @@ Days 1–14 predate the weekly-arc structure and stay as-is.
 | 1 | 1–7 | (varios) | Assert I | Wants, daily life, opinions, likes, people, past, learning | ✅ authored |
 | 2 | 8–14 | (varios) | Assert II | Feelings, challenges, future, work, experiences, possibilities, identity | ✅ authored |
 | 3 | 15–21 | Hacer preguntas | Asking questions | Interrogatives; turning statements into two-way talk | ✅ authored |
+| 3.5 | woven throughout | Sobrevivir en español | Staying in Spanish | Clarification, stalling, repair, and confidence-building phrases: ¿Cómo? · Perdón, otra vez · Más despacio, por favor · Déjame pensar · No sé cómo decirlo · Entiendo más o menos | principle |
 | 4 | 22–28 | Pedir con confianza | Asking for what you need | Transactional Spanish; day 25 = **usted register day** (school families) | ✅ authored |
 | 5 | 29–35 | Reaccionar y seguir | Reacting & keeping it going | Reactions, soft agree/disagree, follow-ups, encouragement (first tú commands) | ✅ authored |
 | 6 | 36–42 | Contar historias | Telling stories | Preterite vs. imperfect in narration; sequence connectors | ✅ authored |
@@ -164,7 +165,7 @@ sustain* (weeks 9–13). Same shape as Verano: 13 weeks × (6 new days +
 | 6 | Sin embargo | Contrasting: *sin embargo* · *aunque* · *en cambio* · *a pesar de* |
 | 7 | Por eso | Cause & consequence: *por eso* · *así que* · *como…* · *debido a* |
 | 8 | Ordenar las ideas | Discourse skeleton: *primero que nada* · *en cuanto a* · *por último* · *volviendo a lo de…* |
-| 9 | ¿Te enteraste? | Sharing news: *¿Te enteraste de…?* · *Vi que…* · *Salió una noticia sobre…* · *Resulta que…* |
+| 9 | ¿Te enteraste? | Sharing news, stories, and light gossip: *¿Te enteraste de…?* · *Vi que…* · *Salió una noticia sobre…* · *Resulta que…* · *Al parecer…* · *Me contaron que…* |
 | 10 | Opinar sobre lo leído | Reacting to input: *Lo que más me llamó la atención fue…* · *Lo que no entiendo es…* · *Me dio gusto leer que…* |
 | 11 | Seguir la historia | Serialized retelling (the season-goal week): *La última vez…* · *Mientras tanto…* · *Al día siguiente…* · *Ahora resulta que…* |
 | 12 | El minuto entero | Scaffolded monologue: *Hoy quiero hablar de…* · *Hay tres cosas que…* · *Lo primero es…* · *Para terminar…* |
@@ -174,11 +175,11 @@ sustain* (weeks 9–13). Same shape as Verano: 13 weeks × (6 new days +
 to the season's input backbone. Each week gets a **serialized mini-story**
 (6 installments + a repaso recap) in `readings.ts`, and the day's speaking
 prompts retell/react to that day's installment — read → retell → react.
-That literally implements "seguir una historia varios días," and it's why
-readings were held at 14 days through Verano. Coupling readings to prompts
-is new: extend `content/content.test.ts` to cover it when authoring starts,
-and apply convention 7 (per-season files re-exported through existing
-paths) at the same boundary.
+That literally implements "seguir una historia varios días." Verano now has
+91 day-aligned readings (bedtime extra); Otoño is where readings become the
+input backbone coupled to prompts. Extend `content/content.test.ts` when Otoño
+authoring starts, and apply convention 7 (per-season files re-exported through
+existing paths) at the same boundary.
 
 ## Invierno, week by week (arcs)
 
@@ -193,6 +194,7 @@ day advance is index-based and guilt-free.
 |---|---|---|
 | 1 | Muletillas I | *pues* · *bueno* · *o sea* · *es que* · *a ver* — the app's namesake week |
 | 2 | Muletillas II | *fíjate que* · *la verdad es que* · *digo* · *¿me entiendes?* · *total, que* |
+| 2.5 | Estoy contigo | Listener signals & conversation rhythm: *ajá* · *claro* · *ya* · *exacto* · *entiendo* · *sí, sí* — sounding present while someone else talks |
 | 3 | Al teléfono | *¿Aló?* · *Le habla…* · *¿De parte de quién?* · *¿Me escuchas?* · *Se cortó* |
 | 4 | Notas de voz | Voice-message Spanish: *Te mando un audio porque…* · *Era para decirte que…* · *Avísame cuando puedas* |
 | 5 | Quiero que… | Subjunctive chunk 1 — wanting: *quiero que* · *necesito que* · *prefiero que* · *me gustaría que* |
@@ -227,6 +229,7 @@ own* (weeks 5–8) → *going long* (weeks 9–13).
 | 7 | Cambiar de registro | tú ↔ usted on the fly — same message both ways (school families, formal calls); the year's third usted week, notes per convention 3 |
 | 8 | Temas grandes | Abstractions — education, technology, language: *En el fondo…* · *Hoy en día…* · *Cada vez más…* |
 | 9 | Profundizar | Follow-up chains that keep one topic alive five turns: *¿Y eso?* · *¿Cómo así?* · *¿Y qué pasó con…?* |
+| 9.5 | La misma historia, mejor | Retelling one story with increasing detail, color, and personality: basic version → detailed version → memorable version |
 | 10 | Sin preparación | Cold prompts, zero prep: *Lo primero que se me ocurre es…* |
 | 11 | La conversación larga I | Architecture of a long talk — bridges & callbacks: *Volviendo a lo que dijiste…* · *Como te contaba…* |
 | 12 | La conversación larga II | Re-energizing a lull: *Bueno, ¿y qué más?* · *Se me olvidaba contarte…* · *Oye, y cambiando de tema…* |
@@ -239,6 +242,17 @@ own* (weeks 5–8) → *going long* (weeks 9–13).
 The daily frames/prompts are the spine; this section keeps the supporting
 content from falling a season behind. (The cautionary tale: Sentence
 Former shipped covering days 1–7 while frames were already at 91.)
+
+### Seasonal celebrations
+
+At the end of each season, reinforce identity rather than grammar.
+
+- **Verano:** “You can ask questions, tell simple stories, and survive a basic conversation.”
+- **Otoño:** “You can follow a story and explain it to someone else.”
+- **Invierno:** “You can understand the general idea even when you miss words.”
+- **Primavera:** “You can have a real conversation as yourself.”
+
+These should appear in the Camino experience, season retrospectives, and any future milestone surfaces.
 
 ### Sentence Former (`content/sentenceFormer.ts`)
 
@@ -263,8 +277,8 @@ Former shipped covering days 1–7 while frames were already at 91.)
 
 ### La Lectura (`content/readings.ts`)
 
-- **Verano: stays at 14 days.** A purely receptive bedtime extra;
-  Verano's spine is production, so there is no gap to fix.
+- **Verano: 91 days**, day-aligned with the speak plan — a purely receptive
+  bedtime extra; themes match `speakDays[i].themeEs` at each index.
 - **Otoño: daily and load-bearing** — the serialized weekly mini-stories
   described above, coupled to the day's prompts.
 - **Invierno: possible listen-first variant** (audio before text) —
@@ -299,7 +313,7 @@ Former shipped covering days 1–7 while frames were already at 91.)
 6. **Voice:** PRODUCT.md rules — quiet, warm-intellectual, anti-Duolingo.
    Sentences come from Marlana's real life (ESOL classroom, Boston, coding
    projects, Atlanta family, travel dreams), not from a textbook. `why` notes
-   are one gentle sentence; *asterisks* mark italics.
+   are one gentle sentence; *asterisks* mark italics. Lean unapologetically into Marlana's real contexts: teaching, Boston life, building software, family, travel dreams, and everyday adult responsibilities.
 7. **Don't split the content files yet.** frames.ts/prompts.ts stay single
    files through Verano (append-only, all consumers import these paths).
    Revisit at the Otoño boundary; if splitting then, use per-season files

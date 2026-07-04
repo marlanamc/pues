@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import { Fragment } from "react";
 import { usePathname } from "next/navigation";
-import { navItems } from "@/content/nav";
+import { sidebarSections } from "@/content/nav";
 import { Wordmark } from "@/components/PageHeader";
 import { SettingsMenuButton } from "@/components/SettingsMenu";
 import { useSidebarVisible } from "@/hooks/useSidebarVisible";
@@ -82,39 +83,53 @@ export function LeftRailNav() {
         )}
       </div>
 
-      <ul className={`mt-8 space-y-1 ${expanded ? "" : "flex flex-col items-center"}`}>
-        {navItems.map((item) => {
-          const active = item.match(pathname);
-          return (
-            <li key={item.href} className={expanded ? "" : "w-full"}>
-              <Link
-                href={item.href}
-                aria-current={active ? "page" : undefined}
-                aria-label={item.label}
-                title={expanded ? undefined : item.label}
-                className={`flex items-center transition-colors ${
-                  expanded
-                    ? "gap-3 px-3.5 py-2.5 rounded-2xl"
-                    : "mx-auto h-10 w-10 justify-center rounded-full"
-                }`}
-                style={{
-                  color: active ? item.zone : "var(--ink-soft)",
-                  background: active
-                    ? `color-mix(in oklab, ${item.zone} 10%, transparent)`
-                    : "transparent",
-                  fontWeight: active ? 500 : 400,
-                }}
-              >
-                {item.icon}
-                {expanded && (
-                  <span className="font-display" style={{ fontSize: 15 }}>
-                    {item.label}
-                  </span>
-                )}
-              </Link>
-            </li>
-          );
-        })}
+      <ul
+        className={`mt-8 min-h-0 flex-1 space-y-1 overflow-y-auto ${
+          expanded ? "" : "flex flex-col items-center"
+        }`}
+      >
+        {sidebarSections.map((section, sectionIndex) => (
+          <Fragment key={sectionIndex}>
+            {sectionIndex > 0 && (
+              <li
+                aria-hidden
+                className={expanded ? "mx-3.5 my-2 border-t border-rule" : "my-2 w-7 border-t border-rule"}
+              />
+            )}
+            {section.items.map((item) => {
+              const active = item.match(pathname);
+              return (
+                <li key={item.href} className={expanded ? "" : "w-full"}>
+                  <Link
+                    href={item.href}
+                    aria-current={active ? "page" : undefined}
+                    aria-label={item.label}
+                    title={expanded ? undefined : item.label}
+                    className={`flex items-center transition-colors ${
+                      expanded
+                        ? "gap-3 px-3.5 py-2.5 rounded-2xl"
+                        : "mx-auto h-10 w-10 justify-center rounded-full"
+                    }`}
+                    style={{
+                      color: active ? item.zone : "var(--ink-soft)",
+                      background: active
+                        ? `color-mix(in oklab, ${item.zone} 10%, transparent)`
+                        : "transparent",
+                      fontWeight: active ? 500 : 400,
+                    }}
+                  >
+                    {item.icon}
+                    {expanded && (
+                      <span className="font-display" style={{ fontSize: 15 }}>
+                        {item.label}
+                      </span>
+                    )}
+                  </Link>
+                </li>
+              );
+            })}
+          </Fragment>
+        ))}
       </ul>
 
       <div

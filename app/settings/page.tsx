@@ -83,6 +83,25 @@ export default function SettingsPage() {
 
         <li className="rounded-lg border border-rule bg-surface p-6">
           <Link
+            href="/cuaderno"
+            className="flex items-center justify-between gap-4 transition-colors hover:text-accent"
+          >
+            <div className="min-w-0 space-y-1">
+              <p className="font-display text-[1.125rem] text-ink leading-tight">
+                Cuaderno
+              </p>
+              <p className="text-sm text-ink-mute leading-relaxed">
+                Everything you&apos;ve said out loud — your sentence archive.
+              </p>
+            </div>
+            <span className="text-ink-mute" aria-hidden>
+              ›
+            </span>
+          </Link>
+        </li>
+
+        <li className="rounded-lg border border-rule bg-surface p-6">
+          <Link
             href="/progress"
             className="flex items-center justify-between gap-4 transition-colors hover:text-accent"
           >
