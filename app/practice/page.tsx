@@ -38,7 +38,6 @@ export default function PracticeActPage() {
   const day = speakDayForIndex(stats.currentDayIndex);
   const dayNum = day.day.toString().padStart(2, "0");
   const mission = day.missionEs ?? day.line;
-  const dayComplete = sessionIndex >= PROMPTS_PER_DAY;
   const nextSentence = Math.min(sessionIndex + 1, PROMPTS_PER_DAY);
 
   const examples = day.prompts.slice(0, showMore ? 5 : 3);
@@ -111,42 +110,24 @@ export default function PracticeActPage() {
             textAlign: "center",
           }}
         >
-          {dayComplete ? (
-            <>
-              <h2 className="font-display text-ink" style={{ fontWeight: 300, fontSize: 26 }}>
-                Terminaste por hoy.
-              </h2>
-              <Gloss>You&apos;re done for today.</Gloss>
-              <p className="font-display text-ink-soft" style={{ fontSize: 18, lineHeight: 1.35, margin: "8px auto 0", maxWidth: "28ch" }}>
-                {PROMPTS_PER_DAY} frases guardadas. Vuelve mañana.
-              </p>
-              <Gloss>{`${PROMPTS_PER_DAY} sentences saved. See you tomorrow.`}</Gloss>
-              <Link href="/" className="btn-primary btn-primary--center" style={{ marginTop: 24 }}>
-                Volver a Hoy
-              </Link>
-            </>
-          ) : (
-            <>
-              <span className="mono-cap" style={{ color: "var(--accent)" }}>
-                Frase {nextSentence} de {PROMPTS_PER_DAY}
-              </span>
-              <Gloss>{`Sentence ${nextSentence} of ${PROMPTS_PER_DAY}`}</Gloss>
-              <h2 className="font-display text-ink" style={{ fontWeight: 300, fontSize: 26, marginTop: 10 }}>
-                ¡Es tu turno!
-              </h2>
-              <Gloss>Your turn!</Gloss>
-              <p className="font-display text-ink-soft" style={{ fontSize: 18, lineHeight: 1.35, margin: "8px auto 0", maxWidth: "30ch" }}>
-                Una frase a la vez: graba, revela la respuesta, y guarda.
-              </p>
-              <Gloss>One sentence at a time: record, reveal the answer, then save.</Gloss>
-              <Link href="/flow/speak" className="btn-primary btn-primary--center" style={{ marginTop: 24 }}>
-                {sessionIndex === 0 ? "Comenzar" : "Continuar"}
-              </Link>
-              <div style={{ textAlign: "center", marginTop: 8 }}>
-                <Gloss>{sessionIndex === 0 ? "Start" : "Continue"}</Gloss>
-              </div>
-            </>
-          )}
+          <span className="mono-cap" style={{ color: "var(--accent)" }}>
+            Frase {nextSentence} de {PROMPTS_PER_DAY}
+          </span>
+          <Gloss>{`Sentence ${nextSentence} of ${PROMPTS_PER_DAY}`}</Gloss>
+          <h2 className="font-display text-ink" style={{ fontWeight: 300, fontSize: 26, marginTop: 10 }}>
+            ¡Es tu turno!
+          </h2>
+          <Gloss>Your turn!</Gloss>
+          <p className="font-display text-ink-soft" style={{ fontSize: 18, lineHeight: 1.35, margin: "8px auto 0", maxWidth: "30ch" }}>
+            Una frase a la vez: graba, revela la respuesta, y guarda.
+          </p>
+          <Gloss>One sentence at a time: record, reveal the answer, then save.</Gloss>
+          <Link href="/flow/speak" className="btn-primary btn-primary--center" style={{ marginTop: 24 }}>
+            {sessionIndex === 0 ? "Comenzar" : "Continuar"}
+          </Link>
+          <div style={{ textAlign: "center", marginTop: 8 }}>
+            <Gloss>{sessionIndex === 0 ? "Start" : "Continue"}</Gloss>
+          </div>
         </div>
 
         {/* ===== Consejo de hoy ===== */}

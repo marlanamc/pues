@@ -63,9 +63,9 @@ export type Draft = Partial<{
 }>;
 
 export type Session = {
-  /** Calendar date this session belongs to (YYYY-MM-DD). */
-  date: string;
-  /** How many of today's prompts have been completed (0..N). */
+  /** The curriculum day (SessionStats.currentDayIndex) this session belongs to. */
+  dayIndex: number;
+  /** How many of this day's prompts have been completed (0..N). */
   index: number;
 };
 
@@ -311,27 +311,30 @@ export function clearDraft(): void {
   write(K_DRAFT, {});
 }
 
-/* ---------- Daily session (which of today's N prompts is active) ---------- */
+/* ---------- Daily session (which of the current day's N prompts is active) ---------- */
+// Keyed by curriculum day (currentDayIndex), not calendar date, so a learner
+// who finishes one day's prompts can immediately roll into the next day's
+// prompts in the same sitting instead of waiting for a new calendar day.
 
 export function getSession(): Session {
-  const today = todayKey();
-  const raw = read<Session>(K_SESSION, { date: today, index: 0 });
-  // Reset the counter at the start of a new calendar day.
-  if (raw.date !== today) return { date: today, index: 0 };
+  const dayIndex = getStats().currentDayIndex;
+  const raw = read<Session>(K_SESSION, { dayIndex, index: 0 });
+  // Reset the counter whenever the curriculum day has moved on.
+  if (raw.dayIndex !== dayIndex) return { dayIndex, index: 0 };
   return raw;
 }
 
-/** How many of today's prompts have been completed. */
+/** How many of the current day's prompts have been completed. */
 export function getSessionIndex(): number {
   return getSession().index;
 }
 
 /** Record one completed prompt; returns the new index (capped at `perDay`). */
 export function advanceSession(perDay: number): number {
-  const today = todayKey();
+  const dayIndex = getStats().currentDayIndex;
   const prev = getSession();
   const index = Math.min(prev.index + 1, perDay);
-  write(K_SESSION, { date: today, index });
+  write(K_SESSION, { dayIndex, index });
   if (isBrowser()) {
     window.dispatchEvent(new Event("pues:stats-change"));
   }

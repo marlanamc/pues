@@ -82,25 +82,41 @@ describe("currentDayIndex", () => {
 });
 
 describe("daily session", () => {
-  it("advances within a day and resets on a new calendar day", () => {
-    vi.useFakeTimers();
-    vi.setSystemTime(new Date("2026-06-20T10:00:00Z"));
-
+  it("advances within a curriculum day and resets once that day advances", () => {
     advanceSession(3);
     advanceSession(3);
     expect(getSession().index).toBe(2);
 
-    vi.setSystemTime(new Date("2026-06-21T08:00:00Z"));
+    // Finishing a day (currentDayIndex bumps) resets the session immediately —
+    // no need to wait for a new calendar day — so a learner can chain
+    // multiple curriculum days in one sitting.
+    completeCurrentDay(7);
     expect(getSession().index).toBe(0);
   });
 
   it("caps the index at the per-day limit", () => {
-    vi.useFakeTimers();
-    vi.setSystemTime(new Date("2026-06-20T10:00:00Z"));
     advanceSession(2);
     advanceSession(2);
     advanceSession(2);
     expect(getSession().index).toBe(2);
+  });
+
+  it("allows finishing several curriculum days back to back in the same sitting", () => {
+    advanceSession(3);
+    advanceSession(3);
+    advanceSession(3);
+    expect(getSession().index).toBe(3);
+    completeCurrentDay(7);
+
+    expect(getSession().index).toBe(0);
+    advanceSession(3);
+    advanceSession(3);
+    advanceSession(3);
+    expect(getSession().index).toBe(3);
+    completeCurrentDay(7);
+
+    expect(getStats().currentDayIndex).toBe(2);
+    expect(getSession().index).toBe(0);
   });
 });
 

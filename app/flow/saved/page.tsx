@@ -71,14 +71,13 @@ export default function SavedPage() {
   }, [hydrated, draft, add, router]);
 
   const isSituationPractice = savedSource === "situation";
-  const dayComplete =
-    isSituationPractice || (count !== null && count >= PROMPTS_PER_DAY);
+  // Finishing a day's last prompt rolls straight into the next day's first
+  // prompt — a learner can chain as many days as they want in one sitting.
+  const dayJustCompleted = count !== null && count >= PROMPTS_PER_DAY;
 
   function next() {
     clear();
-    if (isSituationPractice) router.push(returnHref);
-    else if (dayComplete) router.push("/");
-    else router.push("/flow/speak");
+    router.push(isSituationPractice ? returnHref : "/flow/speak");
   }
 
   function finish() {
@@ -133,7 +132,9 @@ export default function SavedPage() {
           {isSituationPractice
             ? "Guardado en Lugares."
             : count !== null
-              ? `${count} de ${PROMPTS_PER_DAY} hoy.`
+              ? dayJustCompleted
+                ? `¡Día completo! ${count} de ${PROMPTS_PER_DAY}.`
+                : `${count} de ${PROMPTS_PER_DAY} hoy.`
               : " "}
         </p>
 
@@ -176,11 +177,7 @@ export default function SavedPage() {
       <div className="flex flex-col gap-2.5" style={{ paddingBottom: 18 }}>
         <button type="button" onClick={next} className="btn-primary">
           <span className="lab">
-            {isSituationPractice
-              ? "Volver al lugar"
-              : dayComplete
-                ? "Terminar"
-                : "Siguiente"}
+            {isSituationPractice ? "Volver al lugar" : "Siguiente"}
           </span>
           <svg
             viewBox="0 0 24 24"
@@ -196,7 +193,7 @@ export default function SavedPage() {
             <path d="M5 12h14M13 6l6 6-6 6" />
           </svg>
         </button>
-        {!dayComplete && (
+        {!isSituationPractice && (
           <button
             type="button"
             onClick={finish}

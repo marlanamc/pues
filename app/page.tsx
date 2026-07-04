@@ -76,7 +76,6 @@ export default function HomePage() {
   const temporada = TEMPORADAS[season.index - 1];
   // Every week is 6 new days + 1 repaso, so the week is a straight division.
   const weekNum = Math.min(13, Math.ceil(day.day / 7));
-  const dayComplete = sessionIndex >= PROMPTS_PER_DAY;
   const nextSentence = Math.min(sessionIndex + 1, PROMPTS_PER_DAY);
 
   const greeting = useMemo(() => {
@@ -135,33 +134,21 @@ export default function HomePage() {
           )}
 
           <p className="mono-cap" style={{ margin: "18px 0 0", color: "var(--ink-soft)" }}>
-            {dayComplete
-              ? `${PROMPTS_PER_DAY} de ${PROMPTS_PER_DAY} · terminaste por hoy`
-              : `${sessionIndex} de ${PROMPTS_PER_DAY} · frase ${nextSentence}`}
+            {`${sessionIndex} de ${PROMPTS_PER_DAY} · frase ${nextSentence}`}
           </p>
           <Gloss>
-            {dayComplete
-              ? `${PROMPTS_PER_DAY} of ${PROMPTS_PER_DAY} · done for today`
-              : `${sessionIndex} of ${PROMPTS_PER_DAY} · sentence ${nextSentence}`}
+            {`${sessionIndex} of ${PROMPTS_PER_DAY} · sentence ${nextSentence}`}
           </Gloss>
 
-          {dayComplete ? (
-            <p className="font-display text-ink-soft" style={{ fontSize: "1rem", lineHeight: 1.5, margin: "16px 0 0" }}>
-              Vuelve mañana, o repasa en tu cuaderno.
-            </p>
-          ) : (
-            <Link href="/flow/speak" className="btn-primary" style={{ marginTop: 18 }}>
-              <span className="lab">{sessionIndex === 0 ? "Comenzar" : "Continuar"}</span>
-              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden {...ws}>
-                <path d="M5 12h14M13 6l6 6-6 6" />
-              </svg>
-            </Link>
-          )}
-          {!dayComplete && (
-            <div style={{ marginTop: 6 }}>
-              <Gloss>{sessionIndex === 0 ? "Start today's practice" : "Continue where you left off"}</Gloss>
-            </div>
-          )}
+          <Link href="/flow/speak" className="btn-primary" style={{ marginTop: 18 }}>
+            <span className="lab">{sessionIndex === 0 ? "Comenzar" : "Continuar"}</span>
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden {...ws}>
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+          </Link>
+          <div style={{ marginTop: 6 }}>
+            <Gloss>{sessionIndex === 0 ? "Start today's practice" : "Continue where you left off"}</Gloss>
+          </div>
         </div>
 
         {/* ===== También hoy — day-aligned companions, not the hero ===== */}
