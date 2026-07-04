@@ -2311,3 +2311,9 @@ export const readingDays: ReadingDay[] = [
 export function readingForIndex(i: number): ReadingDay {
   return readingDays[i % readingDays.length];
 }
+
+/** Looks up a reading by its 1-indexed curriculum day number. */
+export function readingForDay(day: number): ReadingDay {
+  const idx = ((day - 1) % readingDays.length + readingDays.length) % readingDays.length;
+  return readingDays[idx];
+}

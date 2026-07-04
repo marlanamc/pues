@@ -1,13 +1,123 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { PageHeader, Wordmark } from "@/components/PageHeader";
-import { readingForIndex } from "@/content/readings";
-import { totalDays } from "@/content/frames";
+import { readingDays, readingForDay, readingForIndex } from "@/content/readings";
+import { TEMPORADAS } from "@/content/temporadas";
 import { usePhraseEnglishVisible } from "@/hooks/usePhraseEnglishVisible";
 import { useStats } from "@/hooks/useStats";
 import { markReadingDone, readingDoneToday } from "@/lib/store";
+
+const VERANO_WEEKS = TEMPORADAS[0].weeks;
+const WEEKS = 13;
+const DAYS_PER_WEEK = 7;
+const TOTAL_READING_DAYS = readingDays.length;
+
+function weekForDay(day: number) {
+  return Math.min(WEEKS, Math.ceil(day / DAYS_PER_WEEK));
+}
+
+function daysInWeek(week: number): number[] {
+  const start = (week - 1) * DAYS_PER_WEEK + 1;
+  const end = Math.min(week * DAYS_PER_WEEK, TOTAL_READING_DAYS);
+  return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+}
+
+function DayPicker({
+  selectedDay,
+  todayDay,
+  onSelectDay,
+}: {
+  selectedDay: number;
+  todayDay: number;
+  onSelectDay: (day: number) => void;
+}) {
+  const todayWeek = weekForDay(todayDay);
+
+  return (
+    <div
+      className="fade-rise"
+      style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 24 }}
+    >
+      {Array.from({ length: WEEKS }, (_, i) => i + 1).map((week) => {
+        const days = daysInWeek(week);
+        const tema = VERANO_WEEKS[week - 1];
+        const isCurrentWeek = week === todayWeek;
+        const hasSelected = days.includes(selectedDay);
+
+        return (
+          <details
+            key={week}
+            open={isCurrentWeek || hasSelected}
+            style={{
+              border: `1px solid ${hasSelected ? "color-mix(in oklab, var(--accent) 28%, var(--rule))" : "var(--rule)"}`,
+              borderRadius: 12,
+              background: "var(--surface)",
+              overflow: "hidden",
+            }}
+          >
+            <summary
+              className="[&::-webkit-details-marker]:hidden"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: 10,
+                padding: "10px 12px",
+                cursor: "pointer",
+                listStyle: "none",
+              }}
+            >
+              <span
+                className="mono-cap"
+                style={{ color: isCurrentWeek ? "var(--accent)" : "var(--ink-mute)" }}
+              >
+                Semana {week}
+              </span>
+              <span
+                className="font-display"
+                style={{ fontSize: 13.5, color: "var(--ink-soft)" }}
+              >
+                {tema}
+              </span>
+            </summary>
+            <div style={{ padding: "0 12px 12px", borderTop: "1px solid var(--rule)" }}>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 10 }}>
+                {days.map((day) => {
+                  const active = day === selectedDay;
+                  const isToday = day === todayDay;
+                  const themeEs = readingForDay(day).themeEs;
+                  return (
+                    <button
+                      key={day}
+                      type="button"
+                      title={themeEs}
+                      onClick={() => onSelectDay(day)}
+                      className="mono-cap"
+                      style={{
+                        padding: "6px 10px",
+                        borderRadius: 999,
+                        background: active ? "var(--accent)" : "transparent",
+                        color: active ? "var(--bg)" : "var(--ink-soft)",
+                        border: `1px solid ${active ? "var(--accent)" : "var(--rule)"}`,
+                        fontSize: 10,
+                        cursor: "pointer",
+                      }}
+                    >
+                      {String(day).padStart(2, "0")}
+                      {isToday ? " · hoy" : ""}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </details>
+        );
+      })}
+    </div>
+  );
+}
 
 export default function ReadPage() {
   const { stats } = useStats();
@@ -15,12 +125,17 @@ export default function ReadPage() {
     usePhraseEnglishVisible();
   const [revealed, setRevealed] = useState<Set<number>>(new Set());
   const [done, setDone] = useState(false);
+  const [pickerOpen, setPickerOpen] = useState(false);
+  const [viewedDay, setViewedDay] = useState<number | null>(null);
 
   useEffect(() => {
     setDone(readingDoneToday());
   }, []);
 
-  const day = readingForIndex(stats.currentDayIndex);
+  const todayDay = readingForIndex(stats.currentDayIndex).day;
+  const displayDay = viewedDay ?? todayDay;
+  const isToday = displayDay === todayDay;
+  const day = useMemo(() => readingForDay(displayDay), [displayDay]);
   const dayNum = String(day.day).padStart(2, "0");
 
   function toggleLine(i: number) {
@@ -30,6 +145,12 @@ export default function ReadPage() {
       else next.add(i);
       return next;
     });
+  }
+
+  function selectDay(d: number) {
+    setViewedDay(d === todayDay ? null : d);
+    setRevealed(new Set());
+    setPickerOpen(false);
   }
 
   function handleDone() {
@@ -54,12 +175,22 @@ export default function ReadPage() {
         title={<Wordmark>La lectura</Wordmark>}
         meta={
           <span className="mono-cap text-ink-soft">
-            Día {dayNum} · {totalDays} días
+            Día {dayNum} · {TOTAL_READING_DAYS} días
           </span>
         }
       />
 
-      <div className="flex items-center justify-end" style={{ marginTop: 12, marginBottom: 8 }}>
+      <div className="flex items-center justify-between gap-3" style={{ marginTop: 12, marginBottom: 8 }}>
+        <button
+          type="button"
+          onClick={() => setPickerOpen((v) => !v)}
+          aria-expanded={pickerOpen}
+          className="text-caption text-ink-mute hover:text-accent transition-colors"
+          style={{ background: "none", border: "none", padding: 0, cursor: "pointer" }}
+        >
+          {isToday ? "Otros días" : `Repasando Día ${dayNum}`} {pickerOpen ? "▴" : "▾"}
+        </button>
+
         <div
           className="inline-flex shrink-0 rounded-full border border-rule bg-bg/60 p-1"
           aria-label="English translations"
@@ -90,6 +221,35 @@ export default function ReadPage() {
           })}
         </div>
       </div>
+
+      {!isToday && (
+        <div
+          className="flex items-center justify-between gap-3"
+          style={{
+            background: "color-mix(in oklab, var(--accent) 8%, var(--surface))",
+            border: "1px solid color-mix(in oklab, var(--accent) 22%, var(--rule))",
+            borderRadius: 10,
+            padding: "8px 12px",
+            marginBottom: 12,
+          }}
+        >
+          <span className="text-caption" style={{ color: "var(--ink-soft)" }}>
+            Repasando — no cuenta para tu racha de hoy.
+          </span>
+          <button
+            type="button"
+            onClick={() => selectDay(todayDay)}
+            className="mono-cap"
+            style={{ color: "var(--accent)", background: "none", border: "none", cursor: "pointer", padding: 0, flexShrink: 0 }}
+          >
+            Volver a hoy
+          </button>
+        </div>
+      )}
+
+      {pickerOpen && (
+        <DayPicker selectedDay={displayDay} todayDay={todayDay} onSelectDay={selectDay} />
+      )}
 
       <p
         className="font-display"
@@ -264,7 +424,16 @@ export default function ReadPage() {
 
       {/* ── Done button ── */}
       <div style={{ marginBottom: 64 }}>
-        {done ? (
+        {!isToday ? (
+          <button
+            type="button"
+            onClick={() => selectDay(todayDay)}
+            className="btn-primary"
+            style={{ width: "100%" }}
+          >
+            <span className="lab">Volver a la lectura de hoy</span>
+          </button>
+        ) : done ? (
           <p
             className="mono-cap"
             style={{ color: "var(--accent)", textAlign: "center", padding: "14px 0" }}
