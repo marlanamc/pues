@@ -7,7 +7,7 @@
  * yet, so typed answers are never marked right/wrong).
  */
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import Link from "next/link";
 import { shuffleWithSeed } from "@/content/serEstar";
 import {
@@ -17,9 +17,30 @@ import {
   type SentenceFormerStem,
 } from "@/content/sentenceFormer";
 import { speakDays } from "@/content/prompts";
+import { TEMPORADAS } from "@/content/temporadas";
+import { useStats } from "@/hooks/useStats";
 import { saveSentenceFormerEntry } from "@/lib/store";
 
 const dayThemeEs = new Map(speakDays.map((d) => [d.day, d.themeEs]));
+const VERANO_WEEKS = TEMPORADAS[0].weeks;
+const VERANO_WEEKS_EN = TEMPORADAS[0].weeksEn;
+const WEEKS = 13;
+const DAYS_PER_WEEK = 7;
+const TOTAL_DAYS = sentenceFormerDays.length;
+
+function weekForDay(day: number) {
+  return Math.min(WEEKS, Math.ceil(day / DAYS_PER_WEEK));
+}
+
+function daysInWeek(week: number): number[] {
+  const start = (week - 1) * DAYS_PER_WEEK + 1;
+  const end = Math.min(week * DAYS_PER_WEEK, TOTAL_DAYS);
+  return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+}
+
+function dayLabel(day: number) {
+  return dayThemeEs.get(day) ?? sentenceFormerDays.find((d) => d.day === day)?.theme ?? `Día ${day}`;
+}
 
 const ROUNDS_PER_SESSION = 5;
 
@@ -98,10 +119,188 @@ function buildRounds(days: number[], seed: number): Round[] {
   return shuffleWithSeed(pool, seed).slice(0, ROUNDS_PER_SESSION);
 }
 
+const chipStyle = (active: boolean): CSSProperties => ({
+  padding: "6px 10px",
+  borderRadius: 999,
+  background: active ? "var(--accent)" : "transparent",
+  color: active ? "var(--accent-ink)" : "var(--ink-soft)",
+  border: `1px solid ${active ? "var(--accent)" : "var(--rule)"}`,
+  fontFamily: MONO,
+  fontSize: 10,
+  letterSpacing: "0.02em",
+  cursor: "pointer",
+  lineHeight: 1.25,
+});
+
+function PresetButton({
+  active,
+  onClick,
+  children,
+}: {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button type="button" onClick={onClick} style={chipStyle(active)}>
+      {children}
+    </button>
+  );
+}
+
+function DayPicker({
+  selectedDays,
+  onToggleDay,
+  onSetDays,
+  currentDay,
+  currentWeek,
+}: {
+  selectedDays: number[];
+  onToggleDay: (day: number) => void;
+  onSetDays: (days: number[]) => void;
+  currentDay: number;
+  currentWeek: number;
+}) {
+  const allSelected = selectedDays.length === 0;
+  const weekSelected = (week: number) => {
+    const days = daysInWeek(week);
+    return days.length > 0 && days.every((d) => selectedDays.includes(d));
+  };
+
+  function toggleWeek(week: number) {
+    const days = daysInWeek(week);
+    if (weekSelected(week)) {
+      onSetDays(selectedDays.filter((d) => !days.includes(d)));
+    } else {
+      onSetDays([...new Set([...selectedDays, ...days])]);
+    }
+  }
+
+  const selectionLabel =
+    selectedDays.length === 0
+      ? `Mezcla los ${TOTAL_DAYS} días`
+      : selectedDays.length === 1
+        ? `1 día · ${dayLabel(selectedDays[0])}`
+        : `${selectedDays.length} días seleccionados`;
+
+  return (
+    <div style={{ marginBottom: 20 }}>
+      <Cap style={{ marginBottom: 8 }}>Días</Cap>
+
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 10 }}>
+        <PresetButton active={selectedDays.length === 1 && selectedDays[0] === currentDay} onClick={() => onSetDays([currentDay])}>
+          Hoy · {String(currentDay).padStart(2, "0")}
+        </PresetButton>
+        <PresetButton active={weekSelected(currentWeek)} onClick={() => onSetDays(daysInWeek(currentWeek))}>
+          Semana {currentWeek}
+        </PresetButton>
+        <PresetButton active={allSelected} onClick={() => onSetDays([])}>
+          Mezclar todo
+        </PresetButton>
+      </div>
+
+      <p style={{ fontSize: 11.5, color: "var(--ink-mute)", margin: "0 0 12px" }}>{selectionLabel}</p>
+
+      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+        {Array.from({ length: WEEKS }, (_, i) => i + 1).map((week) => {
+          const days = daysInWeek(week);
+          const tema = VERANO_WEEKS[week - 1];
+          const selectedInWeek = days.filter((d) => selectedDays.includes(d)).length;
+          const isCurrent = week === currentWeek;
+
+          return (
+            <details
+              key={week}
+              open={isCurrent}
+              style={{
+                border: `1px solid ${isCurrent ? "color-mix(in oklab, var(--accent) 28%, var(--rule))" : "var(--rule)"}`,
+                borderRadius: 12,
+                background: "var(--surface)",
+                overflow: "hidden",
+              }}
+            >
+              <summary
+                className="[&::-webkit-details-marker]:hidden"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  gap: 10,
+                  padding: "10px 12px",
+                  cursor: "pointer",
+                  listStyle: "none",
+                }}
+              >
+                <span style={{ minWidth: 0 }}>
+                  <span style={{ display: "block", fontFamily: MONO, fontSize: 10, letterSpacing: "0.08em", textTransform: "uppercase", color: isCurrent ? "var(--accent)" : "var(--ink-mute)" }}>
+                    Semana {week} {isCurrent ? "· estás aquí" : ""}
+                  </span>
+                  <span style={{ display: "block", fontFamily: SERIF, fontSize: 15, lineHeight: 1.2, color: "var(--ink)", marginTop: 2 }}>
+                    {tema}
+                  </span>
+                </span>
+                <span style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
+                  {selectedInWeek > 0 && (
+                    <span style={{ fontFamily: MONO, fontSize: 9, letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--accent)" }}>
+                      {selectedInWeek}/{days.length}
+                    </span>
+                  )}
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      toggleWeek(week);
+                    }}
+                    style={{
+                      ...chipStyle(weekSelected(week)),
+                      padding: "4px 8px",
+                      fontSize: 9,
+                    }}
+                  >
+                    {weekSelected(week) ? "Quitar" : "Semana"}
+                  </button>
+                </span>
+              </summary>
+
+              <div style={{ padding: "0 12px 12px", borderTop: "1px solid var(--rule)" }}>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 10 }}>
+                  {days.map((day) => {
+                    const active = selectedDays.includes(day);
+                    const themeEs = dayLabel(day);
+                    return (
+                      <button
+                        key={day}
+                        type="button"
+                        title={themeEs}
+                        onClick={() => onToggleDay(day)}
+                        style={chipStyle(active)}
+                      >
+                        {String(day).padStart(2, "0")} · {themeEs}
+                      </button>
+                    );
+                  })}
+                </div>
+                <p style={{ fontSize: 10.5, color: "var(--ink-mute)", margin: "8px 0 0" }}>{VERANO_WEEKS_EN[week - 1]}</p>
+              </div>
+            </details>
+          );
+        })}
+      </div>
+
+      <p style={{ fontSize: 11.5, color: "var(--ink-mute)", margin: "12px 0 0" }}>
+        Sin ningún día marcado, la ronda mezcla los {TOTAL_DAYS}.
+      </p>
+    </div>
+  );
+}
+
 /* ---------- start screen ---------- */
 function StartScreen({
   selectedDays,
   onToggleDay,
+  onSetDays,
+  currentDay,
+  currentWeek,
   mode,
   onSetMode,
   onBack,
@@ -109,12 +308,14 @@ function StartScreen({
 }: {
   selectedDays: number[];
   onToggleDay: (day: number) => void;
+  onSetDays: (days: number[]) => void;
+  currentDay: number;
+  currentWeek: number;
   mode: Mode;
   onSetMode: (m: Mode) => void;
   onBack: () => void;
   onStart: () => void;
 }) {
-  const availableDays = sentenceFormerDays;
   return (
     <div className="flex flex-col lg:max-w-xl lg:mx-auto lg:w-full">
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -131,26 +332,13 @@ function StartScreen({
         Ves el arranque de una frase — tú la terminas rápido, antes de pensarlo demasiado.
       </p>
 
-      <Cap style={{ marginBottom: 8 }}>Días</Cap>
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 20 }}>
-        {availableDays.map((d) => {
-          const active = selectedDays.includes(d.day);
-          const themeEs = dayThemeEs.get(d.day) ?? d.theme;
-          return (
-            <button
-              key={d.day}
-              type="button"
-              onClick={() => onToggleDay(d.day)}
-              style={{ padding: "7px 13px", borderRadius: 999, background: active ? "var(--accent)" : "transparent", color: active ? "var(--accent-ink)" : "var(--ink-soft)", border: `1px solid ${active ? "var(--accent)" : "var(--rule)"}`, fontFamily: MONO, fontSize: 10, letterSpacing: "0.02em", cursor: "pointer" }}
-            >
-              {d.day} — {themeEs}
-            </button>
-          );
-        })}
-      </div>
-      <p style={{ fontSize: 11.5, color: "var(--ink-mute)", margin: "-12px 0 20px" }}>
-        Sin ningún día marcado, la ronda mezcla los {sentenceFormerDays.length}.
-      </p>
+      <DayPicker
+        selectedDays={selectedDays}
+        onToggleDay={onToggleDay}
+        onSetDays={onSetDays}
+        currentDay={currentDay}
+        currentWeek={currentWeek}
+      />
 
       <Cap style={{ marginBottom: 8 }}>Modo</Cap>
       <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 24 }}>
@@ -351,18 +539,33 @@ function Results({ count, mode, onAgain, onMenu }: { count: number; mode: Mode; 
 type Screen = "select" | "round" | "results";
 
 export function SentenceFormerGame({ onQuit }: { onQuit?: () => void }) {
+  const { stats, hydrated } = useStats();
+  const currentDay = (stats.currentDayIndex % TOTAL_DAYS) + 1;
+  const currentWeek = weekForDay(currentDay);
+
   const [screen, setScreen] = useState<Screen>("select");
   const [selectedDays, setSelectedDays] = useState<number[]>([]);
   const [mode, setMode] = useState<Mode>("hablar");
   const [seed, setSeed] = useState(1);
   const [idx, setIdx] = useState(0);
   const [savedCount, setSavedCount] = useState(0);
+  const initializedDays = useRef(false);
+
+  useEffect(() => {
+    if (!hydrated || initializedDays.current) return;
+    setSelectedDays(daysInWeek(currentWeek));
+    initializedDays.current = true;
+  }, [hydrated, currentWeek]);
 
   const activeDays = selectedDays.length > 0 ? selectedDays : sentenceFormerDays.map((d) => d.day);
   const rounds = useMemo(() => buildRounds(activeDays, seed), [activeDays, seed]);
 
   function toggleDay(day: number) {
     setSelectedDays((prev) => (prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]));
+  }
+
+  function setDays(days: number[]) {
+    setSelectedDays(days);
   }
 
   function start() {
@@ -392,6 +595,9 @@ export function SentenceFormerGame({ onQuit }: { onQuit?: () => void }) {
       <StartScreen
         selectedDays={selectedDays}
         onToggleDay={toggleDay}
+        onSetDays={setDays}
+        currentDay={currentDay}
+        currentWeek={currentWeek}
         mode={mode}
         onSetMode={setMode}
         onBack={() => onQuit?.()}
