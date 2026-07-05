@@ -14,6 +14,26 @@ export function practiceDatesFromThoughts(thoughts: Thought[]): Set<string> {
   return new Set(thoughts.map((t) => calendarDateKey(new Date(t.createdAt))));
 }
 
+/**
+ * Every date-keyed practice signal, merged into one set of YYYY-MM-DD days.
+ * `dayKeys` are dates recorded directly as keys (La lectura's reading log);
+ * `timestamps` are ISO strings from other activities (Sentence Former entries,
+ * finished Sentence Builder levels). Malformed timestamps are ignored.
+ */
+export function collectPracticeDates(sources: {
+  thoughts?: Thought[];
+  dayKeys?: string[];
+  timestamps?: string[];
+}): Set<string> {
+  const dates = practiceDatesFromThoughts(sources.thoughts ?? []);
+  for (const key of sources.dayKeys ?? []) dates.add(key);
+  for (const iso of sources.timestamps ?? []) {
+    const d = new Date(iso);
+    if (!Number.isNaN(d.getTime())) dates.add(calendarDateKey(d));
+  }
+  return dates;
+}
+
 /** Consecutive practice days ending today, or yesterday if today is still open. */
 export function currentStreak(practiced: Set<string>, now = new Date()): number {
   const today = calendarDateKey(now);

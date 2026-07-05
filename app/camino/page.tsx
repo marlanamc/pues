@@ -5,11 +5,11 @@ import { useMemo } from "react";
 import { Gloss } from "@/components/Gloss";
 import { PageHeader, Wordmark } from "@/components/PageHeader";
 import { useStats } from "@/hooks/useStats";
-import { useThoughts } from "@/hooks/useThoughts";
+import { usePracticeDates } from "@/hooks/usePracticeDates";
 import { totalDays } from "@/content/frames";
 import { TEMPORADAS, type Temporada } from "@/content/temporadas";
 import { SEASONS } from "@/lib/season";
-import { currentStreak, practiceDatesFromThoughts } from "@/lib/streak";
+import { currentStreak } from "@/lib/streak";
 
 const ws = {
   fill: "none" as const,
@@ -409,7 +409,7 @@ function CurrentSeasonPanel({
 
 export default function CaminoPage() {
   const { stats } = useStats();
-  const { thoughts } = useThoughts();
+  const { practiced } = usePracticeDates();
 
   const dayNum = (stats.currentDayIndex % totalDays) + 1;
   const dayLabel = String(dayNum).padStart(2, "0");
@@ -423,10 +423,7 @@ export default function CaminoPage() {
   const weekNum = Math.min(13, Math.ceil(dayInSeason / 7));
   const currentIndex = seasonIdx + 1;
 
-  const streak = useMemo(
-    () => currentStreak(practiceDatesFromThoughts(thoughts)),
-    [thoughts],
-  );
+  const streak = useMemo(() => currentStreak(practiced), [practiced]);
 
   const current = TEMPORADAS[seasonIdx];
 

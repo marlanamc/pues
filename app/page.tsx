@@ -8,8 +8,8 @@ import { speakDayForIndex, PROMPTS_PER_DAY } from "@/content/prompts";
 import { TEMPORADAS } from "@/content/temporadas";
 import { getSessionIndex, readingDoneToday } from "@/lib/store";
 import { useStats } from "@/hooks/useStats";
-import { useThoughts } from "@/hooks/useThoughts";
-import { currentStreak, practiceDatesFromThoughts } from "@/lib/streak";
+import { usePracticeDates } from "@/hooks/usePracticeDates";
+import { currentStreak } from "@/lib/streak";
 import { seasonForDate } from "@/lib/season";
 
 /** Single-user personal app — greeting name. */
@@ -42,7 +42,7 @@ const IconFlash = (
 
 export default function HomePage() {
   const { stats } = useStats();
-  const { thoughts } = useThoughts();
+  const { practiced } = usePracticeDates();
   const [now, setNow] = useState<Date | null>(null);
   const [sessionIndex, setSessionIndex] = useState(0);
   const [readingDone, setReadingDone] = useState(false);
@@ -61,10 +61,6 @@ export default function HomePage() {
     return () => window.removeEventListener("pues:stats-change", sync);
   }, []);
 
-  const practiced = useMemo(
-    () => practiceDatesFromThoughts(thoughts),
-    [thoughts],
-  );
   const streak = useMemo(() => currentStreak(practiced), [practiced]);
 
   const day = speakDayForIndex(stats.currentDayIndex);
