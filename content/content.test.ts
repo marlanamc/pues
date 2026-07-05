@@ -123,9 +123,8 @@ describe("sentenceFormer.ts / frames.ts coupling", () => {
 });
 
 describe("readings.ts / speak plan alignment", () => {
-  it("has one reading per Verano speak day", () => {
+  it("has one reading per speak day", () => {
     expect(laLecturaDays.length).toBe(speakDays.length);
-    expect(laLecturaDays.length).toBe(91);
   });
 
   it("numbers days 1..N sequentially and themeEs matches speakDays", () => {
@@ -139,6 +138,41 @@ describe("readings.ts / speak plan alignment", () => {
     laLecturaDays.forEach((rd) => {
       expect(rd.vocab.length, `day ${rd.day} vocab`).toBeGreaterThanOrEqual(4);
       expect(rd.dialogue.lines.length, `day ${rd.day} lines`).toBeGreaterThanOrEqual(6);
+    });
+  });
+});
+
+describe("readings.ts serialization (Otoño+ story backbone)", () => {
+  it("recap days carry no part/partsTotal; installment days carry storyTitle + partsTotal", () => {
+    laLecturaDays.forEach((rd) => {
+      if (rd.isRecap) {
+        expect(rd.part, `day ${rd.day} recap should not have part`).toBeUndefined();
+        expect(rd.partsTotal, `day ${rd.day} recap should not have partsTotal`).toBeUndefined();
+      } else if (rd.part !== undefined) {
+        expect(rd.storyTitle, `day ${rd.day} installment missing storyTitle`).toBeDefined();
+        expect(rd.partsTotal, `day ${rd.day} installment missing partsTotal`).toBeDefined();
+      }
+    });
+  });
+
+  it("installment part numbers stay within [1, partsTotal]", () => {
+    laLecturaDays.forEach((rd) => {
+      if (rd.part === undefined) return;
+      expect(rd.part, `day ${rd.day} part`).toBeGreaterThanOrEqual(1);
+      expect(rd.part, `day ${rd.day} part`).toBeLessThanOrEqual(rd.partsTotal!);
+    });
+  });
+
+  it("each story's installments are gap-free and duplicate-free", () => {
+    const byStory = new Map<string, typeof laLecturaDays>();
+    laLecturaDays.forEach((rd) => {
+      if (!rd.storyTitle || rd.part === undefined) return;
+      byStory.set(rd.storyTitle, [...(byStory.get(rd.storyTitle) ?? []), rd]);
+    });
+    byStory.forEach((days, storyTitle) => {
+      const parts = days.map((d) => d.part!).sort((a, b) => a - b);
+      const expected = Array.from({ length: days[0].partsTotal! }, (_, i) => i + 1);
+      expect(parts, `story "${storyTitle}" parts`).toEqual(expected);
     });
   });
 });

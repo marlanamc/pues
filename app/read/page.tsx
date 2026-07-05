@@ -9,19 +9,26 @@ import { usePhraseEnglishVisible } from "@/hooks/usePhraseEnglishVisible";
 import { useStats } from "@/hooks/useStats";
 import { markReadingDone, readingDoneToday } from "@/lib/store";
 
-const VERANO_WEEKS = TEMPORADAS[0].weeks;
-const WEEKS = 13;
 const DAYS_PER_WEEK = 7;
+const WEEKS_PER_SEASON = 13;
 const TOTAL_READING_DAYS = readingDays.length;
+const TOTAL_WEEKS = Math.ceil(TOTAL_READING_DAYS / DAYS_PER_WEEK);
 
 function weekForDay(day: number) {
-  return Math.min(WEEKS, Math.ceil(day / DAYS_PER_WEEK));
+  return Math.ceil(day / DAYS_PER_WEEK);
 }
 
 function daysInWeek(week: number): number[] {
   const start = (week - 1) * DAYS_PER_WEEK + 1;
   const end = Math.min(week * DAYS_PER_WEEK, TOTAL_READING_DAYS);
   return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+}
+
+/** Which temporada + in-season week a global week number belongs to (each temporada is 13 weeks). */
+function temaForWeek(week: number): string {
+  const seasonIdx = Math.floor((week - 1) / WEEKS_PER_SEASON) % TEMPORADAS.length;
+  const weekInSeason = ((week - 1) % WEEKS_PER_SEASON) + 1;
+  return TEMPORADAS[seasonIdx].weeks[weekInSeason - 1];
 }
 
 function DayPicker({
@@ -40,9 +47,9 @@ function DayPicker({
       className="fade-rise"
       style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 24 }}
     >
-      {Array.from({ length: WEEKS }, (_, i) => i + 1).map((week) => {
+      {Array.from({ length: TOTAL_WEEKS }, (_, i) => i + 1).map((week) => {
         const days = daysInWeek(week);
-        const tema = VERANO_WEEKS[week - 1];
+        const tema = temaForWeek(week);
         const isCurrentWeek = week === todayWeek;
         const hasSelected = days.includes(selectedDay);
 

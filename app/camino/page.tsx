@@ -8,7 +8,7 @@ import { useStats } from "@/hooks/useStats";
 import { useThoughts } from "@/hooks/useThoughts";
 import { totalDays } from "@/content/frames";
 import { TEMPORADAS, type Temporada } from "@/content/temporadas";
-import { SEASONS, seasonForDate } from "@/lib/season";
+import { SEASONS } from "@/lib/season";
 import { currentStreak, practiceDatesFromThoughts } from "@/lib/streak";
 
 const ws = {
@@ -411,18 +411,24 @@ export default function CaminoPage() {
   const { stats } = useStats();
   const { thoughts } = useThoughts();
 
-  const currentIndex = seasonForDate().index;
   const dayNum = (stats.currentDayIndex % totalDays) + 1;
   const dayLabel = String(dayNum).padStart(2, "0");
   const progressPct = Math.min(100, (dayNum / totalDays) * 100);
-  const weekNum = Math.min(13, Math.ceil(dayNum / 7));
+  // Each temporada is 91 content days; derive which season + in-season week
+  // this content day belongs to from the flat cursor, not from today's real
+  // calendar date (seasonForDate() answers a different question).
+  const SEASON_LEN = 91;
+  const seasonIdx = Math.floor((dayNum - 1) / SEASON_LEN) % TEMPORADAS.length;
+  const dayInSeason = ((dayNum - 1) % SEASON_LEN) + 1;
+  const weekNum = Math.min(13, Math.ceil(dayInSeason / 7));
+  const currentIndex = seasonIdx + 1;
 
   const streak = useMemo(
     () => currentStreak(practiceDatesFromThoughts(thoughts)),
     [thoughts],
   );
 
-  const current = TEMPORADAS[currentIndex - 1];
+  const current = TEMPORADAS[seasonIdx];
 
   return (
     <div className="fade-rise relative" style={{ paddingBottom: 96 }}>

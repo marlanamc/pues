@@ -143,11 +143,11 @@ Context coverage across days (all four should keep appearing):
 
 ## Otoño, week by week (arcs)
 
-> **Status: 📝 planned — arcs only.** For Otoño, Invierno, and Primavera,
-> day-level stem specs get authored at each season boundary (late August,
-> late November, late February), so they match Marlana's actual level by
-> then. The arcs below are the commitments; the day specs are the
-> just-in-time part.
+> **Status: 📝 weeks 2–13 planned — arcs only.** For the remainder of Otoño
+> and for Invierno/Primavera, day-level stem specs get authored at each
+> season boundary (late August, late November, late February), so they
+> match Marlana's actual level by then. The arcs below are the
+> commitments; the day specs are the just-in-time part.
 
 Spine: **comprehension-led speaking** — read or hear something, then retell
 and react. Season goals: seguir una historia varios días; hablar un minuto
@@ -155,21 +155,21 @@ sin parar. Phases: *retell* (weeks 1–4) → *connect* (weeks 5–8) → *react
 sustain* (weeks 9–13). Same shape as Verano: 13 weeks × (6 new days +
 1 repaso), 91 days.
 
-| Wk | Tema | Focus |
-|---|---|---|
-| 1 | Resumir | Retell a short read in 3–4 sentences: *Trata de…* · *Lo importante es que…* · *En pocas palabras…* · *Al final…* |
-| 2 | Dice que… | Reported speech, present: *Dice que…* · *Según…* · *Explica que…* · *Se trata de…* |
-| 3 | Dijo que… | Reported speech, past: *Dijo que…* · *Me contó que…* · *Mencionó que…* · *Preguntó si…* |
-| 4 | Ya había pasado | Past perfect for backstory: *Ya había…* · *Todavía no había…* · *Nunca había…* |
-| 5 | Además | Adding ideas: *además* · *también* · *aparte de eso* · *no solo… sino también* |
-| 6 | Sin embargo | Contrasting: *sin embargo* · *aunque* · *en cambio* · *a pesar de* |
-| 7 | Por eso | Cause & consequence: *por eso* · *así que* · *como…* · *debido a* |
-| 8 | Ordenar las ideas | Discourse skeleton: *primero que nada* · *en cuanto a* · *por último* · *volviendo a lo de…* |
-| 9 | ¿Te enteraste? | Sharing news, stories, and light gossip: *¿Te enteraste de…?* · *Vi que…* · *Salió una noticia sobre…* · *Resulta que…* · *Al parecer…* · *Me contaron que…* |
-| 10 | Opinar sobre lo leído | Reacting to input: *Lo que más me llamó la atención fue…* · *Lo que no entiendo es…* · *Me dio gusto leer que…* |
-| 11 | Seguir la historia | Serialized retelling (the season-goal week): *La última vez…* · *Mientras tanto…* · *Al día siguiente…* · *Ahora resulta que…* |
-| 12 | El minuto entero | Scaffolded monologue: *Hoy quiero hablar de…* · *Hay tres cosas que…* · *Lo primero es…* · *Para terminar…* |
-| 13 | Capstone | Retell + react + sustain in one; day-90-equivalent season retrospective; repaso = a one-minute retell of the season |
+| Wk | Tema | Focus | Status |
+|---|---|---|---|
+| 1 | Resumir | Retell a short read in 3–4 sentences: *Trata de…* · *La idea principal es que…* · *En pocas palabras…* · *Lo importante es que…* · *Al final…* | ✅ authored (days 92–98) |
+| 2 | Dice que… | Reported speech, present: *Dice que…* · *Según…* · *Explica que…* · *Se trata de…* | 📝 planned |
+| 3 | Dijo que… | Reported speech, past: *Dijo que…* · *Me contó que…* · *Mencionó que…* · *Preguntó si…* | 📝 planned |
+| 4 | Ya había pasado | Past perfect for backstory: *Ya había…* · *Todavía no había…* · *Nunca había…* | 📝 planned |
+| 5 | Además | Adding ideas: *además* · *también* · *aparte de eso* · *no solo… sino también* | 📝 planned |
+| 6 | Sin embargo | Contrasting: *sin embargo* · *aunque* · *en cambio* · *a pesar de* | 📝 planned |
+| 7 | Por eso | Cause & consequence: *por eso* · *así que* · *como…* · *debido a* | 📝 planned |
+| 8 | Ordenar las ideas | Discourse skeleton: *primero que nada* · *en cuanto a* · *por último* · *volviendo a lo de…* | 📝 planned |
+| 9 | ¿Te enteraste? | Sharing news, stories, and light gossip: *¿Te enteraste de…?* · *Vi que…* · *Salió una noticia sobre…* · *Resulta que…* · *Al parecer…* · *Me contaron que…* | 📝 planned |
+| 10 | Opinar sobre lo leído | Reacting to input: *Lo que más me llamó la atención fue…* · *Lo que no entiendo es…* · *Me dio gusto leer que…* | 📝 planned |
+| 11 | Seguir la historia | Serialized retelling (the season-goal week): *La última vez…* · *Mientras tanto…* · *Al día siguiente…* · *Ahora resulta que…* | 📝 planned |
+| 12 | El minuto entero | Scaffolded monologue: *Hoy quiero hablar de…* · *Hay tres cosas que…* · *Lo primero es…* · *Para terminar…* | 📝 planned |
+| 13 | Capstone | Retell + react + sustain in one; day-90-equivalent season retrospective; repaso = a one-minute retell of the season | 📝 planned |
 
 **The structural idea for Otoño:** La Lectura graduates from bedtime extra
 to the season's input backbone. Each week gets a **serialized mini-story**
@@ -177,9 +177,36 @@ to the season's input backbone. Each week gets a **serialized mini-story**
 prompts retell/react to that day's installment — read → retell → react.
 That literally implements "seguir una historia varios días." Verano now has
 91 day-aligned readings (bedtime extra); Otoño is where readings become the
-input backbone coupled to prompts. Extend `content/content.test.ts` when Otoño
-authoring starts, and apply convention 7 (per-season files re-exported through
-existing paths) at the same boundary.
+input backbone coupled to prompts. `ReadingDay` gained `storyTitle`/`part`/
+`partsTotal`/`isRecap` fields for this (optional, additive — Verano's 91
+entries are untouched); `content/content.test.ts` has a
+`readings.ts serialization` block enforcing them.
+
+### Week 1 day specs (authored days 92–98)
+
+**Week 1 — Resumir / Summing up**
+
+One small toolkit, reused all week (not a new set of stems per day, unlike
+Verano) — the point is drilling retelling against fresh input, the way a
+reading-strategies lesson would. Story: **"Naty se muda"** — Marlana updates
+her coworker Priya, day by day in the teachers' lounge, on her friend Naty's
+move from Atlanta to Boston for a junior developer job (mirrors Marlana's own
+Atlanta roots and aspiring-developer arc). Six installments in `readings.ts`
+(`storyTitle: "Naty se muda"`, `part`/`partsTotal: 6`); day 98's repaso
+reading is a fresh recap (`isRecap: true`).
+
+Stems (all 5, every day): *Trata de…* · *La idea principal es que…* ·
+*En pocas palabras…* · *Lo importante es que…* · *Al final…*
+
+| Day | Tema | Reading beat (Cap. N de 6) |
+|---|---|---|
+| 92 | Buenas noticias | Naty got the job; is moving to Boston |
+| 93 | Empacando | Chaotic packing, mom coming to help |
+| 94 | El camino | 18-hour drive, arrives past midnight |
+| 95 | El apartamento nuevo | Tiny apartment, a little homesick |
+| 96 | El primer día | Nervous first day; a coworker helps her |
+| 97 | Ya se siente en casa | A month in: new friend, favorite coffee shop |
+| 98 | **Repaso: resumir** | Recap — Priya asks how Naty's doing a month later |
 
 ## Invierno, week by week (arcs)
 
@@ -314,10 +341,14 @@ These should appear in the Camino experience, season retrospectives, and any fut
    Sentences come from Marlana's real life (ESOL classroom, Boston, coding
    projects, Atlanta family, travel dreams), not from a textbook. `why` notes
    are one gentle sentence; *asterisks* mark italics. Lean unapologetically into Marlana's real contexts: teaching, Boston life, building software, family, travel dreams, and everyday adult responsibilities.
-7. **Don't split the content files yet.** frames.ts/prompts.ts stay single
-   files through Verano (append-only, all consumers import these paths).
-   Revisit at the Otoño boundary; if splitting then, use per-season files
-   re-exported through the existing paths so imports never change.
+7. **Content files are split per season.** Done at the Otoño boundary:
+   `frames.ts`, `prompts.ts`, `sentenceFormer.ts`, and `readings.ts` are now
+   thin barrels that concatenate `content/<name>/verano.ts` +
+   `content/<name>/otono.ts` (types live in `content/<name>/types.ts`,
+   imported by both season files, never the barrel — no circular imports).
+   Every consumer still imports the original top-level path; nothing else
+   changes. Append new weeks to the current season's file; add a new
+   `content/<name>/invierno.ts` + barrel import at the next boundary.
 8. **No duplicate sentences.** Before finishing a week, scan for `examples`
    or `spanish` strings that already exist on earlier days.
 
