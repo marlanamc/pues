@@ -1,4 +1,16 @@
 import type { ReadingDay } from "./types";
+import { week2ReadingDays } from "../drafts/week2-readings";
+import { week3ReadingDays } from "../drafts/week3-readings";
+import { week4ReadingDays } from "../drafts/week4-readings";
+import { week5ReadingDays } from "../drafts/week5-readings";
+import { week6ReadingDays } from "../drafts/week6-readings";
+import { week7ReadingDays } from "../drafts/week7-readings";
+import { week8ReadingDays } from "../drafts/week8-readings";
+import { week9ReadingDays } from "../drafts/week9-readings";
+import { week10ReadingDays } from "../drafts/week10-readings";
+import { week11ReadingDays } from "../drafts/week11-readings";
+import { week12ReadingDays } from "../drafts/week12-readings";
+import { week13ReadingDays } from "../drafts/week13-readings";
 
 /**
  * La Lectura (Otoño / fall), days 92+ — the season's input backbone.
@@ -204,4 +216,16 @@ export const otonoReadingDays: ReadingDay[] = [
       ],
     },
   },
+  ...week2ReadingDays,
+  ...week3ReadingDays,
+  ...week4ReadingDays,
+  ...week5ReadingDays,
+  ...week6ReadingDays,
+  ...week7ReadingDays,
+  ...week8ReadingDays,
+  ...week9ReadingDays,
+  ...week10ReadingDays,
+  ...week11ReadingDays,
+  ...week12ReadingDays,
+  ...week13ReadingDays,
 ];

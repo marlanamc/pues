@@ -1,4 +1,16 @@
 import type { FrameDay } from "./types";
+import { week2FrameDays } from "../drafts/week2-frames";
+import { week3FrameDays } from "../drafts/week3-frames";
+import { week4FrameDays } from "../drafts/week4-frames";
+import { week5FrameDays } from "../drafts/week5-frames";
+import { week6FrameDays } from "../drafts/week6-frames";
+import { week7FrameDays } from "../drafts/week7-frames";
+import { week8FrameDays } from "../drafts/week8-frames";
+import { week9FrameDays } from "../drafts/week9-frames";
+import { week10FrameDays } from "../drafts/week10-frames";
+import { week11FrameDays } from "../drafts/week11-frames";
+import { week12FrameDays } from "../drafts/week12-frames";
+import { week13FrameDays } from "../drafts/week13-frames";
 
 /**
  * Pues — daily frames (Otoño / fall), days 92+.
@@ -413,4 +425,16 @@ export const otonoFrameDays: FrameDay[] = [
       },
     ],
   },
+  ...week2FrameDays,
+  ...week3FrameDays,
+  ...week4FrameDays,
+  ...week5FrameDays,
+  ...week6FrameDays,
+  ...week7FrameDays,
+  ...week8FrameDays,
+  ...week9FrameDays,
+  ...week10FrameDays,
+  ...week11FrameDays,
+  ...week12FrameDays,
+  ...week13FrameDays,
 ];

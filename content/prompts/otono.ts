@@ -1,4 +1,16 @@
 import type { SpeakDay } from "./types";
+import { week2SpeakDays } from "../drafts/week2-prompts";
+import { week3SpeakDays } from "../drafts/week3-prompts";
+import { week4SpeakDays } from "../drafts/week4-prompts";
+import { week5SpeakDays } from "../drafts/week5-prompts";
+import { week6SpeakDays } from "../drafts/week6-prompts";
+import { week7SpeakDays } from "../drafts/week7-prompts";
+import { week8SpeakDays } from "../drafts/week8-prompts";
+import { week9SpeakDays } from "../drafts/week9-prompts";
+import { week10SpeakDays } from "../drafts/week10-prompts";
+import { week11SpeakDays } from "../drafts/week11-prompts";
+import { week12SpeakDays } from "../drafts/week12-prompts";
+import { week13SpeakDays } from "../drafts/week13-prompts";
 
 /**
  * Pues — Speak-First prompts (Otoño / fall), days 92+.
@@ -550,4 +562,16 @@ export const otonoSpeakDays: SpeakDay[] = [
       },
     ],
   },
+  ...week2SpeakDays,
+  ...week3SpeakDays,
+  ...week4SpeakDays,
+  ...week5SpeakDays,
+  ...week6SpeakDays,
+  ...week7SpeakDays,
+  ...week8SpeakDays,
+  ...week9SpeakDays,
+  ...week10SpeakDays,
+  ...week11SpeakDays,
+  ...week12SpeakDays,
+  ...week13SpeakDays,
 ];

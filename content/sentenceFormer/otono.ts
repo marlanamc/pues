@@ -1,4 +1,16 @@
 import type { SentenceFormerDay } from "./types";
+import { week2SentenceFormerDays } from "../drafts/week2-sentenceFormer";
+import { week3SentenceFormerDays } from "../drafts/week3-sentenceFormer";
+import { week4SentenceFormerDays } from "../drafts/week4-sentenceFormer";
+import { week5SentenceFormerDays } from "../drafts/week5-sentenceFormer";
+import { week6SentenceFormerDays } from "../drafts/week6-sentenceFormer";
+import { week7SentenceFormerDays } from "../drafts/week7-sentenceFormer";
+import { week8SentenceFormerDays } from "../drafts/week8-sentenceFormer";
+import { week9SentenceFormerDays } from "../drafts/week9-sentenceFormer";
+import { week10SentenceFormerDays } from "../drafts/week10-sentenceFormer";
+import { week11SentenceFormerDays } from "../drafts/week11-sentenceFormer";
+import { week12SentenceFormerDays } from "../drafts/week12-sentenceFormer";
+import { week13SentenceFormerDays } from "../drafts/week13-sentenceFormer";
 
 /**
  * Sentence Former banks (Otoño / fall), days 92+. Stems must match
@@ -438,4 +450,16 @@ export const otonoSentenceFormerDays: SentenceFormerDay[] = [
       },
     ],
   },
+  ...week2SentenceFormerDays,
+  ...week3SentenceFormerDays,
+  ...week4SentenceFormerDays,
+  ...week5SentenceFormerDays,
+  ...week6SentenceFormerDays,
+  ...week7SentenceFormerDays,
+  ...week8SentenceFormerDays,
+  ...week9SentenceFormerDays,
+  ...week10SentenceFormerDays,
+  ...week11SentenceFormerDays,
+  ...week12SentenceFormerDays,
+  ...week13SentenceFormerDays,
 ];

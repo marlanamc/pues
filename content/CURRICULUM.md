@@ -143,11 +143,10 @@ Context coverage across days (all four should keep appearing):
 
 ## Otoño, week by week (arcs)
 
-> **Status: 📝 weeks 2–13 planned — arcs only.** For the remainder of Otoño
-> and for Invierno/Primavera, day-level stem specs get authored at each
-> season boundary (late August, late November, late February), so they
-> match Marlana's actual level by then. The arcs below are the
-> commitments; the day specs are the just-in-time part.
+> **Status: ✅ full season authored (days 92–182).** Weeks 2–13 live in
+> `content/drafts/week{N}-*.ts` and are spread into each season's `otono.ts`
+> barrel via imports. Invierno/Primavera day-level specs still get authored at
+> each season boundary (late November, late February).
 
 Spine: **comprehension-led speaking** — read or hear something, then retell
 and react. Season goals: seguir una historia varios días; hablar un minuto
@@ -158,18 +157,18 @@ sustain* (weeks 9–13). Same shape as Verano: 13 weeks × (6 new days +
 | Wk | Tema | Focus | Status |
 |---|---|---|---|
 | 1 | Resumir | Retell a short read in 3–4 sentences: *Trata de…* · *La idea principal es que…* · *En pocas palabras…* · *Lo importante es que…* · *Al final…* | ✅ authored (days 92–98) |
-| 2 | Dice que… | Reported speech, present: *Dice que…* · *Según…* · *Explica que…* · *Se trata de…* | 📝 planned |
-| 3 | Dijo que… | Reported speech, past: *Dijo que…* · *Me contó que…* · *Mencionó que…* · *Preguntó si…* | 📝 planned |
-| 4 | Ya había pasado | Past perfect for backstory: *Ya había…* · *Todavía no había…* · *Nunca había…* | 📝 planned |
-| 5 | Además | Adding ideas: *además* · *también* · *aparte de eso* · *no solo… sino también* | 📝 planned |
-| 6 | Sin embargo | Contrasting: *sin embargo* · *aunque* · *en cambio* · *a pesar de* | 📝 planned |
-| 7 | Por eso | Cause & consequence: *por eso* · *así que* · *como…* · *debido a* | 📝 planned |
-| 8 | Ordenar las ideas | Discourse skeleton: *primero que nada* · *en cuanto a* · *por último* · *volviendo a lo de…* | 📝 planned |
-| 9 | ¿Te enteraste? | Sharing news, stories, and light gossip: *¿Te enteraste de…?* · *Vi que…* · *Salió una noticia sobre…* · *Resulta que…* · *Al parecer…* · *Me contaron que…* | 📝 planned |
-| 10 | Opinar sobre lo leído | Reacting to input: *Lo que más me llamó la atención fue…* · *Lo que no entiendo es…* · *Me dio gusto leer que…* | 📝 planned |
-| 11 | Seguir la historia | Serialized retelling (the season-goal week): *La última vez…* · *Mientras tanto…* · *Al día siguiente…* · *Ahora resulta que…* | 📝 planned |
-| 12 | El minuto entero | Scaffolded monologue: *Hoy quiero hablar de…* · *Hay tres cosas que…* · *Lo primero es…* · *Para terminar…* | 📝 planned |
-| 13 | Capstone | Retell + react + sustain in one; day-90-equivalent season retrospective; repaso = a one-minute retell of the season | 📝 planned |
+| 2 | Dice que… | Reported speech, present: *Dice que…* · *Según…* · *Explica que…* · *Se trata de…* · *Cuenta que…* | ✅ authored (days 99–105) |
+| 3 | Dijo que… | Reported speech, past: *Dijo que…* · *Me contó que…* · *Mencionó que…* · *Preguntó si…* · *Le dijo que…* | ✅ authored (days 106–112) |
+| 4 | Ya había pasado | Past perfect for backstory: *Ya había…* · *Todavía no había…* · *Nunca había…* · *Antes había…* · *Para entonces ya había…* | ✅ authored (days 113–119) |
+| 5 | Además | Adding ideas: *Además…* · *También…* · *Aparte de eso…* · *No solo… sino también…* · *Encima…* | ✅ authored (days 120–126) |
+| 6 | Sin embargo | Contrasting: *Sin embargo…* · *Aunque…* · *En cambio…* · *A pesar de…* · *Por otro lado…* | ✅ authored (days 127–133) |
+| 7 | Por eso | Cause & consequence: *Por eso…* · *Así que…* · *Como…* · *Debido a…* · *Gracias a…* | ✅ authored (days 134–140) |
+| 8 | Ordenar las ideas | Discourse skeleton: *Primero que nada…* · *En cuanto a…* · *Por último…* · *Volviendo a lo de…* · *En resumen…* | ✅ authored (days 141–147) |
+| 9 | ¿Te enteraste? | Sharing news: *¿Te enteraste de…?* · *Vi que…* · *Resulta que…* · *Al parecer…* · *Me contaron que…* | ✅ authored (days 148–154) |
+| 10 | Opinar sobre lo leído | Reacting to input: *Lo que más me llamó la atención fue…* · *Lo que no entiendo es…* · *Me dio gusto leer que…* · *Me sorprendió que…* · *Creo que el autor…* | ✅ authored (days 155–161) |
+| 11 | Seguir la historia | Serialized retelling (the season-goal week): *La última vez…* · *Mientras tanto…* · *Al día siguiente…* · *Ahora resulta que…* · *Desde entonces…* | ✅ authored (days 162–168) |
+| 12 | El minuto entero | Scaffolded monologue: *Hoy quiero hablar de…* · *Hay tres cosas que…* · *Lo primero es…* · *Lo segundo es…* · *Para terminar…* | ✅ authored (days 169–175) |
+| 13 | Capstone | Retell + react + sustain in one; day-90-equivalent season retrospective; repaso = a one-minute retell of the season | ✅ authored (days 176–182) |
 
 **The structural idea for Otoño:** La Lectura graduates from bedtime extra
 to the season's input backbone. Each week gets a **serialized mini-story**
@@ -207,6 +206,26 @@ Stems (all 5, every day): *Trata de…* · *La idea principal es que…* ·
 | 96 | El primer día | Nervous first day; a coworker helps her |
 | 97 | Ya se siente en casa | A month in: new friend, favorite coffee shop |
 | 98 | **Repaso: resumir** | Recap — Priya asks how Naty's doing a month later |
+
+### Weeks 2–13 serialized stories (authored days 99–182)
+
+Each week reuses one stem toolkit all week (like Week 1), with a new
+serialized mini-story (6 installments + repaso):
+
+| Wk | Story | Days |
+|---|---|---|
+| 2 | La carta de la abuela | 99–105 |
+| 3 | La entrevista de Marcos | 106–112 |
+| 4 | El día del huracán | 113–119 |
+| 5 | La feria escolar | 120–126 |
+| 6 | El cambio de horario | 127–133 |
+| 7 | La avería del coche | 134–140 |
+| 8 | La presentación de Priya | 141–147 |
+| 9 | Las noticias del barrio | 148–154 |
+| 10 | El artículo | 155–161 |
+| 11 | El regreso de Diego | 162–168 |
+| 12 | Mi semana de práctica | 169–175 |
+| 13 | Mi otoño en Pues | 176–182 |
 
 ## Invierno, week by week (arcs)
 
