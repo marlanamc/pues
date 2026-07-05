@@ -7,18 +7,21 @@ import { SettingsMenuButton } from "@/components/SettingsMenu";
 import { frameDays, totalDays } from "@/content/frames";
 import { useStats } from "@/hooks/useStats";
 import { useThoughts } from "@/hooks/useThoughts";
-import { usePracticeDates } from "@/hooks/usePracticeDates";
-import { currentStreak, last7Days } from "@/lib/streak";
+import { currentStreak, last7Days, practiceDatesFromThoughts } from "@/lib/streak";
 
 export default function ProgressPage() {
   const { stats, hydrated } = useStats();
   const { thoughts } = useThoughts();
-  const { practiced } = usePracticeDates();
   const [now, setNow] = useState<Date | null>(null);
 
   useEffect(() => {
     setNow(new Date());
   }, []);
+
+  const practiced = useMemo(
+    () => practiceDatesFromThoughts(thoughts),
+    [thoughts],
+  );
   const streak = useMemo(
     () => currentStreak(practiced, now ?? new Date()),
     [practiced, now],

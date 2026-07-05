@@ -6,9 +6,8 @@ import { Gloss } from "@/components/Gloss";
 import { PageHeader, Wordmark } from "@/components/PageHeader";
 import { useStats } from "@/hooks/useStats";
 import { useThoughts } from "@/hooks/useThoughts";
-import { usePracticeDates } from "@/hooks/usePracticeDates";
 import type { Thought } from "@/lib/store";
-import { currentStreak } from "@/lib/streak";
+import { currentStreak, practiceDatesFromThoughts } from "@/lib/streak";
 import { SEASONS, seasonForDate } from "@/lib/season";
 
 const DIA_SHORT = ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"];
@@ -40,14 +39,16 @@ function dayTag(createdAt: string): string {
 export default function CuadernoPage() {
   const { stats, hydrated } = useStats();
   const { thoughts } = useThoughts();
-  const { practiced } = usePracticeDates();
 
   const now = useMemo(() => new Date(), []);
   const said = hydrated ? stats.sentencesCreated : thoughts.length;
   // Hold counts at an em dash until the store has hydrated, so they don't flash
   // 0 → real value on first paint.
   const saidLabel = hydrated ? String(said) : "—";
-  const streak = useMemo(() => currentStreak(practiced), [practiced]);
+  const streak = useMemo(
+    () => currentStreak(practiceDatesFromThoughts(thoughts)),
+    [thoughts],
+  );
 
   // Group (already sorted newest-first) into ordered week buckets.
   const groups = useMemo(() => {

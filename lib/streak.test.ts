@@ -1,6 +1,5 @@
 import { describe, it, expect, afterEach } from "vitest";
 import {
-  collectPracticeDates,
   currentStreak,
   last7Days,
   practiceDatesFromThoughts,
@@ -32,27 +31,6 @@ describe("practiceDatesFromThoughts", () => {
   it("collapses thoughts to unique YYYY-MM-DD days", () => {
     const set = practiceDatesFromThoughts([on("2026-06-23"), on("2026-06-23"), on("2026-06-22")]);
     expect([...set].sort()).toEqual(["2026-06-22", "2026-06-23"]);
-  });
-});
-
-describe("collectPracticeDates", () => {
-  it("unions thoughts, day keys, and timestamps into one set", () => {
-    const set = collectPracticeDates({
-      thoughts: [on("2026-06-23")],
-      dayKeys: ["2026-06-22"],
-      timestamps: ["2026-06-21T10:00:00Z"],
-    });
-    expect([...set].sort()).toEqual(["2026-06-21", "2026-06-22", "2026-06-23"]);
-  });
-
-  it("counts a day practiced through a single non-speak activity", () => {
-    const set = collectPracticeDates({ dayKeys: ["2026-06-22"] });
-    expect(currentStreak(set, now)).toBe(1);
-  });
-
-  it("ignores malformed timestamps and missing sources", () => {
-    const set = collectPracticeDates({ timestamps: ["not-a-date"] });
-    expect(set.size).toBe(0);
   });
 });
 

@@ -1,24 +1,30 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { PROMPTS_PER_DAY } from "@/content/prompts";
 import { useStats } from "@/hooks/useStats";
 import { useThoughts } from "@/hooks/useThoughts";
-import { usePracticeDates } from "@/hooks/usePracticeDates";
 import { getSessionIndex } from "@/lib/store";
-import { currentStreak, last7Days } from "@/lib/streak";
+import {
+  currentStreak,
+  last7Days,
+  practiceDatesFromThoughts,
+} from "@/lib/streak";
 
 export function NotebookAside() {
   const { stats, hydrated } = useStats();
   const { thoughts, hydrated: thoughtsHydrated } = useThoughts();
-  const { practiced } = usePracticeDates();
   const [todayCount, setTodayCount] = useState(0);
 
   useEffect(() => {
     setTodayCount(getSessionIndex());
   }, [thoughts.length, stats.sentencesCreated]);
 
+  const practiced = useMemo(
+    () => practiceDatesFromThoughts(thoughts),
+    [thoughts]
+  );
   const streak = currentStreak(practiced);
   const week = last7Days(practiced);
   const ready = hydrated && thoughtsHydrated;
