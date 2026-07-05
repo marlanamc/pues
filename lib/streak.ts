@@ -10,6 +10,12 @@ export type DayActivity = {
 
 const DAY_LABELS = ["D", "L", "M", "M", "J", "V", "S"] as const;
 
+/**
+ * The streak counts ONLY spoken phrases (thoughts from the speak flow).
+ * La lectura, Sentence Former, and games are optional extras and deliberately
+ * don't extend it — and thoughts are also the one activity that syncs across
+ * devices (lib/sync.ts), so the streak reads the same everywhere.
+ */
 export function practiceDatesFromThoughts(thoughts: Thought[]): Set<string> {
   return new Set(thoughts.map((t) => calendarDateKey(new Date(t.createdAt))));
 }
