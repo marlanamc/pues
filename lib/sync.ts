@@ -30,7 +30,8 @@
 
 import { createClient } from "@/lib/supabase/client";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
-import { getRecording, putRecording, recordingExists } from "@/lib/audioStore";
+import { clearAllRecordings, getRecording, putRecording, recordingExists } from "@/lib/audioStore";
+import { clearAllProgressLocal } from "@/lib/store";
 import type { SessionStats, Thought } from "@/lib/store";
 
 const K = {
@@ -50,6 +51,8 @@ const K = {
   syncQueue: "pues:sync-queue",
   // Recording ids already uploaded to storage (skip re-upload).
   audioUploaded: "pues:audio-uploaded",
+  // Last remote progress reset this device has applied.
+  progressResetSeen: "pues:progress-reset-seen",
 } as const;
 
 // Keys that never leave the device (in-progress drafts, today's prompt cursor,
@@ -75,6 +78,7 @@ type Supabase = ReturnType<typeof createClient>;
 let userId: string | null = null;
 let started = false;
 let hydrating = false;
+let suppressPush = false;
 let lastPull = 0;
 let realtimeChannel: ReturnType<Supabase["channel"]> | null = null;
 const pushTimers = new Map<string, ReturnType<typeof setTimeout>>();
@@ -300,7 +304,51 @@ type StatsRow = {
   last_session_date: string | null;
   current_day_index: number;
   updated_at?: string | null;
+  progress_reset_at?: string | null;
 };
+
+/**
+ * Whether a remote reset tombstone is newer than what this device has applied.
+ * Pure — exported for unit testing.
+ */
+export function isRemoteResetNewer(
+  remoteResetAt: string | null | undefined,
+  localSeen: string
+): boolean {
+  return !!remoteResetAt && remoteResetAt > localSeen;
+}
+
+/**
+ * Fields to include on a stats upsert so an existing reset tombstone is preserved.
+ * Pure — exported for unit testing.
+ */
+export function preserveProgressResetAt(existingResetAt: string | null | undefined) {
+  return existingResetAt ? { progress_reset_at: existingResetAt } : {};
+}
+
+async function applyRemoteProgressReset(resetAt: string): Promise<void> {
+  clearAllProgressLocal({ silent: true });
+  await clearAllRecordings();
+  writeLocalRaw(K.audioUploaded, []);
+  writeLocalRaw(K.progressResetSeen, resetAt);
+  dequeue(K.thoughts);
+  dequeue(K.stats);
+  dequeue(K.practice);
+  emit("pues:stats-change");
+}
+
+async function maybeApplyRemoteReset(supabase: Supabase): Promise<boolean> {
+  const { data } = await supabase
+    .from("session_stats")
+    .select("progress_reset_at")
+    .maybeSingle();
+  if (!data) return false;
+  const remoteResetAt = (data as StatsRow).progress_reset_at;
+  const localSeen = readLocal<string>(K.progressResetSeen, "");
+  if (!isRemoteResetNewer(remoteResetAt, localSeen)) return false;
+  await applyRemoteProgressReset(remoteResetAt!);
+  return true;
+}
 
 /**
  * Merge stats. Additive counters take the max from each side. Curriculum day
@@ -361,6 +409,10 @@ async function pushStats(supabase: Supabase) {
   writeLocalRaw(K.stats, merged);
 
   const now = new Date().toISOString();
+  const existingResetAt =
+    data && typeof (data as StatsRow).days_practiced === "number"
+      ? (data as StatsRow).progress_reset_at
+      : null;
   const { error } = await supabase.from("session_stats").upsert(
     {
       user_id: userId,
@@ -370,6 +422,7 @@ async function pushStats(supabase: Supabase) {
       last_session_date: merged.lastSessionDate,
       current_day_index: merged.currentDayIndex,
       updated_at: now,
+      ...preserveProgressResetAt(existingResetAt),
     },
     { onConflict: "user_id" }
   );
@@ -499,6 +552,7 @@ async function pushQuestionnaire(supabase: Supabase) {
 async function pullAll(supabase: Supabase) {
   hydrating = true;
   try {
+    await maybeApplyRemoteReset(supabase);
     await Promise.all([
       pullThoughts(supabase),
       pullStats(supabase),
@@ -577,7 +631,7 @@ async function pushKey(key: string) {
 }
 
 function schedulePush(key: string) {
-  if (!userId || LOCAL_ONLY.has(key)) return;
+  if (!userId || LOCAL_ONLY.has(key) || suppressPush) return;
   const existing = pushTimers.get(key);
   if (existing) clearTimeout(existing);
   pushTimers.set(
@@ -611,7 +665,7 @@ export function hasPendingSync(): boolean {
 
 function onMutate(event: Event) {
   const key = (event as CustomEvent<{ key?: string }>).detail?.key;
-  if (!key) return;
+  if (!key || suppressPush) return;
   // While the first/any pull is settling, hold writes so remote state doesn't
   // overwrite them; replay once it finishes (flushPending).
   if (hydrating) {
@@ -656,6 +710,11 @@ function subscribeRealtime(supabase: Supabase) {
     .on(
       "postgres_changes",
       { event: "*", schema: "public", table: "session_stats", filter: `user_id=eq.${userId}` },
+      () => void maybePull()
+    )
+    .on(
+      "postgres_changes",
+      { event: "*", schema: "public", table: "practice_flags", filter: `user_id=eq.${userId}` },
       () => void maybePull()
     )
     .subscribe();
@@ -709,9 +768,21 @@ export async function startSync() {
   emit("pues:sync-change");
 }
 
+/** Block debounced pushes while a progress reset is in flight. */
+export function beginResetProgress(): void {
+  suppressPush = true;
+  for (const timer of pushTimers.values()) clearTimeout(timer);
+  pushTimers.clear();
+}
+
+/** Resume debounced pushes after a progress reset completes. */
+export function endResetProgress(): void {
+  suppressPush = false;
+}
+
 /**
- * Erase synced progress for the signed-in user. Call after `resetProgress()` so
- * a later pull cannot restore journal entries or counters from the cloud.
+ * Erase synced progress for the signed-in user. Call while `beginResetProgress()`
+ * is active, before local wipe, so debounced pushes cannot restore old cloud data.
  */
 export async function resetCloudProgress(): Promise<void> {
   if (!isBrowser() || !isSupabaseConfigured()) return;
@@ -734,6 +805,7 @@ export async function resetCloudProgress(): Promise<void> {
         last_session_date: null,
         current_day_index: 0,
         updated_at: now,
+        progress_reset_at: now,
       },
       { onConflict: "user_id" },
     ),
@@ -743,6 +815,7 @@ export async function resetCloudProgress(): Promise<void> {
   }
 
   writeLocalRaw(K.statsUpdated, now);
+  writeLocalRaw(K.progressResetSeen, now);
   writeLocalRaw(K.audioUploaded, []);
   dequeue(K.thoughts);
   dequeue(K.stats);

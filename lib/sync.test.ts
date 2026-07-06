@@ -1,5 +1,12 @@
 import { describe, it, expect } from "vitest";
-import { mergeStats, mergeThoughts, mergeQuestionnaire } from "@/lib/sync";
+import {
+  isRemoteResetNewer,
+  mergeStats,
+  mergeThoughts,
+  mergeQuestionnaire,
+  preserveProgressResetAt,
+} from "@/lib/sync";
+import { clearAllProgressLocal } from "@/lib/store";
 import type { SessionStats, Thought } from "@/lib/store";
 
 function thought(partial: Partial<Thought> & Pick<Thought, "id" | "createdAt">): Thought {
@@ -107,5 +114,49 @@ describe("mergeQuestionnaire", () => {
     expect(
       mergeQuestionnaire(local, remote, "2026-06-23T11:00:00Z", "2026-06-23T10:00:00Z").city
     ).toBe("Bristol");
+  });
+});
+
+describe("progress reset tombstone", () => {
+  it("detects when a remote reset is newer than the local watermark", () => {
+    expect(isRemoteResetNewer("2026-07-06T12:00:00Z", "2026-07-06T11:00:00Z")).toBe(true);
+    expect(isRemoteResetNewer("2026-07-06T11:00:00Z", "2026-07-06T11:00:00Z")).toBe(false);
+    expect(isRemoteResetNewer(null, "")).toBe(false);
+    expect(isRemoteResetNewer(undefined, "2026-07-06T11:00:00Z")).toBe(false);
+  });
+
+  it("preserves progress_reset_at on normal stats upserts", () => {
+    expect(preserveProgressResetAt("2026-07-06T12:00:00Z")).toEqual({
+      progress_reset_at: "2026-07-06T12:00:00Z",
+    });
+    expect(preserveProgressResetAt(null)).toEqual({});
+    expect(preserveProgressResetAt(undefined)).toEqual({});
+  });
+
+  it("clears all progress keys when applying a remote reset locally", () => {
+    localStorage.setItem("pues:thoughts", JSON.stringify([{ id: "t1" }]));
+    localStorage.setItem(
+      "pues:stats",
+      JSON.stringify({
+        daysPracticed: 5,
+        sentencesCreated: 10,
+        framesExplored: ["yo"],
+        lastSessionDate: "2026-06-23",
+        currentDayIndex: 3,
+      }),
+    );
+    localStorage.setItem("pues:practice", JSON.stringify(["p1"]));
+    localStorage.setItem("pues:sb-progress", JSON.stringify({ L1: { stars: 3 } }));
+    localStorage.setItem("pues:reading-log", JSON.stringify(["2026-06-20"]));
+    localStorage.setItem("pues:sentence-former-saved", JSON.stringify([{ id: "sf1" }]));
+
+    clearAllProgressLocal({ silent: true });
+
+    expect(JSON.parse(localStorage.getItem("pues:thoughts") ?? "[]")).toEqual([]);
+    expect(JSON.parse(localStorage.getItem("pues:stats") ?? "{}")).toEqual(baseStats);
+    expect(JSON.parse(localStorage.getItem("pues:practice") ?? "[]")).toEqual([]);
+    expect(JSON.parse(localStorage.getItem("pues:sb-progress") ?? "{}")).toEqual({});
+    expect(JSON.parse(localStorage.getItem("pues:reading-log") ?? "[]")).toEqual([]);
+    expect(JSON.parse(localStorage.getItem("pues:sentence-former-saved") ?? "[]")).toEqual([]);
   });
 });

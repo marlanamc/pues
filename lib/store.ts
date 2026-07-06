@@ -154,15 +154,38 @@ function read<T>(key: string, fallback: T): T {
   }
 }
 
-function write<T>(key: string, value: T): void {
+function writeRaw<T>(key: string, value: T): void {
   if (!isBrowser()) return;
   try {
     window.localStorage.setItem(key, JSON.stringify(value));
-    // Let the cloud sync layer (lib/sync.ts) mirror this write upstream.
-    window.dispatchEvent(new CustomEvent("pues:mutate", { detail: { key } }));
   } catch {
     /* quota / privacy mode — ignore */
   }
+}
+
+function write<T>(key: string, value: T): void {
+  if (!isBrowser()) return;
+  writeRaw(key, value);
+  // Let the cloud sync layer (lib/sync.ts) mirror this write upstream.
+  window.dispatchEvent(new CustomEvent("pues:mutate", { detail: { key } }));
+}
+
+export type ClearProgressOptions = {
+  /** When true, skip `pues:mutate` events (used while applying a remote reset). */
+  silent?: boolean;
+};
+
+/** Wipe all learning progress keys in localStorage. Shared by reset UI and cloud sync. */
+export function clearAllProgressLocal(options?: ClearProgressOptions): void {
+  const set = options?.silent ? writeRaw : write;
+  set(K_THOUGHTS, []);
+  set(K_STATS, EMPTY_STATS);
+  set(K_DRAFT, {});
+  set(K_SESSION, { dayIndex: 0, index: 0 });
+  set(K_PRACTICE, []);
+  set(K_SB_PROGRESS, {});
+  set(K_READING_LOG, []);
+  set(K_SENTENCE_FORMER_SAVED, []);
 }
 
 /* ---------- Runtime validation ---------- */
@@ -557,14 +580,7 @@ export function setTextSize(size: TextSize): TextSize {
 
 /** Wipe learning progress while keeping appearance and account preferences. */
 export function resetProgress(): void {
-  write(K_THOUGHTS, []);
-  write(K_STATS, EMPTY_STATS);
-  write(K_DRAFT, {});
-  write(K_SESSION, { dayIndex: 0, index: 0 });
-  write(K_PRACTICE, []);
-  write(K_SB_PROGRESS, {});
-  write(K_READING_LOG, []);
-  write(K_SENTENCE_FORMER_SAVED, []);
+  clearAllProgressLocal();
   if (isBrowser()) {
     window.dispatchEvent(new Event("pues:stats-change"));
   }

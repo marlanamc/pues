@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Gloss } from "@/components/Gloss";
 import { clearAllRecordings } from "@/lib/audioStore";
 import { resetProgress } from "@/lib/store";
-import { resetCloudProgress } from "@/lib/sync";
+import { beginResetProgress, endResetProgress, resetCloudProgress } from "@/lib/sync";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
 
 export function ResetProgressCard() {
@@ -15,16 +15,18 @@ export function ResetProgressCard() {
   async function handleResetProgress() {
     setResetting(true);
     setResetError(null);
+    beginResetProgress();
     try {
-      await clearAllRecordings();
-      resetProgress();
       if (isSupabaseConfigured()) {
         await resetCloudProgress();
       }
+      await clearAllRecordings();
+      resetProgress();
       setConfirmOpen(false);
     } catch {
       setResetError("No se pudo reiniciar. Inténtalo de nuevo.");
     } finally {
+      endResetProgress();
       setResetting(false);
     }
   }
