@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { AccountCard } from "@/components/AccountCard";
+import { ResetProgressCard } from "@/components/ResetProgressCard";
 import { ThemePicker } from "@/components/ThemePicker";
 import { AudioSpeedToggle } from "@/components/AudioSpeedToggle";
 import { EnglishGlossToggle } from "@/components/EnglishGlossToggle";
@@ -110,7 +111,10 @@ export default function SettingsPage() {
                 Progreso
               </p>
               <p className="text-sm text-ink-mute leading-relaxed">
-                Streak, frames practiced, and sentences built.
+                Racha, frases dichas, y tu día en el plan.
+              </p>
+              <p className="text-gloss">
+                Streak, spoken phrases, and your place in the plan.
               </p>
             </div>
             <span className="text-ink-mute" aria-hidden>
@@ -119,6 +123,13 @@ export default function SettingsPage() {
           </Link>
         </li>
       </ul>
+
+      <section className="space-y-3">
+        <p className="text-caption text-ink-mute">Datos</p>
+        <div className="rounded-lg border border-rule bg-surface p-6 space-y-3">
+          <ResetProgressCard />
+        </div>
+      </section>
 
       <div className="rounded-lg border border-dashed border-rule p-6">
         <div className="space-y-3 text-center">

@@ -11,6 +11,10 @@ import {
   listThoughts,
   runMigrations,
   getTheme,
+  resetProgress,
+  getReadingLog,
+  listSentenceFormerEntries,
+  listPracticeFlags,
 } from "@/lib/store";
 
 function newThought(frameStem = "yo") {
@@ -155,6 +159,48 @@ describe("schema migrations", () => {
     runMigrations();
     // Legacy value left untouched because the version is already current.
     expect(JSON.parse(localStorage.getItem("pues:theme-mode") ?? '""')).toBe("light");
+  });
+});
+
+describe("resetProgress", () => {
+  it("clears journal, stats, session, and other progress keys", () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-06-20T10:00:00Z"));
+
+    saveThought(newThought());
+    setCurrentDayIndex(12);
+    advanceSession(3);
+    recordSbLevelResult("L1", 5, 5);
+    localStorage.setItem("pues:practice", JSON.stringify(["d1-prompt"]));
+    localStorage.setItem("pues:reading-log", JSON.stringify(["2026-06-20"]));
+    localStorage.setItem(
+      "pues:sentence-former-saved",
+      JSON.stringify([
+        {
+          id: "sf1",
+          day: 1,
+          stem: "Quiero…",
+          text: "aprender",
+          createdAt: "2026-06-20T10:00:00Z",
+        },
+      ]),
+    );
+
+    resetProgress();
+
+    expect(listThoughts()).toEqual([]);
+    expect(getStats()).toEqual({
+      daysPracticed: 0,
+      sentencesCreated: 0,
+      framesExplored: [],
+      lastSessionDate: null,
+      currentDayIndex: 0,
+    });
+    expect(getSession()).toEqual({ dayIndex: 0, index: 0 });
+    expect(listPracticeFlags()).toEqual([]);
+    expect(getReadingLog()).toEqual([]);
+    expect(listSentenceFormerEntries()).toEqual([]);
+    expect(JSON.parse(localStorage.getItem("pues:sb-progress") ?? "{}")).toEqual({});
   });
 });
 

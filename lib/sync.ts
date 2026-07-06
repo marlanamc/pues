@@ -709,6 +709,47 @@ export async function startSync() {
   emit("pues:sync-change");
 }
 
+/**
+ * Erase synced progress for the signed-in user. Call after `resetProgress()` so
+ * a later pull cannot restore journal entries or counters from the cloud.
+ */
+export async function resetCloudProgress(): Promise<void> {
+  if (!isBrowser() || !isSupabaseConfigured()) return;
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return;
+
+  const now = new Date().toISOString();
+  const errors = await Promise.all([
+    supabase.from("thoughts").delete().eq("user_id", user.id),
+    supabase.from("practice_flags").delete().eq("user_id", user.id),
+    supabase.from("session_stats").upsert(
+      {
+        user_id: user.id,
+        days_practiced: 0,
+        sentences_created: 0,
+        frames_explored: [],
+        last_session_date: null,
+        current_day_index: 0,
+        updated_at: now,
+      },
+      { onConflict: "user_id" },
+    ),
+  ]);
+  for (const { error } of errors) {
+    if (error) throw error;
+  }
+
+  writeLocalRaw(K.statsUpdated, now);
+  writeLocalRaw(K.audioUploaded, []);
+  dequeue(K.thoughts);
+  dequeue(K.stats);
+  dequeue(K.practice);
+  emit("pues:sync-change");
+}
+
 /** Tear down sync listeners and clear the active user (e.g. on sign-out). */
 export function stopSync() {
   if (!isBrowser()) return;

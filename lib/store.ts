@@ -552,3 +552,20 @@ export function setTextSize(size: TextSize): TextSize {
   write(K_TEXT_SIZE, size);
   return size;
 }
+
+/* ---------- Reset progress ---------- */
+
+/** Wipe learning progress while keeping appearance and account preferences. */
+export function resetProgress(): void {
+  write(K_THOUGHTS, []);
+  write(K_STATS, EMPTY_STATS);
+  write(K_DRAFT, {});
+  write(K_SESSION, { dayIndex: 0, index: 0 });
+  write(K_PRACTICE, []);
+  write(K_SB_PROGRESS, {});
+  write(K_READING_LOG, []);
+  write(K_SENTENCE_FORMER_SAVED, []);
+  if (isBrowser()) {
+    window.dispatchEvent(new Event("pues:stats-change"));
+  }
+}
