@@ -71,6 +71,55 @@ describe("mergeStats", () => {
     expect(merged.currentDayIndex).toBe(3);
     expect(merged.lastSessionDate).toBe("2026-06-23");
   });
+
+  it("honors a cloud progress reset newer than the local stats write", () => {
+    const local = {
+      ...baseStats,
+      daysPracticed: 3,
+      sentencesCreated: 8,
+      framesExplored: ["yo"],
+      currentDayIndex: 3,
+      lastSessionDate: "2026-07-08",
+    };
+    const remote = {
+      days_practiced: 0,
+      sentences_created: 0,
+      frames_explored: [],
+      last_session_date: null,
+      current_day_index: 0,
+      progress_reset_at: "2026-07-09T15:00:00Z",
+    };
+    const merged = mergeStats(local, remote, "2026-07-08T12:00:00Z", "2026-07-09T15:00:00Z");
+    expect(merged).toEqual({
+      daysPracticed: 0,
+      sentencesCreated: 0,
+      framesExplored: [],
+      lastSessionDate: null,
+      currentDayIndex: 0,
+    });
+  });
+
+  it("keeps local progress made after a cloud reset tombstone", () => {
+    const local = {
+      ...baseStats,
+      daysPracticed: 1,
+      sentencesCreated: 2,
+      currentDayIndex: 1,
+      lastSessionDate: "2026-07-09",
+    };
+    const remote = {
+      days_practiced: 0,
+      sentences_created: 0,
+      frames_explored: [],
+      last_session_date: null,
+      current_day_index: 0,
+      progress_reset_at: "2026-07-09T12:00:00Z",
+    };
+    // Local stats were written after the reset — max-merge as usual.
+    const merged = mergeStats(local, remote, "2026-07-09T13:00:00Z", "2026-07-09T12:00:00Z");
+    expect(merged.currentDayIndex).toBe(1);
+    expect(merged.sentencesCreated).toBe(2);
+  });
 });
 
 describe("mergeThoughts", () => {

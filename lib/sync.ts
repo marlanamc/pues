@@ -331,9 +331,15 @@ async function applyRemoteProgressReset(resetAt: string): Promise<void> {
   await clearAllRecordings();
   writeLocalRaw(K.audioUploaded, []);
   writeLocalRaw(K.progressResetSeen, resetAt);
+  // Align the stats watermark with the tombstone so a later mergeStats does not
+  // treat pre-reset localUpdated as "newer practice" and Math.max the old day back.
+  writeLocalRaw(K.statsUpdated, resetAt);
   dequeue(K.thoughts);
   dequeue(K.stats);
   dequeue(K.practice);
+  pendingDuringHydration.delete(K.stats);
+  pendingDuringHydration.delete(K.thoughts);
+  pendingDuringHydration.delete(K.practice);
   emit("pues:stats-change");
 }
 
@@ -354,13 +360,28 @@ async function maybeApplyRemoteReset(supabase: Supabase): Promise<boolean> {
  * Merge stats. Additive counters take the max from each side. Curriculum day
  * (`currentDayIndex`) and `lastSessionDate` also take the max so a stale device
  * that syncs later cannot roll back progress made on another device.
+ *
+ * Exception: if the cloud carries a `progress_reset_at` newer than this device's
+ * last stats write, local progress is stale — take the remote row as truth so a
+ * reset to day 0 cannot be Math.max'd back up by an old tab.
  */
 export function mergeStats(
   local: SessionStats,
   remote: StatsRow,
-  _localUpdated: string,
+  localUpdated: string,
   _remoteUpdated: string
 ): SessionStats {
+  const resetAt = remote.progress_reset_at ?? null;
+  if (resetAt && resetAt > (localUpdated ?? "")) {
+    return {
+      daysPracticed: remote.days_practiced ?? 0,
+      sentencesCreated: remote.sentences_created ?? 0,
+      framesExplored: [...(remote.frames_explored ?? [])],
+      lastSessionDate: remote.last_session_date ?? null,
+      currentDayIndex: remote.current_day_index ?? 0,
+    };
+  }
+
   const remoteIndex = remote.current_day_index ?? 0;
   const localIndex = local.currentDayIndex ?? 0;
   return {
@@ -681,21 +702,25 @@ async function maybePull() {
   await pullAll(createClient());
 }
 
-function onFocus() {
-  void maybePull();
+async function pullThenFlush() {
+  await maybePull();
+  // Push only after pull so a progress_reset_at tombstone is applied before any
+  // queued stale stats can Math.max an old day index back onto the cloud.
   flushSyncQueue();
+}
+
+function onFocus() {
+  void pullThenFlush();
 }
 
 function onVisible() {
   if (document.visibilityState === "visible") {
-    void maybePull();
-    flushSyncQueue();
+    void pullThenFlush();
   }
 }
 
 function onOnline() {
-  flushSyncQueue();
-  void maybePull();
+  void pullThenFlush();
 }
 
 function subscribeRealtime(supabase: Supabase) {
@@ -777,6 +802,11 @@ export function beginResetProgress(): void {
 
 /** Resume debounced pushes after a progress reset completes. */
 export function endResetProgress(): void {
+  // Drop anything queued while the wipe was in flight — those keys hold
+  // pre-reset snapshots and must not race the fresh day-0 cloud row.
+  pendingDuringHydration.delete(K.stats);
+  pendingDuringHydration.delete(K.thoughts);
+  pendingDuringHydration.delete(K.practice);
   suppressPush = false;
 }
 
