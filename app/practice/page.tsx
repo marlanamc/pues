@@ -7,7 +7,7 @@ import { PlayButton } from "@/components/PlayButton";
 import { ClickablePrompt } from "@/components/ClickablePrompt";
 import { Gloss } from "@/components/Gloss";
 import { totalDays } from "@/content/frames";
-import { speakDayForIndex, promptForSession, parseWhy, PROMPTS_PER_DAY, type SpeakPrompt } from "@/content/prompts";
+import { speakDayForIndex, promptForSession, parseWhy, type SpeakPrompt } from "@/content/prompts";
 import { getSessionIndex } from "@/lib/store";
 import { useStats } from "@/hooks/useStats";
 
@@ -38,7 +38,6 @@ export default function PracticeActPage() {
   const day = speakDayForIndex(stats.currentDayIndex);
   const dayNum = day.day.toString().padStart(2, "0");
   const mission = day.missionEs ?? day.line;
-  const nextSentence = Math.min(sessionIndex + 1, PROMPTS_PER_DAY);
 
   const examples = day.prompts.slice(0, showMore ? 5 : 3);
 
@@ -111,22 +110,22 @@ export default function PracticeActPage() {
           }}
         >
           <span className="mono-cap" style={{ color: "var(--accent)" }}>
-            Frase {nextSentence} de {PROMPTS_PER_DAY}
+            {sessionIndex === 0 ? "Una frase" : "¿Otra?"}
           </span>
-          <Gloss>{`Sentence ${nextSentence} of ${PROMPTS_PER_DAY}`}</Gloss>
+          <Gloss>{sessionIndex === 0 ? "One sentence" : "Another one?"}</Gloss>
           <h2 className="font-display text-ink" style={{ fontWeight: 300, fontSize: 26, marginTop: 10 }}>
             ¡Es tu turno!
           </h2>
           <Gloss>Your turn!</Gloss>
           <p className="font-display text-ink-soft" style={{ fontSize: 18, lineHeight: 1.35, margin: "8px auto 0", maxWidth: "30ch" }}>
-            Una frase a la vez: graba, revela la respuesta, y guarda.
+            Dilo en voz alta, revela la respuesta, y guarda. Grabar es opcional.
           </p>
-          <Gloss>One sentence at a time: record, reveal the answer, then save.</Gloss>
+          <Gloss>Say it out loud, reveal the answer, then save. Recording is optional.</Gloss>
           <Link href="/flow/speak" className="btn-primary btn-primary--center" style={{ marginTop: 24 }}>
-            {sessionIndex === 0 ? "Comenzar" : "Continuar"}
+            {sessionIndex === 0 ? "Una frase" : "¿Otra?"}
           </Link>
           <div style={{ textAlign: "center", marginTop: 8 }}>
-            <Gloss>{sessionIndex === 0 ? "Start" : "Continue"}</Gloss>
+            <Gloss>{sessionIndex === 0 ? "One sentence" : "One more"}</Gloss>
           </div>
         </div>
 

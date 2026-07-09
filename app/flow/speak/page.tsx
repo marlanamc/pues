@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { promptForSession, PROMPTS_PER_DAY } from "@/content/prompts";
+import { promptForSession } from "@/content/prompts";
 import { getSessionIndex } from "@/lib/store";
 import { useStats } from "@/hooks/useStats";
 import { useFlowDraft } from "@/hooks/useFlowDraft";
@@ -96,7 +96,12 @@ export default function SpeakPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [recorder.state, recorder.recordingId]);
 
-  async function onTap() {
+  function onSaidIt() {
+    if (advancing || recorder.state === "recording") return;
+    finish(null);
+  }
+
+  async function onMicTap() {
     if (advancing) return;
     if (recorder.state === "recording") {
       recorder.stop();
@@ -108,17 +113,32 @@ export default function SpeakPage() {
     if (!ok) finish(null);
   }
 
-  const subtitle =
-    recorder.state === "recording"
-      ? "Listening… tap when you're done"
-      : "Tap, then say it out loud";
+  const recording = recorder.state === "recording";
+
+  const headerLabel =
+    draft.source === "situation" ? (
+      <>
+        Dilo en español
+        <Gloss>Say it in Spanish</Gloss>
+      </>
+    ) : sessionIndex === 0 ? (
+      <>
+        Una frase
+        <Gloss>One sentence</Gloss>
+      </>
+    ) : (
+      <>
+        ¿Otra?
+        <Gloss>Another one?</Gloss>
+      </>
+    );
 
   return (
     <div
-      className="flex flex-1 flex-col"
+      className="speak-stage flex flex-1 flex-col"
       style={{ opacity: ready && statsHydrated && draftHydrated ? 1 : 0.5 }}
     >
-      <div>
+      <div className="speak-prompt-panel">
         <div className="situation-pill mt-[22px] lg:mt-4">
           <span className="dot" aria-hidden />
           <span className="mono-cap" style={{ color: "var(--ink-soft)" }}>
@@ -126,29 +146,56 @@ export default function SpeakPage() {
           </span>
         </div>
 
-        <p className="mono-cap mt-7 mb-3 lg:mt-5 lg:mb-2.5">
-          {draft.source === "situation" ? (
-            <>
-              Dilo en español
-              <Gloss>Say it in Spanish</Gloss>
-            </>
-          ) : (
-            <>
-              Frase {sessionIndex + 1} de {PROMPTS_PER_DAY}
-              <Gloss>{`Sentence ${sessionIndex + 1} of ${PROMPTS_PER_DAY}`}</Gloss>
-            </>
-          )}
-        </p>
+        <p className="mono-cap mt-7 mb-3 lg:mt-5 lg:mb-2.5">{headerLabel}</p>
         <ClickablePrompt text={prompt.english} wordHints={prompt.wordHints} />
       </div>
 
       <div className="flex-1 lg:hidden" />
 
-      <div className="flex flex-col items-center gap-3.5 lg:mt-8 lg:gap-3">
-        <MicButton state={recorder.state} onTap={onTap} />
-        <p className="text-display-italic text-center text-[0.9375rem] lg:text-base">
-          {subtitle}
-        </p>
+      <div className="flex flex-col items-center gap-4 lg:mt-8">
+        {recording ? (
+          <div className="flex flex-col items-center gap-2.5">
+            <MicButton state={recorder.state} onTap={onMicTap} />
+            <p className="text-display-italic text-center text-[0.9375rem] lg:text-base">
+              Listening… tap when you&apos;re done
+            </p>
+          </div>
+        ) : (
+          <>
+            <div className="flex w-full max-w-[320px] flex-col items-center gap-1.5">
+              <button
+                type="button"
+                onClick={onSaidIt}
+                disabled={advancing}
+                className="btn-primary btn-primary--center speak-dilo"
+              >
+                <span className="lab">Dilo</span>
+                <svg
+                  viewBox="0 0 24 24"
+                  width="19"
+                  height="19"
+                  aria-hidden
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={1.6}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+              </button>
+              <Gloss>I said it — continue</Gloss>
+            </div>
+
+            <div className="flex flex-col items-center gap-2">
+              <MicButton state={recorder.state} onTap={onMicTap} variant="optional" />
+              <p className="mono-cap text-center" style={{ color: "var(--ink-soft)" }}>
+                Grabar
+                <Gloss>Record if you want to compare later</Gloss>
+              </p>
+            </div>
+          </>
+        )}
       </div>
 
       <div

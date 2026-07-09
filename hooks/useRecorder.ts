@@ -55,10 +55,10 @@ export function isRecorderSupported() {
 /**
  * Thin MediaRecorder wrapper for the Speak screen and inline re-record on Reveal.
  *
- * The speak-first GATE is the must-have: a tap unlocks the reveal. Recording
- * the user's voice is the nice-to-have layered on top. If the browser lacks
- * MediaRecorder, or the user denies the mic, this degrades to gating-only
- * (state `unsupported`/`denied`) — the flow must never dead-end on that.
+ * Speak-first means say it before the model answer — not "must use the mic."
+ * Recording is optional. If the browser lacks MediaRecorder, or the user
+ * denies the mic, this degrades to gating-only (state `unsupported`/`denied`)
+ * — the flow must never dead-end on that.
  *
  * On stop, the clip is persisted to IndexedDB under a generated id, exposed as
  * `recordingId` so the flow can attach it to the saved Thought.

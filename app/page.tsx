@@ -76,7 +76,6 @@ export default function HomePage() {
   const temporada = TEMPORADAS[season.index - 1];
   // Every week is 6 new days + 1 repaso, so the week is a straight division.
   const weekNum = Math.min(13, Math.ceil(day.day / 7));
-  const nextSentence = Math.min(sessionIndex + 1, PROMPTS_PER_DAY);
 
   const greeting = useMemo(() => {
     const h = now ? now.getHours() : 9;
@@ -84,104 +83,117 @@ export default function HomePage() {
     if (h < 19) return "Buenas tardes";
     return "Buenas noches";
   }, [now]);
-  const greetingEn = useMemo(() => {
-    const h = now ? now.getHours() : 9;
-    if (h < 12) return "Good morning";
-    if (h < 19) return "Good afternoon";
-    return "Good evening";
-  }, [now]);
+
+  const ctaLabel =
+    sessionIndex === 0 ? "Una frase" : sessionIndex >= PROMPTS_PER_DAY ? "Repasar" : "¿Otra?";
+  const ctaGloss =
+    sessionIndex === 0
+      ? "One sentence"
+      : sessionIndex >= PROMPTS_PER_DAY
+        ? "Practice again"
+        : "One more";
 
   return (
-    <div className="fade-rise relative" style={{ paddingBottom: 96 }}>
+    <div className="hoy-stage fade-rise relative" style={{ paddingBottom: 96 }}>
       <PageHeader
         title={<Wordmark>Pues</Wordmark>}
         meta={<span className="mono-cap" style={{ color: "var(--accent)" }}>Racha · {streak}</span>}
       />
 
       <div style={{ maxWidth: 640, margin: "0 auto" }}>
-        {/* ===== Greeting ===== */}
-        <div style={{ marginTop: 24 }}>
-          <p className="mono-cap">¡{greeting}, {NAME}!</p>
-          <h1 className="text-display-2xl text-ink" style={{ marginTop: 10 }}>
-            ¿Listo para hablar español?
-          </h1>
-          <Gloss>Ready to speak Spanish?</Gloss>
-        </div>
-
-        {/* ===== Today — quiet notebook entry, not a promo card ===== */}
-        <div
-          style={{
-            marginTop: 28,
-            padding: "22px 20px",
-            background: "var(--surface)",
-            border: "1px solid var(--rule)",
-            borderRadius: 14,
-          }}
-        >
-          <span className="mono-cap flex items-center" style={{ gap: 7, color: "var(--accent)" }}>
-            <span aria-hidden style={{ display: "inline-flex" }}>{IconSun}</span>
-            Día {dayNum} · {day.themeEs}
-          </span>
-          <Gloss>{`Day ${dayNum} · ${day.themeEn}`}</Gloss>
-
-          <h2 className="text-display-xl text-ink" style={{ margin: "14px 0 0" }}>
-            {mission}
-          </h2>
-          {missionEn && (
-            <p className="text-gloss" style={{ color: "var(--ink-mute)", margin: "6px 0 0" }}>
-              {missionEn}
+        {/* ===== First viewport: brand + one sentence + CTA ===== */}
+        <div className="hoy-hero">
+          <div style={{ marginTop: 28 }}>
+            <p className="mono-cap">¡{greeting}, {NAME}!</p>
+            <h1 className="text-display-2xl text-ink hoy-brand" style={{ marginTop: 12 }}>
+              Pues
+            </h1>
+            <p
+              className="font-display text-ink"
+              style={{
+                marginTop: 10,
+                fontSize: "clamp(1.25rem, 4vw, 1.5rem)",
+                fontWeight: 300,
+                lineHeight: 1.25,
+                letterSpacing: "-0.01em",
+              }}
+            >
+              Una frase en español.
             </p>
-          )}
+            <Gloss>One sentence in Spanish.</Gloss>
+          </div>
 
-          <p className="mono-cap" style={{ margin: "18px 0 0", color: "var(--ink-soft)" }}>
-            {`${sessionIndex} de ${PROMPTS_PER_DAY} · frase ${nextSentence}`}
-          </p>
-          <Gloss>
-            {`${sessionIndex} of ${PROMPTS_PER_DAY} · sentence ${nextSentence}`}
-          </Gloss>
+          <div className="hoy-mission">
+            <span className="mono-cap flex items-center" style={{ gap: 7, color: "var(--accent)" }}>
+              <span aria-hidden style={{ display: "inline-flex" }}>{IconSun}</span>
+              Día {dayNum} · {day.themeEs}
+            </span>
+            <Gloss>{`Day ${dayNum} · ${day.themeEn}`}</Gloss>
 
-          <Link href="/flow/speak" className="btn-primary" style={{ marginTop: 18 }}>
-            <span className="lab">{sessionIndex === 0 ? "Comenzar" : "Continuar"}</span>
-            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden {...ws}>
-              <path d="M5 12h14M13 6l6 6-6 6" />
-            </svg>
-          </Link>
-          <div style={{ marginTop: 6 }}>
-            <Gloss>{sessionIndex === 0 ? "Start today's practice" : "Continue where you left off"}</Gloss>
+            <h2 className="text-display-xl text-ink" style={{ margin: "14px 0 0" }}>
+              {mission}
+            </h2>
+            {missionEn && (
+              <p className="text-gloss" style={{ color: "var(--ink-mute)", margin: "6px 0 0" }}>
+                {missionEn}
+              </p>
+            )}
+
+            {sessionIndex > 0 && sessionIndex < PROMPTS_PER_DAY && (
+              <p className="mono-cap" style={{ margin: "14px 0 0", color: "var(--ink-mute)" }}>
+                {sessionIndex} hoy
+                <Gloss>{`${sessionIndex} today`}</Gloss>
+              </p>
+            )}
+
+            <Link href="/flow/speak" className="btn-primary hoy-cta" style={{ marginTop: 22 }}>
+              <span className="lab">{ctaLabel}</span>
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden {...ws}>
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </Link>
+            <div style={{ marginTop: 6 }}>
+              <Gloss>{ctaGloss}</Gloss>
+            </div>
           </div>
         </div>
 
-        {/* ===== También hoy — day-aligned companions, not the hero ===== */}
-        <SectionHead label="También hoy" labelEn="Also today" />
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-            gap: 12,
-          }}
-        >
-          <TodayExtraCard
-            href="/practice/sentence-former"
-            icon={IconFlash}
-            iconBorder="var(--zone-lugares)"
-            title="Formar la frase"
-            titleEn="Sentence Former"
-            meta="5 frases · opcional"
-            metaEn="5 sentences · optional"
-          />
-          <TodayExtraCard
-            href="/read"
-            icon={IconMoon}
-            iconBorder="var(--accent)"
-            title="La lectura"
-            titleEn="Reading"
-            meta={readingDone ? "Leído esta noche" : "Antes de dormir"}
-            metaEn={readingDone ? "Read tonight" : "Before bed"}
-            metaAccent={readingDone}
-          />
-        </div>
+        {/* ===== Below the fold — companions + path ===== */}
+        <details className="hoy-more">
+          <summary className="hoy-more-summary">
+            <span className="mono-cap">También hoy</span>
+            <Gloss>Also today</Gloss>
+          </summary>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+              gap: 12,
+              marginTop: 12,
+            }}
+          >
+            <TodayExtraCard
+              href="/practice/sentence-former"
+              icon={IconFlash}
+              iconBorder="var(--zone-lugares)"
+              title="Formar la frase"
+              titleEn="Sentence Former"
+              meta="5 frases · opcional"
+              metaEn="5 sentences · optional"
+            />
+            <TodayExtraCard
+              href="/read"
+              icon={IconMoon}
+              iconBorder="var(--accent)"
+              title="La lectura"
+              titleEn="Reading"
+              meta={readingDone ? "Leído esta noche" : "Antes de dormir"}
+              metaEn={readingDone ? "Read tonight" : "Before bed"}
+              metaAccent={readingDone}
+            />
+          </div>
+        </details>
 
-        {/* ===== Tu progreso en el camino ===== */}
         <SectionHead label="Tu progreso en el camino" labelEn="Your progress on the path" href="/camino" cta="Ver" />
         <Link
           href="/camino"
@@ -305,4 +317,3 @@ function SectionHead({
     </div>
   );
 }
-

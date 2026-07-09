@@ -133,10 +133,16 @@ export default function SavedPage() {
             ? "Guardado en Lugares."
             : count !== null
               ? dayJustCompleted
-                ? `¡Día completo! ${count} de ${PROMPTS_PER_DAY}.`
-                : `${count} de ${PROMPTS_PER_DAY} hoy.`
+                ? "¡Día completo!"
+                : "Guardada."
               : " "}
         </p>
+        {!isSituationPractice && count !== null && !dayJustCompleted && (
+          <p className="mono-cap" style={{ marginTop: 6, color: "var(--ink-mute)" }}>
+            {count} de {PROMPTS_PER_DAY} hoy
+            <Gloss>{`${count} of ${PROMPTS_PER_DAY} today`}</Gloss>
+          </p>
+        )}
 
         <div
           style={{
@@ -175,33 +181,58 @@ export default function SavedPage() {
       </div>
 
       <div className="flex flex-col gap-2.5" style={{ paddingBottom: 18 }}>
-        <button type="button" onClick={next} className="btn-primary">
-          <span className="lab">
-            {isSituationPractice ? "Volver al lugar" : "Siguiente"}
-          </span>
-          <svg
-            viewBox="0 0 24 24"
-            width="19"
-            height="19"
-            aria-hidden
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={1.6}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M5 12h14M13 6l6 6-6 6" />
-          </svg>
-        </button>
-        {!isSituationPractice && (
-          <button
-            type="button"
-            onClick={finish}
-            className="px-6 py-2 text-center"
-            style={{ color: "var(--ink-soft)" }}
-          >
-            Guardar y terminar
+        {isSituationPractice ? (
+          <button type="button" onClick={next} className="btn-primary">
+            <span className="lab">Volver al lugar</span>
+            <svg
+              viewBox="0 0 24 24"
+              width="19"
+              height="19"
+              aria-hidden
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={1.6}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
           </button>
+        ) : (
+          <>
+            <button type="button" onClick={finish} className="btn-primary">
+              <span className="lab">Terminar</span>
+              <svg
+                viewBox="0 0 24 24"
+                width="19"
+                height="19"
+                aria-hidden
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={1.6}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M5 12.5 10 17l9-10" />
+              </svg>
+            </button>
+            <div className="text-center">
+              <Gloss>Done for now</Gloss>
+            </div>
+            {!dayJustCompleted && (
+              <button
+                type="button"
+                onClick={next}
+                className="px-6 py-2.5 text-center min-h-[44px]"
+                style={{ color: "var(--ink-soft)" }}
+              >
+                <span className="font-display" style={{ fontSize: "1.0625rem" }}>
+                  ¿Otra?
+                </span>
+                <Gloss>One more</Gloss>
+              </button>
+            )}
+          </>
         )}
       </div>
     </div>
