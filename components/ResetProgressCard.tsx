@@ -11,10 +11,12 @@ export function ResetProgressCard() {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [resetting, setResetting] = useState(false);
   const [resetError, setResetError] = useState<string | null>(null);
+  const [resetDone, setResetDone] = useState(false);
 
   async function handleResetProgress() {
     setResetting(true);
     setResetError(null);
+    setResetDone(false);
     beginResetProgress();
     try {
       if (isSupabaseConfigured()) {
@@ -23,6 +25,7 @@ export function ResetProgressCard() {
       await clearAllRecordings();
       resetProgress();
       setConfirmOpen(false);
+      setResetDone(true);
     } catch {
       setResetError("No se pudo reiniciar. Inténtalo de nuevo.");
     } finally {
@@ -51,10 +54,22 @@ export function ResetProgressCard() {
           {resetError}
         </p>
       )}
+      {resetDone && !resetError && (
+        <p
+          className="text-sm leading-relaxed"
+          style={{ color: "var(--correct)" }}
+          role="status"
+          aria-live="polite"
+        >
+          Listo — progreso reiniciado. Empiezas de nuevo en el día 1.
+          <Gloss>Done — progress reset. You are back on day 1.</Gloss>
+        </p>
+      )}
       <button
         type="button"
         onClick={() => {
           setResetError(null);
+          setResetDone(false);
           setConfirmOpen(true);
         }}
         className="inline-flex min-h-[44px] items-center rounded-full border border-rule px-5 text-sm text-ink-mute transition-colors hover:border-accent/60 hover:text-accent"
