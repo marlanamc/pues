@@ -7,6 +7,7 @@
  */
 
 import { calendarDateKey } from "@/lib/calendarDate";
+import { DAYS_PER_WEEK, daysInWeek, weekFromDay } from "@/lib/planDay";
 
 // Self-assessment from the Reveal screen (warm check-in, not a grade):
 //   yes        → "Lo dije con soltura"
@@ -39,6 +40,19 @@ export type SessionStats = {
   framesExplored: string[];
   lastSessionDate: string | null;
   currentDayIndex: number;
+  /**
+   * Global curriculum weeks (1-based, `lib/planDay.ts`) whose momentum session
+   * has been completed — the weekend hour where the week ahead gets read,
+   * listened to, and warmed up. Drives the "Semanas" count.
+   */
+  primedWeeks: number[];
+  /**
+   * Curriculum day numbers (1-based) that have been worked through, in any
+   * order. A week is a queue you pull from at whatever pace, so this is a set
+   * rather than a high-water mark — completing day 3 before day 2 must not
+   * silently swallow day 2.
+   */
+  daysDone: number[];
 };
 
 export type Draft = Partial<{
@@ -137,6 +151,8 @@ const EMPTY_STATS: SessionStats = {
   framesExplored: [],
   lastSessionDate: null,
   currentDayIndex: 0,
+  primedWeeks: [],
+  daysDone: [],
 };
 
 function isBrowser() {
@@ -266,20 +282,105 @@ export function saveThought(input: Omit<Thought, "id" | "createdAt">): Thought {
 
 /* ---------- Stats ---------- */
 
+function numberList(v: unknown): number[] | null {
+  if (!Array.isArray(v)) return null;
+  return v.filter((n): n is number => typeof n === "number" && Number.isFinite(n));
+}
+
 export function getStats(): SessionStats {
   const raw = read<unknown>(K_STATS, EMPTY_STATS);
   if (!isStatsLike(raw)) return EMPTY_STATS;
-  if (typeof raw.currentDayIndex !== "number") {
-    return { ...raw, currentDayIndex: raw.daysPracticed };
-  }
-  return raw;
+
+  const currentDayIndex =
+    typeof raw.currentDayIndex === "number" ? raw.currentDayIndex : raw.daysPracticed;
+
+  // Stats written before the weekly rework have neither field. Under the old
+  // strictly-sequential model the cursor only ever advanced on completion, so
+  // every day before it was finished — that reconstructs `daysDone` exactly.
+  // `primedWeeks` genuinely starts empty: no week has been primed yet.
+  const daysDone =
+    numberList(raw.daysDone) ??
+    Array.from({ length: Math.max(0, currentDayIndex) }, (_, i) => i + 1);
+
+  return {
+    ...raw,
+    currentDayIndex,
+    primedWeeks: numberList(raw.primedWeeks) ?? [],
+    daysDone,
+  };
+}
+
+/**
+ * Where the cursor lands after finishing a day. The week is a queue: take the
+ * next unfinished day *within the current week* before moving on, so days done
+ * out of order never leave a gap behind. Only once the week is exhausted does
+ * the cursor roll into the next one.
+ */
+function nextDayIndex(fromIndex: number, daysDone: number[], totalDays: number): number {
+  const week = weekFromDay((fromIndex % totalDays) + 1);
+  const done = new Set(daysDone);
+  const remaining = daysInWeek(week).filter((d) => d <= totalDays && !done.has(d));
+  if (remaining.length > 0) return remaining[0] - 1;
+  // Week finished — roll to the first day of the next one, wrapping at the end
+  // of the authored curriculum the way the old sequential cursor did.
+  return (week * DAYS_PER_WEEK) % totalDays;
 }
 
 export function completeCurrentDay(totalDays: number): SessionStats {
   const prev = getStats();
+  const finished = (prev.currentDayIndex % totalDays) + 1;
+  const daysDone = prev.daysDone.includes(finished)
+    ? prev.daysDone
+    : [...prev.daysDone, finished].sort((a, b) => a - b);
   const next: SessionStats = {
     ...prev,
-    currentDayIndex: (prev.currentDayIndex + 1) % totalDays,
+    daysDone,
+    currentDayIndex: nextDayIndex(prev.currentDayIndex, daysDone, totalDays),
+  };
+  write(K_STATS, next);
+  if (isBrowser()) {
+    window.dispatchEvent(new Event("pues:stats-change"));
+  }
+  return next;
+}
+
+/* ---------- The week (el impulso) ---------- */
+// The week, not the day, is the unit of rhythm: one unhurried session reads the
+// week ahead and lights it, then its 7 days are a queue pulled at any pace.
+// Nothing here ever gates the daily flow — an unprimed week is a quiet note.
+
+/** The global curriculum week the cursor is currently sitting in. */
+export function currentWeek(stats: SessionStats = getStats()): number {
+  return weekFromDay(stats.currentDayIndex + 1);
+}
+
+/** Whether this week's momentum session has been completed. */
+export function isWeekPrimed(weekNum: number, stats: SessionStats = getStats()): boolean {
+  return stats.primedWeeks.includes(weekNum);
+}
+
+/** The days of `weekNum` already worked through — drives the "N de 7" meter. */
+export function weekDaysDone(weekNum: number, stats: SessionStats = getStats()): number[] {
+  const done = new Set(stats.daysDone);
+  return daysInWeek(weekNum).filter((d) => done.has(d));
+}
+
+/**
+ * Close the momentum session for a week: mark it primed and load its queue by
+ * putting the cursor on its first unfinished day. Idempotent — re-reading a
+ * week you already prepared costs nothing and doesn't double-count.
+ */
+export function primeWeek(weekNum: number, totalDays: number): SessionStats {
+  const prev = getStats();
+  const primedWeeks = prev.primedWeeks.includes(weekNum)
+    ? prev.primedWeeks
+    : [...prev.primedWeeks, weekNum].sort((a, b) => a - b);
+  const done = new Set(prev.daysDone);
+  const firstOpen = daysInWeek(weekNum).find((d) => d <= totalDays && !done.has(d));
+  const next: SessionStats = {
+    ...prev,
+    primedWeeks,
+    currentDayIndex: firstOpen ? firstOpen - 1 : prev.currentDayIndex,
   };
   write(K_STATS, next);
   if (isBrowser()) {
@@ -306,11 +407,11 @@ function bumpStats(thought: Thought) {
     ? prev.framesExplored
     : [...prev.framesExplored, thought.frameStem];
   const next: SessionStats = {
+    ...prev,
     daysPracticed: prev.daysPracticed + (isNewDay ? 1 : 0),
     sentencesCreated: prev.sentencesCreated + 1,
     framesExplored,
     lastSessionDate: today,
-    currentDayIndex: prev.currentDayIndex,
   };
   write(K_STATS, next);
   if (isBrowser()) {

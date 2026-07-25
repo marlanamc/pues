@@ -9,6 +9,8 @@ const EMPTY: SessionStats = {
   framesExplored: [],
   lastSessionDate: null,
   currentDayIndex: 0,
+  primedWeeks: [],
+  daysDone: [],
 };
 
 const STATS_EVENTS = ["pues:stats-change", "pues:sync-change"] as const;

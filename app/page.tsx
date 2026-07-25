@@ -6,10 +6,16 @@ import { Gloss } from "@/components/Gloss";
 import { PageHeader, Wordmark } from "@/components/PageHeader";
 import { speakDayForIndex, PROMPTS_PER_DAY } from "@/content/prompts";
 import { TEMPORADAS } from "@/content/temporadas";
-import { getSessionIndex, readingDoneToday } from "@/lib/store";
+import {
+  currentWeek,
+  getSessionIndex,
+  isWeekPrimed,
+  readingDoneToday,
+  weekDaysDone,
+} from "@/lib/store";
 import { useStats } from "@/hooks/useStats";
-import { useThoughts } from "@/hooks/useThoughts";
-import { currentStreak, practiceDatesFromThoughts } from "@/lib/streak";
+import { daysInWeek } from "@/lib/planDay";
+import { totalDays } from "@/content/frames";
 import { seasonForDate } from "@/lib/season";
 
 /** Single-user personal app — greeting name. */
@@ -42,7 +48,6 @@ const IconFlash = (
 
 export default function HomePage() {
   const { stats } = useStats();
-  const { thoughts } = useThoughts();
   const [now, setNow] = useState<Date | null>(null);
   const [sessionIndex, setSessionIndex] = useState(0);
   const [readingDone, setReadingDone] = useState(false);
@@ -61,11 +66,16 @@ export default function HomePage() {
     return () => window.removeEventListener("pues:stats-change", sync);
   }, []);
 
-  const practiced = useMemo(
-    () => practiceDatesFromThoughts(thoughts),
-    [thoughts],
+  // The week is the unit now: one unhurried session lights it, then its days
+  // are a queue pulled at whatever pace. `Semanas` counts weeks prepared —
+  // the ritual actually being built — where a day streak only counted pressure.
+  const week = currentWeek(stats);
+  const primed = isWeekPrimed(week, stats);
+  const weekDone = useMemo(() => weekDaysDone(week, stats).length, [week, stats]);
+  const weekLength = useMemo(
+    () => daysInWeek(week).filter((d) => d <= totalDays).length,
+    [week],
   );
-  const streak = useMemo(() => currentStreak(practiced), [practiced]);
 
   const day = speakDayForIndex(stats.currentDayIndex);
   const dayNum = day.day.toString().padStart(2, "0");
@@ -97,7 +107,11 @@ export default function HomePage() {
     <div className="hoy-stage fade-rise relative" style={{ paddingBottom: 96 }}>
       <PageHeader
         title={<Wordmark>Pues</Wordmark>}
-        meta={<span className="mono-cap" style={{ color: "var(--accent)" }}>Racha · {streak}</span>}
+        meta={
+          <span className="mono-cap" style={{ color: "var(--accent)" }}>
+            Semanas · {stats.primedWeeks.length}
+          </span>
+        }
       />
 
       <div style={{ maxWidth: 640, margin: "0 auto" }}>
@@ -118,9 +132,37 @@ export default function HomePage() {
                 letterSpacing: "-0.01em",
               }}
             >
-              Una frase en español.
+              {primed ? "Ya está lista la semana." : "Una frase en español."}
             </p>
-            <Gloss>One sentence in Spanish.</Gloss>
+            <Gloss>
+              {primed ? "The week is already set up." : "One sentence in Spanish."}
+            </Gloss>
+
+            {/* The weekly thread — an invitation when unprimed, never a gate.
+                Today's flow below works exactly the same either way. */}
+            <Link
+              href="/semana"
+              className="mono-cap transition-colors hover:text-accent"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 7,
+                marginTop: 14,
+                color: primed ? "var(--ink-soft)" : "var(--accent)",
+              }}
+            >
+              {primed
+                ? `Semana ${weekNum} · ${weekDone} de ${weekLength}`
+                : `Preparar la semana ${weekNum}`}
+              <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden {...ws}>
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </Link>
+            <Gloss>
+              {primed
+                ? `Week ${weekNum} · ${weekDone} of ${weekLength} done`
+                : "Set the week up — an hour, whenever you have one"}
+            </Gloss>
           </div>
 
           <div className="hoy-mission">

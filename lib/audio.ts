@@ -32,3 +32,29 @@ export async function staticAudioUrl(text: string): Promise<string | null> {
   const filename = manifest[text];
   return filename ? `/audio/${filename}` : null;
 }
+
+/** Live TTS clip as an object URL. The caller owns it — revoke when done. */
+export async function liveAudioObjectUrl(text: string, lang = "es"): Promise<string> {
+  const res = await fetch("/api/tts", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text, lang }),
+    signal: AbortSignal.timeout(15000),
+  });
+  if (!res.ok) throw new Error(`TTS failed: ${res.status}`);
+  return URL.createObjectURL(await res.blob());
+}
+
+/**
+ * Manifest hit if there is one, else a live TTS clip — the same lookup order
+ * PlayButton uses, for callers that play many phrases in a row. `objectUrl`
+ * flags the URLs that need revoking.
+ */
+export async function resolveAudioUrl(
+  text: string,
+  lang = "es"
+): Promise<{ url: string; objectUrl: boolean }> {
+  const stat = await staticAudioUrl(text);
+  if (stat) return { url: stat, objectUrl: false };
+  return { url: await liveAudioObjectUrl(text, lang), objectUrl: true };
+}

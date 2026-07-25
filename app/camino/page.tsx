@@ -9,6 +9,7 @@ import { useThoughts } from "@/hooks/useThoughts";
 import { totalDays } from "@/content/frames";
 import { TEMPORADAS, type Temporada } from "@/content/temporadas";
 import { SEASONS } from "@/lib/season";
+import { daysInWeek } from "@/lib/planDay";
 import { currentStreak, practiceDatesFromThoughts } from "@/lib/streak";
 
 const ws = {
@@ -24,17 +25,26 @@ function ActiveTemporadaCard({
   t,
   dayLabel,
   weekNum,
+  primedWeeks,
+  daysDone,
 }: {
   t: Temporada;
   dayLabel: string;
   weekNum: number;
+  primedWeeks: Set<number>;
+  daysDone: Set<number>;
 }) {
   return (
     <div className="flex flex-col gap-2.5">
       <SeasonHighlightCard t={t} dayLabel={dayLabel} />
       <SeasonBodyCard t={t} />
       <SeasonArcCard t={t} />
-      <SeasonWeeksCard t={t} weekNum={weekNum} />
+      <SeasonWeeksCard
+        t={t}
+        weekNum={weekNum}
+        primedWeeks={primedWeeks}
+        daysDone={daysDone}
+      />
     </div>
   );
 }
@@ -114,7 +124,17 @@ function SeasonArcCard({ t }: { t: Temporada }) {
   );
 }
 
-function SeasonWeeksCard({ t, weekNum }: { t: Temporada; weekNum: number }) {
+function SeasonWeeksCard({
+  t,
+  weekNum,
+  primedWeeks,
+  daysDone,
+}: {
+  t: Temporada;
+  weekNum: number;
+  primedWeeks: Set<number>;
+  daysDone: Set<number>;
+}) {
   return (
     <div style={{ padding: "16px 18px", background: "var(--surface)", border: "1px solid var(--rule)", borderRadius: 14 }}>
       <div className="flex items-baseline justify-between" style={{ marginBottom: 12 }}>
@@ -124,12 +144,25 @@ function SeasonWeeksCard({ t, weekNum }: { t: Temporada; weekNum: number }) {
         </span>
         <span className="mono-cap" style={{ color: "var(--accent)" }}>{t.weeks[weekNum - 1]}</span>
       </div>
-      <WeekList t={t} weekNum={weekNum} />
+      <WeekList t={t} weekNum={weekNum} primedWeeks={primedWeeks} daysDone={daysDone} />
     </div>
   );
 }
 
-function WeekList({ t, weekNum, compact }: { t: Temporada; weekNum: number; compact?: boolean }) {
+function WeekList({
+  t,
+  weekNum,
+  compact,
+  primedWeeks,
+  daysDone,
+}: {
+  t: Temporada;
+  weekNum: number;
+  compact?: boolean;
+  /** Global week numbers already prepared. */
+  primedWeeks?: Set<number>;
+  daysDone?: Set<number>;
+}) {
   const items = compact ? t.weeks.slice(Math.max(0, weekNum - 2), Math.min(t.weeks.length, weekNum + 2)) : t.weeks;
   const startIndex = compact ? Math.max(0, weekNum - 2) : 0;
 
@@ -138,6 +171,12 @@ function WeekList({ t, weekNum, compact }: { t: Temporada; weekNum: number; comp
       {items.map((tema, i) => {
         const weekIndex = startIndex + i;
         const current = weekIndex === weekNum - 1;
+        // 13 weeks per temporada — map the in-season row to its global week.
+        const globalWeek = (t.index - 1) * 13 + weekIndex + 1;
+        const isPrimed = primedWeeks?.has(globalWeek) ?? false;
+        const doneCount = daysDone
+          ? daysInWeek(globalWeek).filter((d) => daysDone.has(d)).length
+          : 0;
         return (
           <li
             key={`${t.index}-${tema}`}
@@ -171,6 +210,22 @@ function WeekList({ t, weekNum, compact }: { t: Temporada; weekNum: number; comp
               {tema}
               {current && <Gloss>{t.weeksEn[weekIndex]}</Gloss>}
             </span>
+            {/* Lit if prepared, counted if worked. A week you skipped is simply
+                unlit — there is no "missed" state on this path. */}
+            {(isPrimed || doneCount > 0) && (
+              <span
+                className="mono-cap"
+                style={{
+                  marginLeft: "auto",
+                  flexShrink: 0,
+                  fontSize: 9,
+                  color: isPrimed ? t.color : "var(--ink-mute)",
+                }}
+              >
+                {isPrimed && "✦ "}
+                {doneCount > 0 && `${doneCount}/7`}
+              </span>
+            )}
           </li>
         );
       })}
@@ -293,17 +348,21 @@ function PracticeTodayLink({ className }: { className?: string }) {
 function CurrentSeasonPanel({
   t,
   dayLabel,
-  dayNum,
+  doneCount,
   weekNum,
   progressPct,
   streak,
+  primedWeeks,
+  daysDone,
 }: {
   t: Temporada;
   dayLabel: string;
-  dayNum: number;
+  doneCount: number;
   weekNum: number;
   progressPct: number;
   streak: number;
+  primedWeeks: Set<number>;
+  daysDone: Set<number>;
 }) {
   return (
     <aside className="hidden lg:flex lg:flex-col lg:gap-5">
@@ -328,7 +387,7 @@ function CurrentSeasonPanel({
             <Gloss>Progress</Gloss>
           </span>
           <span className="mono-cap" style={{ color: "var(--accent)" }}>
-            {dayNum} / {totalDays} días
+            {doneCount} / {totalDays} días
           </span>
         </div>
         <div
@@ -367,7 +426,13 @@ function CurrentSeasonPanel({
           </span>
           <span className="mono-cap" style={{ color: "var(--accent)" }}>{t.weeks[weekNum - 1]}</span>
         </div>
-        <WeekList t={t} weekNum={weekNum} compact />
+        <WeekList
+          t={t}
+          weekNum={weekNum}
+          compact
+          primedWeeks={primedWeeks}
+          daysDone={daysDone}
+        />
       </div>
 
       <div>
@@ -413,7 +478,11 @@ export default function CaminoPage() {
 
   const dayNum = (stats.currentDayIndex % totalDays) + 1;
   const dayLabel = String(dayNum).padStart(2, "0");
-  const progressPct = Math.min(100, (dayNum / totalDays) * 100);
+  // Days actually worked through, not where the cursor happens to sit.
+  const doneCount = stats.daysDone.length;
+  const progressPct = Math.min(100, (doneCount / totalDays) * 100);
+  const primedWeeks = useMemo(() => new Set(stats.primedWeeks), [stats.primedWeeks]);
+  const daysDone = useMemo(() => new Set(stats.daysDone), [stats.daysDone]);
   // Each temporada is 91 content days; derive which season + in-season week
   // this content day belongs to from the flat cursor, not from today's real
   // calendar date (seasonForDate() answers a different question).
@@ -511,7 +580,13 @@ export default function CaminoPage() {
                           <TimelineActiveSeason t={t} />
                         </div>
                         <div className="lg:hidden">
-                          <ActiveTemporadaCard t={t} dayLabel={dayLabel} weekNum={weekNum} />
+                          <ActiveTemporadaCard
+                            t={t}
+                            dayLabel={dayLabel}
+                            weekNum={weekNum}
+                            primedWeeks={primedWeeks}
+                            daysDone={daysDone}
+                          />
                         </div>
                       </>
                     ) : (
@@ -577,10 +652,12 @@ export default function CaminoPage() {
           <CurrentSeasonPanel
             t={current}
             dayLabel={dayLabel}
-            dayNum={dayNum}
+            doneCount={doneCount}
             weekNum={weekNum}
             progressPct={progressPct}
             streak={streak}
+            primedWeeks={primedWeeks}
+            daysDone={daysDone}
           />
         </div>
 

@@ -26,6 +26,8 @@ const baseStats: SessionStats = {
   framesExplored: [],
   lastSessionDate: null,
   currentDayIndex: 0,
+  primedWeeks: [],
+  daysDone: [],
 };
 
 describe("mergeStats", () => {
@@ -96,6 +98,8 @@ describe("mergeStats", () => {
       framesExplored: [],
       lastSessionDate: null,
       currentDayIndex: 0,
+      primedWeeks: [],
+      daysDone: [],
     });
   });
 
@@ -119,6 +123,59 @@ describe("mergeStats", () => {
     const merged = mergeStats(local, remote, "2026-07-09T13:00:00Z", "2026-07-09T12:00:00Z");
     expect(merged.currentDayIndex).toBe(1);
     expect(merged.sentencesCreated).toBe(2);
+  });
+
+  it("unions the week fields so neither device loses work", () => {
+    // The hour happened on the laptop (week 3 primed, days 15–16 done); the
+    // phone did day 17 on its own.
+    const local = { ...baseStats, primedWeeks: [3], daysDone: [15, 16], currentDayIndex: 16 };
+    const remote = {
+      days_practiced: 1,
+      sentences_created: 3,
+      frames_explored: [],
+      last_session_date: "2026-07-09",
+      current_day_index: 17,
+      primed_weeks: [2, 3],
+      days_done: [17],
+    };
+    const merged = mergeStats(local, remote, "2026-07-09T13:00:00Z", "2026-07-09T12:00:00Z");
+
+    expect(merged.primedWeeks).toEqual([2, 3]);
+    expect(merged.daysDone).toEqual([15, 16, 17]);
+    // Day 18 — the furthest cursor, nudged past work the other device finished.
+    expect(merged.currentDayIndex).toBe(17);
+  });
+
+  it("nudges off a day the other device already finished", () => {
+    const local = { ...baseStats, daysDone: [], currentDayIndex: 15 }; // parked on day 16
+    const remote = {
+      days_practiced: 1,
+      sentences_created: 1,
+      frames_explored: [],
+      last_session_date: "2026-07-09",
+      current_day_index: 15,
+      primed_weeks: [],
+      days_done: [16],
+    };
+    const merged = mergeStats(local, remote, "2026-07-09T13:00:00Z", "2026-07-09T12:00:00Z");
+    expect(merged.currentDayIndex).toBe(14); // day 15, still open in week 3
+  });
+
+  it("reconstructs the queue for a row written before the weekly rework", () => {
+    const local = { ...baseStats, daysDone: [], primedWeeks: [], currentDayIndex: 0 };
+    const remote = {
+      days_practiced: 5,
+      sentences_created: 12,
+      frames_explored: [],
+      last_session_date: "2026-07-09",
+      current_day_index: 5,
+      // No primed_weeks / days_done — this row predates the migration.
+    };
+    const merged = mergeStats(local, remote, "2026-07-09T13:00:00Z", "2026-07-09T14:00:00Z");
+
+    expect(merged.daysDone).toEqual([1, 2, 3, 4, 5]);
+    expect(merged.primedWeeks).toEqual([]);
+    expect(merged.currentDayIndex).toBe(5);
   });
 });
 

@@ -33,6 +33,7 @@ import { isSupabaseConfigured } from "@/lib/supabase/env";
 import { clearAllRecordings, getRecording, putRecording, recordingExists } from "@/lib/audioStore";
 import { clearAllProgressLocal } from "@/lib/store";
 import type { SessionStats, Thought } from "@/lib/store";
+import { daysInWeek, weekFromDay } from "@/lib/planDay";
 
 const K = {
   thoughts: "pues:thoughts",
@@ -71,6 +72,8 @@ const EMPTY_STATS: SessionStats = {
   framesExplored: [],
   lastSessionDate: null,
   currentDayIndex: 0,
+  primedWeeks: [],
+  daysDone: [],
 };
 
 type Supabase = ReturnType<typeof createClient>;
@@ -303,6 +306,8 @@ type StatsRow = {
   frames_explored: string[];
   last_session_date: string | null;
   current_day_index: number;
+  primed_weeks?: number[] | null;
+  days_done?: number[] | null;
   updated_at?: string | null;
   progress_reset_at?: string | null;
 };
@@ -379,11 +384,19 @@ export function mergeStats(
       framesExplored: [...(remote.frames_explored ?? [])],
       lastSessionDate: remote.last_session_date ?? null,
       currentDayIndex: remote.current_day_index ?? 0,
+      primedWeeks: [...(remote.primed_weeks ?? [])],
+      daysDone: [...(remote.days_done ?? [])],
     };
   }
 
   const remoteIndex = remote.current_day_index ?? 0;
   const localIndex = local.currentDayIndex ?? 0;
+  // Both week fields are sets of things that happened, so union is the only
+  // merge that can't lose work done on the other device.
+  const daysDone = mergeNumbers(
+    queueFor(local.daysDone, localIndex),
+    queueFor(remote.days_done, remoteIndex)
+  );
   return {
     daysPracticed: Math.max(local.daysPracticed, remote.days_practiced ?? 0),
     sentencesCreated: Math.max(local.sentencesCreated, remote.sentences_created ?? 0),
@@ -391,8 +404,44 @@ export function mergeStats(
       new Set([...(local.framesExplored ?? []), ...(remote.frames_explored ?? [])])
     ),
     lastSessionDate: laterSessionDate(local.lastSessionDate, remote.last_session_date),
-    currentDayIndex: Math.max(localIndex, remoteIndex),
+    currentDayIndex: mergeCursor(localIndex, remoteIndex, daysDone),
+    primedWeeks: mergeNumbers(local.primedWeeks, remote.primed_weeks),
+    daysDone,
   };
+}
+
+function mergeNumbers(
+  local: number[] | undefined,
+  remote: number[] | null | undefined
+): number[] {
+  return Array.from(new Set([...(local ?? []), ...(remote ?? [])])).sort((a, b) => a - b);
+}
+
+/**
+ * A side that predates the weekly rework carries no queue at all. Under the old
+ * strictly-sequential model the cursor only advanced on completion, so every day
+ * before it was finished — same reconstruction `getStats` does locally. Without
+ * this, an unmigrated row would read as "nothing done" and drag the cursor back
+ * to the start of the week.
+ */
+function queueFor(daysDone: number[] | null | undefined, cursorIndex: number): number[] {
+  if (Array.isArray(daysDone)) return daysDone;
+  return Array.from({ length: Math.max(0, cursorIndex) }, (_, i) => i + 1);
+}
+
+/**
+ * The furthest cursor still wins, as before. The one new job: the other device
+ * may have already finished the day it lands on, so nudge forward to that week's
+ * first unfinished day rather than re-serving completed work. Filling gaps left
+ * *behind* the cursor is `completeCurrentDay`'s job, not the merge's — doing it
+ * here would drag a device backwards on every sync.
+ */
+function mergeCursor(localIndex: number, remoteIndex: number, daysDone: number[]): number {
+  const base = Math.max(localIndex, remoteIndex);
+  const done = new Set(daysDone);
+  if (!done.has(base + 1)) return base;
+  const firstOpen = daysInWeek(weekFromDay(base + 1)).find((d) => !done.has(d));
+  return firstOpen ? firstOpen - 1 : base;
 }
 
 function laterSessionDate(
@@ -442,6 +491,8 @@ async function pushStats(supabase: Supabase) {
       frames_explored: merged.framesExplored,
       last_session_date: merged.lastSessionDate,
       current_day_index: merged.currentDayIndex,
+      primed_weeks: merged.primedWeeks,
+      days_done: merged.daysDone,
       updated_at: now,
       ...preserveProgressResetAt(existingResetAt),
     },
@@ -834,6 +885,8 @@ export async function resetCloudProgress(): Promise<void> {
         frames_explored: [],
         last_session_date: null,
         current_day_index: 0,
+        primed_weeks: [],
+        days_done: [],
         updated_at: now,
         progress_reset_at: now,
       },

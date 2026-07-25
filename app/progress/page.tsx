@@ -7,7 +7,8 @@ import { PageHeader, Wordmark } from "@/components/PageHeader";
 import { totalDays } from "@/content/frames";
 import { useStats } from "@/hooks/useStats";
 import { useThoughts } from "@/hooks/useThoughts";
-import { planContextFromDay } from "@/lib/planDay";
+import { daysInWeek, planContextFromDay } from "@/lib/planDay";
+import { currentWeek, isWeekPrimed, weekDaysDone } from "@/lib/store";
 import { currentStreak, last7Days, practiceDatesFromThoughts } from "@/lib/streak";
 
 export default function ProgressPage() {
@@ -27,20 +28,34 @@ export default function ProgressPage() {
     () => currentStreak(practiced, now ?? new Date()),
     [practiced, now],
   );
-  const week = useMemo(
+  const last7 = useMemo(
     () => last7Days(practiced, now ?? new Date()),
     [practiced, now],
+  );
+
+  // Weeks prepared is the headline: it counts the ritual actually being built
+  // (the unhurried hour that lights the week), not consecutive-day pressure.
+  const curWeek = currentWeek(stats);
+  const primed = isWeekPrimed(curWeek, stats);
+  const weeksPrimed = stats.primedWeeks.length;
+  const weekDone = useMemo(() => weekDaysDone(curWeek, stats).length, [curWeek, stats]);
+  const weekLength = useMemo(
+    () => daysInWeek(curWeek).filter((d) => d <= totalDays).length,
+    [curWeek],
   );
 
   const spoken = thoughts.length;
   const spokenLabel = hydrated ? spoken : "—";
   const planDay = (stats.currentDayIndex % totalDays) + 1;
-  const planPct = Math.min(100, (planDay / totalDays) * 100);
+  // Progress is days actually worked through, not where the cursor sits — under
+  // a queue you can be parked on day 3 with days 4 and 5 already behind you.
+  const doneCount = stats.daysDone.length;
+  const planPct = Math.min(100, (doneCount / totalDays) * 100);
   const dayLabel = String(planDay).padStart(2, "0");
   const { weekNum, temporada } = planContextFromDay(planDay);
   const weekTheme = temporada.weeks[weekNum - 1];
   const weekThemeEn = temporada.weeksEn[weekNum - 1];
-  const practicedToday = week.some((d) => d.isToday && d.practiced);
+  const practicedToday = last7.some((d) => d.isToday && d.practiced);
 
   return (
     <div
@@ -62,8 +77,9 @@ export default function ProgressPage() {
       <section className="text-center" style={{ marginTop: 20 }}>
         <span className="hairline-accent-center" aria-hidden style={{ margin: "0 auto" }} />
         <p className="mono-cap" style={{ marginTop: 10 }}>
-          Tu racha
+          Semanas preparadas
         </p>
+        <Gloss>Weeks you lit ahead of time</Gloss>
 
         <div
           className="flex items-end justify-center gap-3"
@@ -74,30 +90,44 @@ export default function ProgressPage() {
             width="30"
             height="30"
             aria-hidden
-            fill={streak > 0 ? "var(--accent)" : "none"}
+            fill={weeksPrimed > 0 ? "var(--accent)" : "none"}
             stroke="var(--accent)"
             strokeWidth="1.6"
             strokeLinecap="round"
             strokeLinejoin="round"
             style={{ marginBottom: 2 }}
           >
-            <path d="M12 3c1 3 4 5 4 9a4 4 0 1 1-8 0c0-2 1-3 2-4-1 5 2 5 2 5s0-3 0-10Z" />
+            <path d="M13 2 4 14h7l-1 8 10-14h-7l0-6Z" />
           </svg>
           <div className="flex items-baseline gap-2">
             <p
               className="font-display leading-none"
               style={{
                 fontSize: "3rem",
-                color: streak > 0 ? "var(--accent)" : "var(--ink-mute)",
+                color: weeksPrimed > 0 ? "var(--accent)" : "var(--ink-mute)",
               }}
             >
-              {streak}
+              {weeksPrimed}
             </p>
             <p className="text-sm text-ink-mute pb-0.5">
-              {streak === 1 ? "día seguido" : "días seguidos"}
+              {weeksPrimed === 1 ? "semana" : "semanas"}
             </p>
           </div>
         </div>
+
+        <Link
+          href="/semana"
+          className="mono-cap transition-colors hover:text-accent"
+          style={{
+            display: "inline-flex",
+            marginTop: 8,
+            color: primed ? "var(--accent)" : "var(--ink-mute)",
+          }}
+        >
+          {primed
+            ? `Semana ${weekNum} · ${weekDone} de ${weekLength}`
+            : `Semana ${weekNum} · preparar →`}
+        </Link>
 
         {practicedToday && (
           <p
@@ -112,7 +142,7 @@ export default function ProgressPage() {
           className="flex items-center justify-center gap-2"
           style={{ marginTop: 14 }}
         >
-          {week.map((day) => {
+          {last7.map((day) => {
             const practicedNotToday = day.practiced && !day.isToday;
             return (
               <span
@@ -147,12 +177,14 @@ export default function ProgressPage() {
 
         <p
           className="text-sm text-ink-mute leading-snug mx-auto"
-          style={{ marginTop: 10, maxWidth: 300 }}
+          style={{ marginTop: 10, maxWidth: 320 }}
         >
-          Solo cuentan las frases que hablaste en voz alta.
+          Una hora el fin de semana enciende los siete días. Los días sueltos
+          van a su ritmo.
         </p>
         <Gloss>
-          Only phrases you spoke out loud count — not La lectura or games.
+          One hour on the weekend lights all seven days. The days themselves go
+          at whatever pace they go.
         </Gloss>
       </section>
 
@@ -195,7 +227,7 @@ export default function ProgressPage() {
         >
           <p className="mono-cap text-ink-mute">El plan</p>
           <p className="mono-cap text-ink-soft">
-            {dayLabel} / {totalDays}
+            {doneCount} / {totalDays}
           </p>
         </div>
         <div
@@ -214,7 +246,7 @@ export default function ProgressPage() {
         <span className="hairline" aria-hidden style={{ marginTop: 20 }} />
 
         <p className="mono-cap text-ink-mute" style={{ marginTop: 16 }}>
-          Esta semana
+          En total
         </p>
         <div
           className="grid grid-cols-3 gap-4"
@@ -222,11 +254,9 @@ export default function ProgressPage() {
         >
           <InlineStat label="Frases dichas" value={spokenLabel} accent={spoken > 0} />
           <InlineStat label="Días practicados" value={stats.daysPracticed} />
-          <InlineStat
-            label="Día del plan"
-            value={planDay}
-            suffix={`/${totalDays}`}
-          />
+          {/* Kept, quietly. It's a description of the last few days, not a
+              thing to protect — the weekly count above is the real rhythm. */}
+          <InlineStat label="Racha" value={hydrated ? streak : "—"} />
         </div>
       </section>
 

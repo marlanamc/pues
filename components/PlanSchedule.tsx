@@ -1,119 +1,80 @@
 "use client";
 
-import Link from "next/link";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import type { CSSProperties } from "react";
+import { WeekDayList } from "@/components/WeekDayList";
+import { totalDays } from "@/content/frames";
 import { speakDays } from "@/content/prompts";
+import { daysInWeek, planContextFromDay, weekFromDay } from "@/lib/planDay";
+import { SEASONS } from "@/lib/season";
 import { useStats } from "@/hooks/useStats";
-import { clearDraft, setCurrentDayIndex } from "@/lib/store";
 
-const totalDays = speakDays.length;
-
-const Check = (
-  <svg
-    viewBox="0 0 24 24"
-    width="15"
-    height="15"
-    aria-hidden
-    fill="none"
-    stroke="currentColor"
-    strokeWidth={2.2}
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M5 12.5 10 17l9-10" />
-  </svg>
-);
-
-type DayState = "done" | "today" | "upcoming";
-
-function dayBadge(state: DayState, dayNum: string) {
-  const base: CSSProperties = {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    width: 38,
-    height: 38,
-    borderRadius: 11,
-    flexShrink: 0,
-    fontFamily: "var(--font-mono)",
-    fontSize: 13,
-    letterSpacing: "0.02em",
-  };
-  if (state === "done") {
-    return (
-      <span
-        style={{ ...base, background: "var(--zone)", color: "var(--bg)" }}
-        aria-hidden
-      >
-        {Check}
-      </span>
-    );
-  }
-  if (state === "today") {
-    return (
-      <span
-        style={{
-          ...base,
-          background: "color-mix(in oklab, var(--zone) 16%, var(--surface))",
-          border: "1.5px solid var(--zone)",
-          color: "var(--zone)",
-        }}
-        aria-hidden
-      >
-        {dayNum}
-      </span>
-    );
-  }
-  return (
-    <span
-      style={{
-        ...base,
-        background: "var(--surface)",
-        border: "1px solid var(--rule)",
-        color: "var(--ink-mute)",
-      }}
-      aria-hidden
-    >
-      {dayNum}
-    </span>
-  );
-}
+/**
+ * The whole curriculum, grouped by week.
+ *
+ * This used to be a flat list of every authored day, which stopped being
+ * browsable somewhere around day 40 (flagged in content/CURRICULUM.md). Weeks
+ * are the unit now — 26 rows instead of 182 — and each opens onto its days.
+ */
+const WEEK_COUNT = Math.ceil(totalDays / 7);
 
 export function PlanSchedule() {
   const { stats, hydrated } = useStats();
-  const currentDayIndex = hydrated ? stats.currentDayIndex % totalDays : 0;
-  const [open, setOpen] = useState<number | null>(null);
+  const currentDay = stats.currentDayIndex + 1;
+  const currentWeekNum = weekFromDay(currentDay);
+  // Until it's touched, the open week follows the cursor. It can't be seeded
+  // into useState — on the first render stats are still empty, so that would
+  // pin week 1 open forever and hydration would never correct it.
+  const [opened, setOpened] = useState<{ week: number | null } | null>(null);
+  const open = opened ? opened.week : currentWeekNum;
+
+  const done = useMemo(() => new Set(stats.daysDone), [stats.daysDone]);
+  const primed = useMemo(() => new Set(stats.primedWeeks), [stats.primedWeeks]);
+
+  const weeks = useMemo(
+    () => Array.from({ length: WEEK_COUNT }, (_, i) => i + 1),
+    [],
+  );
 
   return (
     <section style={{ opacity: hydrated ? 1 : 0.6 }}>
       <ul className="rounded-lg border border-rule bg-surface divide-y divide-rule overflow-hidden">
-        {speakDays.map((day, i) => {
-          const state: DayState =
-            i < currentDayIndex
-              ? "done"
-              : i === currentDayIndex
-                ? "today"
-                : "upcoming";
-          const dayNum = String(day.day).padStart(2, "0");
-          const isOpen = open === i;
-          const stems = day.prompts.map((p) => p.frameStem.replace(/…$/, ""));
+        {weeks.map((week) => {
+          const dayNums = daysInWeek(week).filter((d) => d <= totalDays);
+          const ctx = planContextFromDay(dayNums[0]);
+          const season = SEASONS[ctx.seasonIdx];
+          const doneCount = dayNums.filter((d) => done.has(d)).length;
+          const isCurrent = week === currentWeekNum;
+          const isOpen = open === week;
 
           return (
-            <li key={day.day}>
+            <li key={week} style={{ "--zone": season.color } as CSSProperties}>
               <button
                 type="button"
-                onClick={() => setOpen(isOpen ? null : i)}
+                onClick={() => setOpened({ week: isOpen ? null : week })}
                 aria-expanded={isOpen}
                 className="w-full text-left transition-colors active:bg-surface-sunk"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 14,
-                  padding: "13px 18px",
-                }}
+                style={{ display: "flex", alignItems: "center", gap: 14, padding: "13px 18px" }}
               >
-                {dayBadge(state, dayNum)}
+                <span
+                  aria-hidden
+                  className="flex shrink-0 items-center justify-center font-display"
+                  style={{
+                    width: 38,
+                    height: 38,
+                    borderRadius: 11,
+                    fontFamily: "var(--font-mono)",
+                    fontSize: 13,
+                    background: isCurrent
+                      ? "color-mix(in oklab, var(--zone) 16%, var(--surface))"
+                      : "var(--surface)",
+                    border: isCurrent ? "1.5px solid var(--zone)" : "1px solid var(--rule)",
+                    color: isCurrent ? "var(--zone)" : "var(--ink-mute)",
+                  }}
+                >
+                  {String(ctx.weekNum).padStart(2, "0")}
+                </span>
+
                 <span style={{ flex: 1, minWidth: 0 }}>
                   <span
                     className="font-display"
@@ -121,31 +82,21 @@ export function PlanSchedule() {
                       display: "block",
                       fontSize: 17,
                       lineHeight: 1.15,
-                      color: state === "upcoming" ? "var(--ink-soft)" : "var(--ink)",
+                      color: doneCount > 0 || isCurrent ? "var(--ink)" : "var(--ink-soft)",
                     }}
                   >
-                    {day.themeEs}
+                    {ctx.temporada.weeks[ctx.weekNum - 1]}
                   </span>
                   <span
-                    style={{
-                      display: "block",
-                      marginTop: 2,
-                      fontSize: 12.5,
-                      lineHeight: 1.4,
-                      color: "var(--ink-mute)",
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                    }}
+                    className="mono-cap"
+                    style={{ display: "block", marginTop: 3, color: "var(--ink-mute)" }}
                   >
-                    {stems.join(" · ")}
+                    T{season.index} · {ctx.temporada.seasonLabel} · {doneCount} de{" "}
+                    {dayNums.length}
+                    {primed.has(week) ? " · preparada" : ""}
                   </span>
                 </span>
-                {state === "today" && (
-                  <span className="mono-cap" style={{ color: "var(--zone)" }}>
-                    Hoy
-                  </span>
-                )}
+
                 <span
                   aria-hidden
                   style={{
@@ -172,100 +123,12 @@ export function PlanSchedule() {
               </button>
 
               {isOpen && (
-                <div style={{ padding: "2px 18px 16px 70px" }}>
-                  <ul style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                    {day.prompts.map((p) => (
-                      <li key={p.id}>
-                        <p
-                          className="mono-cap"
-                          style={{ color: "var(--zone)", marginBottom: 2 }}
-                        >
-                          {p.frameStem}
-                        </p>
-                        <p
-                          className="font-display text-ink"
-                          style={{ fontSize: 15, lineHeight: 1.3 }}
-                        >
-                          {p.spanish}
-                        </p>
-                        <p
-                          style={{
-                            fontSize: 12.5,
-                            lineHeight: 1.35,
-                            color: "var(--ink-mute)",
-                            marginTop: 1,
-                          }}
-                        >
-                          {p.english}
-                        </p>
-                      </li>
-                    ))}
-                  </ul>
-
-                  {state === "today" && (
-                    <Link
-                      href="/flow/speak"
-                      onClick={() => clearDraft()}
-                      className="btn-primary"
-                      style={{ marginTop: 16 }}
-                    >
-                      <span className="lab">Practicar hoy</span>
-                      <svg
-                        viewBox="0 0 24 24"
-                        width="18"
-                        height="18"
-                        aria-hidden
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth={1.6}
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M5 12h14M13 6l6 6-6 6" />
-                      </svg>
-                    </Link>
-                  )}
-                  {state === "upcoming" && (
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setCurrentDayIndex(i);
-                        clearDraft();
-                        setOpen(null);
-                      }}
-                      style={{
-                        marginTop: 16,
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: 6,
-                        fontFamily: "var(--font-mono)",
-                        fontSize: 11,
-                        letterSpacing: "0.08em",
-                        textTransform: "uppercase",
-                        color: "var(--zone)",
-                        background: "transparent",
-                        border: "1px solid color-mix(in oklab, var(--zone) 30%, transparent)",
-                        borderRadius: 7,
-                        padding: "7px 12px",
-                        cursor: "pointer",
-                      }}
-                    >
-                      Empezar desde aquí
-                      <svg
-                        viewBox="0 0 24 24"
-                        width="13"
-                        height="13"
-                        aria-hidden
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth={1.8}
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M5 12h14M13 6l6 6-6 6" />
-                      </svg>
-                    </button>
-                  )}
+                <div style={{ padding: "0 12px 14px" }}>
+                  <WeekDayList
+                    days={dayNums.map((d) => speakDays[d - 1])}
+                    doneDays={stats.daysDone}
+                    currentDay={currentDay}
+                  />
                 </div>
               )}
             </li>

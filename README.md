@@ -38,20 +38,36 @@ If ElevenLabs keys are missing, the TTS endpoint returns 500 but the rest of the
 
 ```text
 app/
-├── page.tsx                  Today screen
+├── page.tsx                  Today screen — a pickup, not a start
+├── semana/                   La semana — the weekly momentum session
 ├── flow/                     Guided 5-step sentence flow
 ├── activities/               Hub
 │   ├── thoughts/             Sentence journal
 │   └── cognates/             Patterns, true cognates, false friends
 ├── situations/               Phrasebank library (10 categories, 50+ situations)
-├── progress/                 Quiet stats — sentences, days, frames
+├── progress/                 Quiet stats — weeks, sentences, days, frames
 └── api/tts/                  ElevenLabs proxy (server-side)
 
 components/                   Shared UI (BottomTabNav, PlayButton, etc.)
 content/                      Typed content: frames, situations, cognates
 hooks/                        React hooks over lib/store
+lib/planDay.ts                Curriculum day → season / week arithmetic
 lib/store.ts                  Single seam between app and persistence
 ```
+
+## The weekly rhythm
+
+The curriculum is week-shaped (13 weeks × 7 days per season), and so is the app.
+One unhurried session on **La semana** reads the week ahead, listens through it,
+and warms up with a sentence — then marks the week *primed*. The week's seven
+days become a queue pulled at any pace: finish them out of order, do two in a
+day, skip a day entirely. There is no "behind," and nothing about the daily flow
+depends on having prepared the week.
+
+State lives in `SessionStats` (`primedWeeks`, `daysDone`) so it rides the
+existing Supabase sync — the hour happens on the laptop and Monday happens on
+the phone. Both fields merge as unions across devices; see `mergeStats` in
+`lib/sync.ts`.
 
 ## Scripts
 

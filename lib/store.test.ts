@@ -15,6 +15,10 @@ import {
   getReadingLog,
   listSentenceFormerEntries,
   listPracticeFlags,
+  primeWeek,
+  currentWeek,
+  isWeekPrimed,
+  weekDaysDone,
 } from "@/lib/store";
 
 function newThought(frameStem = "yo") {
@@ -124,6 +128,130 @@ describe("daily session", () => {
   });
 });
 
+describe("the week as a queue", () => {
+  // A 14-day curriculum: week 1 = days 1–7, week 2 = days 8–14.
+  const TOTAL = 14;
+
+  it("walks the current week before rolling into the next", () => {
+    for (let i = 0; i < 7; i += 1) completeCurrentDay(TOTAL);
+
+    expect(getStats().daysDone).toEqual([1, 2, 3, 4, 5, 6, 7]);
+    // Week 1 exhausted — the cursor rolls to day 8, not back into week 1.
+    expect(getStats().currentDayIndex).toBe(7);
+    expect(currentWeek()).toBe(2);
+  });
+
+  it("fills the gap left by an out-of-order day instead of skipping it", () => {
+    // Jump to day 3 and finish it, leaving days 1 and 2 open behind.
+    setCurrentDayIndex(2);
+    completeCurrentDay(TOTAL);
+
+    expect(getStats().daysDone).toEqual([3]);
+    // Back to day 1 — the earlier days are genuinely unfinished, not "missed".
+    expect(getStats().currentDayIndex).toBe(0);
+
+    completeCurrentDay(TOTAL); // day 1
+    completeCurrentDay(TOTAL); // day 2
+    expect(getStats().daysDone).toEqual([1, 2, 3]);
+    // Day 3 is already done, so the queue skips past it to day 4.
+    expect(getStats().currentDayIndex).toBe(3);
+  });
+
+  it("never double-counts a day repeated on purpose", () => {
+    setCurrentDayIndex(4);
+    completeCurrentDay(TOTAL);
+    setCurrentDayIndex(4);
+    completeCurrentDay(TOTAL);
+
+    expect(getStats().daysDone).toEqual([5]);
+  });
+
+  it("wraps at the end of the curriculum", () => {
+    setCurrentDayIndex(13); // day 14, last day of week 2
+    completeCurrentDay(TOTAL);
+    // Week 2 still has days 8–13 open, so it stays in week 2.
+    expect(getStats().currentDayIndex).toBe(7);
+
+    for (let i = 0; i < 6; i += 1) completeCurrentDay(TOTAL);
+    expect(getStats().daysDone).toHaveLength(7);
+    expect(getStats().currentDayIndex).toBe(0);
+  });
+});
+
+describe("priming a week", () => {
+  const TOTAL = 14;
+
+  it("marks the week and puts the cursor on its first open day", () => {
+    primeWeek(2, TOTAL);
+
+    expect(isWeekPrimed(2)).toBe(true);
+    expect(getStats().primedWeeks).toEqual([2]);
+    expect(getStats().currentDayIndex).toBe(7); // day 8
+    expect(currentWeek()).toBe(2);
+  });
+
+  it("is idempotent and skips days already finished", () => {
+    setCurrentDayIndex(7);
+    completeCurrentDay(TOTAL); // day 8 done
+
+    primeWeek(2, TOTAL);
+    primeWeek(2, TOTAL);
+
+    expect(getStats().primedWeeks).toEqual([2]);
+    expect(getStats().currentDayIndex).toBe(8); // day 9, not the finished day 8
+    expect(weekDaysDone(2)).toEqual([8]);
+  });
+
+  it("leaves the cursor alone when the whole week is already done", () => {
+    for (let i = 0; i < 7; i += 1) completeCurrentDay(TOTAL);
+    const before = getStats().currentDayIndex;
+
+    primeWeek(1, TOTAL);
+    expect(getStats().currentDayIndex).toBe(before);
+    expect(isWeekPrimed(1)).toBe(true);
+  });
+});
+
+describe("stats written before the weekly rework", () => {
+  it("reconstructs the queue from the old sequential cursor", () => {
+    localStorage.setItem(
+      "pues:stats",
+      JSON.stringify({
+        daysPracticed: 9,
+        sentencesCreated: 30,
+        framesExplored: ["yo"],
+        lastSessionDate: "2026-06-20",
+        currentDayIndex: 9,
+      }),
+    );
+
+    const stats = getStats();
+    // The old model only advanced on completion, so days 1–9 are finished.
+    expect(stats.daysDone).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    expect(stats.primedWeeks).toEqual([]);
+    expect(currentWeek(stats)).toBe(2);
+    expect(weekDaysDone(2, stats)).toEqual([8, 9]);
+  });
+
+  it("does not resurrect a queue that is legitimately empty", () => {
+    localStorage.setItem(
+      "pues:stats",
+      JSON.stringify({
+        daysPracticed: 0,
+        sentencesCreated: 0,
+        framesExplored: [],
+        lastSessionDate: null,
+        currentDayIndex: 4,
+        daysDone: [],
+        primedWeeks: [2],
+      }),
+    );
+
+    expect(getStats().daysDone).toEqual([]);
+    expect(getStats().primedWeeks).toEqual([2]);
+  });
+});
+
 describe("validation of corrupted persisted data", () => {
   it("drops malformed thoughts instead of returning them", () => {
     localStorage.setItem(
@@ -195,6 +323,8 @@ describe("resetProgress", () => {
       framesExplored: [],
       lastSessionDate: null,
       currentDayIndex: 0,
+      primedWeeks: [],
+      daysDone: [],
     });
     expect(getSession()).toEqual({ dayIndex: 0, index: 0 });
     expect(listPracticeFlags()).toEqual([]);

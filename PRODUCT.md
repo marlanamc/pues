@@ -6,13 +6,17 @@ product
 
 ## Users
 
-A solo user — the project owner — practicing Spanish daily as an intermediate adult learner. Context: short, quiet sessions (often before bed or during a coffee), on phone or laptop, alongside other reading/writing habits. The job to be done is *think in Spanish a little bit every day* — see a real prompt, say something true aloud, compare with a model, and keep a growing notebook of those sentences over time. Not a course, not a streak game, not a tutor. A daily ritual.
+A solo user — the project owner — practicing Spanish as an intermediate adult learner. Context: short, quiet sessions (often before bed or during a coffee), on phone or laptop, alongside other reading/writing habits. The job to be done is *think in Spanish a little bit every day* — see a real prompt, say something true aloud, compare with a model, and keep a growing notebook of those sentences over time. Not a course, not a streak game, not a tutor.
+
+**The rhythm is weekly, the ritual is daily.** The energy to *do* the practice is reliably there; the energy to *start* it, cold, seven mornings a week, is not. So the deciding and the warming-up happen once, in one unhurried weekend hour (La semana): read the week ahead, listen through it, say one sentence out loud. The weekdays that follow are a *pickup*, not a start — the week is already lit, and its seven days are a queue pulled at whatever pace the week allows.
 
 ## Product Purpose
 
 Pues is a personal Spanish-practice notebook — a PWA that walks the owner through a short speak-first daily flow (say it aloud → reveal → reflect → save) and accumulates those sentences into a quiet journal. Recording is optional; the gate is speaking (or affirming you said it), not the microphone. Supporting surfaces (situations library, guías, lab, La Línea, La Lectura) exist to feed and enrich that ritual, not to be products of their own.
 
-Success looks like: the owner opens it most days, says one sentence in Spanish without friction (recording optional), can browse what they've said before, and feels like they're sharpening — not grinding. One sentence is enough; more is welcome. The interface disappears in favor of the speaking.
+One surface sits above the day: **La semana**, the weekend momentum session. It is orientation and warm-up only — never homework, never a second chore that itself needs starting. Preparing a week is always an invitation and never a gate: every daily surface works identically whether or not the week was prepared.
+
+Success looks like: the owner prepares most weeks, opens the app most days, says one sentence in Spanish without friction (recording optional), can browse what they've said before, and feels like they're sharpening — not grinding. One sentence is enough; more is welcome. The interface disappears in favor of the speaking.
 
 ## Brand Personality
 
@@ -35,7 +39,8 @@ Explicitly NOT:
 2. **One warm accent, used with discipline.** Almagre is the brand's voice. Spend it on what matters (the current action, the saved sentence, the zone indicator) and let everything else recede into ink and paper.
 3. **The writing is the interface.** Chrome should disappear when the owner is reading, listening, or writing. Navigation, controls, and meta-text get smaller and quieter as the act of thinking in Spanish gets louder.
 4. **Quiet over clever.** When in doubt, fewer words, smaller numbers, less motion. A working personal tool that the owner enjoys touching every day beats a clever demo.
-5. **Honor the daily ritual, not the engagement metric.** Features exist to make tomorrow's sentence easier to write — not to bring the user back. No nudges, no notifications-by-default, no "you missed a day" guilt.
+5. **Honor the ritual, not the engagement metric.** Features exist to make tomorrow's sentence easier to write — not to bring the user back. No nudges, no notifications-by-default, no "you missed a day" guilt.
+6. **Lower the activation energy, never raise it.** The expensive thing is starting, not doing. Prefer the design that removes a decision from the weekday over the one that adds a capability. An unprepared week, a skipped day, and a half-finished week are all ordinary states the interface should render without comment — descriptive language (`done` / `now` / `open`), never `behind`, `missed`, or `locked`. Weeks prepared is the headline number precisely because it measures the habit under construction; `racha` survives as a quiet stat on Progreso and never as a motivator.
 
 ## Accessibility & Inclusion
 

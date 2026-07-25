@@ -49,6 +49,13 @@ const IconRead = (
   </svg>
 );
 
+const IconSemana = (
+  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
+    <rect x="3.5" y="5" width="17" height="15" rx="2.5" />
+    <path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" />
+  </svg>
+);
+
 const IconCamino = (
   <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
     <circle cx="6" cy="18" r="2.5" />
@@ -101,9 +108,12 @@ export const navItems: NavItem[] = [
     href: "/",
     label: "Hoy",
     // Camino and Cuaderno aren't tabs on mobile; keep Hoy lit when you're there.
+    // La semana isn't a tab on mobile (four doors, unchanged) — it's the weekly
+    // companion to Hoy, so keep Hoy lit while you're preparing the week.
     match: (p) =>
       p === "/" ||
       p.startsWith("/flow") ||
+      p.startsWith("/semana") ||
       p.startsWith("/camino") ||
       p.startsWith("/progress") ||
       p.startsWith("/cuaderno") ||
@@ -145,6 +155,13 @@ export const sidebarSections: NavSection[] = [
         label: "Hoy",
         match: (p) => p === "/" || p.startsWith("/flow"),
         icon: IconToday,
+        zone: "var(--accent)",
+      },
+      {
+        href: "/semana",
+        label: "La semana",
+        match: (p) => p.startsWith("/semana"),
+        icon: IconSemana,
         zone: "var(--accent)",
       },
       {

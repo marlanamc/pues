@@ -9,6 +9,16 @@ This file is the source of truth for future authoring sessions. The daily
 content itself lives in the coupled pair `content/frames.ts` +
 `content/prompts.ts` (see [Authoring conventions](#authoring-conventions)).
 
+> **The week is load-bearing in the app now.** It used to be a label on top of a
+> flat day counter; since the weekly rework it is the unit of rhythm. `/semana`
+> reads one week ahead as a single sitting, and each week's 7 days are a queue
+> the learner pulls at any pace (`primedWeeks` / `daysDone` in `lib/store.ts`,
+> week arithmetic in `lib/planDay.ts`). Two consequences for authoring: a week's
+> 7 days must keep working **in any order** — a repaso day can assume the week's
+> stems were *seen*, never that day 6 was completed before day 7 — and the
+> week's tema in `content/temporadas.ts` is now surfaced prominently, so it
+> carries real weight rather than being a table label.
+
 ---
 
 ## The year in four temporadas
@@ -315,11 +325,15 @@ These should appear in the Camino experience, season retrospectives, and any fut
   matches a `Frame.stem` of that day, no duplicate days, `es` lowercase —
   and update the file's header comment, which currently says it isn't
   coupling-tested.
-- Two flags to resolve during the backfill: the flat day-selector UI won't
-  scale to 91 days (group by week/tema, or default to the current day);
-  and the `category` enum (`food/time/activity/opinion/other`) may need
-  widening for later weeks (feelings, problems) — or just default to
-  `other`.
+- ~~The flat day-selector UI won't scale to 91 days (group by week/tema, or
+  default to the current day).~~ **Resolved** by the weekly rework:
+  `components/PlanSchedule.tsx` now renders one row per week (26, not 182),
+  each opening onto its days via `components/WeekDayList.tsx`, with the
+  current week expanded by default. Sentence Former's own day selector is
+  the remaining instance of this pattern.
+- One flag still open: the `category` enum
+  (`food/time/activity/opinion/other`) may need widening for later weeks
+  (feelings, problems) — or just default to `other`.
 
 ### La Lectura (`content/readings.ts`)
 

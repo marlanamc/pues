@@ -1,6 +1,7 @@
 import { TEMPORADAS, type Temporada } from "@/content/temporadas";
 
 export const DAYS_PER_SEASON = 91;
+export const DAYS_PER_WEEK = 7;
 
 export type PlanContext = {
   seasonIdx: number;
@@ -20,4 +21,21 @@ export function planContextFromDay(dayNum: number): PlanContext {
     weekNum,
     temporada: TEMPORADAS[seasonIdx],
   };
+}
+
+/**
+ * Global curriculum week (1-based) for a 1-based curriculum day.
+ *
+ * Unlike `planContextFromDay().weekNum` — which is the week *within* a season
+ * and caps at 13 — this keeps counting across season boundaries, so it can be
+ * used as a stable key for "which week has been primed".
+ */
+export function weekFromDay(dayNum: number): number {
+  return Math.ceil(dayNum / DAYS_PER_WEEK);
+}
+
+/** The 7 curriculum day numbers (1-based) belonging to a global week. */
+export function daysInWeek(weekNum: number): number[] {
+  const first = (weekNum - 1) * DAYS_PER_WEEK + 1;
+  return Array.from({ length: DAYS_PER_WEEK }, (_, i) => first + i);
 }
