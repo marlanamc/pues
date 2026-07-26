@@ -1327,6 +1327,70 @@ a {
   border-radius: 14px;
 }
 
+/* ===== La semana — the hour, as numbered doors ===== */
+.week-step {
+  border-top: 1px solid var(--rule);
+}
+.week-step:last-of-type {
+  border-bottom: 1px solid var(--rule);
+}
+.week-step > summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 44px;
+  padding: 15px 2px;
+  color: var(--ink-soft);
+}
+.week-step > summary::-webkit-details-marker {
+  display: none;
+}
+.week-step__n {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in oklab, var(--zone) 45%, transparent);
+  color: var(--zone);
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+.week-step__title {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex: 1;
+  min-width: 0;
+}
+.week-step__meta {
+  flex-shrink: 0;
+  color: var(--ink-mute);
+}
+.week-step > summary::after {
+  content: "\2193";
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--ink-mute);
+}
+.week-step[open] > summary::after {
+  content: "\2191";
+}
+.week-step[open] > summary {
+  color: var(--ink);
+}
+.week-step__body {
+  padding: 2px 0 26px;
+}
+.week-step--plain > summary {
+  padding: 14px 2px;
+}
+
 /* ===== Print — the stem sheet, and nothing else =====
    Los comienzos exists to be copied onto paper. Printing it should give a
    plain black-on-white list with none of the app around it. */

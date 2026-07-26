@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import type { CSSProperties } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { Gloss } from "@/components/Gloss";
 import { PageHeader, Wordmark } from "@/components/PageHeader";
 import { WeekDayList } from "@/components/WeekDayList";
 import { WeekPlayer, type WeekPlayerLine } from "@/components/WeekPlayer";
 import { WeekStems } from "@/components/WeekStems";
+import { StemRecall } from "@/components/StemRecall";
 import { PlanSchedule } from "@/components/PlanSchedule";
 import { totalDays } from "@/content/frames";
 import { speakDays } from "@/content/prompts";
@@ -139,27 +140,97 @@ export default function SemanaPage() {
           </p>
         </div>
 
-        {/* ===== Los días ===== */}
+        {/* ===== Los días — the week itself, always open ===== */}
         <SectionHead label="Los días" labelEn="The days" />
         <WeekDayList days={days} doneDays={done} currentDay={currentDay} showPlay />
 
-        {/* ===== Los comienzos — the copying pass, before the listening pass ===== */}
-        <SectionHead label="Los comienzos" labelEn="The stems" />
-        <WeekStems dayNums={dayNums} />
-
-        {/* ===== Escuchar ===== */}
-        <SectionHead label="Escuchar la semana" labelEn="Listen to the week" />
-        {lines.length > 0 && <WeekPlayer lines={lines} />}
-
-        {/* ===== La historia (Otoño onward) ===== */}
+        {/* ===== La historia (Otoño onward) — context, not a step ===== */}
         {story && (
-          <>
-            <SectionHead label="El hilo de la semana" labelEn="This week's thread" />
+          <div
+            style={{
+              display: "flex",
+              gap: 16,
+              marginTop: 12,
+              padding: "16px 18px",
+              background: "var(--surface)",
+              border: "1px solid var(--rule)",
+              borderRadius: 16,
+            }}
+          >
+            <span
+              aria-hidden
+              className="inline-flex shrink-0 items-center justify-center"
+              style={{
+                width: 40,
+                height: 40,
+                borderRadius: "50%",
+                border: "2px solid var(--zone)",
+                color: "var(--ink)",
+              }}
+            >
+              {IconBook}
+            </span>
+            <span style={{ minWidth: 0 }}>
+              <span className="mono-cap" style={{ display: "block", color: "var(--zone)" }}>
+                El hilo de la semana
+              </span>
+              <span
+                className="font-display text-ink"
+                style={{ display: "block", marginTop: 4, fontSize: 17 }}
+              >
+                {story.storyTitle}
+              </span>
+              <span
+                style={{
+                  display: "block",
+                  marginTop: 4,
+                  fontSize: 13,
+                  lineHeight: 1.45,
+                  color: "var(--ink-mute)",
+                }}
+              >
+                {story.dialogue.situation}
+              </span>
+              <span className="mono-cap" style={{ display: "block", marginTop: 8 }}>
+                Se lee un capítulo por día
+              </span>
+              <Gloss>One chapter a day</Gloss>
+            </span>
+          </div>
+        )}
+
+        {/* ===== The hour, as four closed doors =====
+            Everything below Los días is folded away until you reach it. The
+            steps share a `name`, so opening one closes the last — you are only
+            ever looking at the thing you're doing. Order follows the hour:
+            copy them, retrieve them, hear them, say one. */}
+        <div style={{ marginTop: 34 }}>
+          <p className="mono-cap">La hora</p>
+          <Gloss>The hour</Gloss>
+        </div>
+
+        <div style={{ marginTop: 10 }}>
+          <WeekStep n={1} label="Cópialos a mano" labelEn="Copy them by hand" meta="12 min">
+            <WeekStems dayNums={dayNums} />
+          </WeekStep>
+
+          <WeekStep n={2} label="Sin mirar" labelEn="Without looking" meta="10 min">
+            <StemRecall dayNums={dayNums} />
+          </WeekStep>
+
+          <WeekStep
+            n={3}
+            label="Escúchala"
+            labelEn="Listen to the week"
+            meta="10 min · opcional"
+          >
+            {lines.length > 0 && <WeekPlayer lines={lines} />}
+          </WeekStep>
+
+          <WeekStep n={4} label="Di una frase" labelEn="Say one sentence" meta="2 min">
             <div
               style={{
-                display: "flex",
-                gap: 16,
-                padding: "16px 18px",
+                padding: "18px 18px 20px",
                 background: "var(--surface)",
                 border: "1px solid var(--rule)",
                 borderRadius: 16,
@@ -167,7 +238,7 @@ export default function SemanaPage() {
             >
               <span
                 aria-hidden
-                className="inline-flex shrink-0 items-center justify-center"
+                className="inline-flex items-center justify-center"
                 style={{
                   width: 40,
                   height: 40,
@@ -176,66 +247,32 @@ export default function SemanaPage() {
                   color: "var(--ink)",
                 }}
               >
-                {IconBook}
+                {IconSpark}
               </span>
-              <span style={{ minWidth: 0 }}>
-                <span className="font-display text-ink" style={{ display: "block", fontSize: 17 }}>
-                  {story.storyTitle}
-                </span>
-                <span
-                  style={{
-                    display: "block",
-                    marginTop: 4,
-                    fontSize: 13,
-                    lineHeight: 1.45,
-                    color: "var(--ink-mute)",
-                  }}
-                >
-                  {story.dialogue.situation}
-                </span>
-                <span className="mono-cap" style={{ display: "block", marginTop: 8 }}>
-                  Se lee un capítulo por día
-                </span>
-                <Gloss>One chapter a day</Gloss>
-              </span>
+              <p
+                className="font-display text-ink"
+                style={{ marginTop: 12, fontSize: 17, lineHeight: 1.3 }}
+              >
+                Di una frase ahora, en voz alta.
+              </p>
+              <Gloss>Say one sentence now, out loud.</Gloss>
+              <p
+                style={{
+                  marginTop: 6,
+                  fontSize: 13,
+                  lineHeight: 1.45,
+                  color: "var(--ink-mute)",
+                }}
+              >
+                La parte difícil no es hablar — es empezar. Hazlo una vez aquí y
+                ya está hecho.
+              </p>
+              <Link href="/flow/speak" className="btn-primary" style={{ marginTop: 16 }}>
+                <span className="lab">Una frase</span>
+                {Arrow}
+              </Link>
             </div>
-          </>
-        )}
-
-        {/* ===== Encender ===== */}
-        <SectionHead label="Encender" labelEn="Light it" />
-        <div
-          style={{
-            padding: "18px 18px 20px",
-            background: "var(--surface)",
-            border: "1px solid var(--rule)",
-            borderRadius: 16,
-          }}
-        >
-          <span
-            aria-hidden
-            className="inline-flex items-center justify-center"
-            style={{
-              width: 40,
-              height: 40,
-              borderRadius: "50%",
-              border: "2px solid var(--zone)",
-              color: "var(--ink)",
-            }}
-          >
-            {IconSpark}
-          </span>
-          <p className="font-display text-ink" style={{ marginTop: 12, fontSize: 17, lineHeight: 1.3 }}>
-            Di una frase ahora, en voz alta.
-          </p>
-          <Gloss>Say one sentence now, out loud.</Gloss>
-          <p style={{ marginTop: 6, fontSize: 13, lineHeight: 1.45, color: "var(--ink-mute)" }}>
-            La parte difícil no es hablar — es empezar. Hazlo una vez aquí y ya está hecho.
-          </p>
-          <Link href="/flow/speak" className="btn-primary" style={{ marginTop: 16 }}>
-            <span className="lab">Una frase</span>
-            {Arrow}
-          </Link>
+          </WeekStep>
         </div>
 
         {/* ===== The closing gesture ===== */}
@@ -291,9 +328,21 @@ export default function SemanaPage() {
           </div>
         </div>
 
-        {/* ===== The whole plan, by week ===== */}
-        <SectionHead label="El plan entero" labelEn="The whole plan" />
-        <PlanSchedule />
+        {/* ===== The whole plan — reference, not a step, so it stays folded
+             and out of the accordion group. ===== */}
+        <div style={{ marginTop: 34 }}>
+          <details className="week-step week-step--plain">
+            <summary>
+              <span className="week-step__title">
+                <span className="mono-cap">El plan entero</span>
+                <Gloss>The whole plan</Gloss>
+              </span>
+            </summary>
+            <div className="week-step__body">
+              <PlanSchedule />
+            </div>
+          </details>
+        </div>
       </div>
     </div>
   );
@@ -305,5 +354,45 @@ function SectionHead({ label, labelEn }: { label: string; labelEn?: string }) {
       <span className="mono-cap">{label}</span>
       {labelEn && <Gloss>{labelEn}</Gloss>}
     </div>
+  );
+}
+
+/**
+ * One numbered door in the hour.
+ *
+ * All four share `name="hora"`, which makes them a native exclusive accordion:
+ * opening one closes the last, so only the step you're on is ever on screen.
+ * Browsers without that support degrade to four independent toggles, which is
+ * still the collapsed-by-default behaviour that matters.
+ */
+function WeekStep({
+  n,
+  label,
+  labelEn,
+  meta,
+  children,
+}: {
+  n: number;
+  label: string;
+  labelEn: string;
+  meta: string;
+  children: ReactNode;
+}) {
+  return (
+    <details className="week-step" name="hora">
+      <summary>
+        <span className="week-step__n" aria-hidden>
+          {n}
+        </span>
+        <span className="week-step__title">
+          <span className="font-display text-ink" style={{ fontSize: 17, lineHeight: 1.2 }}>
+            {label}
+          </span>
+          <Gloss>{labelEn}</Gloss>
+        </span>
+        <span className="mono-cap week-step__meta">{meta}</span>
+      </summary>
+      <div className="week-step__body">{children}</div>
+    </details>
   );
 }
