@@ -343,7 +343,7 @@ export const latinAmericaSections: LatinAmericaSection[] = [
       {
         pattern: "En fin… / Resumiendo…",
         english: "long story short",
-        note: "Spain colloquial: *Total, que…*. Pues uses *En fin…* for pan-Hispanic casual.",
+        note: "Spain colloquial: *Total, que…*. Pues uses *En fin…* for pan-Hispanic casual (Verano day 41, Invierno week 2).",
       },
       {
         pattern: "Debido a / Sin embargo",

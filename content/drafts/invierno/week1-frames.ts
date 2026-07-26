@@ -153,7 +153,7 @@ export const invWeek1FrameDays: FrameDay[] = [
         examples: [
           "Bueno, si no me sale la palabra, la rodeo.",
           "Bueno, olvidé el nombre, pero sé para qué sirve.",
-          "Bueno, digamos que es una herramienta de oficina.",
+          "Bueno, digamos que es una cosa de oficina.",
         ],
       },
       {
@@ -162,7 +162,7 @@ export const invWeek1FrameDays: FrameDay[] = [
         scenarios: ["describing what it does", "the sound it makes", "ruling out the wrong word"],
         examples: [
           "O sea, es lo que usas para unir hojas.",
-          "O sea, hace un ruido seco y ya quedan juntas.",
+          "O sea, hace un clic y ya quedan juntas.",
           "O sea, no es una grapa, es lo que pone las grapas.",
         ],
         note: "Describing an object you can't name is a real skill, not a failure — *o sea* is how you signal the description is coming.",
@@ -182,11 +182,11 @@ export const invWeek1FrameDays: FrameDay[] = [
         english: "Let's see… / Let me think…",
         scenarios: ["asking outright", "circling closer", "offering to draw it"],
         examples: [
-          "A ver, ¿cómo se dice stapler en español?",
+          "A ver, ¿cómo se llama eso en español?",
           "A ver, algo así como una máquina pequeña de metal.",
           "A ver, te la dibujo si quieres.",
         ],
-        note: "Dropping the English word inside a Spanish question is what real bilinguals do — ask, get the word, keep going.",
+        note: "Pointing at the thing and asking *¿cómo se llama eso?* is what real learners do — ask, take the word, keep going.",
       },
     ],
   },

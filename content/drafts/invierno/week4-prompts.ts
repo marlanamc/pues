@@ -356,12 +356,12 @@ export const invWeek4SpeakDays: SpeakDay[] = [
         id: "d208-avisame",
         frameStem: "Avísame cuando puedas…",
         english: "Let me know when you can — I know you're on shift.",
-        spanish: "Avísame cuando puedas, sé que estás en turno.",
+        spanish: "Avísame cuando puedas, sé que estás de turno.",
         situationLabel: "Sin presionar a Camila",
-        why: "*Estar en turno* — to be on shift. Worth having when your practice partner works nights.",
+        why: "*Estar de turno* — to be on shift. Worth having when your practice partner works nights.",
         wordHints: [
           { en: "i know", es: "sé" },
-          { en: "you're on shift", es: "estás en turno" },
+          { en: "you're on shift", es: "estás de turno" },
         ],
       },
       {

@@ -288,7 +288,7 @@ export const invWeek4FrameDays: FrameDay[] = [
         scenarios: ["does that count as practice", "she knows Camila's on shift", "introducing them"],
         examples: [
           "Avísame cuando puedas si eso cuenta como práctica.",
-          "Avísame cuando puedas, sé que estás en turno.",
+          "Avísame cuando puedas, sé que estás de turno.",
           "Avísame cuando puedas y te presento a Rocío.",
         ],
       },

@@ -58,13 +58,13 @@ export const invWeek3SpeakDays: SpeakDay[] = [
         id: "d197-me-escuchas",
         frameStem: "¿Me escuchas?",
         english: "Can you hear me? I think the line's bad.",
-        spanish: "¿Me escuchas? Creo que se oye mal.",
+        spanish: "¿Me escuchas? Creo que se escucha mal.",
         situationLabel: "Arreglando la llamada",
         why: "On the phone this is the most useful sentence you own — it buys you time *and* fixes the actual problem.",
         wordHints: [
           { en: "can you hear me", es: "me escuchas" },
           { en: "i think", es: "creo que" },
-          { en: "it sounds bad", es: "se oye mal" },
+          { en: "it sounds bad", es: "se escucha mal" },
         ],
       },
       {
@@ -134,13 +134,13 @@ export const invWeek3SpeakDays: SpeakDay[] = [
         id: "d198-me-escuchas",
         frameStem: "¿Me escuchas?",
         english: "Can you hear me, ma'am? You're coming through a bit choppy.",
-        spanish: "¿Me escucha, señora? Se oye un poco cortado.",
+        spanish: "¿Me escucha, señora? Se escucha un poco cortado.",
         situationLabel: "Comprobando la línea, en usted",
         why: "Today the stem loses its *s*: **¿Me escucha?** That single letter is the whole tú→usted shift on this call.",
         wordHints: [
           { en: "can you hear me", es: "me escucha" },
           { en: "ma'am", es: "señora" },
-          { en: "it sounds choppy", es: "se oye cortado" },
+          { en: "it sounds choppy", es: "se escucha cortado" },
         ],
       },
       {

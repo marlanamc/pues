@@ -3,6 +3,7 @@ import type { FrameDay } from "./frames/types";
 import { veranoFrameDays } from "./frames/verano";
 import { otonoFrameDays } from "./frames/otono";
 import { inviernoFrameDays } from "./frames/invierno";
+import { primaveraFrameDays } from "./frames/primavera";
 
 /**
  * Pues — daily frames barrel. Concatenates each season's day-aligned
@@ -15,6 +16,7 @@ export const frameDays: FrameDay[] = [
   ...veranoFrameDays,
   ...otonoFrameDays,
   ...inviernoFrameDays,
+  ...primaveraFrameDays,
 ];
 
 export const totalDays = frameDays.length;

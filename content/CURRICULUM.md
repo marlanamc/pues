@@ -155,8 +155,7 @@ Context coverage across days (all four should keep appearing):
 
 > **Status: ✅ full season authored (days 92–182).** Weeks 2–13 live in
 > `content/drafts/week{N}-*.ts` and are spread into each season's `otono.ts`
-> barrel via imports. Invierno/Primavera day-level specs still get authored at
-> each season boundary (late November, late February).
+> barrel via imports.
 
 Spine: **comprehension-led speaking** — read or hear something, then retell
 and react. Season goals: seguir una historia varios días; hablar un minuto
@@ -252,7 +251,7 @@ mini-story (6 installments + repaso), same as Otoño.
 | Wk | Tema · story | Days | Five stems |
 |---|---|---|---|
 | 1 | Muletillas I · El intercambio | 183–189 | *Pues* · *Bueno* · *O sea* · *Es que* · *A ver* — the app's namesake week |
-| 2 | Muletillas II · Las muletillas de Camila | 190–196 | *Fíjate que* · *La verdad es que* · *Digo* · *¿Me entiendes?* · *Total, que* |
+| 2 | Muletillas II · Las muletillas de Camila | 190–196 | *Fíjate que* · *La verdad es que* · *Digo* · *¿Me entiendes?* · *En fin…* |
 | 3 | Al teléfono · Sin cara, solo voz | 197–203 | *¿Aló?* · *Le habla…* · *¿De parte de quién?* · *¿Me escuchas?* · *Se cortó* — day 198 is deliberately usted |
 | 4 | Notas de voz · Un audio de dos minutos | 204–210 | *Te mando un audio porque…* · *Era para decirte que…* · *Te cuento rapidito* · *Avísame cuando puedas* · *Cualquier cosa, me escribes* |
 | 5 | Quiero que… · La noche de las familias | 211–217 | Subjunctive chunk 1, wanting: *quiero que* · *necesito que* · *prefiero que* · *me gustaría que* · *¿quieres que…?* |
@@ -278,28 +277,33 @@ Invierno was authored in the standard Otoño shape instead, so the
 decision now has 91 days of real content to be tried against rather than
 being made in the abstract. Revisit at the Primavera boundary.
 
-## Primavera, week by week (arcs)
+## Primavera, week by week (authored days 274–364)
 
 Spine: **personality and length** — humor, color, gentle debate, and the
 15-minute conversation. Phases: *your voice* (weeks 1–4) → *holding your
-own* (weeks 5–8) → *going long* (weeks 9–13).
+own* (weeks 5–8) → *going long* (weeks 9–13). Same shape as Invierno:
+13 weeks × (6 new days + 1 repaso), five stems per week, serialized
+mini-story in La Lectura.
 
-| Wk | Tema | Focus |
-|---|---|---|
-| 1 | Tu estilo | Self-description with flair: *Soy de las que…* · *Lo mío es…* · *Si algo me define es…* |
-| 2 | Humor ligero | Teasing & taking a joke: *Te estoy tomando el pelo* · *¡Qué va!* · *No exageres* · *Mira quién habla* |
-| 3 | Exagerar con gracia | Color through hyperbole: *Me muero de…* · *Tardé mil años* · *Es lo mejor/peor del mundo* |
-| 4 | Historias con sabor | Storytelling II — drama: *No te vas a creer lo que…* · *Para colmo…* · *Y de repente, ¡pum!* |
-| 5 | Debate suave I | Disagreeing warmly: *Entiendo tu punto, pero…* · *Yo lo veo distinto* · *¿No crees que…?* |
-| 6 | Debate suave II | Conceding & holding ground: *Puede que tengas razón en…* · *Aun así…* · *No había pensado en eso* |
-| 7 | Cambiar de registro | tú ↔ usted on the fly — same message both ways (school families, formal calls); the year's third usted week, notes per convention 3 |
-| 8 | Temas grandes | Abstractions — education, technology, language: *En el fondo…* · *Hoy en día…* · *Cada vez más…* |
-| 9 | Profundizar | Follow-up chains that keep one topic alive five turns: *¿Y eso?* · *¿Cómo así?* · *¿Y qué pasó con…?* |
-| 9.5 | La misma historia, mejor | Retelling one story with increasing detail, color, and personality: basic version → detailed version → memorable version |
-| 10 | Sin preparación | Cold prompts, zero prep: *Lo primero que se me ocurre es…* |
-| 11 | La conversación larga I | Architecture of a long talk — bridges & callbacks: *Volviendo a lo que dijiste…* · *Como te contaba…* |
-| 12 | La conversación larga II | Re-energizing a lull: *Bueno, ¿y qué más?* · *Se me olvidaba contarte…* · *Oye, y cambiando de tema…* |
-| 13 | Capstone | El año entero — year retrospective (*Hace un año no podía…*) + the final full conversation |
+| Wk | Tema · story | Days | Five stems |
+|---|---|---|---|
+| 1 | Tu estilo · Sonar como yo | 274–280 | *Soy de las que…* · *Lo mío es…* · *Si algo me define es…* · *Yo soy más bien…* · *Me conocen por…* |
+| 2 | Humor ligero · La broma que salió sola | 281–287 | *Te estoy tomando el pelo* · *¡Qué va!* · *No exageres* · *Mira quién habla* · *¿En serio?* |
+| 3 | Exagerar con gracia · Mil años en el metro | 288–294 | *Me muero de…* · *Tardé mil años* · *Es lo mejor del mundo* · *Es lo peor del mundo* · *Es una barbaridad* |
+| 4 | Historias con sabor · Lo del ascensor | 295–301 | *No te vas a creer lo que…* · *Para colmo…* · *Y de repente, ¡pum!* · *Y lo peor es que…* · *Imagínate que…* |
+| 5 | Debate suave I · El celular en clase | 302–308 | *Entiendo tu punto, pero…* · *Yo lo veo distinto* · *¿No crees que…?* · *Puede ser, pero…* · *No estoy segura de que…* |
+| 6 | Debate suave II · La tía en Atlanta | 309–315 | *Puede que tengas razón en…* · *Aun así…* · *No había pensado en eso* · *Tienes un punto* · *Me convenzo hasta cierto punto* |
+| 7 | Cambiar de registro · La misma frase, dos formas | 316–322 | *Oye, ¿tienes un momento?* / *Disculpe, ¿tendría un momento?* · *Te quería comentar que…* / *Le quería comentar que…* · *¿Me dejas explicarte?* / *¿Me permite explicarle?* · *Muchas gracias por tu tiempo* / *…por su tiempo* · *Oye, perdona…* / *Con permiso…* — third usted week |
+| 8 | Temas grandes · Tres temas en el café | 323–329 | *En el fondo…* · *Hoy en día…* · *Cada vez más…* · *Al final del día…* · *La cosa es que…* |
+| 9 | Profundizar · El problema de Rocío | 330–336 | *¿Y eso?* · *¿Cómo así?* · *¿Y qué pasó con…?* · *¿Y después?* · *¿En serio?* — repaso folds in week 9.5 retell beat |
+| 10 | Sin preparación · La pregunta sin aviso | 337–343 | *Lo primero que se me ocurre es…* · *A ver qué sale…* · *Ni idea, pero…* · *Depende, creo que…* · *Creo que diría que…* |
+| 11 | Conversación larga I · Cuarenta minutos seguidos | 344–350 | *Volviendo a lo que dijiste…* · *Como te contaba…* · *Eso me recuerda…* · *Antes de que se me olvide…* · *Donde íbamos…* |
+| 12 | Conversación larga II · Cuando se enfría | 351–357 | *Bueno, ¿y qué más?* · *Se me olvidaba contarte…* · *Oye, y cambiando de tema…* · *Por cierto…* · *Ah, y otra cosa…* |
+| 13 | El año entero · Capstone | 358–364 | One stem per primavera movement: *Soy de las que…* (wk 1) · *Te estoy tomando el pelo* (wk 2) · *Entiendo tu punto, pero…* (wk 5) · *Lo primero que se me ocurre es…* (wk 10) · *Volviendo a lo que dijiste…* (wk 11). Day 363 = one conversation in five beats; day 364 = year retrospective |
+
+**Week 9.5 (La misma historia, mejor).** Folded into week 9 repaso dialogue
+(Marlana retells Rocío's story with increasing detail) rather than adding a
+half-week — the year stays 13 × 7 = 91 days.
 
 ---
 
@@ -360,6 +364,9 @@ These should appear in the Camino experience, season retrospectives, and any fut
   classrooms away; Yesenia, a new adult student), unconnected to Otoño's
   "Naty se muda". The listen-first variant was deferred, not dropped —
   see the Invierno section above.
+- **Primavera: daily and load-bearing**, same shape — continues the
+  Marlana/Camila Thursday arc through personality, debate, long conversation,
+  and a year capstone on day 364.
 
 ---
 

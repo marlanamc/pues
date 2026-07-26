@@ -361,7 +361,7 @@ export const invWeek11FrameDays: FrameDay[] = [
           "Por el contexto entiendo cuatro palabras nuevas de hoy.",
           "Por el contexto entiendo casi todo lo que no sé.",
         ],
-        note: "*Chévere* is Colombian, Venezuelan and Caribbean; other places say *bacán*, *padre*, *guay*. Guessing it from context is the win, not the word.",
+        note: "*Chévere* is Colombian, Venezuelan and Caribbean; other places say *bacán*, *padre*, *chido*. Guessing it from context is the win, not the word.",
       },
     ],
   },

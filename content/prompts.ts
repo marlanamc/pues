@@ -3,6 +3,7 @@ import type { SpeakDay, SpeakPrompt } from "./prompts/types";
 import { veranoSpeakDays } from "./prompts/verano";
 import { otonoSpeakDays } from "./prompts/otono";
 import { inviernoSpeakDays } from "./prompts/invierno";
+import { primaveraSpeakDays } from "./prompts/primavera";
 import { totalDays } from "./frames";
 
 /**
@@ -14,6 +15,7 @@ export const speakDays: SpeakDay[] = [
   ...veranoSpeakDays,
   ...otonoSpeakDays,
   ...inviernoSpeakDays,
+  ...primaveraSpeakDays,
 ];
 
 /** Prompts per day (the daily session size). */

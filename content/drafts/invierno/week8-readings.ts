@@ -25,7 +25,7 @@ export const invWeek8ReadingDays: ReadingDay[] = [
       situation: "Yesenia llega tarde a su primera clase de inglés",
       lines: [
         { speaker: "B", es: "Disculpe, maestra. Perdón, es que me perdí. Disculpe de verdad.", en: "Excuse me, teacher. Sorry, I got lost. I'm really sorry." },
-        { speaker: "A", es: "No hace falta que se disculpe por llegar tarde. Pase, siéntese.", en: "There's no need to apologize for arriving late. Come in, sit down." },
+        { speaker: "A", es: "No hace falta que se disculpe por llegar tarde. Pase, tome asiento.", en: "There's no need to apologize for arriving late. Come in, have a seat." },
         { speaker: "B", es: "No traje nada. Ni cuaderno ni nada. Perdón.", en: "I didn't bring anything. No notebook, nothing. Sorry." },
         { speaker: "A", es: "No hace falta que traiga nada, aquí hay de todo. ¿Cuánto lleva en el país?", en: "There's no need to bring anything, we have everything here. How long have you been in the country?" },
         { speaker: "B", es: "Ocho meses. Y no he dicho ni una frase en inglés. Ni una, maestra.", en: "Eight months. And I haven't said one sentence in English. Not one, teacher." },
@@ -54,7 +54,7 @@ export const invWeek8ReadingDays: ReadingDay[] = [
       title: "Once veces en una hora",
       situation: "Segunda clase; Marlana lleva la cuenta",
       lines: [
-        { speaker: "B", es: "Háblame de tú, maestra, por favor. Me hace sentir vieja el usted.", en: "Use tú with me, teacher, please. The usted makes me feel old." },
+        { speaker: "B", es: "Háblame de tú, maestra, por favor. El usted me hace sentir vieja.", en: "Use tú with me, teacher, please. The usted makes me feel old." },
         { speaker: "A", es: "Hecho. Entonces: es importante que sepas que aquí nadie te califica.", en: "Done. So: it's important that you know nobody grades you here." },
         { speaker: "B", es: "Es que hablo muy mal. Perdón. Ay, perdón otra vez.", en: "It's just that I speak so badly. Sorry. Oh, sorry again." },
         { speaker: "A", es: "Once.", en: "Eleven." },
@@ -164,7 +164,7 @@ export const invWeek8ReadingDays: ReadingDay[] = [
     partsTotal: 6,
     vocab: [
       { es: "quedársele a alguien", en: "to stay with someone, to stick", example: "Enséñaselo a otro, así se te queda." },
-      { es: "circular", en: "to circulate, to get passed around", example: "Más vale que el consejo circule." },
+      { es: "pasarle a alguien", en: "to pass something on to someone", example: "Más vale pasarle el consejo a alguien." },
       { es: "la experta", en: "the expert", example: "No hace falta que sea experta." },
       { es: "el consejo", en: "the piece of advice", example: "Le conté de dónde salió el consejo." },
       { es: "pasar adelante", en: "to pass on", example: "Lo que me dieron, lo paso adelante." },
@@ -181,7 +181,7 @@ export const invWeek8ReadingDays: ReadingDay[] = [
         { speaker: "B", es: "Eso está bien. El consejo solo pesa si viene con la historia.", en: "That's good. Advice only carries weight if it comes with the story." },
         { speaker: "A", es: "Le dije que a mí me lo dijo una enfermera colombiana en un café de Jamaica Plain.", en: "I told her a Colombian nurse said it to me in a café in Jamaica Plain." },
         { speaker: "B", es: "Ay, no. ¿En serio?", en: "Oh no. Really?" },
-        { speaker: "A", es: "En serio. No hace falta que yo haya terminado para ayudar a alguien que empieza. Más vale que el consejo circule a que se quede conmigo.", en: "Really. I don't have to be finished to help someone who's starting. Better the advice circulates than stays with me." },
+        { speaker: "A", es: "En serio. No hace falta que yo haya terminado para ayudar a alguien que empieza. Más vale pasarle el consejo a alguien a que se quede conmigo.", en: "Really. I don't have to be finished to help someone who's starting. Better to pass the advice on than keep it to myself." },
       ],
     },
   },

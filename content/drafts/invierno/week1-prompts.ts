@@ -226,12 +226,13 @@ export const invWeek1SpeakDays: SpeakDay[] = [
       {
         id: "d185-a-ver",
         frameStem: "A ver…",
-        english: "Let's see — how do you say \"stapler\" in Spanish?",
-        spanish: "A ver, ¿cómo se dice stapler en español?",
+        english: "Let's see — what do you call that in Spanish?",
+        spanish: "A ver, ¿cómo se llama eso en español?",
         situationLabel: "Preguntando directamente",
-        why: "Dropping the English word inside a Spanish question is what real bilinguals do. Ask, take the word, keep going.",
+        why: "*¿Cómo se llama eso?* is how you ask when you're pointing at the thing. Ask, take the word, keep going.",
         wordHints: [
-          { en: "how do you say", es: "cómo se dice" },
+          { en: "what do you call", es: "cómo se llama" },
+          { en: "that", es: "eso" },
           { en: "in spanish", es: "en español" },
         ],
       },

@@ -54,7 +54,7 @@ export const invWeek10ReadingDays: ReadingDay[] = [
       situation: "Rocío interrumpe a Marlana tres veces sin darse cuenta",
       lines: [
         { speaker: "A", es: "El martes en la junta les dije lo del transporte y entonces Delia—", en: "On Tuesday at the meeting I told them about the transportation and then Delia—" },
-        { speaker: "B", es: "¡Ay, Delia! Esa señora habla hasta por los codos.", en: "Oh, Delia! That woman could talk the hind legs off a donkey." },
+        { speaker: "B", es: "¡Ay, Delia! Esa señora habla por los codos.", en: "Oh, Delia! That woman could talk the hind legs off a donkey." },
         { speaker: "A", es: "Déjame terminar, son dos frases más.", en: "Let me finish, it's two more sentences." },
         { speaker: "B", es: "Perdón, perdón. Sigue.", en: "Sorry, sorry. Go on." },
         { speaker: "A", es: "Como te decía, el problema es el horario, no Delia. Ella tenía razón.", en: "As I was saying, the problem is the schedule, not Delia. She was right." },
@@ -204,7 +204,7 @@ export const invWeek10ReadingDays: ReadingDay[] = [
         { speaker: "A", es: "Déjame terminar me costó decirlo sin sonar molesta. Esa todavía la estoy aprendiendo.", en: "\"Let me finish\" was hard to say without sounding annoyed. That one I'm still learning." },
         { speaker: "B", es: "Esa se aprende con los años, no con las semanas.", en: "That one takes years, not weeks." },
         { speaker: "A", es: "Y ajá, claro fue la que más tardé en sentir natural. Resultó ser la otra mitad de conversar.", en: "And \"mm-hm, right\" took me longest to feel natural. It turned out to be the other half of talking." },
-        { speaker: "B", es: "Esa es la lección de la semana. Total, que ninguna de las cinco era vocabulario. Todas eran tiempo.", en: "That's the lesson of the week. So in the end, none of the five was vocabulary. All of them were timing." },
+        { speaker: "B", es: "Esa es la lección de la semana. En fin, ninguna de las cinco era vocabulario. Todas eran tiempo.", en: "That's the lesson of the week. So in the end, none of the five was vocabulary. All of them were timing." },
       ],
     },
   },

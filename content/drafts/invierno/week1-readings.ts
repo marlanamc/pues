@@ -88,7 +88,7 @@ export const invWeek1ReadingDays: ReadingDay[] = [
         { speaker: "B", es: "No importa. Descríbemela.", en: "Doesn't matter. Describe it to me." },
         { speaker: "A", es: "Bueno, olvidé el nombre, pero sé para qué sirve. O sea, es lo que usas para unir hojas.", en: "Okay, I forgot the name, but I know what it's for. I mean, it's what you use to put pages together." },
         { speaker: "B", es: "Ajá, sigue.", en: "Mm-hm, go on." },
-        { speaker: "A", es: "O sea, no es una grapa, es lo que pone las grapas. A ver, ¿cómo se dice stapler en español?", en: "I mean, it's not a staple, it's what puts the staples in. Let's see, how do you say \"stapler\" in Spanish?" },
+        { speaker: "A", es: "O sea, no es una grapa, es lo que pone las grapas. A ver, ¿cómo se llama eso en español?", en: "I mean, it's not a staple, it's what puts the staples in. Let's see, what do you call that in Spanish?" },
         { speaker: "B", es: "La engrapadora. Aunque en España dicen grapadora, y en otros lados también.", en: "La engrapadora. Though in Spain they say grapadora, and in some other places too." },
         { speaker: "A", es: "Es que la uso todos los días y no sé su nombre. Qué vergüenza.", en: "The thing is, I use it every day and I don't know its name. How embarrassing." },
         { speaker: "B", es: "Nada de vergüenza. Me la describiste completa y yo te di la palabra. Así funciona.", en: "Nothing embarrassing about it. You described it fully and I gave you the word. That's how it works." },

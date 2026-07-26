@@ -55,7 +55,7 @@ export const invWeek3FrameDays: FrameDay[] = [
         english: "Can you hear me?",
         scenarios: ["a bad line", "offering to call back", "moving to a window"],
         examples: [
-          "¿Me escuchas? Creo que se oye mal.",
+          "¿Me escuchas? Creo que se escucha mal.",
           "¿Me escuchas bien o te llamo otra vez?",
           "¿Me escuchas? Voy a caminar hacia la ventana.",
         ],
@@ -116,7 +116,7 @@ export const invWeek3FrameDays: FrameDay[] = [
         english: "Can you hear me?",
         scenarios: ["checking the line, formally", "offering to call back", "asking her to repeat"],
         examples: [
-          "¿Me escucha, señora? Se oye un poco cortado.",
+          "¿Me escucha, señora? Se escucha un poco cortado.",
           "¿Me escucha bien o la llamo más tarde?",
           "¿Me escuchas? Ya colgué con ella, te cuento.",
         ],

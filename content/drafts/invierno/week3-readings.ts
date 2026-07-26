@@ -28,7 +28,7 @@ export const invWeek3ReadingDays: ReadingDay[] = [
         { speaker: "B", es: "Soy yo. Esta semana me cambiaron todos los turnos, así que nos toca por teléfono.", en: "It's me. They changed all my shifts this week, so we're doing it by phone." },
         { speaker: "A", es: "Ay, no. Por teléfono es distinto. No te veo la boca.", en: "Oh no. The phone is different. I can't see your mouth." },
         { speaker: "B", es: "Exacto, y por eso es la mejor práctica. Sin cara, solo voz.", en: "Exactly, and that's why it's the best practice. No face, just voice." },
-        { speaker: "A", es: "¿Me escuchas? Creo que se oye mal.", en: "Can you hear me? I think the line's bad." },
+        { speaker: "A", es: "¿Me escuchas? Creo que se escucha mal.", en: "Can you hear me? I think the line's bad." },
         { speaker: "B", es: "Te escucho bien. Y mira, ya usaste la frase más útil del teléfono.", en: "I can hear you fine. And look, you already used the most useful phone sentence there is." },
         { speaker: "A", es: "¿Esa? Pero es que de verdad no sabía si me oías.", en: "That one? But I really didn't know if you could hear me." },
         { speaker: "B", es: "Por eso sirve. Te da tiempo y arregla la llamada. Ahora dime: ¿qué llamadas tienes que hacer esta semana?", en: "That's why it works. It buys you time and fixes the call. Now tell me: what calls do you have to make this week?" },

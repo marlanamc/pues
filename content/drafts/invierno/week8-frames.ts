@@ -355,7 +355,7 @@ export const invWeek8FrameDays: FrameDay[] = [
         english: "You'd better… / Best to…",
         scenarios: ["better passed on than hoarded", "better honest than impressive", "better a real story"],
         examples: [
-          "Más vale que el consejo circule a que se quede conmigo.",
+          "Más vale pasarle el consejo a alguien a que se quede conmigo.",
           "Más vale que le diga la verdad a que le parezca fácil.",
           "Más vale contarle mi enero que darle una regla.",
         ],

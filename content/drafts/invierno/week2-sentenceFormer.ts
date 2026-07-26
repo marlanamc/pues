@@ -54,7 +54,7 @@ export const invWeek2SentenceFormerDays: SentenceFormerDay[] = [
         ],
       },
       {
-        stem: "Total, que…",
+        stem: "En fin…",
         english: "Anyway… / So in the end…",
         completions: [
           { es: "ya tengo cinco palabras nuevas", en: "now i've got five new words", category: "other" },
@@ -115,7 +115,7 @@ export const invWeek2SentenceFormerDays: SentenceFormerDay[] = [
         ],
       },
       {
-        stem: "Total, que…",
+        stem: "En fin…",
         english: "Anyway… / So in the end…",
         completions: [
           { es: "el jueves se volvió mi día favorito", en: "thursday turned into my favorite day", category: "time" },
@@ -176,7 +176,7 @@ export const invWeek2SentenceFormerDays: SentenceFormerDay[] = [
         ],
       },
       {
-        stem: "Total, que…",
+        stem: "En fin…",
         english: "Anyway… / So in the end…",
         completions: [
           { es: "un \"digo\" me arregla la frase entera", en: "one \"digo\" fixes the whole sentence for me", category: "other" },
@@ -237,7 +237,7 @@ export const invWeek2SentenceFormerDays: SentenceFormerDay[] = [
         ],
       },
       {
-        stem: "Total, que…",
+        stem: "En fin…",
         english: "Anyway… / So in the end…",
         completions: [
           { es: "dimos la clase en la biblioteca", en: "we taught the class in the library", category: "activity" },
@@ -298,7 +298,7 @@ export const invWeek2SentenceFormerDays: SentenceFormerDay[] = [
         ],
       },
       {
-        stem: "Total, que…",
+        stem: "En fin…",
         english: "Anyway… / So in the end…",
         completions: [
           { es: "salí de ahí con más preguntas que al entrar", en: "i left with more questions than i went in with", category: "opinion" },
@@ -359,7 +359,7 @@ export const invWeek2SentenceFormerDays: SentenceFormerDay[] = [
         ],
       },
       {
-        stem: "Total, que…",
+        stem: "En fin…",
         english: "Anyway… / So in the end…",
         completions: [
           { es: "voy a decir \"claro\" y \"exacto\" más seguido", en: "i'm going to say \"claro\" and \"exacto\" more often", category: "activity" },
@@ -420,7 +420,7 @@ export const invWeek2SentenceFormerDays: SentenceFormerDay[] = [
         ],
       },
       {
-        stem: "Total, que…",
+        stem: "En fin…",
         english: "Anyway… / So in the end…",
         completions: [
           { es: "dos semanas y ya sueno distinta", en: "two weeks and i already sound different", category: "time" },

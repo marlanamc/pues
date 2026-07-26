@@ -3,6 +3,7 @@ import type { ReadingDay } from "./readings/types";
 import { veranoReadingDays } from "./readings/verano";
 import { otonoReadingDays } from "./readings/otono";
 import { inviernoReadingDays } from "./readings/invierno";
+import { primaveraReadingDays } from "./readings/primavera";
 
 /**
  * La Lectura barrel. Concatenates each season's day-aligned ReadingDay
@@ -14,6 +15,7 @@ export const readingDays: ReadingDay[] = [
   ...veranoReadingDays,
   ...otonoReadingDays,
   ...inviernoReadingDays,
+  ...primaveraReadingDays,
 ];
 
 export function readingForIndex(i: number): ReadingDay {

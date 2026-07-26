@@ -291,7 +291,7 @@ export const invWeek4SentenceFormerDays: SentenceFormerDay[] = [
         english: "Let me know when you can…",
         completions: [
           { es: "si eso cuenta como práctica", en: "if that counts as practice", category: "opinion" },
-          { es: "sé que estás en turno", en: "i know you're on shift", category: "time" },
+          { es: "sé que estás de turno", en: "i know you're on shift", category: "time" },
           { es: "y te presento a rocío", en: "and i'll introduce you to rocío", category: "activity" },
           { es: "si te parece bien que practique con ella también", en: "if you're okay with me practicing with her too", category: "opinion" },
           { es: "cuando termines de trabajar", en: "when you finish work", category: "time" },

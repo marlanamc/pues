@@ -46,10 +46,10 @@ export const invWeek3SentenceFormerDays: SentenceFormerDay[] = [
         stem: "¿Me escuchas?",
         english: "Can you hear me?",
         completions: [
-          { es: "creo que se oye mal", en: "i think the line's bad", category: "opinion" },
+          { es: "creo que se escucha mal", en: "i think the line's bad", category: "opinion" },
           { es: "bien o te llamo otra vez", en: "okay, or should i call you again", category: "other" },
           { es: "voy a caminar hacia la ventana", en: "i'm going to walk toward the window", category: "activity" },
-          { es: "se oye como debajo del agua", en: "it sounds like you're underwater", category: "other" },
+          { es: "se escucha como debajo del agua", en: "it sounds like you're underwater", category: "other" },
           { es: "dime algo para probar", en: "say something so i can test it", category: "activity" },
         ],
       },
@@ -108,12 +108,12 @@ export const invWeek3SentenceFormerDays: SentenceFormerDay[] = [
         english: "Can you hear me? (usted: ¿Me escucha?)",
         hints: {
           como: [
-            { es: "se oye un poco cortado", en: "it sounds a bit choppy" },
-            { es: "se oye perfecto", en: "it sounds perfect" },
+            { es: "se escucha un poco cortado", en: "it sounds a bit choppy" },
+            { es: "se escucha perfecto", en: "it sounds perfect" },
           ],
         },
         completions: [
-          { es: "señora, se oye un poco cortado", en: "ma'am, it sounds a bit choppy", category: "other" },
+          { es: "señora, se escucha un poco cortado", en: "ma'am, it sounds a bit choppy", category: "other" },
           { es: "bien o la llamo más tarde", en: "okay, or should i call you later", category: "time" },
           { es: "ya colgué con ella, te cuento", en: "i'm off the phone with her, let me tell you", category: "activity" },
           { es: "o le escribo mejor por mensaje", en: "or should i just text you instead", category: "activity" },

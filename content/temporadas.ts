@@ -15,7 +15,7 @@ export type Temporada = {
   /** The season's three movements, from content/CURRICULUM.md. */
   arc: string;
   arcEn: string;
-  /** One tema per week — 13 per season (weeks beyond Verano are planned, not yet authored). */
+  /** One tema per week — 13 per season. */
   weeks: string[];
   weeksEn: string[];
 };

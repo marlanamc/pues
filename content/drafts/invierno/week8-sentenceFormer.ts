@@ -362,7 +362,7 @@ export const invWeek8SentenceFormerDays: SentenceFormerDay[] = [
         stem: "Más vale que…",
         english: "You'd better… / Best to…",
         completions: [
-          { es: "el consejo circule a que se quede conmigo", en: "the advice circulates than stays with me", category: "opinion" },
+          { es: "pasarle el consejo a alguien a que se quede conmigo", en: "to pass the advice on than keep it to myself", category: "opinion" },
           { es: "le diga la verdad a que le parezca fácil", en: "i tell her the truth than have it seem easy", category: "opinion" },
           { es: "contarle mi enero que darle una regla", en: "tell her about my january than give her a rule", category: "opinion" },
           { es: "se lo pase a ella que lo guarde para mí", en: "i pass it to her than save it for myself", category: "activity" },

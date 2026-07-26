@@ -148,7 +148,7 @@ export const invWeek1SentenceFormerDays: SentenceFormerDay[] = [
         completions: [
           { es: "si no me sale la palabra, la rodeo", en: "if the word won't come, i'll go around it", category: "activity" },
           { es: "olvidé el nombre, pero sé para qué sirve", en: "i forgot the name, but i know what it's for", category: "other" },
-          { es: "digamos que es una herramienta de oficina", en: "let's say it's an office tool", category: "other" },
+          { es: "digamos que es una cosa de oficina", en: "let's say it's an office thing", category: "other" },
           { es: "sigamos y ya me acordaré", en: "let's keep going and i'll remember", category: "time" },
           { es: "lo digo con otras palabras", en: "i'll say it with other words", category: "activity" },
         ],
@@ -158,7 +158,7 @@ export const invWeek1SentenceFormerDays: SentenceFormerDay[] = [
         english: "I mean… / In other words…",
         completions: [
           { es: "es lo que usas para unir hojas", en: "it's what you use to put pages together", category: "activity" },
-          { es: "hace un ruido seco y ya quedan juntas", en: "it makes a dry click and they're stuck together", category: "other" },
+          { es: "hace un clic y ya quedan juntas", en: "it makes a click and they're stuck together", category: "other" },
           { es: "no es una grapa, es lo que pone las grapas", en: "it's not a staple, it's what puts the staples in", category: "other" },
           { es: "cabe en la mano y pesa poco", en: "it fits in your hand and weighs almost nothing", category: "other" },
           { es: "está en todos los salones de clase", en: "it's in every classroom", category: "other" },
@@ -179,7 +179,7 @@ export const invWeek1SentenceFormerDays: SentenceFormerDay[] = [
         stem: "A ver…",
         english: "Let's see… / Let me think…",
         completions: [
-          { es: "¿cómo se dice stapler en español?", en: "how do you say \"stapler\" in spanish?", category: "other" },
+          { es: "¿cómo se llama eso en español?", en: "what do you call that in spanish?", category: "other" },
           { es: "algo así como una máquina pequeña de metal", en: "something like a small metal machine", category: "other" },
           { es: "te la dibujo si quieres", en: "i'll draw it for you if you want", category: "activity" },
           { es: "cómo lo explico sin señalarlo", en: "how do i explain it without pointing at it", category: "activity" },

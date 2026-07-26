@@ -18,7 +18,7 @@ export const invWeek2SpeakDays: SpeakDay[] = [
       {
         id: "d190-fijate-que",
         frameStem: "Fíjate que…",
-        english: "Get this — I studied alone for years too.",
+        english: "Look — I studied alone for years too.",
         spanish: "Fíjate que yo también estudié sola muchos años.",
         situationLabel: "Camila comparte su lista",
         why: "*Fíjate que* asks the other person to lean in — a filler that also frames what's coming as worth hearing.",
@@ -70,11 +70,11 @@ export const invWeek2SpeakDays: SpeakDay[] = [
       },
       {
         id: "d190-total-que",
-        frameStem: "Total, que…",
+        frameStem: "En fin…",
         english: "Anyway, now I've got five new words.",
-        spanish: "Total, que ya tengo cinco palabras nuevas.",
+        spanish: "En fin, ya tengo cinco palabras nuevas.",
         situationLabel: "Cerrando la sesión",
-        why: "*Total, que* is the exit door from a long story. Say it and everyone knows the ending has started.",
+        why: "*En fin,* is the exit door from a long story. Say it and everyone knows the ending has started.",
         wordHints: [
           { en: "now i have", es: "ya tengo" },
           { en: "five words", es: "cinco palabras" },
@@ -146,9 +146,9 @@ export const invWeek2SpeakDays: SpeakDay[] = [
       },
       {
         id: "d191-total-que",
-        frameStem: "Total, que…",
+        frameStem: "En fin…",
         english: "Anyway, Thursday turned into my favorite day.",
-        spanish: "Total, que el jueves se volvió mi día favorito.",
+        spanish: "En fin, el jueves se volvió mi día favorito.",
         situationLabel: "El resumen honesto",
         why: "*Volverse* is the change that happened to you rather than one you chose — exactly right here.",
         wordHints: [
@@ -221,9 +221,9 @@ export const invWeek2SpeakDays: SpeakDay[] = [
       },
       {
         id: "d192-total-que",
-        frameStem: "Total, que…",
+        frameStem: "En fin…",
         english: "Anyway, I correct myself without cutting off the conversation.",
-        spanish: "Total, que corrijo sin cortar la conversación.",
+        spanish: "En fin, corrijo sin cortar la conversación.",
         situationLabel: "Lo que cambió",
         why: "The old habit was stopping to apologize. The new one is a single word mid-flight.",
         wordHints: [
@@ -246,7 +246,7 @@ export const invWeek2SpeakDays: SpeakDay[] = [
       {
         id: "d193-fijate-que",
         frameStem: "Fíjate que…",
-        english: "Get this — they changed the schedule without telling us.",
+        english: "Look — they changed the schedule without telling us.",
         spanish: "Fíjate que cambiaron el horario sin avisarnos.",
         situationLabel: "Contando el lío del lunes",
         why: "*Sin avisarnos* — without warning us. One phrase carries the whole grievance.",
@@ -296,9 +296,9 @@ export const invWeek2SpeakDays: SpeakDay[] = [
       },
       {
         id: "d193-total-que",
-        frameStem: "Total, que…",
+        frameStem: "En fin…",
         english: "Anyway, we ended up teaching the class in the library.",
-        spanish: "Total, que dimos la clase en la biblioteca.",
+        spanish: "En fin, dimos la clase en la biblioteca.",
         situationLabel: "Cómo terminó",
         why: "*Dar la clase* is what teachers actually say — not *enseñar la clase*.",
         wordHints: [
@@ -321,7 +321,7 @@ export const invWeek2SpeakDays: SpeakDay[] = [
       {
         id: "d194-fijate-que",
         frameStem: "Fíjate que…",
-        english: "Get this — the meeting lasted two hours for nothing.",
+        english: "Look — the meeting lasted two hours for nothing.",
         spanish: "Fíjate que la reunión duró dos horas para nada.",
         situationLabel: "La reunión del jueves",
         why: "*Para nada* at the end of a sentence means \"for nothing at all\" — it does the complaining for you.",
@@ -372,9 +372,9 @@ export const invWeek2SpeakDays: SpeakDay[] = [
       },
       {
         id: "d194-total-que",
-        frameStem: "Total, que…",
+        frameStem: "En fin…",
         english: "Anyway, I left there with more questions than I walked in with.",
-        spanish: "Total, que salí de ahí con más preguntas que al entrar.",
+        spanish: "En fin, salí de ahí con más preguntas que al entrar.",
         situationLabel: "El aterrizaje",
         why: "A long story can be long if the landing is clean. This is the landing.",
         wordHints: [
@@ -450,9 +450,9 @@ export const invWeek2SpeakDays: SpeakDay[] = [
       },
       {
         id: "d195-total-que",
-        frameStem: "Total, que…",
+        frameStem: "En fin…",
         english: "Anyway, I'm going to say \"claro\" and \"exacto\" more often.",
-        spanish: "Total, que voy a decir \"claro\" y \"exacto\" más seguido.",
+        spanish: "En fin, voy a decir \"claro\" y \"exacto\" más seguido.",
         situationLabel: "El nuevo hábito",
         why: "*Más seguido* is the everyday Latin American way to say \"more often\".",
         wordHints: [
@@ -474,7 +474,7 @@ export const invWeek2SpeakDays: SpeakDay[] = [
       {
         id: "d196-fijate-que",
         frameStem: "Fíjate que…",
-        english: "Get this — I don't count them anymore, they just come out.",
+        english: "Look — I don't count them anymore, they just come out.",
         spanish: "Fíjate que ya no las cuento, me salen solas.",
         situationLabel: "El repaso de la semana",
         why: "*Me salen solas* — they come out by themselves. The exact moment something stops being studied and starts being yours.",
@@ -525,9 +525,9 @@ export const invWeek2SpeakDays: SpeakDay[] = [
       },
       {
         id: "d196-total-que",
-        frameStem: "Total, que…",
+        frameStem: "En fin…",
         english: "Anyway, next up is the phone.",
-        spanish: "Total, que la próxima toca el teléfono.",
+        spanish: "En fin, la próxima toca el teléfono.",
         situationLabel: "Lo que viene",
         why: "*Tocar* here means \"it's the turn of\" — *la próxima toca X* is how you announce what's next.",
         wordHints: [
