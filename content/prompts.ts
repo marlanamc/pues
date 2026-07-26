@@ -1,5 +1,5 @@
-export type { WordHint, SpeakPrompt, SpeakDay } from "./prompts/types";
-import type { SpeakDay, SpeakPrompt } from "./prompts/types";
+export type { WordHint, SpeakPrompt, SpeakDay, OpenTurn } from "./prompts/types";
+import type { SpeakDay, SpeakPrompt, OpenTurn } from "./prompts/types";
 import { veranoSpeakDays } from "./prompts/verano";
 import { otonoSpeakDays } from "./prompts/otono";
 import { inviernoSpeakDays } from "./prompts/invierno";
@@ -20,6 +20,34 @@ export const speakDays: SpeakDay[] = [
 
 /** Prompts per day (the daily session size). */
 export const PROMPTS_PER_DAY = 5;
+
+/** Primavera week 1 pilot — Sin guion authored for days 274–280 only. */
+export const OPEN_TURN_PILOT_FIRST_DAY = 274;
+export const OPEN_TURN_PILOT_LAST_DAY = 280;
+
+/** Returns the unscripted turn when this day is in the week-1 pilot; otherwise undefined. */
+export function openTurnForDayIndex(dayIndex: number): OpenTurn | undefined {
+  const day = speakDayForIndex(dayIndex);
+  if (day.day < OPEN_TURN_PILOT_FIRST_DAY || day.day > OPEN_TURN_PILOT_LAST_DAY) {
+    return undefined;
+  }
+  return day.openTurn;
+}
+
+/** Best day index to offer Sin guion review: cursor day, or the latest finished pilot day. */
+export function openTurnReviewDayIndex(
+  currentDayIndex: number,
+  daysDone: number[],
+): number | null {
+  if (openTurnForDayIndex(currentDayIndex)) return currentDayIndex;
+  const done = new Set(daysDone);
+  for (let i = currentDayIndex - 1; i >= 0; i--) {
+    const day = speakDayForIndex(i);
+    if (day.day < OPEN_TURN_PILOT_FIRST_DAY) break;
+    if (done.has(day.day) && openTurnForDayIndex(i)) return i;
+  }
+  return null;
+}
 
 /** The SpeakDay for a given (already day-indexed) position, wrapping by total days. */
 export function speakDayForIndex(currentDayIndex: number): SpeakDay {

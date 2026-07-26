@@ -53,12 +53,6 @@ const IconFormer = (
   </svg>
 );
 
-const IconRead = (
-  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
-    <path d="M21 14.5A8.5 8.5 0 0 1 9.5 3 7 7 0 1 0 21 14.5Z" />
-  </svg>
-);
-
 const IconCamino = (
   <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
     <circle cx="6" cy="18" r="2.5" />
@@ -109,14 +103,14 @@ const IconGuias = (
 const gamePaths = ["/practice/games", ...games.map((g) => g.href)];
 const isGamePath = (p: string) => gamePaths.some((g) => p.startsWith(g));
 const isSentenceFormerPath = (p: string) => p.startsWith("/practice/sentence-former");
-const isMasPracticaPath = isSentenceFormerPath;
+const isMasPracticaPath = (p: string) =>
+  isSentenceFormerPath(p) || p.startsWith("/read");
 
 const isHoyPath = (p: string) =>
   p === "/" ||
   p.startsWith("/flow") ||
   p.startsWith("/cuaderno") ||
-  p.startsWith("/thoughts") ||
-  p.startsWith("/read");
+  p.startsWith("/thoughts");
 
 const isSemanaPath = (p: string) =>
   p.startsWith("/semana") || p.startsWith("/camino") || p.startsWith("/progress");
@@ -165,13 +159,6 @@ export const sidebarSections: NavSection[] = [
         label: "Hoy",
         match: (p) => p === "/" || p.startsWith("/flow"),
         icon: IconToday,
-        zone: "var(--accent)",
-      },
-      {
-        href: "/read",
-        label: "La lectura",
-        match: (p) => p.startsWith("/read"),
-        icon: IconRead,
         zone: "var(--accent)",
       },
       {

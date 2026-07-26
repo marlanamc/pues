@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { PROMPTS_PER_DAY, speakDayForIndex, speakDays } from "@/content/prompts";
+import { PROMPTS_PER_DAY, speakDayForIndex, speakDays, openTurnForDayIndex } from "@/content/prompts";
 import {
   advanceSession,
   completeCurrentDay,
@@ -75,7 +75,7 @@ export default function SavedPage() {
       if (newCount >= PROMPTS_PER_DAY) {
         completeCurrentDay(speakDays.length);
         // Days without an authored openTurn simply don't offer the sixth beat.
-        if (speakDayForIndex(finishedDayIndex).openTurn) {
+        if (openTurnForDayIndex(finishedDayIndex)) {
           setOpenTurnHref(`/flow/abierto?i=${finishedDayIndex}`);
         }
       }

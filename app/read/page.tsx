@@ -133,6 +133,10 @@ export default function ReadPage() {
   const [revealed, setRevealed] = useState<Set<number>>(new Set());
   const [done, setDone] = useState(false);
   const [pickerOpen, setPickerOpen] = useState(false);
+
+  useEffect(() => {
+    if (window.location.search.includes("dias")) setPickerOpen(true);
+  }, []);
   const [viewedDay, setViewedDay] = useState<number | null>(null);
 
   useEffect(() => {
@@ -169,10 +173,10 @@ export default function ReadPage() {
     <div className="fade-rise" style={{ maxWidth: 640, margin: "0 auto" }}>
       <header className="flex items-center justify-between" style={{ marginBottom: 32 }}>
         <Link
-          href="/"
+          href="/mas"
           className="text-caption text-ink-mute hover:text-accent transition-colors min-h-[40px] inline-flex items-center"
         >
-          ← Hoy
+          ← Más
         </Link>
         <p className="text-caption text-ink-mute">La lectura</p>
         <span className="w-16" aria-hidden />

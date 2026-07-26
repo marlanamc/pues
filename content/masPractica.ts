@@ -3,6 +3,8 @@
  * Lives on /mas, separate from the Juegos shelf.
  */
 
+import { readingDays } from "./readings";
+
 export type MasPracticaItem = {
   href: string;
   label: string;
@@ -20,5 +22,13 @@ export const masPracticaItems: MasPracticaItem[] = [
     descriptionEn: "Finish the sentence before you overthink it.",
     meta: "5 frases",
     metaEn: "5 sentences",
+  },
+  {
+    href: "/read?dias",
+    label: "La lectura",
+    description: "Vocabulario y diálogo — elige cualquier día.",
+    descriptionEn: "Vocabulary and dialogue — pick any day.",
+    meta: `${readingDays.length} días`,
+    metaEn: `${readingDays.length} days`,
   },
 ];

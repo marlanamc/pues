@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { speakDayForIndex } from "@/content/prompts";
+import { speakDayForIndex, openTurnForDayIndex } from "@/content/prompts";
 import type { OpenTurn } from "@/content/prompts/types";
 import { useRecorder } from "@/hooks/useRecorder";
 import { MicButton } from "@/components/MicButton";
@@ -39,7 +39,7 @@ function OpenTurnScreen() {
   const recorder = useRecorder();
 
   const dayIndex = Number(params.get("i") ?? "0");
-  const turn = useMemo(() => speakDayForIndex(dayIndex).openTurn, [dayIndex]);
+  const turn = useMemo(() => openTurnForDayIndex(dayIndex), [dayIndex]);
 
   const [heard, setHeard] = useState(false);
   const [showText, setShowText] = useState(false);

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import type { CSSProperties } from "react";
 import type { SpeakDay } from "@/content/prompts";
+import { openTurnForDayIndex } from "@/content/prompts";
 import { PlayButton } from "@/components/PlayButton";
 import { clearDraft, setCurrentDayIndex } from "@/lib/store";
 
@@ -246,6 +247,34 @@ export function WeekDayList({
                     }}
                   >
                     {status === "done" ? "Repetir este día" : "Empezar aquí"}
+                    <svg
+                      viewBox="0 0 24 24"
+                      width="13"
+                      height="13"
+                      aria-hidden
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth={1.8}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M5 12h14M13 6l6 6-6 6" />
+                    </svg>
+                  </Link>
+                )}
+
+                {openTurnForDayIndex(day.day - 1) && (
+                  <Link
+                    href={`/flow/abierto?i=${day.day - 1}`}
+                    onClick={() => clearDraft()}
+                    className="mono-cap inline-flex items-center transition-colors hover:text-accent"
+                    style={{
+                      marginTop: 12,
+                      gap: 6,
+                      color: "var(--ink-soft)",
+                    }}
+                  >
+                    Sin guion
                     <svg
                       viewBox="0 0 24 24"
                       width="13"

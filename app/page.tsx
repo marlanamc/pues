@@ -9,6 +9,8 @@ import { ClickablePrompt } from "@/components/ClickablePrompt";
 import {
   speakDayForIndex,
   PROMPTS_PER_DAY,
+  openTurnForDayIndex,
+  openTurnReviewDayIndex,
   type SpeakPrompt,
 } from "@/content/prompts";
 import { TEMPORADAS } from "@/content/temporadas";
@@ -102,6 +104,19 @@ export default function HomePage() {
         : "One more";
 
   const examples = day.prompts.slice(0, showMoreExamples ? 5 : 3);
+
+  const openTurnIndex = useMemo(
+    () => openTurnReviewDayIndex(stats.currentDayIndex, stats.daysDone),
+    [stats.currentDayIndex, stats.daysDone],
+  );
+  const openTurnDayNum = openTurnIndex !== null ? speakDayForIndex(openTurnIndex).day : null;
+  const canDoOpenTurn =
+    openTurnIndex !== null &&
+    openTurnDayNum !== null &&
+    (stats.daysDone.includes(openTurnDayNum) ||
+      (openTurnIndex === stats.currentDayIndex && sessionIndex >= PROMPTS_PER_DAY));
+  const openTurnHint =
+    openTurnForDayIndex(stats.currentDayIndex) && sessionIndex < PROMPTS_PER_DAY;
 
   return (
     <div className="hoy-stage fade-rise relative" style={{ paddingBottom: 96 }}>
@@ -232,6 +247,28 @@ export default function HomePage() {
             <div style={{ marginTop: 6 }}>
               <Gloss>{ctaGloss}</Gloss>
             </div>
+
+            {openTurnHint && (
+              <p className="mono-cap" style={{ marginTop: 14, color: "var(--ink-mute)" }}>
+                Después de cinco frases · sin guion
+                <Gloss>After five sentences — one unscripted turn</Gloss>
+              </p>
+            )}
+
+            {canDoOpenTurn && openTurnIndex !== null && (
+              <Link
+                href={`/flow/abierto?i=${openTurnIndex}`}
+                className="inline-flex min-h-[44px] items-center transition-colors hover:text-accent"
+                style={{ gap: 8, marginTop: 14, color: "var(--ink-soft)" }}
+              >
+                <span className="font-display" style={{ fontSize: "1.0625rem" }}>
+                  Una más, sin guion
+                </span>
+                <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden {...ws}>
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+              </Link>
+            )}
           </div>
         </div>
 

@@ -26,9 +26,9 @@ The app is organized in three zones:
 
 | Zone | Job | Routes |
 |------|-----|--------|
-| **Ritual** | Say one sentence today. Nothing is calendar-due — *tu día* advances when you finish five frases, not at midnight. | Hoy (`/`), Flow (`/flow/*`), La lectura (`/read`), Formar la frase, Cuaderno (`/cuaderno`, `/thoughts`) |
+| **Ritual** | Say one sentence today. Nothing is calendar-due — *tu día* advances when you finish five frases, not at midnight. | Hoy (`/`), Flow (`/flow/*`), Formar la frase, Cuaderno (`/cuaderno`, `/thoughts`) |
 | **La semana** | Light the week once in an unhurried hour; pull days from the queue at your pace. | La semana (`/semana`), Camino (`/camino`), Progreso (`/progress`) |
-| **Extras** | Optional companions that feed the ritual — never a second course. | Más hub (`/mas`), Juegos, Lugares, El oído, Guías · Referencia |
+| **Extras** | Optional companions that feed the ritual — never a second course. | Más hub (`/mas`) — **Más práctica** (Formar la frase, La lectura), Juegos, Lugares, El oído, Guías · Referencia |
 
 Mobile navigation uses three tabs: **Hoy**, **La semana**, **Más**. Desktop left rail groups the same zones with section labels (Ritual / La semana / Extras).
 

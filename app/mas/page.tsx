@@ -1,11 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import { useMemo } from "react";
 import type { CSSProperties } from "react";
 import { Gloss } from "@/components/Gloss";
 import { PageHeader, Wordmark } from "@/components/PageHeader";
 import { gameCount } from "@/content/games";
 import { masPracticaItems } from "@/content/masPractica";
+import { openTurnReviewDayIndex, speakDayForIndex } from "@/content/prompts";
+import { useStats } from "@/hooks/useStats";
 
 const stroke = {
   fill: "none",
@@ -16,6 +19,13 @@ const stroke = {
 };
 
 export default function MasPage() {
+  const { stats } = useStats();
+  const openTurnIndex = useMemo(
+    () => openTurnReviewDayIndex(stats.currentDayIndex, stats.daysDone),
+    [stats.currentDayIndex, stats.daysDone],
+  );
+  const openTurnDay = openTurnIndex !== null ? speakDayForIndex(openTurnIndex) : null;
+
   return (
     <div
       className="fade-rise"
@@ -45,6 +55,15 @@ export default function MasPage() {
               metaEn={item.metaEn ?? ""}
             />
           ))}
+          {openTurnIndex !== null && openTurnDay && (
+            <ExtraRow
+              href={`/flow/abierto?i=${openTurnIndex}`}
+              title="Sin guion"
+              titleEn="Answer one line cold — no English, no script"
+              meta={`Día ${String(openTurnDay.day).padStart(2, "0")}`}
+              metaEn={`Day ${String(openTurnDay.day).padStart(2, "0")}`}
+            />
+          )}
         </section>
 
         <section style={{ marginTop: 36 }}>
