@@ -27,27 +27,27 @@ Seasons are calendar quarters (`lib/season.ts`); titles and goals live in the
 `TEMPORADAS` array in `app/camino/page.tsx` and are already aligned with this
 plan — no copy changes needed there.
 
-**T1 Verano (Jun–Ago) — "El verano que hablo."** Say things out loud, every
+**T1 Verano (Jul–Sep) — "El verano que hablo."** Say things out loud, every
 day, until a simple conversation stops being scary. Arc: *assert* (weeks 1–2)
 → *interact* (weeks 3–6: ask, request, react, narrate) → *deepen* (weeks 7–13:
 describe, advise, coordinate, hedge, repair, feel, integrate). Ends at the
 season goals: una conversación simple sin pánico; leer una noticia corta
 entera.
 
-**T2 Otoño (Sep–Nov) — "Seguir el hilo."** Comprehension-led speaking: retell
+**T2 Otoño (Oct–Dic) — "Seguir el hilo."** Comprehension-led speaking: retell
 and react. Weekly arcs around summarizing something read or heard, reported
 speech (*dijo que…*, *según…*), past perfect, discourse connectors (*sin
 embargo*, *además*, *por eso*), and building to one minute of unbroken
 speech. `content/readings.ts` (91 Verano days, day-aligned with speak) is the
 natural companion to extend further in Otoño.
 
-**T3 Invierno (Dic–Feb) — "Sin subtítulos."** Natural, fast, real. Colloquial
+**T3 Invierno (Ene–Mar) — "Sin subtítulos."** Natural, fast, real. Colloquial
 fillers (*pues*, *o sea*, *bueno*, *fíjate*), the core subjunctive taught as
 chunks (*quiero que…*, *cuando llegues…*, *ojalá…*), phone-call Spanish,
 interrupting and turn-taking, and gist-listening strategies — understanding
 without catching every word.
 
-**T4 Primavera (Mar–May) — "Conversación completa."** Personality and length.
+**T4 Primavera (Abr–Jun) — "Conversación completa."** Personality and length.
 Humor and light teasing, storytelling with color, gentle debate,
 register-switching tú/usted on the fly, keeping a 15-minute conversation
 alive, and speaking with no prep at all.
@@ -287,19 +287,19 @@ mini-story in La Lectura.
 
 | Wk | Tema · story | Days | Five stems |
 |---|---|---|---|
-| 1 | Tu estilo · Sonar como yo | 274–280 | *Soy de las que…* · *Lo mío es…* · *Si algo me define es…* · *Yo soy más bien…* · *Me conocen por…* |
+| 1 | Cómo reacciono · Sonar como yo | 274–280 | *Ay, no…* · *Te juro que…* · *La verdad es que…* · *Me da una cosa…* · *No sé, a mí…* — personality lives in reactions, not in self-description |
 | 2 | Humor ligero · La broma que salió sola | 281–287 | *Te estoy tomando el pelo* · *¡Qué va!* · *No exageres* · *Mira quién habla* · *¿En serio?* |
 | 3 | Exagerar con gracia · Mil años en el metro | 288–294 | *Me muero de…* · *Tardé mil años* · *Es lo mejor del mundo* · *Es lo peor del mundo* · *Es una barbaridad* |
 | 4 | Historias con sabor · Lo del ascensor | 295–301 | *No te vas a creer lo que…* · *Para colmo…* · *Y de repente, ¡pum!* · *Y lo peor es que…* · *Imagínate que…* |
 | 5 | Debate suave I · El celular en clase | 302–308 | *Entiendo tu punto, pero…* · *Yo lo veo distinto* · *¿No crees que…?* · *Puede ser, pero…* · *No estoy segura de que…* |
 | 6 | Debate suave II · La tía en Atlanta | 309–315 | *Puede que tengas razón en…* · *Aun así…* · *No había pensado en eso* · *Tienes un punto* · *Me convenzo hasta cierto punto* |
 | 7 | Cambiar de registro · La misma frase, dos formas | 316–322 | *Oye, ¿tienes un momento?* / *Disculpe, ¿tendría un momento?* · *Te quería comentar que…* / *Le quería comentar que…* · *¿Me dejas explicarte?* / *¿Me permite explicarle?* · *Muchas gracias por tu tiempo* / *…por su tiempo* · *Oye, perdona…* / *Con permiso…* — third usted week |
-| 8 | Temas grandes · Tres temas en el café | 323–329 | *En el fondo…* · *Hoy en día…* · *Cada vez más…* · *Al final del día…* · *La cosa es que…* |
+| 8 | Temas grandes · Lo que se pierde | 323–329 | *A mí lo que me molesta es…* · *Lo que pasa es que…* · *No es que…* · *Yo lo que veo es…* · *¿Tú qué harías?* — big topics in spoken register: feeling, context, reframe, evidence, handoff |
 | 9 | Profundizar · El problema de Rocío | 330–336 | *¿Y eso?* · *¿Cómo así?* · *¿Y qué pasó con…?* · *¿Y después?* · *¿En serio?* — repaso folds in week 9.5 retell beat |
 | 10 | Sin preparación · La pregunta sin aviso | 337–343 | *Lo primero que se me ocurre es…* · *A ver qué sale…* · *Ni idea, pero…* · *Depende, creo que…* · *Creo que diría que…* |
 | 11 | Conversación larga I · Cuarenta minutos seguidos | 344–350 | *Volviendo a lo que dijiste…* · *Como te contaba…* · *Eso me recuerda…* · *Antes de que se me olvide…* · *Donde íbamos…* |
 | 12 | Conversación larga II · Cuando se enfría | 351–357 | *Bueno, ¿y qué más?* · *Se me olvidaba contarte…* · *Oye, y cambiando de tema…* · *Por cierto…* · *Ah, y otra cosa…* |
-| 13 | El año entero · Capstone | 358–364 | One stem per primavera movement: *Soy de las que…* (wk 1) · *Te estoy tomando el pelo* (wk 2) · *Entiendo tu punto, pero…* (wk 5) · *Lo primero que se me ocurre es…* (wk 10) · *Volviendo a lo que dijiste…* (wk 11). Day 363 = one conversation in five beats; day 364 = year retrospective |
+| 13 | La última clase · Capstone | 358–364 | One stem per primavera movement: *La verdad es que…* (wk 1) · *Te estoy tomando el pelo* (wk 2) · *Entiendo tu punto, pero…* (wk 5) · *Lo primero que se me ocurre es…* (wk 10) · *Volviendo a lo que dijiste…* (wk 11). The end-of-year potluck for the evening class saved in week 8. Day 361 = **usted day** (Diego's mother); day 363 = one conversation in five beats; day 364 = closing the room. The year is subtext throughout and never the topic |
 
 **Week 9.5 (La misma historia, mejor).** Folded into week 9 repaso dialogue
 (Marlana retells Rocío's story with increasing detail) rather than adding a
@@ -382,6 +382,12 @@ These should appear in the Camino experience, season retrospectives, and any fut
    pipeline (`npm run audio`, which reads frames) able to cover prompt
    playback. New phrases not yet in `public/audio/manifest.json` fall back to
    live `/api/tts` — fine, but don't break the convention.
+   **Author English-first, then satisfy this rule.** The verbatim requirement
+   has quietly meant *compose the Spanish, then gloss it into English*, and
+   glossed English reads like translated literature — the exact "I'd never
+   say that" failure. Write the English thought first (what would you actually
+   say to this person, in this moment?), then the Spanish, then back-fill the
+   frame's `examples`. Same end state, same test, spoken English.
 3. **Register:** Latin American Spanish, tú-form, pan-Hispanic vocabulary.
    Exception: **day 25 is deliberately usted** (speaking with students'
    families); its `note` fields explain the tú→usted shift. Use that pattern
@@ -391,6 +397,15 @@ These should appear in the Camino experience, season retrospectives, and any fut
    verbatim from the week, write 3 brand-new `examples` per frame, and give
    the day `themeEs: "Repaso: …"`. Day 42 shows a nice variant: the 5 prompts
    form the beats of a single story.
+   **A repaso is a new scene, not a review of the week.** The mechanics above
+   are not the whole recipe, and every season has drifted here: repaso days
+   slide into retrospective ("*Tardé mil años* became my way of telling time",
+   "five stems, three topics, one table"), which spends 1 day in 7 talking
+   about the curriculum instead of talking. Hard rules: no prompt may quote a
+   stem as an object, and no prompt may mention practice, progress, the week,
+   or the app. Put the five stems in a *fresh situation* — Sunday's phone
+   call, a different hallway, the same person on a worse day — and let the
+   review happen by using them, not by naming them.
 5. **Word hints:** follow `content/word-hints-prompt.md` (lowercase `en`
    keys, glosses sourced from the model `spanish`, chunk-level glosses for
    phrasal patterns, skip unglossable function words).

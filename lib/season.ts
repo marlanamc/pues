@@ -11,24 +11,24 @@ export type Season = {
   label: string;
   /** Fixed seasonal accent (do NOT tokenize). */
   color: string;
-  /** Month range label, e.g. "Jun – Ago". */
+  /** Month range label, e.g. "Jul – Sep". */
   range: string;
 };
 
 export const SEASONS: Season[] = [
-  { index: 1, key: "verano", label: "Verano", color: "oklch(0.77 0.105 66)", range: "Jun – Ago" },
-  { index: 2, key: "otono", label: "Otoño", color: "oklch(0.70 0.12 48)", range: "Sep – Nov" },
-  { index: 3, key: "invierno", label: "Invierno", color: "oklch(0.62 0.125 28)", range: "Dic – Feb" },
-  { index: 4, key: "primavera", label: "Primavera", color: "oklch(0.55 0.105 12)", range: "Mar – May" },
+  { index: 1, key: "verano", label: "Verano", color: "oklch(0.77 0.105 66)", range: "Jul – Sep" },
+  { index: 2, key: "otono", label: "Otoño", color: "oklch(0.70 0.12 48)", range: "Oct – Dic" },
+  { index: 3, key: "invierno", label: "Invierno", color: "oklch(0.62 0.125 28)", range: "Ene – Mar" },
+  { index: 4, key: "primavera", label: "Primavera", color: "oklch(0.55 0.105 12)", range: "Abr – Jun" },
 ];
 
 /** Which temporada a calendar date falls in. */
 export function seasonForDate(d: Date = new Date()): Season {
   const m = d.getMonth(); // 0 = Jan
-  if (m >= 5 && m <= 7) return SEASONS[0]; // Jun–Aug
-  if (m >= 8 && m <= 10) return SEASONS[1]; // Sep–Nov
-  if (m === 11 || m <= 1) return SEASONS[2]; // Dec–Feb
-  return SEASONS[3]; // Mar–May
+  if (m >= 6 && m <= 8) return SEASONS[0]; // Jul–Sep
+  if (m >= 9 && m <= 11) return SEASONS[1]; // Oct–Dec
+  if (m <= 2) return SEASONS[2]; // Jan–Mar
+  return SEASONS[3]; // Apr–Jun
 }
 
 /** Fraction of the calendar year elapsed (0–1) — drives the "el año" track. */

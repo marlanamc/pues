@@ -58,8 +58,8 @@ lib/store.ts                  Single seam between app and persistence
 ## The weekly rhythm
 
 The curriculum is week-shaped (13 weeks × 7 days per season), and so is the app.
-One unhurried session on **La semana** reads the week ahead, listens through it,
-and warms up with a sentence — then marks the week *primed*. The week's seven
+One unhurried session on **La semana** copies the stems, listens through the week,
+and retrieves without looking — then marks the week *primed*. The week's seven
 days become a queue pulled at any pace: finish them out of order, do two in a
 day, skip a day entirely. There is no "behind," and nothing about the daily flow
 depends on having prepared the week.

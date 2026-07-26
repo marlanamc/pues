@@ -119,6 +119,7 @@ export function WeekDayList({
   doneDays,
   currentDay,
   showPlay = false,
+  expandDay,
 }: {
   days: SpeakDay[];
   /** Curriculum day numbers already worked through. */
@@ -127,15 +128,14 @@ export function WeekDayList({
   currentDay: number;
   /** Show a speaker next to each model sentence — on during the weekly preview. */
   showPlay?: boolean;
+  /** Force a row open until the learner collapses it (e.g. right after priming). */
+  expandDay?: number;
 }) {
   // Untouched, the open row follows the cursor — but only once stats have
   // hydrated, so it can't be seeded into useState (that would pin day 1).
   const [opened, setOpened] = useState<{ day: number | null } | null>(null);
-  const open = opened
-    ? opened.day
-    : days.some((d) => d.day === currentDay)
-      ? currentDay
-      : null;
+  const defaultOpen = days.some((d) => d.day === currentDay) ? currentDay : null;
+  const open = opened !== null ? opened.day : (expandDay ?? defaultOpen);
   const done = new Set(doneDays);
 
   return (
@@ -222,12 +222,11 @@ export function WeekDayList({
                     {Arrow}
                   </Link>
                 ) : (
-                  <button
-                    type="button"
+                  <Link
+                    href="/flow/speak"
                     onClick={() => {
                       setCurrentDayIndex(day.day - 1);
                       clearDraft();
-                      setOpened({ day: null });
                     }}
                     style={{
                       marginTop: 16,
@@ -260,7 +259,7 @@ export function WeekDayList({
                     >
                       <path d="M5 12h14M13 6l6 6-6 6" />
                     </svg>
-                  </button>
+                  </Link>
                 )}
               </div>
             )}

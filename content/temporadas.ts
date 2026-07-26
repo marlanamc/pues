@@ -23,8 +23,8 @@ export type Temporada = {
 export const TEMPORADAS: Temporada[] = [
   {
     index: 1,
-    range: "Jun – Ago · verano",
-    rangeEn: "Jun – Aug · summer",
+    range: "Jul – Sep · verano",
+    rangeEn: "Jul – Sep · summer",
     seasonLabel: "verano",
     color: SEASONS[0].color,
     title: "El verano que hablo",
@@ -68,8 +68,8 @@ export const TEMPORADAS: Temporada[] = [
   },
   {
     index: 2,
-    range: "Sep – Nov · otoño",
-    rangeEn: "Sep – Nov · fall",
+    range: "Oct – Dic · otoño",
+    rangeEn: "Oct – Dec · fall",
     seasonLabel: "otoño",
     color: SEASONS[1].color,
     title: "Seguir el hilo",
@@ -113,8 +113,8 @@ export const TEMPORADAS: Temporada[] = [
   },
   {
     index: 3,
-    range: "Dic – Feb · invierno",
-    rangeEn: "Dec – Feb · winter",
+    range: "Ene – Mar · invierno",
+    rangeEn: "Jan – Mar · winter",
     seasonLabel: "invierno",
     color: SEASONS[2].color,
     title: "Sin subtítulos",
@@ -158,8 +158,8 @@ export const TEMPORADAS: Temporada[] = [
   },
   {
     index: 4,
-    range: "Mar – May · primavera",
-    rangeEn: "Mar – May · spring",
+    range: "Abr – Jun · primavera",
+    rangeEn: "Apr – Jun · spring",
     seasonLabel: "primavera",
     color: SEASONS[3].color,
     title: "Conversación completa",
@@ -171,7 +171,7 @@ export const TEMPORADAS: Temporada[] = [
     arc: "tu voz → debate suave → conversación larga",
     arcEn: "your voice → gentle debate → the long conversation",
     weeks: [
-      "Tu estilo",
+      "Cómo reacciono",
       "Humor ligero",
       "Exagerar",
       "Historias con sabor",
@@ -183,10 +183,10 @@ export const TEMPORADAS: Temporada[] = [
       "Sin preparación",
       "Conversación larga I",
       "Conversación larga II",
-      "El año entero",
+      "La última clase",
     ],
     weeksEn: [
-      "Your style",
+      "How I react",
       "Light humor",
       "Exaggerating",
       "Stories with flavor",
@@ -198,7 +198,7 @@ export const TEMPORADAS: Temporada[] = [
       "No prep",
       "The long conversation I",
       "The long conversation II",
-      "The whole year",
+      "The last class",
     ],
   },
 ];
