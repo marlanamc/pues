@@ -301,26 +301,25 @@ export function WeekBlindListen({ dayNums }: { dayNums: number[] }) {
             />
           )}
           {judging && (
-            <div style={{ display: "flex", gap: 10, marginTop: 28, flexWrap: "wrap", justifyContent: "center" }}>
+            <div className="stem-recall-judge-row">
               <Judge label="Lo entendí" en="I got it" tone="zone" onClick={() => judge(true)} />
               <Judge label="Se me fue" en="It got away" tone="mute" onClick={() => judge(false)} />
-              <button
-                type="button"
+              <Judge
+                label="Otra vez"
+                en="Listen again"
+                tone="ghost"
                 onClick={async () => {
                   setPlaying(true);
+                  setJudging(false);
                   try {
                     await playSpanish(s.spanish);
                   } catch {
                     // carry on
                   }
                   setPlaying(false);
+                  setJudging(true);
                 }}
-                className="stem-recall-reveal"
-                style={{ alignSelf: "center" }}
-              >
-                <span className="stem-recall-reveal-label">Otra vez</span>
-                <Gloss>Listen again</Gloss>
-              </button>
+              />
             </div>
           )}
         </div>
@@ -417,27 +416,14 @@ function Judge({
 }: {
   label: string;
   en: string;
-  tone: "zone" | "mute";
+  tone: "zone" | "mute" | "ghost";
   onClick: () => void;
 }) {
-  const color = tone === "zone" ? "var(--zone)" : "var(--ink-soft)";
   return (
     <button
       type="button"
       onClick={onClick}
-      style={{
-        display: "inline-flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: 1,
-        minHeight: 44,
-        padding: "9px 18px",
-        borderRadius: 10,
-        border: `1px solid color-mix(in oklab, ${color} 40%, transparent)`,
-        background: "transparent",
-        color,
-        cursor: "pointer",
-      }}
+      className={`stem-recall-judge stem-recall-judge--${tone}`}
     >
       <span className="stem-recall-judge-label">{label}</span>
       <Gloss>{en}</Gloss>

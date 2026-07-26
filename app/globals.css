@@ -1594,9 +1594,83 @@ html[data-text-size="large"] .gloss-line {
   color: var(--ink-mute);
 }
 
+.stem-recall-judge-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 22rem;
+  margin-top: 1.75rem;
+}
+
+.stem-recall-judge-row--duo {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 16rem;
+}
+
+.stem-recall-judge {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.0625rem;
+  width: 100%;
+  min-height: 44px;
+  padding: 0.5rem 0.625rem;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  transition:
+    color 120ms,
+    border-color 120ms,
+    background 120ms;
+}
+
+.stem-recall-judge:focus {
+  outline: none;
+}
+
+.stem-recall-judge:focus-visible {
+  outline: 2px solid color-mix(in oklab, var(--accent) 55%, transparent);
+  outline-offset: 2px;
+}
+
+.stem-recall-judge--zone {
+  color: var(--zone);
+  border-color: color-mix(in oklab, var(--zone) 45%, transparent);
+  background: color-mix(in oklab, var(--zone) 7%, transparent);
+}
+
+.stem-recall-judge--zone:hover {
+  border-color: color-mix(in oklab, var(--zone) 62%, transparent);
+  background: color-mix(in oklab, var(--zone) 11%, transparent);
+}
+
+.stem-recall-judge--mute {
+  color: var(--ink-soft);
+  border-color: color-mix(in oklab, var(--ink-soft) 28%, var(--rule));
+}
+
+.stem-recall-judge--mute:hover {
+  color: var(--ink);
+  border-color: color-mix(in oklab, var(--ink-soft) 45%, var(--rule));
+}
+
+.stem-recall-judge--ghost {
+  color: var(--ink-mute);
+  border-color: color-mix(in oklab, var(--ink-mute) 28%, var(--rule));
+}
+
+.stem-recall-judge--ghost:hover {
+  color: var(--accent);
+  border-color: color-mix(in oklab, var(--accent) 40%, transparent);
+}
+
 .stem-recall-judge-label {
   font-family: var(--font-display);
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
+  line-height: 1.2;
 }
 
 /* ===== La semana — the hour, as numbered doors ===== */

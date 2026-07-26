@@ -425,7 +425,7 @@ export function StemRecall({ dayNums }: { dayNums: number[] }) {
             <>
               <p className="stem-recall-card__stem">{card.stem}</p>
               {!handsFree && (
-                <div style={{ display: "flex", gap: 10, marginTop: 22, flexWrap: "wrap", justifyContent: "center" }}>
+                <div className="stem-recall-judge-row stem-recall-judge-row--duo">
                   <Judge label="Salió solo" en="It came out on its own" tone="zone" onClick={() => judge(true)} />
                   <Judge label="Lo armé" en="I had to build it" tone="mute" onClick={() => judge(false)} />
                 </div>
@@ -723,24 +723,16 @@ function HandsFreeBar({
 }
 
 function FlagMiss({ flagged, onToggle }: { flagged: boolean; onToggle: () => void }) {
-  const color = flagged ? "var(--zone)" : "var(--ink-soft)";
   return (
     <button
       type="button"
       onClick={onToggle}
-      style={{
-        display: "inline-flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: 1,
-        minHeight: 44,
-        padding: "9px 18px",
-        borderRadius: 10,
-        border: `1px solid color-mix(in oklab, ${color} 40%, transparent)`,
-        background: flagged ? "color-mix(in oklab, var(--zone) 8%, transparent)" : "transparent",
-        color,
-        cursor: "pointer",
-      }}
+      className={`stem-recall-judge ${flagged ? "stem-recall-judge--zone" : "stem-recall-judge--mute"}`}
+      style={
+        flagged
+          ? { background: "color-mix(in oklab, var(--zone) 11%, transparent)" }
+          : undefined
+      }
     >
       <span className="stem-recall-judge-label">{flagged ? "En la lista" : "Lo armé"}</span>
       <Gloss>{flagged ? "On your list · tap to remove" : "I had to build it"}</Gloss>
@@ -756,27 +748,14 @@ function Judge({
 }: {
   label: string;
   en: string;
-  tone: "zone" | "mute";
+  tone: "zone" | "mute" | "ghost";
   onClick: () => void;
 }) {
-  const color = tone === "zone" ? "var(--zone)" : "var(--ink-soft)";
   return (
     <button
       type="button"
       onClick={onClick}
-      style={{
-        display: "inline-flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: 1,
-        minHeight: 44,
-        padding: "9px 18px",
-        borderRadius: 10,
-        border: `1px solid color-mix(in oklab, ${color} 40%, transparent)`,
-        background: "transparent",
-        color,
-        cursor: "pointer",
-      }}
+      className={`stem-recall-judge stem-recall-judge--${tone}`}
     >
       <span className="stem-recall-judge-label">{label}</span>
       <Gloss>{en}</Gloss>
