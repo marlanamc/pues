@@ -27,7 +27,7 @@ import {
  * Deliberately not a game: no score, no timer, no streak. The output is a list
  * of stems, not a number to beat.
  *
- * "Sin manos" runs the same cards hands-free: six seconds on the English gloss,
+ * "Sin manos" runs the same cards hands-free: a beat on the English gloss,
  * then reveal + audio, then on — no judging, for when you want the week in your
  * ears while you do something else.
  */
@@ -258,7 +258,7 @@ export function StemRecall({ dayNums }: { dayNums: number[] }) {
           </button>
         </div>
         <div style={{ marginTop: 6 }}>
-          <Gloss>Start · six seconds, then hear it</Gloss>
+          <Gloss>Start · or hands-free</Gloss>
         </div>
         {standing.length > 0 && (
           <Standing cards={standing} onDrill={() => begin(standing)} />
@@ -319,13 +319,9 @@ export function StemRecall({ dayNums }: { dayNums: number[] }) {
                 className="font-display"
                 style={{ fontStyle: "italic", fontSize: 14.5, color: "var(--ink-soft)", margin: "14px 0 0" }}
               >
-                {handsFree ? "Dilo en voz alta…" : "Dilo en voz alta."}
+                Dilo en voz alta{handsFree ? "…" : "."}
               </p>
-              {handsFree ? (
-                <p className="mono-cap" style={{ marginTop: 12, color: "var(--ink-mute)" }}>
-                  {THINK_MS / 1000} s
-                </p>
-              ) : (
+              {!handsFree && (
                 <button
                   type="button"
                   onClick={() => setRevealed(true)}
@@ -438,11 +434,11 @@ function Intro({ count }: { count: number }) {
       <Gloss>From English to Spanish, out loud, without looking</Gloss>
       <p style={{ marginTop: 8, fontSize: 13.5, lineHeight: 1.5, color: "var(--ink-mute)" }}>
         Los {count} comienzos en orden aleatorio. Si tuviste que armarlo, no
-        llegó — y eso es justo lo que quieres saber. O ponla sin manos: seis
-        segundos, la respuesta, y sigue sola.
+        llegó — y eso es justo lo que quieres saber. O ponla sin manos: la
+        respuesta y el audio, y sigue sola.
       </p>
       <Gloss>
-        {`All ${count} stems, shuffled. If you had to assemble it, it didn't arrive — and that's the thing worth knowing. Or run it hands-free: six seconds, the answer, then on.`}
+        {`All ${count} stems, shuffled. If you had to assemble it, it didn't arrive — and that's the thing worth knowing. Or run it hands-free: the answer, audio, then on.`}
       </Gloss>
     </>
   );
