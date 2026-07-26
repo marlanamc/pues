@@ -9,6 +9,7 @@ import { WeekDayList } from "@/components/WeekDayList";
 import { WeekPlayer, type WeekPlayerLine } from "@/components/WeekPlayer";
 import { WeekStems } from "@/components/WeekStems";
 import { StemRecall } from "@/components/StemRecall";
+import { WeekBlindListen } from "@/components/WeekBlindListen";
 import { PlanSchedule } from "@/components/PlanSchedule";
 import { totalDays } from "@/content/frames";
 import { speakDays } from "@/content/prompts";
@@ -199,11 +200,11 @@ export default function SemanaPage() {
           </div>
         )}
 
-        {/* ===== The hour, as four closed doors =====
+        {/* ===== The hour, as five closed doors =====
             Everything below Los días is folded away until you reach it. The
             steps share a `name`, so opening one closes the last — you are only
             ever looking at the thing you're doing. Order follows the hour:
-            copy them, hear them, retrieve them, say one. */}
+            copy them, hear them, retrieve them, say one, listen blind. */}
         <div style={{ marginTop: 34 }}>
           <p className="mono-cap">La hora</p>
           <Gloss>The hour</Gloss>
@@ -215,7 +216,13 @@ export default function SemanaPage() {
           </WeekStep>
 
           <WeekStep n={2} label="Escúchala" labelEn="Listen to the week">
-            {lines.length > 0 && <WeekPlayer lines={lines} />}
+            {lines.length > 0 && (
+              <WeekPlayer
+                lines={lines}
+                shuffle
+                idleCaption="Orden aleatorio · ponla mientras haces otra cosa."
+              />
+            )}
           </WeekStep>
 
           <WeekStep n={3} label="Sin mirar" labelEn="Without looking">
@@ -267,6 +274,10 @@ export default function SemanaPage() {
                 {Arrow}
               </Link>
             </div>
+          </WeekStep>
+
+          <WeekStep n={5} label="Solo escuchar" labelEn="Just listen">
+            <WeekBlindListen dayNums={dayNums} />
           </WeekStep>
         </div>
 
@@ -355,7 +366,7 @@ function SectionHead({ label, labelEn }: { label: string; labelEn?: string }) {
 /**
  * One numbered door in the hour.
  *
- * All four share `name="hora"`, which makes them a native exclusive accordion:
+ * All five share `name="hora"`, which makes them a native exclusive accordion:
  * opening one closes the last, so only the step you're on is ever on screen.
  * Browsers without that support degrade to four independent toggles, which is
  * still the collapsed-by-default behaviour that matters.

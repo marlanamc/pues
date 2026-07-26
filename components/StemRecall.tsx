@@ -3,8 +3,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Gloss } from "@/components/Gloss";
 import { PlayButton } from "@/components/PlayButton";
-import { frameDays } from "@/content/frames";
-import { speakDays } from "@/content/prompts";
 import { playbackRateFor, useAudioSpeed } from "@/hooks/useAudioSpeed";
 import { resolveAudioUrl } from "@/lib/audio";
 import {
@@ -12,6 +10,7 @@ import {
   listPracticeFlags,
   unflagForPractice,
 } from "@/lib/store";
+import { stemsForWeek, type WeekStem } from "@/lib/weekStems";
 
 /**
  * Sin mirar — cued production, the drill for recall rather than recognition.
@@ -33,7 +32,7 @@ import {
  * shows — same practice list as the hand-run pass.
  */
 
-type Card = { promptId: string; stem: string; english: string; day: number };
+type Card = WeekStem;
 
 const THINK_MS = 6000;
 /** Beat after audio so you can flag before the next card. */
@@ -46,22 +45,6 @@ const ws = {
   strokeLinecap: "round" as const,
   strokeLinejoin: "round" as const,
 };
-
-/** Unique stems for the week, first occurrence wins — repaso repeats aren't re-drilled. */
-function cardsForWeek(dayNums: number[]): Card[] {
-  const seen = new Set<string>();
-  const cards: Card[] = [];
-  for (const d of dayNums) {
-    const frame = frameDays[d - 1];
-    const speak = speakDays[d - 1];
-    frame.frames.forEach((f, i) => {
-      if (seen.has(f.stem)) return;
-      seen.add(f.stem);
-      cards.push({ promptId: speak.prompts[i].id, stem: f.stem, english: f.english, day: d });
-    });
-  }
-  return cards;
-}
 
 /** Fisher–Yates. Order matters: going down the page lets you ride the sequence. */
 function shuffle<T>(items: T[]): T[] {
@@ -140,7 +123,7 @@ async function playToEnd(
 }
 
 export function StemRecall({ dayNums }: { dayNums: number[] }) {
-  const all = useMemo(() => cardsForWeek(dayNums), [dayNums]);
+  const all = useMemo(() => stemsForWeek(dayNums), [dayNums]);
   const { speed } = useAudioSpeed();
 
   const [queue, setQueue] = useState<Card[] | null>(null);

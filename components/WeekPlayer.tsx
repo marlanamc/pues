@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { playbackRateFor, useAudioSpeed } from "@/hooks/useAudioSpeed";
 import { resolveAudioUrl } from "@/lib/audio";
+import { shuffle } from "@/lib/shuffle";
 
 export type WeekPlayerLine = {
   /** The Spanish spoken. */
@@ -18,7 +19,24 @@ export type WeekPlayerLine = {
  * you make coffee. It resolves each clip lazily, one ahead of where it is, so
  * a 35-sentence week doesn't fire 35 requests before the first word.
  */
-export function WeekPlayer({ lines }: { lines: WeekPlayerLine[] }) {
+export function WeekPlayer({
+  lines,
+  blind = false,
+  shuffle: shuffled = false,
+  countNoun = "frases",
+  idleTitle = "Escuchar la semana entera",
+  idleCaption = "Ponla mientras haces otra cosa.",
+}: {
+  lines: WeekPlayerLine[];
+  /** Hide all line text on screen while audio plays — progress and controls only. */
+  blind?: boolean;
+  /** Randomize order each time playback starts from the beginning. */
+  shuffle?: boolean;
+  /** Shown in idle/progress, e.g. "frases" or "comienzos". */
+  countNoun?: string;
+  idleTitle?: string;
+  idleCaption?: string;
+}) {
   const [i, setI] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [error, setError] = useState(false);
@@ -28,6 +46,7 @@ export function WeekPlayer({ lines }: { lines: WeekPlayerLine[] }) {
   const objectUrlRef = useRef<string | null>(null);
   const playingRef = useRef(false);
   const indexRef = useRef(0);
+  const playlistRef = useRef(lines);
   const rateRef = useRef(playbackRateFor(speed));
 
   useEffect(() => {
@@ -66,12 +85,17 @@ export function WeekPlayer({ lines }: { lines: WeekPlayerLine[] }) {
     setPlaying(true);
     setError(false);
 
-    for (let n = start; n < lines.length; n += 1) {
+    if (shuffled && start === 0) playlistRef.current = shuffle(lines);
+    else if (start === 0) playlistRef.current = lines;
+
+    const playlist = playlistRef.current;
+
+    for (let n = start; n < playlist.length; n += 1) {
       if (!playingRef.current) return;
       indexRef.current = n;
       setI(n);
       try {
-        const { url, objectUrl } = await resolveAudioUrl(lines[n].text);
+        const { url, objectUrl } = await resolveAudioUrl(playlist[n].text);
         if (!playingRef.current) {
           if (objectUrl) URL.revokeObjectURL(url);
           return;
@@ -103,7 +127,8 @@ export function WeekPlayer({ lines }: { lines: WeekPlayerLine[] }) {
     indexRef.current = 0;
   }
 
-  const current = lines[Math.min(i, lines.length - 1)];
+  const playlist = playlistRef.current;
+  const current = playlist[Math.min(i, playlist.length - 1)] ?? lines[0];
 
   return (
     <div
@@ -120,7 +145,15 @@ export function WeekPlayer({ lines }: { lines: WeekPlayerLine[] }) {
       <button
         type="button"
         onClick={() => (playing ? stop() : playFrom(indexRef.current))}
-        aria-label={playing ? "Pausar la semana" : "Escuchar la semana"}
+        aria-label={
+          playing
+            ? blind
+              ? `Pausar · ${i + 1} de ${lines.length}`
+              : "Pausar la semana"
+            : blind
+              ? "Solo escuchar la semana"
+              : "Escuchar la semana"
+        }
         className="inline-flex shrink-0 items-center justify-center rounded-full transition-colors active:bg-surface-sunk"
         style={{
           width: 52,
@@ -143,24 +176,41 @@ export function WeekPlayer({ lines }: { lines: WeekPlayerLine[] }) {
 
       <span style={{ minWidth: 0, flex: 1 }}>
         <span className="mono-cap" style={{ color: "var(--ink-soft)" }}>
-          {playing ? `${i + 1} de ${lines.length}` : `${lines.length} frases · sin manos`}
+          {playing ? `${i + 1} de ${lines.length}` : `${lines.length} ${countNoun}`}
         </span>
-        <span
-          className="font-display text-ink week-player-line"
-          style={{
-            display: "block",
-            marginTop: 4,
-            lineHeight: 1.3,
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            whiteSpace: "nowrap",
-          }}
-        >
-          {playing ? current.text : "Escuchar la semana entera"}
-        </span>
-        <span className="week-player-caption">
-          {playing ? current.caption : "Ponla mientras haces otra cosa."}
-        </span>
+        {!(playing && blind) && (
+          <>
+            <span
+              className="font-display text-ink week-player-line"
+              style={{
+                display: "block",
+                marginTop: 4,
+                lineHeight: 1.3,
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {playing ? current.text : idleTitle}
+            </span>
+            <span className="week-player-caption">
+              {playing ? current.caption : idleCaption}
+            </span>
+          </>
+        )}
+        {playing && blind && (
+          <span
+            aria-hidden
+            style={{
+              display: "block",
+              marginTop: 10,
+              width: 40,
+              height: 2,
+              background: "var(--zone)",
+              opacity: 0.45,
+            }}
+          />
+        )}
         {error && (
           <span className="week-player-error">
             Alguna frase no cargó — sigue igual.
