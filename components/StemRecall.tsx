@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Gloss } from "@/components/Gloss";
+import { PlayButton } from "@/components/PlayButton";
 import { frameDays } from "@/content/frames";
 import { speakDays } from "@/content/prompts";
 import { playbackRateFor, useAudioSpeed } from "@/hooks/useAudioSpeed";
@@ -18,7 +19,7 @@ import {
  * Reading a stem and knowing what it means is recognition, and recognition is
  * not the thing that fails in conversation. This runs the week the other way:
  * English gloss first, say the Spanish out loud, then reveal and judge whether
- * it *arrived* or you assembled it. Assembling counts as a miss.
+ * it came out on its own or you had to build it. Building counts as a miss.
  *
  * Misses go into the shared practice list (see lib/store.ts) — the same one the
  * "Quiero practicarla" reflection writes to — so the two kinds of "needs work"
@@ -28,13 +29,15 @@ import {
  * of stems, not a number to beat.
  *
  * "Sin manos" runs the same cards hands-free: a beat on the English gloss,
- * then reveal + audio, then on — no judging, for when you want the week in your
- * ears while you do something else.
+ * then reveal + audio, then on. You can still tap Lo armé when the answer
+ * shows — same practice list as the hand-run pass.
  */
 
 type Card = { promptId: string; stem: string; english: string; day: number };
 
 const THINK_MS = 6000;
+/** Beat after audio so you can flag before the next card. */
+const FLAG_MS = 2500;
 
 const ws = {
   fill: "none" as const,
@@ -76,6 +79,66 @@ function sleep(ms: number) {
   });
 }
 
+/** Waits while hands-free is paused; returns false if the session ended. */
+async function waitWhilePaused(active: () => boolean, paused: () => boolean) {
+  while (paused() && active()) {
+    await sleep(200);
+  }
+  return active();
+}
+
+/** Countdown that respects pause and stop. */
+async function delayMs(
+  ms: number,
+  active: () => boolean,
+  paused: () => boolean,
+) {
+  const step = 200;
+  let left = ms;
+  while (left > 0) {
+    if (!(await waitWhilePaused(active, paused))) return false;
+    const chunk = Math.min(step, left);
+    await sleep(chunk);
+    left -= chunk;
+  }
+  return active();
+}
+
+/** Play to end, pausing/resuming with the session. */
+async function playToEnd(
+  audio: HTMLAudioElement,
+  active: () => boolean,
+  paused: () => boolean,
+) {
+  await new Promise<void>((resolve, reject) => {
+    audio.onended = () => resolve();
+    audio.onerror = () => reject(new Error("playback"));
+
+    audio.play().catch(reject);
+
+    (async () => {
+      while (!audio.ended && active()) {
+        if (!(await waitWhilePaused(active, paused))) {
+          audio.pause();
+          resolve();
+          return;
+        }
+        if (paused()) audio.pause();
+        else if (audio.paused) {
+          try {
+            await audio.play();
+          } catch {
+            reject(new Error("playback"));
+            return;
+          }
+        }
+        await sleep(200);
+      }
+      resolve();
+    })();
+  });
+}
+
 export function StemRecall({ dayNums }: { dayNums: number[] }) {
   const all = useMemo(() => cardsForWeek(dayNums), [dayNums]);
   const { speed } = useAudioSpeed();
@@ -86,9 +149,13 @@ export function StemRecall({ dayNums }: { dayNums: number[] }) {
   const [missed, setMissed] = useState<Card[]>([]);
   const [flagged, setFlagged] = useState<string[]>([]);
   const [handsFree, setHandsFree] = useState(false);
+  const [handsFreePaused, setHandsFreePaused] = useState(false);
   const [sessionHandsFree, setSessionHandsFree] = useState(false);
+  const [reviewQueue, setReviewQueue] = useState<Card[] | null>(null);
+  const [reviewPos, setReviewPos] = useState(0);
 
   const handsFreeRef = useRef(false);
+  const pausedRef = useRef(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const objectUrlRef = useRef<string | null>(null);
   const rateRef = useRef(playbackRateFor(speed));
@@ -125,6 +192,24 @@ export function StemRecall({ dayNums }: { dayNums: number[] }) {
     audioRef.current?.pause();
   }
 
+  function isHandsFreeActive() {
+    return handsFreeRef.current;
+  }
+
+  function isPaused() {
+    return pausedRef.current;
+  }
+
+  function setPaused(paused: boolean) {
+    pausedRef.current = paused;
+    setHandsFreePaused(paused);
+    if (paused) stopAudio();
+  }
+
+  function togglePause() {
+    setPaused(!pausedRef.current);
+  }
+
   async function playStem(text: string) {
     if (!audioRef.current) {
       const el = new Audio();
@@ -142,22 +227,19 @@ export function StemRecall({ dayNums }: { dayNums: number[] }) {
 
     audio.src = url;
     audio.playbackRate = rateRef.current;
-    await new Promise<void>((resolve, reject) => {
-      audio.onended = () => resolve();
-      audio.onerror = () => reject(new Error("playback"));
-      audio.play().then(
-        () => {
-          audio.playbackRate = rateRef.current;
-        },
-        reject,
-      );
-    });
+    try {
+      await playToEnd(audio, isHandsFreeActive, isPaused);
+    } catch {
+      // One bad clip shouldn't end the pass — carry on.
+    }
   }
 
   function begin(cards: Card[], opts?: { handsFree?: boolean }) {
     const hf = opts?.handsFree ?? false;
     handsFreeRef.current = hf;
+    pausedRef.current = false;
     setHandsFree(hf);
+    setHandsFreePaused(false);
     setSessionHandsFree(hf);
     setQueue(shuffle(cards));
     setPos(0);
@@ -167,10 +249,30 @@ export function StemRecall({ dayNums }: { dayNums: number[] }) {
 
   function stop() {
     handsFreeRef.current = false;
+    pausedRef.current = false;
     setHandsFree(false);
+    setHandsFreePaused(false);
     setSessionHandsFree(false);
     stopAudio();
     setQueue(null);
+    setReviewQueue(null);
+    setReviewPos(0);
+  }
+
+  function beginReview(cards: Card[]) {
+    stopAudio();
+    setReviewQueue(cards);
+    setReviewPos(0);
+  }
+
+  function advanceReview() {
+    if (!reviewQueue) return;
+    if (reviewPos + 1 >= reviewQueue.length) {
+      setReviewQueue(null);
+      setReviewPos(0);
+      return;
+    }
+    setReviewPos((p) => p + 1);
   }
 
   useEffect(() => {
@@ -184,7 +286,7 @@ export function StemRecall({ dayNums }: { dayNums: number[] }) {
 
         setPos(p);
         setRevealed(false);
-        await sleep(THINK_MS);
+        if (!(await delayMs(THINK_MS, isHandsFreeActive, isPaused))) return;
         if (cancelled || !handsFreeRef.current) return;
 
         setRevealed(true);
@@ -193,6 +295,7 @@ export function StemRecall({ dayNums }: { dayNums: number[] }) {
         } catch {
           // One bad clip shouldn't end the pass — carry on.
         }
+        if (!(await delayMs(FLAG_MS, isHandsFreeActive, isPaused))) return;
         if (cancelled || !handsFreeRef.current) return;
       }
 
@@ -215,53 +318,91 @@ export function StemRecall({ dayNums }: { dayNums: number[] }) {
     const card = queue![pos];
     // Written per card rather than at the end, so quitting halfway still counts.
     if (arrived) unflagForPractice(card.promptId);
-    else {
-      flagForPractice(card.promptId);
-      setMissed((m) => [...m, card]);
-    }
+    else flagMiss(card);
     syncFlags();
     setRevealed(false);
     setPos((p) => p + 1);
   }
 
+  function flagMiss(card: Card) {
+    if (!listPracticeFlags().includes(card.promptId)) flagForPractice(card.promptId);
+    setMissed((m) => (m.some((c) => c.promptId === card.promptId) ? m : [...m, card]));
+  }
+
+  function unflagMiss(card: Card) {
+    unflagForPractice(card.promptId);
+    setMissed((m) => m.filter((c) => c.promptId !== card.promptId));
+  }
+
+  function toggleMiss(card: Card) {
+    if (listPracticeFlags().includes(card.promptId)) unflagMiss(card);
+    else flagMiss(card);
+    syncFlags();
+  }
+
   const running = queue !== null && pos < queue.length;
   const finished = queue !== null && pos >= queue.length;
+  const reviewing = reviewQueue !== null && reviewPos < reviewQueue.length;
 
-  /* ---------- Idle ---------- */
-  if (!running && !finished) {
+  /* ---------- End-of-session repaso ---------- */
+  if (reviewing) {
+    const card = reviewQueue![reviewPos];
     return (
       <div>
-        <Intro count={all.length} />
-        <div style={{ display: "flex", gap: 10, marginTop: 16, flexWrap: "wrap" }}>
-          <button type="button" onClick={() => begin(all)} className="btn-primary">
-            <span className="lab">Empezar</span>
+        <p className="mono-cap" style={{ color: "var(--ink-mute)" }}>
+          Repaso · {reviewPos + 1} de {reviewQueue!.length}
+        </p>
+        <Gloss>{`Review · ${reviewPos + 1} of ${reviewQueue!.length}`}</Gloss>
+
+        <div className="stem-recall-card">
+          <p className="stem-recall-card__stem">{card.stem}</p>
+          <p className="stem-recall-card__english" style={{ marginTop: 10 }}>
+            {card.english}
+          </p>
+          <div style={{ display: "flex", justifyContent: "center", marginTop: 18 }}>
+            <PlayButton text={card.stem} label={`Escuchar: ${card.stem}`} />
+          </div>
+        </div>
+
+        <div style={{ display: "flex", gap: 10, marginTop: 18, flexWrap: "wrap" }}>
+          <button type="button" onClick={advanceReview} className="btn-primary">
+            <span className="lab">{reviewPos + 1 >= reviewQueue!.length ? "Listo" : "Siguiente"}</span>
             <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden {...ws}>
               <path d="M5 12h14M13 6l6 6-6 6" />
             </svg>
           </button>
           <button
             type="button"
-            onClick={() => begin(all, { handsFree: true })}
-            className="mono-cap transition-colors hover:text-accent"
-            style={{
-              minHeight: 44,
-              padding: "0 16px",
-              color: "var(--zone)",
-              background: "transparent",
-              border: "1px solid color-mix(in oklab, var(--zone) 40%, transparent)",
-              borderRadius: 9,
-              cursor: "pointer",
+            onClick={() => {
+              setReviewQueue(null);
+              setReviewPos(0);
             }}
+            className="mono-cap transition-colors hover:text-accent"
+            style={{ minHeight: 44, padding: "0 6px", color: "var(--ink-soft)", background: "transparent" }}
           >
-            Sin manos
-            <Gloss>Hands-free</Gloss>
+            Saltar
+            <Gloss>Skip review</Gloss>
           </button>
         </div>
-        <div style={{ marginTop: 6 }}>
-          <Gloss>Start · or hands-free</Gloss>
+      </div>
+    );
+  }
+
+  /* ---------- Idle ---------- */
+  if (!running && !finished) {
+    return (
+      <div>
+        <Intro count={all.length} />
+        <div style={{ display: "flex", gap: 10, marginTop: 16 }}>
+          <StartMode label="Empezar" en="By hand" onClick={() => begin(all)} />
+          <StartMode label="Sin manos" en="Hands-free" onClick={() => begin(all, { handsFree: true })} />
         </div>
         {standing.length > 0 && (
-          <Standing cards={standing} onDrill={() => begin(standing)} />
+          <Standing
+            cards={standing}
+            onDrill={() => begin(standing)}
+            onReview={() => beginReview(standing)}
+          />
         )}
       </div>
     );
@@ -270,11 +411,23 @@ export function StemRecall({ dayNums }: { dayNums: number[] }) {
   /* ---------- Running ---------- */
   if (running) {
     const card = queue[pos];
+    const cardFlagged =
+      flagged.includes(card.promptId) || missed.some((m) => m.promptId === card.promptId);
     return (
       <div>
-        <p className="mono-cap" style={{ color: "var(--ink-mute)" }}>
-          {pos + 1} de {queue.length}
-        </p>
+        {handsFree ? (
+          <HandsFreeBar
+            pos={pos}
+            total={queue.length}
+            paused={handsFreePaused}
+            onTogglePause={togglePause}
+            onEnd={stop}
+          />
+        ) : (
+          <p className="mono-cap" style={{ color: "var(--ink-mute)" }}>
+            {pos + 1} de {queue.length}
+          </p>
+        )}
 
         <div className="stem-recall-card">
           {!revealed && (
@@ -290,8 +443,13 @@ export function StemRecall({ dayNums }: { dayNums: number[] }) {
               <p className="stem-recall-card__stem">{card.stem}</p>
               {!handsFree && (
                 <div style={{ display: "flex", gap: 10, marginTop: 22, flexWrap: "wrap", justifyContent: "center" }}>
-                  <Judge label="Llegó" en="It arrived" tone="zone" onClick={() => judge(true)} />
-                  <Judge label="No llegó" en="I had to build it" tone="mute" onClick={() => judge(false)} />
+                  <Judge label="Salió solo" en="It came out on its own" tone="zone" onClick={() => judge(true)} />
+                  <Judge label="Lo armé" en="I had to build it" tone="mute" onClick={() => judge(false)} />
+                </div>
+              )}
+              {handsFree && (
+                <div style={{ display: "flex", justifyContent: "center", marginTop: 22 }}>
+                  <FlagMiss flagged={cardFlagged} onToggle={() => toggleMiss(card)} />
                 </div>
               )}
             </>
@@ -300,24 +458,26 @@ export function StemRecall({ dayNums }: { dayNums: number[] }) {
               <button
                 type="button"
                 onClick={() => setRevealed(true)}
-                className="btn-primary btn-primary--center"
-                style={{ marginTop: 18, minWidth: 150 }}
+                className="stem-recall-reveal"
               >
-                <span className="lab">Ver</span>
+                <span className="stem-recall-reveal-label">Ver la respuesta</span>
+                <Gloss>Show answer</Gloss>
               </button>
             )
           )}
         </div>
 
-        <button
-          type="button"
-          onClick={stop}
-          className="mono-cap transition-colors hover:text-accent"
-          style={{ marginTop: 14, minHeight: 44, color: "var(--ink-mute)", background: "transparent" }}
-        >
-          {handsFree ? "Parar" : "Dejarlo aquí"}
-          <Gloss>{handsFree ? "Stop" : "Stop here"}</Gloss>
-        </button>
+        {!handsFree && (
+          <button
+            type="button"
+            onClick={stop}
+            className="mono-cap transition-colors hover:text-accent"
+            style={{ marginTop: 14, minHeight: 44, color: "var(--ink-mute)", background: "transparent" }}
+          >
+            Dejarlo aquí
+            <Gloss>Stop here</Gloss>
+          </button>
+        )}
       </div>
     );
   }
@@ -330,16 +490,63 @@ export function StemRecall({ dayNums }: { dayNums: number[] }) {
       <div>
         <p className="stem-recall-done">Hecho. {total} comienzos.</p>
         <Gloss>{`Done. ${total} stems.`}</Gloss>
-        <p className="stem-recall-body">
-          Sin marcar — para eso, la vuelta a mano.
-        </p>
-        <Gloss>To flag what didn&apos;t arrive, run it by hand.</Gloss>
+
+        {missed.length === 0 ? (
+          <p className="stem-recall-body">
+            Nada que marcar esta vuelta.
+          </p>
+        ) : (
+          <>
+            <p className="stem-recall-body">
+              {missed.length} en tu lista — repásalos cuando quieras.
+            </p>
+            <Gloss>
+              {`${missed.length} on your list — review them whenever you like.`}
+            </Gloss>
+            <StemList cards={missed} />
+          </>
+        )}
+
         <div style={{ display: "flex", gap: 10, marginTop: 18, flexWrap: "wrap" }}>
-          <button type="button" onClick={() => begin(all, { handsFree: true })} className="btn-primary">
-            <span className="lab">Otra vuelta</span>
-            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden {...ws}>
-              <path d="M4 12a8 8 0 1 1 2.5 5.8M4 18v-4h4" />
-            </svg>
+          {missed.length > 0 && (
+            <button type="button" onClick={() => beginReview(missed)} className="btn-primary">
+              <span className="lab">Repasar estos</span>
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden {...ws}>
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </button>
+          )}
+          <button
+            type="button"
+            onClick={() => begin(all, { handsFree: true })}
+            className={missed.length > 0 ? "mono-cap transition-colors hover:text-accent" : "btn-primary"}
+            style={
+              missed.length > 0
+                ? {
+                    minHeight: 44,
+                    padding: "0 16px",
+                    color: "var(--zone)",
+                    background: "transparent",
+                    border: "1px solid color-mix(in oklab, var(--zone) 40%, transparent)",
+                    borderRadius: 9,
+                    cursor: "pointer",
+                  }
+                : undefined
+            }
+          >
+            {missed.length > 0 ? (
+              <>
+                Otra vuelta
+                <Gloss>Run again</Gloss>
+              </>
+            ) : (
+              <>
+                <span className="lab">Otra vuelta</span>
+                <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden {...ws}>
+                  <path d="M4 12a8 8 0 1 1 2.5 5.8M4 18v-4h4" />
+                </svg>
+              </>
+            )}
           </button>
           <button
             type="button"
@@ -357,8 +564,8 @@ export function StemRecall({ dayNums }: { dayNums: number[] }) {
   const arrived = total - missed.length;
   return (
     <div>
-      <p className="stem-recall-done">{arrived} de {total} llegaron.</p>
-      <Gloss>{`${arrived} of ${total} arrived on their own`}</Gloss>
+      <p className="stem-recall-done">{arrived} de {total} salieron solos.</p>
+      <Gloss>{`${arrived} of ${total} came out on their own`}</Gloss>
 
       {missed.length === 0 ? (
         <p className="stem-recall-body">
@@ -367,20 +574,43 @@ export function StemRecall({ dayNums }: { dayNums: number[] }) {
       ) : (
         <>
           <p className="stem-recall-body">
-            Estos son los de esta semana. Márcalos en tu cuaderno.
+            Ya están en tu lista — los verás la próxima vez que abras Sin mirar.
+            Repásalos ahora si quieres.
           </p>
+          <Gloss>
+            Saved to your practice list — they&apos;ll show up next time. Review them now if you like.
+          </Gloss>
           <StemList cards={missed} />
         </>
       )}
 
       <div style={{ display: "flex", gap: 10, marginTop: 18, flexWrap: "wrap" }}>
         {missed.length > 0 && (
-          <button type="button" onClick={() => begin(missed)} className="btn-primary">
-            <span className="lab">Otra vuelta</span>
-            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden {...ws}>
-              <path d="M4 12a8 8 0 1 1 2.5 5.8M4 18v-4h4" />
-            </svg>
-          </button>
+          <>
+            <button type="button" onClick={() => beginReview(missed)} className="btn-primary">
+              <span className="lab">Repasar estos</span>
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden {...ws}>
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              onClick={() => begin(missed)}
+              className="mono-cap transition-colors hover:text-accent"
+              style={{
+                minHeight: 44,
+                padding: "0 16px",
+                color: "var(--zone)",
+                background: "transparent",
+                border: "1px solid color-mix(in oklab, var(--zone) 40%, transparent)",
+                borderRadius: 9,
+                cursor: "pointer",
+              }}
+            >
+              Otra vuelta
+              <Gloss>Drill again</Gloss>
+            </button>
+          </>
         )}
         <button
           type="button"
@@ -403,14 +633,135 @@ function Intro({ count }: { count: number }) {
       </p>
       <Gloss>From English to Spanish, out loud, without looking</Gloss>
       <p className="stem-recall-body">
-        Los {count} comienzos en orden aleatorio. Si tuviste que armarlo, no
-        llegó — y eso es justo lo que quieres saber. O ponla sin manos: la
-        respuesta y el audio, y sigue sola.
+        Los {count} comienzos en orden aleatorio. Si tuviste que armarlo, pulsa
+        Lo armé — queda en tu lista y lo repasas al final. O ponla sin manos:
+        la respuesta y el audio siguen solas — y puedes marcar Lo armé cuando salga.
       </p>
       <Gloss>
-        {`All ${count} stems, shuffled. If you had to assemble it, it didn't arrive — and that's the thing worth knowing. Or run it hands-free: the answer, audio, then on.`}
+        {`All ${count} stems, shuffled. If you had to build it, tap I built it — it goes on your list for review at the end. Or run hands-free: answer and audio on their own, and you can still flag I built it when it appears.`}
       </Gloss>
     </>
+  );
+}
+
+function StartMode({
+  label,
+  en,
+  onClick,
+}: {
+  label: string;
+  en: string;
+  onClick: () => void;
+}) {
+  return (
+    <button type="button" onClick={onClick} className="stem-recall-start">
+      <span className="stem-recall-start-label">{label}</span>
+      <Gloss>{en}</Gloss>
+    </button>
+  );
+}
+
+function HandsFreeBar({
+  pos,
+  total,
+  paused,
+  onTogglePause,
+  onEnd,
+}: {
+  pos: number;
+  total: number;
+  paused: boolean;
+  onTogglePause: () => void;
+  onEnd: () => void;
+}) {
+  return (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 14,
+        marginBottom: 10,
+        padding: "12px 14px",
+        background: "var(--surface)",
+        border: "1px solid var(--rule)",
+        borderRadius: 14,
+      }}
+    >
+      <button
+        type="button"
+        onClick={onTogglePause}
+        aria-label={paused ? "Continuar sin manos" : "Pausar sin manos"}
+        className="inline-flex shrink-0 items-center justify-center rounded-full transition-colors active:bg-surface-sunk"
+        style={{
+          width: 48,
+          height: 48,
+          border: "2px solid var(--zone)",
+          color: "var(--zone)",
+        }}
+      >
+        {paused ? (
+          <svg viewBox="0 0 16 16" className="h-5 w-5 fill-current" aria-hidden>
+            <path d="M5 3.5v9l7-4.5z" />
+          </svg>
+        ) : (
+          <svg viewBox="0 0 16 16" className="h-5 w-5 fill-current" aria-hidden>
+            <rect x="4" y="3" width="3" height="10" rx="1" />
+            <rect x="9" y="3" width="3" height="10" rx="1" />
+          </svg>
+        )}
+      </button>
+
+      <span style={{ minWidth: 0, flex: 1 }}>
+        <span className="mono-cap" style={{ color: "var(--zone)" }}>
+          Sin manos · {pos + 1} de {total}
+        </span>
+        <Gloss>{paused ? "Paused · tap to continue" : "Hands-free · tap to pause"}</Gloss>
+      </span>
+
+      <button
+        type="button"
+        onClick={onEnd}
+        className="mono-cap shrink-0 transition-colors hover:text-accent"
+        style={{
+          minHeight: 44,
+          padding: "0 12px",
+          color: "var(--ink-soft)",
+          background: "transparent",
+          border: "1px solid color-mix(in oklab, var(--ink-soft) 35%, transparent)",
+          borderRadius: 9,
+          cursor: "pointer",
+        }}
+      >
+        Terminar
+        <Gloss>End</Gloss>
+      </button>
+    </div>
+  );
+}
+
+function FlagMiss({ flagged, onToggle }: { flagged: boolean; onToggle: () => void }) {
+  const color = flagged ? "var(--zone)" : "var(--ink-soft)";
+  return (
+    <button
+      type="button"
+      onClick={onToggle}
+      style={{
+        display: "inline-flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: 1,
+        minHeight: 44,
+        padding: "9px 18px",
+        borderRadius: 10,
+        border: `1px solid color-mix(in oklab, ${color} 40%, transparent)`,
+        background: flagged ? "color-mix(in oklab, var(--zone) 8%, transparent)" : "transparent",
+        color,
+        cursor: "pointer",
+      }}
+    >
+      <span className="stem-recall-judge-label">{flagged ? "En la lista" : "Lo armé"}</span>
+      <Gloss>{flagged ? "On your list · tap to remove" : "I had to build it"}</Gloss>
+    </button>
   );
 }
 
@@ -458,12 +809,13 @@ function StemList({ cards }: { cards: Card[] }) {
           key={c.promptId}
           style={{
             display: "flex",
-            alignItems: "baseline",
+            alignItems: "center",
             gap: 10,
             padding: "7px 0",
             borderTop: "1px solid var(--rule)",
           }}
         >
+          <PlayButton text={c.stem} label={`Escuchar: ${c.stem}`} />
           <span className="week-stems-stem" style={{ flex: 1, minWidth: 0 }}>
             {c.stem}
           </span>
@@ -476,32 +828,58 @@ function StemList({ cards }: { cards: Card[] }) {
   );
 }
 
-function Standing({ cards, onDrill }: { cards: Card[]; onDrill: () => void }) {
+function Standing({
+  cards,
+  onDrill,
+  onReview,
+}: {
+  cards: Card[];
+  onDrill: () => void;
+  onReview: () => void;
+}) {
   return (
     <div style={{ marginTop: 26, paddingTop: 18, borderTop: "1px solid var(--rule)" }}>
       <span className="mono-cap" style={{ color: "var(--zone)" }}>
-        Los que no llegaron · {cards.length}
+        En tu lista · {cards.length}
       </span>
-      <Gloss>Still on the list from this week</Gloss>
+      <Gloss>On your practice list from this week</Gloss>
       <StemList cards={cards} />
-      <button
-        type="button"
-        onClick={onDrill}
-        className="mono-cap transition-colors hover:text-accent"
-        style={{
-          marginTop: 14,
-          minHeight: 44,
-          padding: "0 14px",
-          color: "var(--zone)",
-          background: "transparent",
-          border: "1px solid color-mix(in oklab, var(--zone) 40%, transparent)",
-          borderRadius: 9,
-          cursor: "pointer",
-        }}
-      >
-        Solo estos
-        <Gloss>Just these</Gloss>
-      </button>
+      <div style={{ display: "flex", gap: 10, marginTop: 14, flexWrap: "wrap" }}>
+        <button
+          type="button"
+          onClick={onReview}
+          className="mono-cap transition-colors hover:text-accent"
+          style={{
+            minHeight: 44,
+            padding: "0 14px",
+            color: "var(--zone)",
+            background: "transparent",
+            border: "1px solid color-mix(in oklab, var(--zone) 40%, transparent)",
+            borderRadius: 9,
+            cursor: "pointer",
+          }}
+        >
+          Repasar
+          <Gloss>Review</Gloss>
+        </button>
+        <button
+          type="button"
+          onClick={onDrill}
+          className="mono-cap transition-colors hover:text-accent"
+          style={{
+            minHeight: 44,
+            padding: "0 14px",
+            color: "var(--zone)",
+            background: "transparent",
+            border: "1px solid color-mix(in oklab, var(--zone) 40%, transparent)",
+            borderRadius: 9,
+            cursor: "pointer",
+          }}
+        >
+          Solo estos
+          <Gloss>Drill just these</Gloss>
+        </button>
+      </div>
     </div>
   );
 }

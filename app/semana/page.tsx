@@ -218,7 +218,7 @@ export default function SemanaPage() {
             <StemRecall dayNums={dayNums} />
           </WeekStep>
 
-          <WeekStep n={3} label="Escúchala" labelEn="Listen to the week" meta="opcional">
+          <WeekStep n={3} label="Escúchala" labelEn="Listen to the week">
             {lines.length > 0 && <WeekPlayer lines={lines} />}
           </WeekStep>
 
