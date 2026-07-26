@@ -7,6 +7,9 @@ out
 *.tsbuildinfo
 next-env.d.ts
 
+# Generated TTS clips (hosted in Supabase Storage; manifest.json stays tracked)
+public/audio/*.mp3
+
 # Agent / editor tooling (local only)
 .claude/
 .impeccable/

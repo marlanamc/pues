@@ -11,7 +11,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "audio": "tsx scripts/generate-audio.ts",
-    "audio:dry": "tsx scripts/generate-audio.ts --dry"
+    "audio:dry": "tsx scripts/generate-audio.ts --dry",
+    "audio:upload": "tsx scripts/generate-audio.ts --upload-local"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.0",

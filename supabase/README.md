@@ -24,6 +24,7 @@ Click **Create new project** and wait ~2 minutes for provisioning.
 1. Open **SQL Editor** in the Supabase dashboard.
 2. Paste the contents of `supabase/migrations/20250615000000_initial_schema.sql`.
 3. Click **Run**.
+4. Paste and run `supabase/migrations/20250726000000_audio_storage.sql` (public TTS bucket).
 
 This creates:
 
@@ -33,6 +34,7 @@ This creates:
 - `questionnaire_answers` — content profile JSON
 - `user_preferences` — theme, audio speed, UI toggles
 - `recordings` storage bucket — private voice clips at `{user_id}/{thought_id}.webm`
+- `audio` storage bucket — public pre-generated TTS clips at `{hash}.mp3` (see § Audio storage below)
 
 All tables use **Row Level Security** — each user only sees their own rows.
 
@@ -150,3 +152,28 @@ supabase db push
 ```
 
 Project ref is in the dashboard URL: `https://supabase.com/dashboard/project/<ref>`.
+
+## Audio storage (pre-generated TTS)
+
+Spanish phrase audio lives in the public **`audio`** bucket (not in git). The manifest at `public/audio/manifest.json` maps phrase text → filename; the app resolves full Supabase public URLs at runtime.
+
+**One-time migration** (upload existing local MP3s):
+
+```bash
+npm run audio:upload
+```
+
+**Generate missing clips** (ElevenLabs → Supabase Storage):
+
+```bash
+npm run audio          # generate + upload missing
+npm run audio:dry      # preview without API calls
+```
+
+Requires in `.env`:
+
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `SUPABASE_SERVICE_ROLE_KEY` (server-only; used by the script, not the browser)
+- `ELEVENLABS_API_KEY` and `ELEVENLABS_VOICE_ID` (for generation, not upload-only)
+
+Phrases not yet in the manifest still fall back to live `/api/tts`.

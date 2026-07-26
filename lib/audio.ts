@@ -2,13 +2,15 @@
  * Audio asset lookup.
  *
  * The generator script (scripts/generate-audio.ts) writes:
- *   - public/audio/<hash>.mp3 for each unique Spanish phrase
+ *   - Supabase Storage audio/<hash>.mp3 for each unique Spanish phrase
  *   - public/audio/manifest.json mapping { text -> filename }
  *
  * Clients fetch the manifest once, cache it, and look up audio paths by
  * text. If a phrase isn't in the manifest yet, the client falls back to
  * the live /api/tts route.
  */
+
+import { audioPublicUrl } from "@/lib/supabase/storage";
 
 export type AudioManifest = Record<string, string>; // text → filename (e.g. "3f1ab8…c2.mp3")
 
@@ -30,7 +32,7 @@ export function getAudioManifest(): Promise<AudioManifest> {
 export async function staticAudioUrl(text: string): Promise<string | null> {
   const manifest = await getAudioManifest();
   const filename = manifest[text];
-  return filename ? `/audio/${filename}` : null;
+  return filename ? audioPublicUrl(filename) : null;
 }
 
 /** Live TTS clip as an object URL. The caller owns it — revoke when done. */

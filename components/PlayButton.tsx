@@ -12,7 +12,7 @@ import { staticAudioUrl } from "@/lib/audio";
  * Small speaker icon.
  *
  * Lookup order on first tap:
- *   1. /audio/<hash>.mp3 if the manifest has this text → free, instant
+ *   1. Supabase Storage audio/<hash>.mp3 if the manifest has this text
  *   2. /api/tts as a live fallback for content added since last `npm run audio`
  *
  * The HTMLAudioElement is created lazily on the first tap (inside the user
