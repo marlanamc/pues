@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { AccountCard } from "@/components/AccountCard";
+import { ExportCuadernoCard } from "@/components/ExportCuadernoCard";
 import { ResetProgressCard } from "@/components/ResetProgressCard";
 import { ThemePicker } from "@/components/ThemePicker";
 import { AudioSpeedToggle } from "@/components/AudioSpeedToggle";
@@ -126,6 +127,10 @@ export default function SettingsPage() {
 
       <section className="space-y-3">
         <p className="text-caption text-ink-mute">Datos</p>
+        {/* The way out sits above the way to erase. */}
+        <div className="rounded-lg border border-rule bg-surface p-6 space-y-3">
+          <ExportCuadernoCard />
+        </div>
         <div className="rounded-lg border border-rule bg-surface p-6 space-y-3">
           <ResetProgressCard />
         </div>
