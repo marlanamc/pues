@@ -240,7 +240,7 @@ export const week8SentenceFormerDays: SentenceFormerDay[] = [
         stem: "En resumen…",
         english: "In summary… / To sum up…",
         completions: [
-          { es: "leemos más, comprendemos mejor y los maestros están a bordo", en: "we read more, understand better, and teachers are on board", category: "other" },
+          { es: "leemos más, comprendemos mejor y los maestros están de acuerdo", en: "we read more, understand better, and teachers are on board", category: "other" },
           { es: "el piloto funciona y necesitamos escalarlo", en: "the pilot works and we need to scale it", category: "opinion" },
           { es: "tenemos evidencia y un plan claro", en: "we have evidence and a clear plan", category: "other" },
           { es: "tres partes, diez minutos, una propuesta", en: "three parts, ten minutes, one proposal", category: "other" },

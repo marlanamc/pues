@@ -29,7 +29,7 @@ export const week13ReadingDays: ReadingDay[] = [
         { speaker: "B", es: "¿Y ahora?", en: "And now?" },
         { speaker: "A", es: "Ahora puedo contarte la historia de Naty en cinco frases.", en: "Now I can tell you Naty's story in five sentences." },
         { speaker: "B", es: "Eso es un cambio grande.", en: "That's a big change." },
-        { speaker: "A", es: "Hace dos meses, «Trata de…» me sonaba raro. Ahora lo uso sin pensar.", en: "Two months ago, \"It's about…\" sounded strange to me. Now I use it without thinking." },
+        { speaker: "A", es: "Hace dos meses, «Se trata de…» me sonaba raro. Ahora lo uso sin pensar.", en: "Two months ago, \"It's about…\" sounded strange to me. Now I use it without thinking." },
         { speaker: "B", es: "¿Qué más recuerdas del inicio?", en: "What else do you remember from the start?" },
         { speaker: "A", es: "Lo más difícil fue confiar en que podía retell algo que acababa de leer.", en: "The hardest part was trusting I could retell something I'd just read." },
         { speaker: "B", es: "Y mira — ya llevas noventa días de otoño.", en: "And look — you already have ninety fall days." },
@@ -191,7 +191,7 @@ export const week13ReadingDays: ReadingDay[] = [
       situation: "En la sala de maestros — Marlana hace el repaso de temporada para Priya",
       lines: [
         { speaker: "B", es: "Último día de otoño. Cuéntame todo en un minuto.", en: "Last day of fall. Tell me everything in one minute." },
-        { speaker: "A", es: "Hace dos meses empecé a resumir con Trata de… y La idea principal es que…", en: "Two months ago I started summarizing with \"It's about…\" and \"The main idea is that…\"" },
+        { speaker: "A", es: "Hace dos meses empecé a resumir con Se trata de… y La idea principal es que…", en: "Two months ago I started summarizing with \"It's about…\" and \"The main idea is that…\"" },
         { speaker: "A", es: "Seguí historias: Naty se muda, la feria, el artículo, Diego. Leí, retellé, reaccioné.", en: "I followed stories: Naty moves, the fair, the article, Diego. I read, retold, reacted." },
         { speaker: "B", es: "Sigue.", en: "Keep going." },
         { speaker: "A", es: "Ahora puedo conectar ideas, contrastar, opinar sobre lo leído y hablar casi un minuto sin parar.", en: "Now I can connect ideas, contrast, react to what I read, and speak almost a minute without stopping." },

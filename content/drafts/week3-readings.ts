@@ -111,7 +111,7 @@ export const week3ReadingDays: ReadingDay[] = [
         { speaker: "B", es: "¿Qué pasó? ¿Ya respondieron?", en: "What happened? Did they respond already?" },
         { speaker: "A", es: "Sí. Dijo que había recibido el correo esa mañana y que le habían dado la beca.", en: "Yes. He said he'd gotten the email that morning and that they'd given him the scholarship." },
         { speaker: "B", es: "¡No me digas! ¿Cómo reaccionó?", en: "No way! How did he react?" },
-        { speaker: "A", es: "Me contó que gritó cuando leyó la primera línea. Mencionó que la carta también incluía libros y una laptop.", en: "He told me he shouted when he read the first line. He mentioned the letter also included books and a laptop." },
+        { speaker: "A", es: "Me contó que gritó cuando leyó la primera línea. Mencionó que la carta también incluía libros y una computadora.", en: "He told me he shouted when he read the first line. He mentioned the letter also included books and a laptop." },
         { speaker: "B", es: "Se lo merece completamente.", en: "He completely deserves it." },
         { speaker: "A", es: "Preguntó si esto significaba que iba a la universidad de sus sueños. Casi no podía creerlo.", en: "He asked if this meant he was going to his dream university. He could hardly believe it." },
         { speaker: "B", es: "¿Ya le contó a su mamá?", en: "Did he already tell his mom?" },

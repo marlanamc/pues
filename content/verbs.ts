@@ -661,7 +661,7 @@ export const verbPastGuide: VerbTenseGuide = {
   practiceSteps: [
     "For yesterday's finished actions, try preterite: *Ayer [verb]-é*.",
     "For *when I was a kid* or *I used to*, reach for imperfect: *Cuando era…*",
-    "Listen to one example from each tense. Notice the different endings.",
+    "For present perfect vs. preterite in Latin America, open Guías → Latinoamérica.",
   ],
   categories: [
     { id: "choice", label: "Which past?" },

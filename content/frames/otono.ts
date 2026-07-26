@@ -31,15 +31,15 @@ export const otonoFrameDays: FrameDay[] = [
     subtitle: "Someone you love just got the job they wanted — tell it in four sentences.",
     frames: [
       {
-        stem: "Trata de…",
+        stem: "Se trata de…",
         english: "It's about…",
         scenarios: ["a friend's big news", "a job offer", "a move to Boston"],
         examples: [
-          "Trata de una amiga que se muda a Boston.",
-          "Trata de un trabajo nuevo como desarrolladora.",
-          "Trata de dejar Atlanta después de diez años.",
+          "Se trata de una amiga que se muda a Boston.",
+          "Se trata de un trabajo nuevo como desarrolladora.",
+          "Se trata de dejar Atlanta después de diez años.",
         ],
-        note: "Trata de + noun names the topic before the detail — the opening move of any summary, spoken or written.",
+        note: "Se trata de + noun names the topic before the detail — the opening move of any summary, spoken or written.",
       },
       {
         stem: "La idea principal es que…",
@@ -89,13 +89,13 @@ export const otonoFrameDays: FrameDay[] = [
     subtitle: "The chaos before a move — pack a whole life into a few sentences.",
     frames: [
       {
-        stem: "Trata de…",
+        stem: "Se trata de…",
         english: "It's about…",
         scenarios: ["packing chaos", "selling furniture", "a tight deadline"],
         examples: [
-          "Trata de empacar toda una vida en cajas.",
-          "Trata de vender los muebles antes de mudarse.",
-          "Trata de organizar la mudanza en dos semanas.",
+          "Se trata de empacar toda una vida en cajas.",
+          "Se trata de vender los muebles antes de mudarse.",
+          "Se trata de organizar la mudanza en dos semanas.",
         ],
       },
       {
@@ -124,7 +124,7 @@ export const otonoFrameDays: FrameDay[] = [
         scenarios: ["the reassurance", "the plan coming together", "not being alone"],
         examples: [
           "Lo importante es que su mamá va a ayudarla.",
-          "Lo importante es que ya encontró cajas prestadas.",
+          "Lo importante es que ya consiguió cajas prestadas.",
           "Lo importante es que no está haciendo esto sola.",
         ],
       },
@@ -146,13 +146,13 @@ export const otonoFrameDays: FrameDay[] = [
     subtitle: "An eighteen-hour drive, told in five sentences.",
     frames: [
       {
-        stem: "Trata de…",
+        stem: "Se trata de…",
         english: "It's about…",
         scenarios: ["a long drive", "crossing states", "a late arrival"],
         examples: [
-          "Trata de un viaje de dieciocho horas.",
-          "Trata de manejar de Atlanta a Boston sin parar mucho.",
-          "Trata de llegar antes de la medianoche.",
+          "Se trata de un viaje de dieciocho horas.",
+          "Se trata de manejar de Atlanta a Boston sin parar mucho.",
+          "Se trata de llegar antes de la medianoche.",
         ],
       },
       {
@@ -203,13 +203,13 @@ export const otonoFrameDays: FrameDay[] = [
     subtitle: "An empty apartment and a little homesickness — summarized with kindness.",
     frames: [
       {
-        stem: "Trata de…",
+        stem: "Se trata de…",
         english: "It's about…",
         scenarios: ["an empty apartment", "the first days somewhere new", "feeling a little alone"],
         examples: [
-          "Trata de un apartamento pequeño y vacío.",
-          "Trata de los primeros días en una ciudad nueva.",
-          "Trata de sentirse un poco sola.",
+          "Se trata de un apartamento pequeño y vacío.",
+          "Se trata de los primeros días en una ciudad nueva.",
+          "Se trata de sentirse un poco sola.",
         ],
       },
       {
@@ -260,13 +260,13 @@ export const otonoFrameDays: FrameDay[] = [
     subtitle: "A nervous first day at work — and asking for help instead of hiding it.",
     frames: [
       {
-        stem: "Trata de…",
+        stem: "Se trata de…",
         english: "It's about…",
         scenarios: ["a first day of work", "nerves before a meeting", "asking for help"],
         examples: [
-          "Trata de su primer día de trabajo.",
-          "Trata de los nervios antes de una reunión.",
-          "Trata de pedir ayuda cuando no sabes algo.",
+          "Se trata de su primer día de trabajo.",
+          "Se trata de los nervios antes de una reunión.",
+          "Se trata de pedir ayuda cuando no sabes algo.",
         ],
       },
       {
@@ -317,13 +317,13 @@ export const otonoFrameDays: FrameDay[] = [
     subtitle: "A month later — the story already has a happy ending.",
     frames: [
       {
-        stem: "Trata de…",
+        stem: "Se trata de…",
         english: "It's about…",
         scenarios: ["a whole month gone by", "a new friend at work", "finally feeling settled"],
         examples: [
-          "Trata de un mes entero en Boston.",
-          "Trata de hacer una nueva amiga en el trabajo.",
-          "Trata de sentirse por fin en casa.",
+          "Se trata de un mes entero en Boston.",
+          "Se trata de hacer una nueva amiga en el trabajo.",
+          "Se trata de sentirse por fin en casa.",
         ],
       },
       {
@@ -332,7 +332,7 @@ export const otonoFrameDays: FrameDay[] = [
         scenarios: ["not feeling alone anymore", "a favorite spot", "an invitation"],
         examples: [
           "La idea principal es que ya no se siente tan sola.",
-          "La idea principal es que encontró una cafetería favorita.",
+          "La idea principal es que encontró un café favorito.",
           "La idea principal es que me invitó a conocer su apartamento.",
         ],
       },
@@ -374,13 +374,13 @@ export const otonoFrameDays: FrameDay[] = [
     subtitle: "One month, five sentences — sum up Naty's whole story.",
     frames: [
       {
-        stem: "Trata de…",
+        stem: "Se trata de…",
         english: "It's about…",
         scenarios: ["the whole story", "everything that happened", "starting over"],
         examples: [
-          "Trata de una amiga que cambió de ciudad y de carrera al mismo tiempo.",
-          "Trata de todo lo que pasó en solo un mes.",
-          "Trata de empezar de nuevo, aunque dé miedo.",
+          "Se trata de una amiga que cambió de ciudad y de carrera al mismo tiempo.",
+          "Se trata de todo lo que pasó en solo un mes.",
+          "Se trata de empezar de nuevo, aunque dé miedo.",
         ],
       },
       {

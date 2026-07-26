@@ -21,7 +21,7 @@ export const week13SentenceFormerDays: SentenceFormerDay[] = [
         },
         completions: [
           { es: "apenas sabía resumir una noticia", en: "I barely knew how to summarize news", category: "other" },
-          { es: "«Trata de…» me sonaba raro", en: "\"It's about…\" sounded strange", category: "opinion" },
+          { es: "«Se trata de…» me sonaba raro", en: "\"It's about…\" sounded strange", category: "opinion" },
           { es: "empezó otoño en mi cuaderno", en: "fall began in my notebook", category: "time" },
           { es: "solo leía sin retell", en: "I only read without retelling", category: "activity" },
           { es: "no confiaba en mis retells", en: "I didn't trust my retells", category: "opinion" },
@@ -32,7 +32,7 @@ export const week13SentenceFormerDays: SentenceFormerDay[] = [
         english: "Now I can…",
         completions: [
           { es: "contarte la historia de naty en cinco frases", en: "tell you Naty's story in five sentences", category: "activity" },
-          { es: "usar «Trata de…» sin pensar", en: "use \"It's about…\" without thinking", category: "activity" },
+          { es: "usar «Se trata de…» sin pensar", en: "use \"It's about…\" without thinking", category: "activity" },
           { es: "resumir lo que leo en voz alta", en: "summarize what I read out loud", category: "activity" },
           { es: "retell sin mirar el cuaderno", en: "retell without looking at the notebook", category: "activity" },
           { es: "empezar una historia con La última vez…", en: "start a story with \"The last time…\"", category: "activity" },
@@ -386,7 +386,7 @@ export const week13SentenceFormerDays: SentenceFormerDay[] = [
         stem: "Hace dos meses…",
         english: "Two months ago…",
         completions: [
-          { es: "empecé a resumir con Trata de…", en: "I started summarizing with \"It's about…\"", category: "activity" },
+          { es: "empecé a resumir con Se trata de…", en: "I started summarizing with \"It's about…\"", category: "activity" },
           { es: "otoño era solo una idea en mi cuaderno", en: "fall was just an idea in my notebook", category: "other" },
           { es: "no sabía seguir un hilo seis días", en: "I didn't know how to follow a thread six days", category: "activity" },
           { es: "verano acababa de terminar", en: "summer had just ended", category: "time" },

@@ -1,18 +1,18 @@
 import type { ReadingDay } from "../readings/types";
 
 /**
- * Otoño Week 7 — "La avería del coche" (days 134–140).
+ * Otoño Week 7 — "La descompostura del carro" (days 134–140).
  * Marlana's car breaks down; cause-and-effect chain with Priya in the teachers lounge.
  */
 export const week7ReadingDays: ReadingDay[] = [
   {
     day: 134,
-    themeEs: "Se paró el coche",
-    storyTitle: "La avería del coche",
+    themeEs: "Se descompuso el carro",
+    storyTitle: "La descompostura del carro",
     part: 1,
     partsTotal: 6,
     vocab: [
-      { es: "la avería", en: "the breakdown", example: "Tuve una avería en la autopista." },
+      { es: "la descompostura", en: "the breakdown", example: "Se me descompuso el carro en la autopista." },
       { es: "el arcén", en: "the shoulder (of road)", example: "Me paré en el arcén." },
       { es: "el capó", en: "the hood", example: "Abrí el capó pero no vi nada." },
       { es: "la luz del motor", en: "check engine light", example: "La luz del motor llevaba días encendida." },
@@ -20,9 +20,9 @@ export const week7ReadingDays: ReadingDay[] = [
     ],
     dialogue: {
       title: "En el arcén",
-      situation: "En la sala de maestros, la mañana después de la avería",
+      situation: "En la sala de maestros, la mañana después de la descompostura",
       lines: [
-        { speaker: "A", es: "Priya, ayer se me paró el coche en la autopista.", en: "Priya, yesterday my car died on the highway." },
+        { speaker: "A", es: "Priya, ayer se me descompuso el carro en la autopista.", en: "Priya, yesterday my car died on the highway." },
         { speaker: "B", es: "¿En serio? ¿Estás bien?", en: "Seriously? Are you okay?" },
         { speaker: "A", es: "Sí, pero qué susto. Como la luz del motor llevaba días encendida, no me sorprendió del todo.", en: "Yes, but what a scare. Since the check engine light had been on for days, I wasn't entirely surprised." },
         { speaker: "B", es: "¿Qué hiciste?", en: "What did you do?" },
@@ -36,7 +36,7 @@ export const week7ReadingDays: ReadingDay[] = [
   {
     day: 135,
     themeEs: "Llegué tarde",
-    storyTitle: "La avería del coche",
+    storyTitle: "La descompostura del carro",
     part: 2,
     partsTotal: 6,
     vocab: [
@@ -64,7 +64,7 @@ export const week7ReadingDays: ReadingDay[] = [
   {
     day: 136,
     themeEs: "El transporte",
-    storyTitle: "La avería del coche",
+    storyTitle: "La descompostura del carro",
     part: 3,
     partsTotal: 6,
     vocab: [
@@ -75,12 +75,12 @@ export const week7ReadingDays: ReadingDay[] = [
       { es: "el pase", en: "the pass", example: "Tengo un pase de autobús del distrito." },
     ],
     dialogue: {
-      title: "Sin coche",
+      title: "Sin carro",
       situation: "En la sala de maestros, a la hora del almuerzo",
       lines: [
         { speaker: "A", es: "Esta semana vivo en Uber y autobús.", en: "This week I'm living on Uber and the bus." },
         { speaker: "B", es: "¿Cuánto te está costando?", en: "How much is it costing you?" },
-        { speaker: "A", es: "Como no tengo coche, dependo del Uber y del bus. Por eso esta semana gasto más en transporte.", en: "Since I don't have a car, I depend on Uber and the bus. That's why I'm spending more on transportation this week." },
+        { speaker: "A", es: "Como no tengo carro, dependo del Uber y del bus. Por eso esta semana gasto más en transporte.", en: "Since I don't have a car, I depend on Uber and the bus. That's why I'm spending more on transportation this week." },
         { speaker: "B", es: "¿Y el tiempo?", en: "And time?" },
         { speaker: "A", es: "Debido al transporte público, llego más cansada. Debido a la hora pico, el Uber costó el doble ayer.", en: "Due to public transit, I arrive more tired. Due to rush hour, the Uber cost double yesterday." },
         { speaker: "B", es: "Eso no es sostenible.", en: "That's not sustainable." },
@@ -92,14 +92,14 @@ export const week7ReadingDays: ReadingDay[] = [
   {
     day: 137,
     themeEs: "El taller",
-    storyTitle: "La avería del coche",
+    storyTitle: "La descompostura del carro",
     part: 4,
     partsTotal: 6,
     vocab: [
-      { es: "el taller", en: "the repair shop", example: "El coche está en el taller." },
+      { es: "el taller", en: "the repair shop", example: "El carro está en el taller." },
       { es: "el alternador", en: "the alternator", example: "Hay que cambiar el alternador." },
       { es: "la factura", en: "the bill", example: "La factura supera los quinientos." },
-      { es: "el presupuesto", en: "the estimate", example: "Pedí presupuesto en otro taller." },
+      { es: "la cotización", en: "the estimate", example: "Pedí cotización en otro taller." },
       { es: "el plan de pagos", en: "payment plan", example: "Gracias al plan de pagos, puedo respirar." },
     ],
     dialogue: {
@@ -121,7 +121,7 @@ export const week7ReadingDays: ReadingDay[] = [
   {
     day: 138,
     themeEs: "Priya al rescate",
-    storyTitle: "La avería del coche",
+    storyTitle: "La descompostura del carro",
     part: 5,
     partsTotal: 6,
     vocab: [
@@ -150,7 +150,7 @@ export const week7ReadingDays: ReadingDay[] = [
   {
     day: 139,
     themeEs: "Arreglado",
-    storyTitle: "La avería del coche",
+    storyTitle: "La descompostura del carro",
     part: 6,
     partsTotal: 6,
     vocab: [
@@ -161,10 +161,10 @@ export const week7ReadingDays: ReadingDay[] = [
       { es: "la lección", en: "the lesson", example: "Aprendí la lección." },
     ],
     dialogue: {
-      title: "El coche vuelve",
+      title: "El carro vuelve",
       situation: "En la sala de maestros, el lunes siguiente",
       lines: [
-        { speaker: "A", es: "¡Recogí el coche el sábado!", en: "I picked up the car on Saturday!" },
+        { speaker: "A", es: "¡Recogí el carro el sábado!", en: "I picked up the car on Saturday!" },
         { speaker: "B", es: "¡Por fin! ¿Funciona bien?", en: "Finally! Does it work well?" },
         { speaker: "A", es: "Como ya está arreglado, puedo olvidar el caos. Por eso hoy respiré al encender el motor.", en: "Since it's fixed now, I can forget the chaos. That's why I breathed a sigh of relief when I started the engine today." },
         { speaker: "B", es: "¿Qué aprendiste?", en: "What did you learn?" },
@@ -188,14 +188,14 @@ export const week7ReadingDays: ReadingDay[] = [
       { es: "contar de nuevo", en: "to tell again", example: "Cuéntame todo de nuevo." },
     ],
     dialogue: {
-      title: "La semana del coche",
+      title: "La semana del carro",
       situation: "En la sala de maestros, contándole a una colega que estuvo ausente",
       lines: [
-        { speaker: "A", es: "¿Te contó Priya lo del coche de Marlana?", en: "Did Priya tell you about Marlana's car?" },
+        { speaker: "A", es: "¿Te contó Priya lo del carro de Marlana?", en: "Did Priya tell you about Marlana's car?" },
         { speaker: "B", es: "No, cuéntame tú.", en: "No, you tell me." },
-        { speaker: "A", es: "Como ignoró la luz del motor, el coche se paró en la autopista. Por eso tuvo una semana entera de transporte caótico.", en: "Since she ignored the check engine light, the car died on the highway. That's why she had a whole week of chaotic transportation." },
+        { speaker: "A", es: "Como ignoró la luz del motor, el carro se descompuso en la autopista. Por eso tuvo una semana entera de transporte caótico.", en: "Since she ignored the check engine light, the car died on the highway. That's why she had a whole week of chaotic transportation." },
         { speaker: "B", es: "¿Y cómo resolvió?", en: "And how did she solve it?" },
-        { speaker: "A", es: "Así que pidió Uber, bus y favores. Debido a la avería, gastó más de lo planeado. Gracias a Priya, al seguro y al mecánico, lo resolvió.", en: "So she took Uber, bus, and favors. Due to the breakdown, she spent more than planned. Thanks to Priya, insurance, and the mechanic, she solved it." },
+        { speaker: "A", es: "Así que pidió Uber, bus y favores. Debido a la descompostura, gastó más de lo planeado. Gracias a Priya, al seguro y al mecánico, lo resolvió.", en: "So she took Uber, bus, and favors. Due to the breakdown, she spent more than planned. Thanks to Priya, insurance, and the mechanic, she solved it." },
         { speaker: "B", es: "Qué semana.", en: "What a week." },
         { speaker: "A", es: "Por eso no ignora las luces del tablero nunca más. En resumen: causa, efecto, amigas y fondo de emergencia.", en: "That's why she never ignores dashboard lights again. In summary: cause, effect, friends, and emergency fund." },
         { speaker: "B", es: "Lección aprendida.", en: "Lesson learned." },

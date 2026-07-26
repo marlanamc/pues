@@ -92,6 +92,13 @@ const IconSellos = (
   </svg>
 );
 
+const IconLatinAmerica = (
+  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
+    <circle cx="12" cy="12" r="9" />
+    <path d="M3 12h18M12 3c2.5 2.8 4 6.2 4 9s-1.5 6.2-4 9M12 3c-2.5 2.8-4 6.2-4 9s1.5 6.2 4 9" />
+  </svg>
+);
+
 export default function GuidesHubPage() {
   const groups: GuideGroup[] = [
     {
@@ -160,6 +167,13 @@ export default function GuidesHubPage() {
           descriptionEn: "Where the stress lands, and what the tilde does.",
           meta: "2 guías",
           icon: IconPronunciation,
+        },
+        {
+          href: "/guides/latin-america",
+          label: "Latinoamérica",
+          description: "Present perfect, preterite, y dónde suena España.",
+          descriptionEn: "Present perfect vs. preterite — and where Spain diverges.",
+          icon: IconLatinAmerica,
         },
         {
           href: "/guides/linking",

@@ -2,12 +2,12 @@ import type { FrameDay } from "../frames/types";
 
 /**
  * Otoño Week 7 — "Por eso" (days 134–140).
- * Story: "La avería del coche" — Marlana's car breaks down; cause and effect chain.
+ * Story: "La descompostura del carro" — Marlana's car breaks down; cause and effect chain.
  */
 export const week7FrameDays: FrameDay[] = [
   {
     day: 134,
-    theme: "Por eso: Se paró el coche",
+    theme: "Por eso: Se descompuso el carro",
     subtitle: "The car dies on the highway — link what happened to what came next.",
     frames: [
       {
@@ -46,7 +46,7 @@ export const week7FrameDays: FrameDay[] = [
         english: "Due to… / Because of…",
         scenarios: ["the breakdown cause", "traffic delay", "mechanical failure"],
         examples: [
-          "Debido a la avería, perdí la primera clase.",
+          "Debido a la descompostura, perdí la primera clase.",
           "Debido al tráfico en la autopista, el auxilio tardó.",
           "Debido al motor, el taller cobra más de lo que pensaba.",
         ],
@@ -94,7 +94,7 @@ export const week7FrameDays: FrameDay[] = [
         scenarios: ["being late", "no car", "stressful morning"],
         examples: [
           "Como llegué veinte minutos tarde, perdí la reunión.",
-          "Como no tenía coche, no pude traer los materiales.",
+          "Como no tenía carro, no pude traer los materiales.",
           "Como estaba estresada, hablé más rápido de lo normal.",
         ],
       },
@@ -105,7 +105,7 @@ export const week7FrameDays: FrameDay[] = [
         examples: [
           "Debido a mi retraso, no firmé la lista a tiempo.",
           "Debido al caos de la mañana, olvidé el café.",
-          "Debido a la avería, tuve que replanear todo el día.",
+          "Debido a la descompostura, tuve que replanear todo el día.",
         ],
       },
       {
@@ -141,7 +141,7 @@ export const week7FrameDays: FrameDay[] = [
         scenarios: ["new routine", "downloading apps", "planning ahead"],
         examples: [
           "Así que descargué la app del autobús otra vez.",
-          "Así que dejé el coche en el taller hasta el viernes.",
+          "Así que dejé el carro en el taller hasta el viernes.",
           "Así que acordé con Priya ir juntas los martes.",
         ],
       },
@@ -150,7 +150,7 @@ export const week7FrameDays: FrameDay[] = [
         english: "Since… / Because…",
         scenarios: ["no car available", "long commute", "winter weather"],
         examples: [
-          "Como no tengo coche, dependo del Uber y del bus.",
+          "Como no tengo carro, dependo del Uber y del bus.",
           "Como hace frío, esperar en la parada es horrible.",
           "Como el taller está lejos, la grúa tardó una hora.",
         ],
@@ -198,7 +198,7 @@ export const week7FrameDays: FrameDay[] = [
         scenarios: ["approving repair", "getting second quote", "using savings"],
         examples: [
           "Así que aprobé la reparación del alternador.",
-          "Así que pedí presupuesto en otro taller.",
+          "Así que pedí cotización en otro taller.",
           "Así que usé lo que había guardado para emergencias.",
         ],
       },
@@ -207,7 +207,7 @@ export const week7FrameDays: FrameDay[] = [
         english: "Since… / Because…",
         scenarios: ["old car", "ignored warning", "needed for commute"],
         examples: [
-          "Como el coche tiene diez años, estas cosas pasan.",
+          "Como el carro tiene diez años, estas cosas pasan.",
           "Como ignoré la luz del motor, empeoró.",
           "Como lo necesito para ir al colegio, no tengo opción.",
         ],
@@ -343,7 +343,7 @@ export const week7FrameDays: FrameDay[] = [
         examples: [
           "Gracias a todos los que me ayudaron, sobreviví.",
           "Gracias al fondo de emergencia, pagué sin deuda.",
-          "Gracias a Priya y al mecánico, el coche vuelve a funcionar.",
+          "Gracias a Priya y al mecánico, el carro vuelve a funcionar.",
         ],
       },
     ],
@@ -378,9 +378,9 @@ export const week7FrameDays: FrameDay[] = [
         english: "Since… / Because…",
         scenarios: ["root causes", "context", "why it happened"],
         examples: [
-          "Como ignoré la luz del motor, el coche se paró.",
+          "Como ignoré la luz del motor, el carro se descompuso.",
           "Como no tenía plan B, dependí de Priya.",
-          "Como el coche es viejo, estas cosas pasan.",
+          "Como el carro es viejo, estas cosas pasan.",
         ],
       },
       {
@@ -388,7 +388,7 @@ export const week7FrameDays: FrameDay[] = [
         english: "Due to… / Because of…",
         scenarios: ["costs", "delays", "stress"],
         examples: [
-          "Debido a la avería, gasté más de lo planeado.",
+          "Debido a la descompostura, gasté más de lo planeado.",
           "Debido al retraso, perdí clases y reuniones.",
           "Debido a la semana difícil, aprecio lo normal.",
         ],

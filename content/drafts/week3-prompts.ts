@@ -282,14 +282,14 @@ export const week3SpeakDays: SpeakDay[] = [
         id: "d109-menciono",
         frameStem: "Mencionó que…",
         english: "He mentioned the letter also included books and a laptop.",
-        spanish: "Mencionó que también incluía libros y una laptop.",
+        spanish: "Mencionó que también incluía libros y una computadora.",
         situationLabel: "Los detalles de la beca",
         why: "*Incluía* (imperfect) describes what the letter contained — background detail, not a single event.",
         wordHints: [
           { en: "mentioned", es: "mencionó" },
           { en: "included", es: "incluía" },
           { en: "books", es: "libros" },
-          { en: "laptop", es: "una laptop" },
+          { en: "computadora", es: "una computadora" },
         ],
       },
       {

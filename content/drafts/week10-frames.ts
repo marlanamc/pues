@@ -393,7 +393,7 @@ export const week10FrameDays: FrameDay[] = [
         english: "I was surprised that…",
         scenarios: ["evidence not slogans", "the ending", "how much you agreed"],
         examples: [
-          "Me sorprendió que respondiera con evidencia, no con slogans.",
+          "Me sorprendió que respondiera con evidencia, no con eslóganes.",
           "Me sorprendió que terminara proponiendo talleres concretos.",
           "Me sorprendió que me identificara tanto con la maestra del final.",
         ],

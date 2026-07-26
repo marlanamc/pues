@@ -19,7 +19,7 @@ export const week13FrameDays: FrameDay[] = [
         scenarios: ["fall began", "summarizing was new", "stems sounded strange"],
         examples: [
           "Hace dos meses apenas sabía resumir una noticia.",
-          "Hace dos meses, «Trata de…» me sonaba raro.",
+          "Hace dos meses, «Se trata de…» me sonaba raro.",
           "Hace dos meses empezó otoño en mi cuaderno.",
         ],
         note: "*Hace dos meses* mirrors Verano's *Hace tres meses* — the season retrospective opener.",
@@ -30,7 +30,7 @@ export const week13FrameDays: FrameDay[] = [
         scenarios: ["retell in five sentences", "use stems without thinking", "follow stories"],
         examples: [
           "Ahora puedo contarte la historia de Naty en cinco frases.",
-          "Ahora puedo usar «Trata de…» sin pensar.",
+          "Ahora puedo usar «Se trata de…» sin pensar.",
           "Ahora puedo resumir lo que leo en voz alta.",
         ],
       },
@@ -362,7 +362,7 @@ export const week13FrameDays: FrameDay[] = [
         english: "Two months ago…",
         scenarios: ["summarize began", "first stems", "Naty first story"],
         examples: [
-          "Hace dos meses empecé a resumir con Trata de…",
+          "Hace dos meses empecé a resumir con Se trata de…",
           "Hace dos meses otoño era solo una idea en mi cuaderno.",
           "Hace dos meses no sabía seguir un hilo seis días.",
         ],

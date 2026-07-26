@@ -56,7 +56,7 @@ export const week9ReadingDays: ReadingDay[] = [
         { speaker: "B", es: "¿Y tú?", en: "And you?" },
         { speaker: "A", es: "Resulta que llevan meses negociando en secreto. Resulta que el comprador quiere convertir dos pisos en condominios.", en: "It turns out they've been negotiating in secret for months. It turns out the buyer wants to convert two floors into condos." },
         { speaker: "B", es: "Eso suena preocupante.", en: "That sounds worrying." },
-        { speaker: "A", es: "Al parecer, algunos inquilinos van a pelear legalmente. Me contaron que convocaron a un abogado de inquilinos.", en: "Apparently, some tenants are going to fight it legally. They told me they called a tenants' lawyer." },
+        { speaker: "A", es: "Al parecer, algunos inquilinos van a demandar. Me contaron que convocaron a un abogado de inquilinos.", en: "Apparently, some tenants are going to fight it legally. They told me they called a tenants' lawyer." },
         { speaker: "B", es: "Cuéntame más cuando sepas.", en: "Tell me more when you know." },
       ],
     },

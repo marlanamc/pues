@@ -224,7 +224,7 @@ export const week3SentenceFormerDays: SentenceFormerDay[] = [
         stem: "Mencionó que…",
         english: "He mentioned that…",
         completions: [
-          { es: "la carta incluía libros y una laptop", en: "the letter included books and a laptop", category: "other" },
+          { es: "la carta incluía libros y una computadora", en: "the letter included books and a laptop", category: "other" },
           { es: "empezaba en el otoño", en: "it started in the fall", category: "time" },
           { es: "tenía que firmar antes del viernes", en: "he had to sign before Friday", category: "time" },
           { es: "era la universidad de sus sueños", en: "it was his dream university", category: "opinion" },

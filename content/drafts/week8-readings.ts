@@ -112,7 +112,7 @@ export const week8ReadingDays: ReadingDay[] = [
         { speaker: "A", es: "¿Y el final?", en: "And the end?" },
         { speaker: "B", es: "Por último, propongo expandir el programa al segundo trimestre. Volviendo a lo del problema inicial, estos datos lo confirman.", en: "Lastly, I propose expanding the program to the second quarter. Getting back to the initial problem, this data confirms it." },
         { speaker: "A", es: "¿Resumen en una frase?", en: "Summary in one sentence?" },
-        { speaker: "B", es: "En resumen, leemos más, comprendemos mejor y los maestros están a bordo.", en: "In summary, we read more, understand better, and the teachers are on board." },
+        { speaker: "B", es: "En resumen, leemos más, comprendemos mejor y los maestros están de acuerdo.", en: "In summary, we read more, understand better, and the teachers are on board." },
         { speaker: "A", es: "Perfecto. Eso cierra fuerte.", en: "Perfect. That closes strong." },
       ],
     },

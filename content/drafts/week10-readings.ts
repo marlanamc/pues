@@ -193,7 +193,7 @@ export const week10ReadingDays: ReadingDay[] = [
         { speaker: "B", es: "Oye, ¿puedes resumirme tu reacción al artículo? Solo escuché partes.", en: "Hey, can you sum up your reaction to the article? I only heard parts." },
         { speaker: "A", es: "Claro. Lo que más me llamó la atención fue el título — y los datos al final.", en: "Sure. What caught my attention most was the title — and the data at the end." },
         { speaker: "B", es: "¿Y qué te sorprendió?", en: "And what surprised you?" },
-        { speaker: "A", es: "Me sorprendió que respondiera a las críticas con evidencia real, no con slogans.", en: "I was surprised he answered the criticisms with real evidence, not slogans." },
+        { speaker: "A", es: "Me sorprendió que respondiera a las críticas con evidencia real, no con eslóganes.", en: "I was surprised he answered the criticisms with real evidence, not slogans." },
         { speaker: "B", es: "¿Algo que no entendiste?", en: "Anything you didn't understand?" },
         { speaker: "A", es: "Lo que no entiendo es por qué no circula más entre los padres. Me dio gusto leer que propone talleres.", en: "What I don't understand is why it doesn't circulate more among parents. I was glad to read that he proposes workshops." },
         { speaker: "B", es: "¿Tu veredicto?", en: "Your verdict?" },

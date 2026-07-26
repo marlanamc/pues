@@ -1,9 +1,11 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Gloss } from "@/components/Gloss";
 import { frameDays } from "@/content/frames";
 import { speakDays } from "@/content/prompts";
+import { playbackRateFor, useAudioSpeed } from "@/hooks/useAudioSpeed";
+import { resolveAudioUrl } from "@/lib/audio";
 import {
   flagForPractice,
   listPracticeFlags,
@@ -24,9 +26,15 @@ import {
  *
  * Deliberately not a game: no score, no timer, no streak. The output is a list
  * of stems, not a number to beat.
+ *
+ * "Sin manos" runs the same cards hands-free: six seconds on the English gloss,
+ * then reveal + audio, then on — no judging, for when you want the week in your
+ * ears while you do something else.
  */
 
 type Card = { promptId: string; stem: string; english: string; day: number };
+
+const THINK_MS = 6000;
 
 const ws = {
   fill: "none" as const,
@@ -62,14 +70,28 @@ function shuffle<T>(items: T[]): T[] {
   return out;
 }
 
+function sleep(ms: number) {
+  return new Promise<void>((resolve) => {
+    window.setTimeout(resolve, ms);
+  });
+}
+
 export function StemRecall({ dayNums }: { dayNums: number[] }) {
   const all = useMemo(() => cardsForWeek(dayNums), [dayNums]);
+  const { speed } = useAudioSpeed();
 
   const [queue, setQueue] = useState<Card[] | null>(null);
   const [pos, setPos] = useState(0);
   const [revealed, setRevealed] = useState(false);
   const [missed, setMissed] = useState<Card[]>([]);
   const [flagged, setFlagged] = useState<string[]>([]);
+  const [handsFree, setHandsFree] = useState(false);
+  const [sessionHandsFree, setSessionHandsFree] = useState(false);
+
+  const handsFreeRef = useRef(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const objectUrlRef = useRef<string | null>(null);
+  const rateRef = useRef(playbackRateFor(speed));
 
   // The standing list, so misses from a past pass (and "Quiero practicarla"
   // picks from the week's sentences) are visible before the drill starts.
@@ -78,17 +100,116 @@ export function StemRecall({ dayNums }: { dayNums: number[] }) {
     syncFlags();
   }, [syncFlags]);
 
+  useEffect(() => {
+    rateRef.current = playbackRateFor(speed);
+    if (audioRef.current) audioRef.current.playbackRate = rateRef.current;
+  }, [speed]);
+
+  useEffect(() => {
+    return () => {
+      handsFreeRef.current = false;
+      if (objectUrlRef.current) URL.revokeObjectURL(objectUrlRef.current);
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.src = "";
+      }
+    };
+  }, []);
+
   const standing = useMemo(() => {
     const ids = new Set(flagged);
     return all.filter((c) => ids.has(c.promptId));
   }, [all, flagged]);
 
-  function begin(cards: Card[]) {
+  function stopAudio() {
+    audioRef.current?.pause();
+  }
+
+  async function playStem(text: string) {
+    if (!audioRef.current) {
+      const el = new Audio();
+      el.preload = "auto";
+      audioRef.current = el;
+    }
+    const audio = audioRef.current;
+    const { url, objectUrl } = await resolveAudioUrl(text);
+    if (!handsFreeRef.current) {
+      if (objectUrl) URL.revokeObjectURL(url);
+      return;
+    }
+    if (objectUrlRef.current) URL.revokeObjectURL(objectUrlRef.current);
+    objectUrlRef.current = objectUrl ? url : null;
+
+    audio.src = url;
+    audio.playbackRate = rateRef.current;
+    await new Promise<void>((resolve, reject) => {
+      audio.onended = () => resolve();
+      audio.onerror = () => reject(new Error("playback"));
+      audio.play().then(
+        () => {
+          audio.playbackRate = rateRef.current;
+        },
+        reject,
+      );
+    });
+  }
+
+  function begin(cards: Card[], opts?: { handsFree?: boolean }) {
+    const hf = opts?.handsFree ?? false;
+    handsFreeRef.current = hf;
+    setHandsFree(hf);
+    setSessionHandsFree(hf);
     setQueue(shuffle(cards));
     setPos(0);
     setRevealed(false);
     setMissed([]);
   }
+
+  function stop() {
+    handsFreeRef.current = false;
+    setHandsFree(false);
+    setSessionHandsFree(false);
+    stopAudio();
+    setQueue(null);
+  }
+
+  useEffect(() => {
+    if (!handsFree || !queue) return;
+
+    let cancelled = false;
+
+    async function run() {
+      for (let p = 0; p < queue!.length; p += 1) {
+        if (cancelled || !handsFreeRef.current) return;
+
+        setPos(p);
+        setRevealed(false);
+        await sleep(THINK_MS);
+        if (cancelled || !handsFreeRef.current) return;
+
+        setRevealed(true);
+        try {
+          await playStem(queue![p].stem);
+        } catch {
+          // One bad clip shouldn't end the pass — carry on.
+        }
+        if (cancelled || !handsFreeRef.current) return;
+      }
+
+      if (!cancelled && handsFreeRef.current) {
+        handsFreeRef.current = false;
+        setHandsFree(false);
+        setPos(queue!.length);
+      }
+    }
+
+    run();
+
+    return () => {
+      cancelled = true;
+      stopAudio();
+    };
+  }, [handsFree, queue]);
 
   function judge(arrived: boolean) {
     const card = queue![pos];
@@ -111,14 +232,33 @@ export function StemRecall({ dayNums }: { dayNums: number[] }) {
     return (
       <div>
         <Intro count={all.length} />
-        <button type="button" onClick={() => begin(all)} className="btn-primary" style={{ marginTop: 16 }}>
-          <span className="lab">Empezar</span>
-          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden {...ws}>
-            <path d="M5 12h14M13 6l6 6-6 6" />
-          </svg>
-        </button>
+        <div style={{ display: "flex", gap: 10, marginTop: 16, flexWrap: "wrap" }}>
+          <button type="button" onClick={() => begin(all)} className="btn-primary">
+            <span className="lab">Empezar</span>
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden {...ws}>
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            onClick={() => begin(all, { handsFree: true })}
+            className="mono-cap transition-colors hover:text-accent"
+            style={{
+              minHeight: 44,
+              padding: "0 16px",
+              color: "var(--zone)",
+              background: "transparent",
+              border: "1px solid color-mix(in oklab, var(--zone) 40%, transparent)",
+              borderRadius: 9,
+              cursor: "pointer",
+            }}
+          >
+            Sin manos
+            <Gloss>Hands-free</Gloss>
+          </button>
+        </div>
         <div style={{ marginTop: 6 }}>
-          <Gloss>Start</Gloss>
+          <Gloss>Start · six seconds, then hear it</Gloss>
         </div>
         {standing.length > 0 && (
           <Standing cards={standing} onDrill={() => begin(standing)} />
@@ -166,10 +306,12 @@ export function StemRecall({ dayNums }: { dayNums: number[] }) {
               >
                 {card.stem}
               </p>
-              <div style={{ display: "flex", gap: 10, marginTop: 22, flexWrap: "wrap", justifyContent: "center" }}>
-                <Judge label="Llegó" en="It arrived" tone="zone" onClick={() => judge(true)} />
-                <Judge label="No llegó" en="I had to build it" tone="mute" onClick={() => judge(false)} />
-              </div>
+              {!handsFree && (
+                <div style={{ display: "flex", gap: 10, marginTop: 22, flexWrap: "wrap", justifyContent: "center" }}>
+                  <Judge label="Llegó" en="It arrived" tone="zone" onClick={() => judge(true)} />
+                  <Judge label="No llegó" en="I had to build it" tone="mute" onClick={() => judge(false)} />
+                </div>
+              )}
             </>
           ) : (
             <>
@@ -177,28 +319,34 @@ export function StemRecall({ dayNums }: { dayNums: number[] }) {
                 className="font-display"
                 style={{ fontStyle: "italic", fontSize: 14.5, color: "var(--ink-soft)", margin: "14px 0 0" }}
               >
-                Dilo en voz alta.
+                {handsFree ? "Dilo en voz alta…" : "Dilo en voz alta."}
               </p>
-              <button
-                type="button"
-                onClick={() => setRevealed(true)}
-                className="btn-primary btn-primary--center"
-                style={{ marginTop: 18, minWidth: 150 }}
-              >
-                <span className="lab">Ver</span>
-              </button>
+              {handsFree ? (
+                <p className="mono-cap" style={{ marginTop: 12, color: "var(--ink-mute)" }}>
+                  {THINK_MS / 1000} s
+                </p>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setRevealed(true)}
+                  className="btn-primary btn-primary--center"
+                  style={{ marginTop: 18, minWidth: 150 }}
+                >
+                  <span className="lab">Ver</span>
+                </button>
+              )}
             </>
           )}
         </div>
 
         <button
           type="button"
-          onClick={() => setQueue(null)}
+          onClick={stop}
           className="mono-cap transition-colors hover:text-accent"
           style={{ marginTop: 14, minHeight: 44, color: "var(--ink-mute)", background: "transparent" }}
         >
-          Dejarlo aquí
-          <Gloss>Stop here</Gloss>
+          {handsFree ? "Parar" : "Dejarlo aquí"}
+          <Gloss>{handsFree ? "Stop" : "Stop here"}</Gloss>
         </button>
       </div>
     );
@@ -206,6 +354,38 @@ export function StemRecall({ dayNums }: { dayNums: number[] }) {
 
   /* ---------- Finished ---------- */
   const total = queue.length;
+
+  if (sessionHandsFree) {
+    return (
+      <div>
+        <p className="font-display text-ink" style={{ fontSize: 22, fontWeight: 300, margin: 0, lineHeight: 1.25 }}>
+          Hecho. {total} comienzos.
+        </p>
+        <Gloss>{`Done. ${total} stems.`}</Gloss>
+        <p style={{ marginTop: 10, fontSize: 14, lineHeight: 1.5, color: "var(--ink-mute)" }}>
+          Sin marcar — para eso, la vuelta a mano.
+        </p>
+        <Gloss>To flag what didn&apos;t arrive, run it by hand.</Gloss>
+        <div style={{ display: "flex", gap: 10, marginTop: 18, flexWrap: "wrap" }}>
+          <button type="button" onClick={() => begin(all, { handsFree: true })} className="btn-primary">
+            <span className="lab">Otra vuelta</span>
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden {...ws}>
+              <path d="M4 12a8 8 0 1 1 2.5 5.8M4 18v-4h4" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            onClick={stop}
+            className="mono-cap transition-colors hover:text-accent"
+            style={{ minHeight: 44, padding: "0 6px", color: "var(--ink-soft)", background: "transparent" }}
+          >
+            Listo
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   const arrived = total - missed.length;
   return (
     <div>
@@ -238,7 +418,7 @@ export function StemRecall({ dayNums }: { dayNums: number[] }) {
         )}
         <button
           type="button"
-          onClick={() => setQueue(null)}
+          onClick={stop}
           className="mono-cap transition-colors hover:text-accent"
           style={{ minHeight: 44, padding: "0 6px", color: "var(--ink-soft)", background: "transparent" }}
         >
@@ -258,10 +438,11 @@ function Intro({ count }: { count: number }) {
       <Gloss>From English to Spanish, out loud, without looking</Gloss>
       <p style={{ marginTop: 8, fontSize: 13.5, lineHeight: 1.5, color: "var(--ink-mute)" }}>
         Los {count} comienzos en orden aleatorio. Si tuviste que armarlo, no
-        llegó — y eso es justo lo que quieres saber.
+        llegó — y eso es justo lo que quieres saber. O ponla sin manos: seis
+        segundos, la respuesta, y sigue sola.
       </p>
       <Gloss>
-        {`All ${count} stems, shuffled. If you had to assemble it, it didn't arrive — and that's the thing worth knowing.`}
+        {`All ${count} stems, shuffled. If you had to assemble it, it didn't arrive — and that's the thing worth knowing. Or run it hands-free: six seconds, the answer, then on.`}
       </Gloss>
     </>
   );

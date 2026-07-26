@@ -31,13 +31,13 @@ export const otonoSpeakDays: SpeakDay[] = [
     prompts: [
       {
         id: "d92-trata-de",
-        frameStem: "Trata de…",
+        frameStem: "Se trata de…",
         english: "It's about a friend who's moving to Boston.",
-        spanish: "Trata de una amiga que se muda a Boston.",
+        spanish: "Se trata de una amiga que se muda a Boston.",
         situationLabel: "Contándole a Priya",
-        why: "*Trata de* names the topic before the detail — the opening move of any summary.",
+        why: "*Se trata de* names the topic before the detail — the opening move of any summary.",
         wordHints: [
-          { en: "about", es: "trata de" },
+          { en: "about", es: "se trata de" },
           { en: "friend", es: "una amiga" },
           { en: "moving", es: "se muda" },
           { en: "boston", es: "a boston" },
@@ -111,13 +111,13 @@ export const otonoSpeakDays: SpeakDay[] = [
     prompts: [
       {
         id: "d93-trata-de",
-        frameStem: "Trata de…",
+        frameStem: "Se trata de…",
         english: "It's about packing a whole life into boxes.",
-        spanish: "Trata de empacar toda una vida en cajas.",
+        spanish: "Se trata de empacar toda una vida en cajas.",
         situationLabel: "Describiendo la mudanza",
-        why: "*Trata de* + infinitive works just as well as *trata de* + noun for naming a process.",
+        why: "*Se trata de* + infinitive works just as well as *se trata de* + noun for naming a process.",
         wordHints: [
-          { en: "about", es: "trata de" },
+          { en: "about", es: "se trata de" },
           { en: "packing", es: "empacar" },
           { en: "life", es: "una vida" },
           { en: "boxes", es: "cajas" },
@@ -188,13 +188,13 @@ export const otonoSpeakDays: SpeakDay[] = [
     prompts: [
       {
         id: "d94-trata-de",
-        frameStem: "Trata de…",
+        frameStem: "Se trata de…",
         english: "It's about an eighteen-hour drive.",
-        spanish: "Trata de un viaje de dieciocho horas.",
+        spanish: "Se trata de un viaje de dieciocho horas.",
         situationLabel: "Contando el viaje",
         why: "*Un viaje de + [number] horas* is the natural way to size up a trip in one phrase.",
         wordHints: [
-          { en: "about", es: "trata de" },
+          { en: "about", es: "se trata de" },
           { en: "eighteen-hour", es: "de dieciocho horas" },
           { en: "drive", es: "un viaje" },
         ],
@@ -264,13 +264,13 @@ export const otonoSpeakDays: SpeakDay[] = [
     prompts: [
       {
         id: "d95-trata-de",
-        frameStem: "Trata de…",
+        frameStem: "Se trata de…",
         english: "It's about a small, empty apartment.",
-        spanish: "Trata de un apartamento pequeño y vacío.",
+        spanish: "Se trata de un apartamento pequeño y vacío.",
         situationLabel: "Describiendo el nuevo espacio",
         why: "Two adjectives after the noun (*pequeño y vacío*) paint the whole picture in one phrase.",
         wordHints: [
-          { en: "about", es: "trata de" },
+          { en: "about", es: "se trata de" },
           { en: "small", es: "pequeño" },
           { en: "empty", es: "vacío" },
           { en: "apartment", es: "un apartamento" },
@@ -343,13 +343,13 @@ export const otonoSpeakDays: SpeakDay[] = [
     prompts: [
       {
         id: "d96-trata-de",
-        frameStem: "Trata de…",
+        frameStem: "Se trata de…",
         english: "It's about her first day of work.",
-        spanish: "Trata de su primer día de trabajo.",
+        spanish: "Se trata de su primer día de trabajo.",
         situationLabel: "Contando cómo empezó",
         why: "*Su primer día de trabajo* is the whole topic in four words — the kind of compact noun phrase a good summary opens with.",
         wordHints: [
-          { en: "about", es: "trata de" },
+          { en: "about", es: "se trata de" },
           { en: "first day", es: "su primer día" },
           { en: "work", es: "de trabajo" },
         ],
@@ -419,13 +419,13 @@ export const otonoSpeakDays: SpeakDay[] = [
     prompts: [
       {
         id: "d97-trata-de",
-        frameStem: "Trata de…",
+        frameStem: "Se trata de…",
         english: "It's about a whole month in Boston.",
-        spanish: "Trata de un mes entero en Boston.",
+        spanish: "Se trata de un mes entero en Boston.",
         situationLabel: "Marcando el tiempo pasado",
         why: "*Entero* — “whole” — emphasizes that a full month has really gone by.",
         wordHints: [
-          { en: "about", es: "trata de" },
+          { en: "about", es: "se trata de" },
           { en: "whole month", es: "un mes entero" },
           { en: "boston", es: "en boston" },
         ],
@@ -434,7 +434,7 @@ export const otonoSpeakDays: SpeakDay[] = [
         id: "d97-idea-principal",
         frameStem: "La idea principal es que…",
         english: "The main idea is that she found a favorite coffee shop.",
-        spanish: "La idea principal es que encontró una cafetería favorita.",
+        spanish: "La idea principal es que encontró un café favorito.",
         situationLabel: "Una señal de que ya se instaló",
         why: "Finding a favorite coffee shop is a small, telling sign that a new city is starting to feel like home.",
         wordHints: [
@@ -496,13 +496,13 @@ export const otonoSpeakDays: SpeakDay[] = [
     prompts: [
       {
         id: "d98-trata-de",
-        frameStem: "Trata de…",
+        frameStem: "Se trata de…",
         english: "It's about a friend who changed cities and careers at the same time.",
-        spanish: "Trata de una amiga que cambió de ciudad y de carrera al mismo tiempo.",
+        spanish: "Se trata de una amiga que cambió de ciudad y de carrera al mismo tiempo.",
         situationLabel: "Resumiendo el mes",
         why: "*Al mismo tiempo* — “at the same time” — packs two big changes into one clean phrase.",
         wordHints: [
-          { en: "about", es: "trata de" },
+          { en: "about", es: "se trata de" },
           { en: "friend", es: "una amiga" },
           { en: "changed", es: "cambió" },
           { en: "cities", es: "de ciudad" },

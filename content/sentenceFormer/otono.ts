@@ -22,7 +22,7 @@ export const otonoSentenceFormerDays: SentenceFormerDay[] = [
     theme: "Buenas noticias",
     stems: [
       {
-        stem: "Trata de…",
+        stem: "Se trata de…",
         english: "It's about…",
         hints: {
           que: [
@@ -89,7 +89,7 @@ export const otonoSentenceFormerDays: SentenceFormerDay[] = [
     theme: "Empacando",
     stems: [
       {
-        stem: "Trata de…",
+        stem: "Se trata de…",
         english: "It's about…",
         completions: [
           { es: "empacar rápido", en: "packing fast", category: "activity" },
@@ -150,7 +150,7 @@ export const otonoSentenceFormerDays: SentenceFormerDay[] = [
     theme: "El camino",
     stems: [
       {
-        stem: "Trata de…",
+        stem: "Se trata de…",
         english: "It's about…",
         completions: [
           { es: "manejar toda la noche", en: "driving all night", category: "activity" },
@@ -165,7 +165,7 @@ export const otonoSentenceFormerDays: SentenceFormerDay[] = [
         english: "The main idea is that…",
         completions: [
           { es: "el viaje fue agotador", en: "the trip was exhausting", category: "opinion" },
-          { es: "pararon poco", en: "they stopped little", category: "activity" },
+          { es: "pararon solo dos veces", en: "they stopped only twice", category: "activity" },
           { es: "el café era malo", en: "the coffee was bad", category: "food" },
           { es: "manejaron por turnos", en: "they took turns driving", category: "activity" },
           { es: "llegaron muy tarde", en: "they arrived very late", category: "time" },
@@ -211,7 +211,7 @@ export const otonoSentenceFormerDays: SentenceFormerDay[] = [
     theme: "El apartamento nuevo",
     stems: [
       {
-        stem: "Trata de…",
+        stem: "Se trata de…",
         english: "It's about…",
         completions: [
           { es: "un apartamento vacío", en: "an empty apartment", category: "other" },
@@ -272,7 +272,7 @@ export const otonoSentenceFormerDays: SentenceFormerDay[] = [
     theme: "El primer día",
     stems: [
       {
-        stem: "Trata de…",
+        stem: "Se trata de…",
         english: "It's about…",
         completions: [
           { es: "su primer día de trabajo", en: "her first day of work", category: "other" },
@@ -333,7 +333,7 @@ export const otonoSentenceFormerDays: SentenceFormerDay[] = [
     theme: "Ya se siente en casa",
     stems: [
       {
-        stem: "Trata de…",
+        stem: "Se trata de…",
         english: "It's about…",
         completions: [
           { es: "un mes entero en la ciudad", en: "a whole month in the city", category: "time" },
@@ -349,7 +349,7 @@ export const otonoSentenceFormerDays: SentenceFormerDay[] = [
         completions: [
           { es: "ya no se siente sola", en: "she doesn't feel alone anymore", category: "opinion" },
           { es: "hizo una buena amiga", en: "she made a good friend", category: "other" },
-          { es: "encontró su cafetería favorita", en: "she found her favorite coffee shop", category: "food" },
+          { es: "encontró su café favorito", en: "she found her favorite coffee shop", category: "food" },
           { es: "le gusta su apartamento ahora", en: "she likes her apartment now", category: "opinion" },
           { es: "está más tranquila", en: "she's calmer now", category: "opinion" },
         ],
@@ -394,7 +394,7 @@ export const otonoSentenceFormerDays: SentenceFormerDay[] = [
     theme: "Repaso: resumir",
     stems: [
       {
-        stem: "Trata de…",
+        stem: "Se trata de…",
         english: "It's about…",
         completions: [
           { es: "una amiga valiente", en: "a brave friend", category: "opinion" },

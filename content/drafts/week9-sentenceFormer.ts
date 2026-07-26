@@ -107,7 +107,7 @@ export const week9SentenceFormerDays: SentenceFormerDay[] = [
         stem: "Al parecer…",
         english: "Apparently… / It seems that…",
         completions: [
-          { es: "algunos inquilinos van a pelear legalmente", en: "some tenants are going to fight it legally", category: "other" },
+          { es: "algunos inquilinos van a demandar", en: "some tenants are going to fight it legally", category: "other" },
           { es: "la venta cierra en diciembre", en: "the sale closes in december", category: "time" },
           { es: "el casero quiere jubilarse", en: "the landlord wants to retire", category: "other" },
           { es: "van a subir la renta después", en: "they're going to raise rent afterward", category: "other" },

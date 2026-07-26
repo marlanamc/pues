@@ -144,7 +144,7 @@ export const veranoSentenceFormerDays: SentenceFormerDay[] = [
           que: [
             { es: "mucho trabajo", en: "a lot of work" },
             { es: "hambre", en: "hunger / I'm hungry" },
-            { es: "mi laptop conmigo", en: "my laptop with me" },
+            { es: "mi computadora conmigo", en: "my laptop with me" },
           ],
           cuando: [
             { es: "hoy", en: "today" },
@@ -157,7 +157,7 @@ export const veranoSentenceFormerDays: SentenceFormerDay[] = [
           { es: "una reunión a las tres", en: "a meeting at three", category: "time" },
           { es: "hambre", en: "hunger / I'm hungry", category: "food" },
           { es: "tiempo esta tarde", en: "time this afternoon", category: "time" },
-          { es: "mi laptop conmigo", en: "my laptop with me", category: "other" },
+          { es: "mi computadora conmigo", en: "my laptop with me", category: "other" },
         ],
       },
       {
@@ -210,7 +210,7 @@ export const veranoSentenceFormerDays: SentenceFormerDay[] = [
         english: "I use…",
         hints: {
           que: [
-            { es: "mi laptop", en: "my laptop" },
+            { es: "mi computadora", en: "my laptop" },
             { es: "una app para estudiar", en: "an app to study" },
             { es: "el metro", en: "the subway" },
           ],
@@ -225,7 +225,7 @@ export const veranoSentenceFormerDays: SentenceFormerDay[] = [
           ],
         },
         completions: [
-          { es: "mi laptop para todo", en: "my laptop for everything", category: "other" },
+          { es: "mi computadora para todo", en: "my laptop for everything", category: "other" },
           { es: "una app para estudiar", en: "an app to study", category: "activity" },
           { es: "el metro para el trabajo", en: "the subway for work", category: "other" },
           { es: "un cuaderno en clase", en: "a notebook in class", category: "activity" },
@@ -724,7 +724,7 @@ export const veranoSentenceFormerDays: SentenceFormerDay[] = [
           { es: "me perdí en una ciudad nueva", en: "I got lost in a new city", category: "activity" },
           { es: "una estudiante me hizo llorar de risa", en: "a student made me cry laughing", category: "other" },
           { es: "viajé sola por primera vez y me encantó", en: "I traveled alone for the first time and loved it", category: "activity" },
-          { es: "olvidé mi laptop en el metro", en: "I forgot my laptop on the subway", category: "other" },
+          { es: "olvidé mi computadora en el metro", en: "I forgot my laptop on the subway", category: "other" },
           { es: "conocí a alguien muy interesante en un café", en: "I met someone very interesting at a café", category: "food" },
         ],
       },
@@ -2004,7 +2004,7 @@ export const veranoSentenceFormerDays: SentenceFormerDay[] = [
           { es: "pagar en efectivo", en: "pay in cash", category: "activity" },
           { es: "caminar hasta allá", en: "walk there", category: "activity" },
           { es: "fumar aquí", en: "smoke here", category: "other" },
-          { es: "aparcar en la calle", en: "park on the street", category: "other" },
+          { es: "estacionar en la calle", en: "park on the street", category: "other" },
         ],
       },
       {
@@ -2335,7 +2335,7 @@ export const veranoSentenceFormerDays: SentenceFormerDay[] = [
           { es: "el café grande", en: "the large coffee", category: "food" },
           { es: "este pastel", en: "this pastry", category: "food" },
           { es: "los sándwiches", en: "the sandwiches", category: "food" },
-          { es: "el menú del día", en: "the daily special", category: "food" },
+          { es: "el especial del día", en: "the daily special", category: "food" },
           { es: "todo esto", en: "all of this", category: "other" },
         ],
       },
@@ -2799,13 +2799,13 @@ export const veranoSentenceFormerDays: SentenceFormerDay[] = [
         hints: {
           que: [
             { es: "la propina", en: "the tip" },
-            { es: "el postre en el menú del día", en: "dessert in the daily special" },
+            { es: "el postre en el especial del día", en: "dessert in the daily special" },
             { es: "el desayuno", en: "breakfast" },
           ],
         },
         completions: [
           { es: "la propina", en: "the tip", category: "other" },
-          { es: "el postre en el menú del día", en: "dessert in the daily special", category: "food" },
+          { es: "el postre en el especial del día", en: "dessert in the daily special", category: "food" },
           { es: "el desayuno", en: "breakfast", category: "food" },
           { es: "el servicio", en: "the service charge", category: "other" },
           { es: "el pan", en: "the bread", category: "food" },
@@ -2896,13 +2896,13 @@ export const veranoSentenceFormerDays: SentenceFormerDay[] = [
           que: [
             { es: "tu paraguas", en: "your umbrella" },
             { es: "cinco dólares", en: "five dollars" },
-            { es: "tus apuntes de la reunión", en: "your notes from the meeting" },
+            { es: "tus notas de la reunión", en: "your notes from the meeting" },
           ],
         },
         completions: [
           { es: "tu paraguas", en: "your umbrella", category: "other" },
           { es: "cinco dólares", en: "five dollars", category: "other" },
-          { es: "tus apuntes de la reunión", en: "your notes from the meeting", category: "other" },
+          { es: "tus notas de la reunión", en: "your notes from the meeting", category: "other" },
           { es: "tu cargador", en: "your charger", category: "other" },
           { es: "un bolígrafo", en: "a pen", category: "other" },
         ],
@@ -4226,7 +4226,7 @@ export const veranoSentenceFormerDays: SentenceFormerDay[] = [
         ],
       },
       {
-        stem: "Total, que…",
+        stem: "En fin…",
         english: "Long story short…",
         hints: {
           que: [
@@ -7477,13 +7477,13 @@ export const veranoSentenceFormerDays: SentenceFormerDay[] = [
         english: "I think there's a mistake in…",
         hints: {
           que: [
-            { es: "la factura", en: "an invoice" },
+            { es: "la cuenta", en: "an invoice" },
             { es: "mi pedido", en: "an order" },
             { es: "la fecha", en: "think there's a mistake in the date" },
           ],
         },
         completions: [
-          { es: "la factura", en: "an invoice", category: "other" },
+          { es: "la cuenta", en: "an invoice", category: "other" },
           { es: "mi pedido", en: "an order", category: "other" },
           { es: "la fecha", en: "think there's a mistake in the date", category: "other" },
           { es: "en la escuela", en: "at school", category: "other" },
@@ -7701,19 +7701,19 @@ export const veranoSentenceFormerDays: SentenceFormerDay[] = [
         ],
       },
       {
-        stem: "¿Alguien ha visto…?",
+        stem: "¿Alguien vio…?",
         english: "Has anyone seen…?",
         hints: {
           que: [
-            { es: "¿Alguien ha visto mis lentes?", en: "glasses" },
-            { es: "¿Alguien ha visto un cuaderno rojo?", en: "has anyone seen a red notebook?" },
-            { es: "¿Alguien ha visto al gato?", en: "the cat" },
+            { es: "¿Alguien vio mis lentes?", en: "glasses" },
+            { es: "¿Alguien vio un cuaderno rojo?", en: "has anyone seen a red notebook?" },
+            { es: "¿Alguien vio al gato?", en: "the cat" },
           ],
         },
         completions: [
-          { es: "¿Alguien ha visto mis lentes?", en: "glasses", category: "other" },
-          { es: "¿Alguien ha visto un cuaderno rojo?", en: "has anyone seen a red notebook?", category: "other" },
-          { es: "¿Alguien ha visto al gato?", en: "the cat", category: "other" },
+          { es: "¿Alguien vio mis lentes?", en: "glasses", category: "other" },
+          { es: "¿Alguien vio un cuaderno rojo?", en: "has anyone seen a red notebook?", category: "other" },
+          { es: "¿Alguien vio al gato?", en: "the cat", category: "other" },
           { es: "en la escuela", en: "at school", category: "other" },
           { es: "con la cuenta", en: "with the bill", category: "other" },
         ],
@@ -8068,13 +8068,13 @@ export const veranoSentenceFormerDays: SentenceFormerDay[] = [
         english: "What I like most about… is…",
         hints: {
           que: [
-            { es: "lo que más me gusta de enseñar es ver el clic", en: "what I like most about teaching is seeing the click" },
+            { es: "lo que más me gusta de enseñar es ver cuando alguien por fin entiende", en: "what I like most about teaching is seeing when someone finally gets it" },
             { es: "lo que más me gusta de Boston es el otoño", en: "boston" },
             { es: "lo que más me gusta del español es cómo suena", en: "spanish" },
           ],
         },
         completions: [
-          { es: "lo que más me gusta de enseñar es ver el clic", en: "what I like most about teaching is seeing the click", category: "other" },
+          { es: "lo que más me gusta de enseñar es ver cuando alguien por fin entiende", en: "what I like most about teaching is seeing when someone finally gets it", category: "other" },
           { es: "lo que más me gusta de Boston es el otoño", en: "boston", category: "other" },
           { es: "lo que más me gusta del español es cómo suena", en: "spanish", category: "other" },
           { es: "desde que llegué a Boston", en: "since I got to Boston", category: "time" },

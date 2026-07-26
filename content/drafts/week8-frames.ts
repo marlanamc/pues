@@ -227,7 +227,7 @@ export const week8FrameDays: FrameDay[] = [
         english: "In summary… / To sum up…",
         scenarios: ["mid-presentation recap", "transition sentence", "bridge to close"],
         examples: [
-          "En resumen, leemos más, comprendemos mejor y los maestros están a bordo.",
+          "En resumen, leemos más, comprendemos mejor y los maestros están de acuerdo.",
           "En resumen, el piloto funciona y necesitamos escalarlo.",
           "En resumen, tenemos evidencia y un plan claro.",
         ],

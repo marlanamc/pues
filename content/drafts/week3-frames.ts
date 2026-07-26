@@ -214,7 +214,7 @@ export const week3FrameDays: FrameDay[] = [
         scenarios: ["when it starts", "what else is included", "the deadline to sign"],
         examples: [
           "Mencionó que la carta decía que empezaba en el otoño.",
-          "Mencionó que también incluía libros y una laptop.",
+          "Mencionó que también incluía libros y una computadora.",
           "Mencionó que tenía que firmar antes del viernes.",
         ],
       },

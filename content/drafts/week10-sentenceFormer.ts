@@ -419,7 +419,7 @@ export const week10SentenceFormerDays: SentenceFormerDay[] = [
         stem: "Me sorprendió que…",
         english: "I was surprised that…",
         completions: [
-          { es: "respondiera con evidencia, no slogans", en: "he answered with evidence, not slogans", category: "opinion" },
+          { es: "respondiera con evidencia, no eslóganes", en: "he answered with evidence, not slogans", category: "opinion" },
           { es: "terminara proponiendo talleres concretos", en: "he ended proposing concrete workshops", category: "other" },
           { es: "me identificara tanto con la maestra", en: "I identified so much with the teacher", category: "opinion" },
           { es: "fuera tan completo en pocas páginas", en: "it was so complete in few pages", category: "opinion" },

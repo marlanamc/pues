@@ -138,13 +138,13 @@ export const week9SpeakDays: SpeakDay[] = [
         id: "d149-al-parecer",
         frameStem: "Al parecer…",
         english: "Apparently some tenants are going to fight it legally.",
-        spanish: "Al parecer, algunos inquilinos van a pelear legalmente.",
+        spanish: "Al parecer, algunos inquilinos van a demandar.",
         situationLabel: "La reacción del edificio",
-        why: "*Van a pelear legalmente* — the response you're hearing but haven't confirmed.",
+        why: "*Van a demandar* — the response you're hearing but haven't confirmed.",
         wordHints: [
           { en: "apparently", es: "al parecer" },
           { en: "tenants", es: "inquilinos" },
-          { en: "fight legally", es: "pelear legalmente" },
+          { en: "fight legally", es: "demandar" },
         ],
       },
       {

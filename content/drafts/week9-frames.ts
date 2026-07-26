@@ -103,7 +103,7 @@ export const week9FrameDays: FrameDay[] = [
         english: "Apparently… / It seems that…",
         scenarios: ["rent increase fears", "eviction rumors", "uncertain future"],
         examples: [
-          "Al parecer, algunos inquilinos van a pelear legalmente.",
+          "Al parecer, algunos inquilinos van a demandar.",
           "Al parecer, la venta cierra en diciembre.",
           "Al parecer, el casero quiere jubilarse.",
         ],
@@ -246,7 +246,7 @@ export const week9FrameDays: FrameDay[] = [
         examples: [
           "¿Te enteraste de la familia nueva del primer piso?",
           "¿Te enteraste de que tienen dos niños pequeños?",
-          "¿Te enteraste de de dónde vienen?",
+          "¿Te enteraste de dónde vienen?",
         ],
       },
       {

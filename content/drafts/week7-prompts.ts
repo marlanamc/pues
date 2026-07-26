@@ -2,15 +2,15 @@ import type { SpeakDay } from "../prompts/types";
 
 /**
  * Otoño Week 7 — "Por eso" (days 134–140).
- * Story: "La avería del coche" — Marlana's car breaks down; cause and effect chain.
+ * Story: "La descompostura del carro" — Marlana's car breaks down; cause and effect chain.
  * prompt.spanish must stay verbatim with week7-frames.ts examples for the matching frameStem.
  */
 export const week7SpeakDays: SpeakDay[] = [
   {
     day: 134,
-    themeEs: "Se paró el coche",
+    themeEs: "Se descompuso el carro",
     themeEn: "The car died",
-    missionEs: "Cuenta la avería en la carretera con conectores de causa y efecto.",
+    missionEs: "Cuenta la descompostura en la carretera con conectores de causa y efecto.",
     missionEn: "Tell about the breakdown on the highway using cause-and-effect connectors.",
     line: "Una luz en el tablero ignorada se convierte en una mañana en el arcén.",
     lineEn: "A dashboard light you ignored becomes a morning on the shoulder.",
@@ -59,12 +59,12 @@ export const week7SpeakDays: SpeakDay[] = [
         id: "d134-debido-a",
         frameStem: "Debido a…",
         english: "Due to the breakdown, I missed first period.",
-        spanish: "Debido a la avería, perdí la primera clase.",
+        spanish: "Debido a la descompostura, perdí la primera clase.",
         situationLabel: "El efecto en el colegio",
-        why: "*Debido a la avería* — formal cause + noun, perfect for naming what the breakdown cost you.",
+        why: "*Debido a la descompostura* — formal cause + noun, perfect for naming what the breakdown cost you.",
         wordHints: [
           { en: "due to", es: "debido a" },
-          { en: "breakdown", es: "la avería" },
+          { en: "breakdown", es: "la descompostura" },
           { en: "missed", es: "perdí" },
           { en: "first period", es: "la primera clase" },
         ],
@@ -88,7 +88,7 @@ export const week7SpeakDays: SpeakDay[] = [
     day: 135,
     themeEs: "Llegué tarde",
     themeEn: "I was late",
-    missionEs: "Conecta la avería con el caos en el salón usando causa y efecto.",
+    missionEs: "Conecta la descompostura con el caos en el salón usando causa y efecto.",
     missionEn: "Connect the breakdown to classroom fallout using cause and effect.",
     line: "Llegar tarde no es solo perder minutos — es perder el ritmo de la mañana.",
     lineEn: "Being late isn't just losing minutes — it's losing the morning's rhythm.",
@@ -168,9 +168,9 @@ export const week7SpeakDays: SpeakDay[] = [
     day: 136,
     themeEs: "El transporte",
     themeEn: "Getting around",
-    missionEs: "Cuenta la semana sin coche con Uber, bus y nuevas rutinas.",
+    missionEs: "Cuenta la semana sin carro con Uber, bus y nuevas rutinas.",
     missionEn: "Tell about the carless week with Uber, bus, and new routines.",
-    line: "Sin coche, cada mañana es un plan nuevo.",
+    line: "Sin carro, cada mañana es un plan nuevo.",
     lineEn: "Without a car, every morning is a new plan.",
     prompts: [
       {
@@ -205,12 +205,12 @@ export const week7SpeakDays: SpeakDay[] = [
         id: "d136-como",
         frameStem: "Como…",
         english: "Since I don't have a car, I depend on Uber and the bus.",
-        spanish: "Como no tengo coche, dependo del Uber y del bus.",
-        situationLabel: "Sin coche, sin opción",
+        spanish: "Como no tengo carro, dependo del Uber y del bus.",
+        situationLabel: "Sin carro, sin opción",
         why: "*Dependo del Uber y del bus* — the new reality stated plainly.",
         wordHints: [
           { en: "since", es: "como" },
-          { en: "don't have a car", es: "no tengo coche" },
+          { en: "don't have a car", es: "no tengo carro" },
           { en: "depend on", es: "dependo" },
           { en: "bus", es: "bus" },
         ],
@@ -285,7 +285,7 @@ export const week7SpeakDays: SpeakDay[] = [
         id: "d137-como",
         frameStem: "Como…",
         english: "Since the car is ten years old, these things happen.",
-        spanish: "Como el coche tiene diez años, estas cosas pasan.",
+        spanish: "Como el carro tiene diez años, estas cosas pasan.",
         situationLabel: "Coche viejo, problemas viejos",
         why: "*Estas cosas pasan* — the resigned acceptance every car owner knows.",
         wordHints: [
@@ -405,7 +405,7 @@ export const week7SpeakDays: SpeakDay[] = [
     day: 139,
     themeEs: "Arreglado",
     themeEn: "Fixed",
-    missionEs: "Cuenta el alivio de recuperar el coche y lo que aprendiste.",
+    missionEs: "Cuenta el alivio de recuperar el carro y lo que aprendiste.",
     missionEn: "Tell about the relief of getting the car back and what you learned.",
     line: "Encender el motor sin miedo es un lujo que no valorabas.",
     lineEn: "Starting the engine without fear is a luxury you didn't appreciate.",
@@ -429,7 +429,7 @@ export const week7SpeakDays: SpeakDay[] = [
         frameStem: "Así que…",
         english: "So I went to the shop Saturday morning.",
         spanish: "Así que fui al taller el sábado por la mañana.",
-        situationLabel: "Recoger el coche",
+        situationLabel: "Recoger el carro",
         why: "*El sábado por la mañana* — the errand you've been waiting for all week.",
         wordHints: [
           { en: "so", es: "así que" },
@@ -484,9 +484,9 @@ export const week7SpeakDays: SpeakDay[] = [
     day: 140,
     themeEs: "Repaso: por eso",
     themeEn: "Review: that's why…",
-    missionEs: "Resume toda la semana del coche en cinco frases de causa y efecto.",
+    missionEs: "Resume toda la semana del carro en cinco frases de causa y efecto.",
     missionEn: "Summarize the whole car week in five cause-and-effect sentences.",
-    line: "Una avería cabe en cinco conectores, si cuentas bien la cadena.",
+    line: "Una descompostura cabe en cinco conectores, si cuentas bien la cadena.",
     lineEn: "A breakdown fits in five connectors, if you trace the chain right.",
     prompts: [
       {
@@ -521,26 +521,26 @@ export const week7SpeakDays: SpeakDay[] = [
         id: "d140-como",
         frameStem: "Como…",
         english: "Since I ignored the check-engine light, the car stopped.",
-        spanish: "Como ignoré la luz del motor, el coche se paró.",
+        spanish: "Como ignoré la luz del motor, el carro se descompuso.",
         situationLabel: "La causa raíz",
         why: "*Como ignoré la luz del motor* — the lesson that starts the whole story.",
         wordHints: [
           { en: "since", es: "como" },
           { en: "ignored", es: "ignoré" },
           { en: "check-engine light", es: "luz del motor" },
-          { en: "stopped", es: "se paró" },
+          { en: "stopped", es: "se descompuso" },
         ],
       },
       {
         id: "d140-debido-a",
         frameStem: "Debido a…",
         english: "Due to the breakdown, I spent more than planned.",
-        spanish: "Debido a la avería, gasté más de lo planeado.",
+        spanish: "Debido a la descompostura, gasté más de lo planeado.",
         situationLabel: "El costo total",
         why: "*Gasté más de lo planeado* — the financial bottom line of the saga.",
         wordHints: [
           { en: "due to", es: "debido a" },
-          { en: "breakdown", es: "avería" },
+          { en: "breakdown", es: "descompostura" },
           { en: "spent more", es: "gasté más" },
           { en: "planned", es: "planeado" },
         ],

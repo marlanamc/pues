@@ -7,7 +7,7 @@ import type { SentenceFormerDay } from "../sentenceFormer/types";
 export const week7SentenceFormerDays: SentenceFormerDay[] = [
   {
     day: 134,
-    theme: "Se paró el coche",
+    theme: "Se descompuso el carro",
     stems: [
       {
         stem: "Por eso…",
@@ -46,7 +46,7 @@ export const week7SentenceFormerDays: SentenceFormerDay[] = [
         stem: "Debido a…",
         english: "Due to… / Because of…",
         completions: [
-          { es: "la avería, perdí la primera clase", en: "the breakdown, i missed first period", category: "time" },
+          { es: "la descompostura, perdí la primera clase", en: "the breakdown, i missed first period", category: "time" },
           { es: "el tráfico en la autopista, el auxilio tardó", en: "highway traffic, roadside help was slow", category: "time" },
           { es: "el motor, el taller cobra más de lo que pensaba", en: "the engine, the shop charges more than i thought", category: "other" },
           { es: "la grúa, llegué casi una hora tarde", en: "the tow truck, i arrived almost an hour late", category: "time" },
@@ -97,7 +97,7 @@ export const week7SentenceFormerDays: SentenceFormerDay[] = [
         english: "Since… / Because…",
         completions: [
           { es: "llegué veinte minutos tarde, perdí la reunión", en: "i arrived twenty minutes late, i missed the meeting", category: "time" },
-          { es: "no tenía coche, no pude traer los materiales", en: "i didn't have a car, i couldn't bring the materials", category: "other" },
+          { es: "no tenía carro, no pude traer los materiales", en: "i didn't have a car, i couldn't bring the materials", category: "other" },
           { es: "estaba estresada, hablé más rápido de lo normal", en: "i was stressed, i spoke faster than usual", category: "opinion" },
           { es: "perdí la reunión, no firmé la lista", en: "i missed the meeting, i didn't sign the list", category: "activity" },
           { es: "venía del arcén, no tenía buen aspecto", en: "i was coming from the shoulder, i didn't look good", category: "other" },
@@ -109,7 +109,7 @@ export const week7SentenceFormerDays: SentenceFormerDay[] = [
         completions: [
           { es: "mi retraso, no firmé la lista a tiempo", en: "my delay, i didn't sign the attendance list on time", category: "activity" },
           { es: "el caos de la mañana, olvidé el café", en: "the morning chaos, i forgot my coffee", category: "other" },
-          { es: "la avería, tuve que replanear todo el día", en: "the breakdown, i had to replan the whole day", category: "activity" },
+          { es: "la descompostura, tuve que replanear todo el día", en: "the breakdown, i had to replan the whole day", category: "activity" },
           { es: "el uber, gasté más de lo normal", en: "the uber, i spent more than usual", category: "other" },
           { es: "la confusión, empecé con la actividad equivocada", en: "the confusion, i started with the wrong activity", category: "activity" },
         ],
@@ -147,7 +147,7 @@ export const week7SentenceFormerDays: SentenceFormerDay[] = [
         english: "So… / And so…",
         completions: [
           { es: "descargué la app del autobús otra vez", en: "i downloaded the bus app again", category: "activity" },
-          { es: "dejé el coche en el taller hasta el viernes", en: "i left the car at the shop until friday", category: "activity" },
+          { es: "dejé el carro en el taller hasta el viernes", en: "i left the car at the shop until friday", category: "activity" },
           { es: "acordé con priya ir juntas los martes", en: "i agreed with priya to go together on tuesdays", category: "activity" },
           { es: "compré un pase de autobús semanal", en: "i bought a weekly bus pass", category: "activity" },
           { es: "dejé de estacionar en el colegio", en: "i stopped parking at school", category: "activity" },
@@ -157,11 +157,11 @@ export const week7SentenceFormerDays: SentenceFormerDay[] = [
         stem: "Como…",
         english: "Since… / Because…",
         completions: [
-          { es: "no tengo coche, dependo del uber y del bus", en: "i don't have a car, i depend on uber and the bus", category: "other" },
+          { es: "no tengo carro, dependo del uber y del bus", en: "i don't have a car, i depend on uber and the bus", category: "other" },
           { es: "hace frío, esperar en la parada es horrible", en: "it's cold, waiting at the stop is horrible", category: "opinion" },
           { es: "el taller está lejos, la grúa tardó una hora", en: "the shop is far, the tow took an hour", category: "time" },
           { es: "vivo lejos del colegio, el bus tarda mucho", en: "i live far from school, the bus takes a long time", category: "time" },
-          { es: "el coche está en reparación, no tengo opción", en: "the car is being repaired, i have no choice", category: "other" },
+          { es: "el carro está en reparación, no tengo opción", en: "the car is being repaired, i have no choice", category: "other" },
         ],
       },
       {
@@ -208,17 +208,17 @@ export const week7SentenceFormerDays: SentenceFormerDay[] = [
         english: "So… / And so…",
         completions: [
           { es: "aprobé la reparación del alternador", en: "i approved the alternator repair", category: "activity" },
-          { es: "pedí presupuesto en otro taller", en: "i got a quote at another shop", category: "activity" },
+          { es: "pedí cotización en otro taller", en: "i got a quote at another shop", category: "activity" },
           { es: "usé lo que había guardado para emergencias", en: "i used what i had saved for emergencies", category: "activity" },
           { es: "acepté el plan de pagos", en: "i accepted the payment plan", category: "activity" },
-          { es: "dejé el coche hasta que esté listo", en: "i left the car until it's ready", category: "activity" },
+          { es: "dejé el carro hasta que esté listo", en: "i left the car until it's ready", category: "activity" },
         ],
       },
       {
         stem: "Como…",
         english: "Since… / Because…",
         completions: [
-          { es: "el coche tiene diez años, estas cosas pasan", en: "the car is ten years old, these things happen", category: "opinion" },
+          { es: "el carro tiene diez años, estas cosas pasan", en: "the car is ten years old, these things happen", category: "opinion" },
           { es: "ignoré la luz del motor, empeoró", en: "i ignored the check-engine light, it got worse", category: "other" },
           { es: "lo necesito para ir al colegio, no tengo opción", en: "i need it to get to school, i have no choice", category: "other" },
           { es: "no hice mantenimiento, esto era inevitable", en: "i didn't do maintenance, this was inevitable", category: "opinion" },
@@ -343,7 +343,7 @@ export const week7SentenceFormerDays: SentenceFormerDay[] = [
           { es: "ya está arreglado, puedo olvidar el caos", en: "it's fixed now, i can forget the chaos", category: "opinion" },
           { es: "aprendí la lección, reviso el aceite cada mes", en: "i learned the lesson, i check the oil every month", category: "activity" },
           { es: "fue una semana dura, aprecio mi rutina", en: "it was a hard week, i appreciate my routine", category: "opinion" },
-          { es: "el coche funciona bien, puedo relajarme", en: "the car runs well, i can relax", category: "opinion" },
+          { es: "el carro funciona bien, puedo relajarme", en: "the car runs well, i can relax", category: "opinion" },
           { es: "pagamos la factura, no hay deuda", en: "we paid the bill, there's no debt", category: "other" },
         ],
       },
@@ -364,7 +364,7 @@ export const week7SentenceFormerDays: SentenceFormerDay[] = [
         completions: [
           { es: "todos los que me ayudaron, sobreviví", en: "everyone who helped, i survived", category: "other" },
           { es: "el fondo de emergencia, pagué sin deuda", en: "the emergency fund, i paid without debt", category: "other" },
-          { es: "priya y al mecánico, el coche vuelve a funcionar", en: "priya and the mechanic, the car works again", category: "other" },
+          { es: "priya y al mecánico, el carro vuelve a funcionar", en: "priya and the mechanic, the car works again", category: "other" },
           { es: "el seguro, la grúa no me costó nada", en: "insurance, the tow cost me nothing", category: "other" },
           { es: "la semana difícil, sé quién está ahí", en: "the hard week, i know who's there for me", category: "opinion" },
         ],
@@ -401,18 +401,18 @@ export const week7SentenceFormerDays: SentenceFormerDay[] = [
         stem: "Como…",
         english: "Since… / Because…",
         completions: [
-          { es: "ignoré la luz del motor, el coche se paró", en: "i ignored the check-engine light, the car stopped", category: "other" },
+          { es: "ignoré la luz del motor, el carro se descompuso", en: "i ignored the check-engine light, the car stopped", category: "other" },
           { es: "no tenía plan b, dependí de priya", en: "i didn't have a plan b, i depended on priya", category: "other" },
-          { es: "el coche es viejo, estas cosas pasan", en: "the car is old, these things happen", category: "opinion" },
-          { es: "no hice mantenimiento, la avería era inevitable", en: "i didn't do maintenance, the breakdown was inevitable", category: "opinion" },
-          { es: "vivo lejos, perder el coche fue un desastre", en: "i live far away, losing the car was a disaster", category: "opinion" },
+          { es: "el carro es viejo, estas cosas pasan", en: "the car is old, these things happen", category: "opinion" },
+          { es: "no hice mantenimiento, la descompostura era inevitable", en: "i didn't do maintenance, the breakdown was inevitable", category: "opinion" },
+          { es: "vivo lejos, perder el carro fue un desastre", en: "i live far away, losing the car was a disaster", category: "opinion" },
         ],
       },
       {
         stem: "Debido a…",
         english: "Due to… / Because of…",
         completions: [
-          { es: "la avería, gasté más de lo planeado", en: "the breakdown, i spent more than planned", category: "other" },
+          { es: "la descompostura, gasté más de lo planeado", en: "the breakdown, i spent more than planned", category: "other" },
           { es: "el retraso, perdí clases y reuniones", en: "the delay, i missed classes and meetings", category: "time" },
           { es: "la semana difícil, aprecio lo normal", en: "the hard week, i appreciate normal life", category: "opinion" },
           { es: "el alternador, usé mis ahorros", en: "the alternator, i used my savings", category: "other" },

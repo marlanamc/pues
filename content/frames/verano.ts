@@ -81,7 +81,7 @@ export const veranoFrameDays: FrameDay[] = [
         examples: [
           "Tengo mucho trabajo.",
           "Tengo una reunión con los maestros a las tres.",
-          "Tengo mi laptop y un cuaderno conmigo.",
+          "Tengo mi computadora y un cuaderno conmigo.",
         ],
         note: "Reunión is the standard word for 'meeting.' In Mexico, junta is also very common for work meetings.",
       },
@@ -111,7 +111,7 @@ export const veranoFrameDays: FrameDay[] = [
         english: "I use…",
         scenarios: ["every day", "for work", "to learn"],
         examples: [
-          "Uso mi laptop para casi todo.",
+          "Uso mi computadora para casi todo.",
           "Uso una aplicación para estudiar vocabulario.",
           "Uso el metro para ir al trabajo.",
         ],
@@ -444,7 +444,7 @@ export const veranoFrameDays: FrameDay[] = [
         scenarios: ["a temporary state", "before a class", "after a long day"],
         examples: [
           "Estoy un poco cansada hoy.",
-          "Estoy emocionada por este proyecto.",
+          "Estoy muy contenta con el progreso.",
           "Estoy lista para empezar la semana.",
         ],
         note: "Estoy = temporary state. Soy = permanent identity. 'Estoy cansada' = I'm tired now. 'Soy cansada' is wrong — you wouldn't claim tiredness as an identity.",
@@ -1593,7 +1593,7 @@ export const veranoFrameDays: FrameDay[] = [
         scenarios: ["the tip", "the fixed menu", "breakfast"],
         examples: [
           "¿Está incluida la propina?",
-          "¿Está incluido el postre en el menú del día?",
+          "¿Está incluido el postre en el especial del día?",
           "¿Está incluido el desayuno?",
         ],
         note: "Incluido agrees: la propina → incluida. Menú del día = the fixed lunch deal, beloved everywhere Spanish is spoken.",
@@ -1653,7 +1653,7 @@ export const veranoFrameDays: FrameDay[] = [
         examples: [
           "¿Me prestas tu paraguas? Se me olvidó el mío.",
           "¿Me prestas cinco dólares? Te los devuelvo mañana.",
-          "¿Me prestas tus apuntes de la reunión?",
+          "¿Me prestas tus notas de la reunión?",
         ],
         note: "Se me olvidó — 'it forgot itself on me.' Spanish lets accidents happen to you instead of blaming you.",
       },
@@ -2435,15 +2435,15 @@ export const veranoFrameDays: FrameDay[] = [
         ],
       },
       {
-        stem: "Total, que…",
+        stem: "En fin…",
         english: "Long story short…",
         scenarios: ["very late", "a cat", "a misunderstanding"],
         examples: [
-          "Total, que llegamos tardísimo.",
-          "Total, que ahora tenemos gato.",
-          "Total, que todo era un malentendido.",
+          "En fin, llegamos tardísimo.",
+          "En fin, ahora tenemos gato.",
+          "En fin, todo era un malentendido.",
         ],
-        note: "Total, que… — 'long story short.' The abbreviation every rambling story eventually needs.",
+        note: "En fin… — 'long story short.' The abbreviation every rambling story eventually needs.",
       },
     ],
   },
@@ -4248,7 +4248,7 @@ export const veranoFrameDays: FrameDay[] = [
         english: "I think there's a mistake in…",
         scenarios: ["an invoice", "an order", "a date"],
         examples: [
-          "Creo que hay un error en la factura.",
+          "Creo que hay un error en la cuenta.",
           "Creo que hay un error en mi pedido.",
           "Creo que hay un error en la fecha.",
         ],
@@ -4374,13 +4374,13 @@ export const veranoFrameDays: FrameDay[] = [
         ],
       },
       {
-        stem: "¿Alguien ha visto…?",
-        english: "Has anyone seen…?",
+        stem: "¿Alguien vio…?",
+        english: "Did anyone see…?",
         scenarios: ["glasses", "a notebook", "the cat"],
         examples: [
-          "¿Alguien ha visto mis lentes?",
-          "¿Alguien ha visto un cuaderno rojo?",
-          "¿Alguien ha visto al gato?",
+          "¿Alguien vio mis lentes?",
+          "¿Alguien vio un cuaderno rojo?",
+          "¿Alguien vio al gato?",
         ],
       },
       {
@@ -4581,7 +4581,7 @@ export const veranoFrameDays: FrameDay[] = [
         english: "What I like most about… is…",
         scenarios: ["teaching", "Boston", "Spanish"],
         examples: [
-          "Lo que más me gusta de enseñar es ver el clic.",
+          "Lo que más me gusta de enseñar es ver cuando alguien por fin entiende.",
           "Lo que más me gusta de Boston es el otoño.",
           "Lo que más me gusta del español es cómo suena.",
         ],

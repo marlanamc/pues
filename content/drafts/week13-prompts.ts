@@ -494,14 +494,14 @@ export const week13SpeakDays: SpeakDay[] = [
         id: "d182-hace-dos-meses",
         frameStem: "Hace dos meses…",
         english: "Two months ago I started summarizing with \"It's about…\"",
-        spanish: "Hace dos meses empecé a resumir con Trata de…",
+        spanish: "Hace dos meses empecé a resumir con Se trata de…",
         situationLabel: "Semana uno",
-        why: "Repaso: open the one-minute season retell where fall began — *Trata de…*.",
+        why: "Repaso: open the one-minute season retell where fall began — *Se trata de…*.",
         wordHints: [
           { en: "two months ago", es: "hace dos meses" },
           { en: "started", es: "empecé" },
           { en: "summarizing", es: "resumir" },
-          { en: "it's about", es: "trata de" },
+          { en: "it's about", es: "se trata de" },
         ],
       },
       {

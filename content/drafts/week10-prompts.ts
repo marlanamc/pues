@@ -546,14 +546,14 @@ export const week10SpeakDays: SpeakDay[] = [
         id: "d161-sorprendio",
         frameStem: "Me sorprendió que…",
         english: "I was surprised he answered with evidence, not slogans.",
-        spanish: "Me sorprendió que respondiera con evidencia, no con slogans.",
+        spanish: "Me sorprendió que respondiera con evidencia, no con eslóganes.",
         situationLabel: "La sorpresa de la semana",
-        why: "*No con slogans* — the contrast that made the article feel serious.",
+        why: "*No con eslóganes* — the contrast that made the article feel serious.",
         wordHints: [
           { en: "surprised", es: "me sorprendió" },
           { en: "answered", es: "respondiera" },
           { en: "evidence", es: "evidencia" },
-          { en: "not slogans", es: "no slogans" },
+          { en: "not slogans", es: "no eslóganes" },
         ],
       },
       {
