@@ -1326,3 +1326,38 @@ a {
   padding: 4px 2px 8px;
   border-radius: 14px;
 }
+
+/* ===== Print — the stem sheet, and nothing else =====
+   Los comienzos exists to be copied onto paper. Printing it should give a
+   plain black-on-white list with none of the app around it. */
+@media print {
+  /* `visibility` (not `display`) so the sheet's own ancestors can stay hidden
+     while it shows through — display:none on any ancestor would take it too.
+     Scoped with :has so every other page still prints normally. */
+  body:has(.week-stems) * {
+    visibility: hidden;
+    background: transparent !important;
+    color: #000 !important;
+    box-shadow: none !important;
+  }
+  body:has(.week-stems) {
+    background: #fff !important;
+  }
+  .week-stems,
+  .week-stems * {
+    visibility: visible;
+  }
+  .week-stems {
+    position: absolute;
+    inset: 0 auto auto 0;
+    width: 100%;
+    padding: 0;
+  }
+  .week-stems__copy {
+    display: none !important;
+  }
+  .week-stems__row {
+    opacity: 1 !important;
+    break-inside: avoid;
+  }
+}

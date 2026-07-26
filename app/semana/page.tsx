@@ -7,6 +7,7 @@ import { Gloss } from "@/components/Gloss";
 import { PageHeader, Wordmark } from "@/components/PageHeader";
 import { WeekDayList } from "@/components/WeekDayList";
 import { WeekPlayer, type WeekPlayerLine } from "@/components/WeekPlayer";
+import { WeekStems } from "@/components/WeekStems";
 import { PlanSchedule } from "@/components/PlanSchedule";
 import { totalDays } from "@/content/frames";
 import { speakDays } from "@/content/prompts";
@@ -141,6 +142,10 @@ export default function SemanaPage() {
         {/* ===== Los días ===== */}
         <SectionHead label="Los días" labelEn="The days" />
         <WeekDayList days={days} doneDays={done} currentDay={currentDay} showPlay />
+
+        {/* ===== Los comienzos — the copying pass, before the listening pass ===== */}
+        <SectionHead label="Los comienzos" labelEn="The stems" />
+        <WeekStems dayNums={dayNums} />
 
         {/* ===== Escuchar ===== */}
         <SectionHead label="Escuchar la semana" labelEn="Listen to the week" />
