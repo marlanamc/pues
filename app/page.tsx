@@ -14,9 +14,9 @@ import {
   weekDaysDone,
 } from "@/lib/store";
 import { useStats } from "@/hooks/useStats";
-import { daysInWeek } from "@/lib/planDay";
+import { daysInWeek, planContextFromDay } from "@/lib/planDay";
 import { totalDays } from "@/content/frames";
-import { seasonForDate } from "@/lib/season";
+import { SEASONS } from "@/lib/season";
 
 const ws = {
   fill: "none" as const,
@@ -79,10 +79,22 @@ export default function HomePage() {
   const mission = day.missionEs ?? day.line;
   const missionEn = day.missionEn;
 
-  const season = useMemo(() => seasonForDate(now ?? new Date()), [now]);
-  const temporada = TEMPORADAS[season.index - 1];
-  // Every week is 6 new days + 1 repaso, so the week is a straight division.
-  const weekNum = Math.min(13, Math.ceil(day.day / 7));
+  // Season and in-season week come from the cursor, never from the wall calendar
+  // — same rule Camino follows, so the two screens can't disagree about which
+  // temporada you're in. `weekNum` here is the week *within* the season (1–13),
+  // which is what /semana labels; `week` above is the global key priming uses.
+  const ctx = planContextFromDay(day.day);
+  const season = SEASONS[ctx.seasonIdx];
+  const temporada = TEMPORADAS[ctx.seasonIdx];
+  const weekNum = ctx.weekNum;
+
+  // The unhurried hour only exists on a weekend. When there's one available and
+  // the week isn't lit yet, La semana leads and the day's sentence waits its
+  // turn — never gated, just quieter. `now` is null until the effect runs, so
+  // this is false through hydration and the server render can't disagree.
+  const weekday = now?.getDay() ?? null;
+  const weekendInvite = !primed && (weekday === 0 || weekday === 6);
+  const weekendName = weekday === 0 ? "domingo" : "sábado";
 
   const ctaLabel =
     sessionIndex === 0 ? "Una frase" : sessionIndex >= PROMPTS_PER_DAY ? "Repasar" : "¿Otra?";
@@ -121,37 +133,63 @@ export default function HomePage() {
                 letterSpacing: "-0.01em",
               }}
             >
-              {primed ? "Ya está lista la semana." : "Una frase en español."}
+              {weekendInvite
+                ? `Es ${weekendName}. Enciende la semana.`
+                : primed
+                  ? "Ya está lista la semana."
+                  : "Una frase en español."}
             </p>
             <Gloss>
-              {primed ? "The week is already set up." : "One sentence in Spanish."}
+              {weekendInvite
+                ? `It's ${weekday === 0 ? "Sunday" : "Saturday"}. Light the week.`
+                : primed
+                  ? "The week is already set up."
+                  : "One sentence in Spanish."}
             </Gloss>
 
             {/* The weekly thread — an invitation when unprimed, never a gate.
-                Today's flow below works exactly the same either way. */}
-            <Link
-              href="/semana"
-              className="mono-cap transition-colors hover:text-accent"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 7,
-                marginTop: 14,
-                color: primed ? "var(--ink-soft)" : "var(--accent)",
-              }}
-            >
-              {primed
-                ? `Semana ${weekNum} · ${weekDone} de ${weekLength}`
-                : `Preparar la semana ${weekNum}`}
-              <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden {...ws}>
-                <path d="M5 12h14M13 6l6 6-6 6" />
-              </svg>
-            </Link>
-            <Gloss>
-              {primed
-                ? `Week ${weekNum} · ${weekDone} of ${weekLength} done`
-                : "Set the week up — an hour, whenever you have one"}
-            </Gloss>
+                On a weekend it becomes the lead action (the hour exists today);
+                the rest of the week it stays a quiet line and the day's sentence
+                leads. Either way /flow/speak is one tap from here. */}
+            {weekendInvite ? (
+              <>
+                <Link href="/semana" className="btn-primary hoy-cta" style={{ marginTop: 20 }}>
+                  <span className="lab">Preparar la semana {weekNum}</span>
+                  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden {...ws}>
+                    <path d="M5 12h14M13 6l6 6-6 6" />
+                  </svg>
+                </Link>
+                <div style={{ marginTop: 6 }}>
+                  <Gloss>Read the week ahead — one hour, no rush</Gloss>
+                </div>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/semana"
+                  className="mono-cap transition-colors hover:text-accent"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 7,
+                    marginTop: 14,
+                    color: "var(--ink-soft)",
+                  }}
+                >
+                  {primed
+                    ? `Semana ${weekNum} · ${weekDone} de ${weekLength}`
+                    : `Preparar la semana ${weekNum}`}
+                  <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden {...ws}>
+                    <path d="M5 12h14M13 6l6 6-6 6" />
+                  </svg>
+                </Link>
+                <Gloss>
+                  {primed
+                    ? `Week ${weekNum} · ${weekDone} of ${weekLength} done`
+                    : "Set the week up — an hour, whenever you have one"}
+                </Gloss>
+              </>
+            )}
           </div>
 
           <div className="hoy-mission">
@@ -177,12 +215,30 @@ export default function HomePage() {
               </p>
             )}
 
-            <Link href="/flow/speak" className="btn-primary hoy-cta" style={{ marginTop: 22 }}>
-              <span className="lab">{ctaLabel}</span>
-              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden {...ws}>
-                <path d="M5 12h14M13 6l6 6-6 6" />
-              </svg>
-            </Link>
+            {/* The accent is spent once per screen. On a weekend it belongs to
+                La semana above, so today's sentence keeps the quiet treatment —
+                still here, still one tap, just not the thing shouting. */}
+            {weekendInvite ? (
+              <Link
+                href="/flow/speak"
+                className="inline-flex min-h-[44px] items-center transition-colors hover:text-accent"
+                style={{ gap: 8, marginTop: 16, color: "var(--ink-soft)" }}
+              >
+                <span className="font-display" style={{ fontSize: "1.0625rem" }}>
+                  {ctaLabel}
+                </span>
+                <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden {...ws}>
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+              </Link>
+            ) : (
+              <Link href="/flow/speak" className="btn-primary hoy-cta" style={{ marginTop: 22 }}>
+                <span className="lab">{ctaLabel}</span>
+                <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden {...ws}>
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+              </Link>
+            )}
             <div style={{ marginTop: 6 }}>
               <Gloss>{ctaGloss}</Gloss>
             </div>
