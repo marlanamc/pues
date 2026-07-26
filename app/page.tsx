@@ -18,9 +18,6 @@ import { daysInWeek } from "@/lib/planDay";
 import { totalDays } from "@/content/frames";
 import { seasonForDate } from "@/lib/season";
 
-/** Single-user personal app — greeting name. */
-const NAME = "Marlie";
-
 const ws = {
   fill: "none" as const,
   stroke: "currentColor",
@@ -87,13 +84,6 @@ export default function HomePage() {
   // Every week is 6 new days + 1 repaso, so the week is a straight division.
   const weekNum = Math.min(13, Math.ceil(day.day / 7));
 
-  const greeting = useMemo(() => {
-    const h = now ? now.getHours() : 9;
-    if (h < 12) return "Buenos días";
-    if (h < 19) return "Buenas tardes";
-    return "Buenas noches";
-  }, [now]);
-
   const ctaLabel =
     sessionIndex === 0 ? "Una frase" : sessionIndex >= PROMPTS_PER_DAY ? "Repasar" : "¿Otra?";
   const ctaGloss =
@@ -118,8 +108,7 @@ export default function HomePage() {
         {/* ===== First viewport: brand + one sentence + CTA ===== */}
         <div className="hoy-hero">
           <div style={{ marginTop: 28 }}>
-            <p className="mono-cap">¡{greeting}, {NAME}!</p>
-            <h1 className="text-display-2xl text-ink hoy-brand" style={{ marginTop: 12 }}>
+            <h1 className="text-display-2xl text-ink hoy-brand">
               Pues
             </h1>
             <p
