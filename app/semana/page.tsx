@@ -203,7 +203,7 @@ export default function SemanaPage() {
             Everything below Los días is folded away until you reach it. The
             steps share a `name`, so opening one closes the last — you are only
             ever looking at the thing you're doing. Order follows the hour:
-            copy them, retrieve them, hear them, say one. */}
+            copy them, hear them, retrieve them, say one. */}
         <div style={{ marginTop: 34 }}>
           <p className="mono-cap">La hora</p>
           <Gloss>The hour</Gloss>
@@ -214,12 +214,12 @@ export default function SemanaPage() {
             <WeekStems dayNums={dayNums} />
           </WeekStep>
 
-          <WeekStep n={2} label="Sin mirar" labelEn="Without looking">
-            <StemRecall dayNums={dayNums} />
+          <WeekStep n={2} label="Escúchala" labelEn="Listen to the week">
+            {lines.length > 0 && <WeekPlayer lines={lines} />}
           </WeekStep>
 
-          <WeekStep n={3} label="Escúchala" labelEn="Listen to the week">
-            {lines.length > 0 && <WeekPlayer lines={lines} />}
+          <WeekStep n={3} label="Sin mirar" labelEn="Without looking">
+            <StemRecall dayNums={dayNums} />
           </WeekStep>
 
           <WeekStep n={4} label="Di una frase" labelEn="Say one sentence">
