@@ -278,6 +278,7 @@ export function StemRecall({ dayNums }: { dayNums: number[] }) {
 
         <div
           style={{
+            position: "relative",
             marginTop: 10,
             padding: "28px 20px",
             minHeight: 188,
@@ -291,6 +292,20 @@ export function StemRecall({ dayNums }: { dayNums: number[] }) {
             borderRadius: 16,
           }}
         >
+          {!revealed && (
+            <span
+              className="mono-cap"
+              style={{
+                position: "absolute",
+                top: 14,
+                left: 16,
+                color: "var(--ink-mute)",
+              }}
+            >
+              Dilo en voz alta{handsFree ? "…" : "."}
+            </span>
+          )}
+
           <p
             className="font-display"
             style={{ fontSize: 15, color: "var(--ink-mute)", margin: 0, lineHeight: 1.3 }}
@@ -314,24 +329,16 @@ export function StemRecall({ dayNums }: { dayNums: number[] }) {
               )}
             </>
           ) : (
-            <>
-              <p
-                className="font-display"
-                style={{ fontStyle: "italic", fontSize: 14.5, color: "var(--ink-soft)", margin: "14px 0 0" }}
+            !handsFree && (
+              <button
+                type="button"
+                onClick={() => setRevealed(true)}
+                className="btn-primary btn-primary--center"
+                style={{ marginTop: 18, minWidth: 150 }}
               >
-                Dilo en voz alta{handsFree ? "…" : "."}
-              </p>
-              {!handsFree && (
-                <button
-                  type="button"
-                  onClick={() => setRevealed(true)}
-                  className="btn-primary btn-primary--center"
-                  style={{ marginTop: 18, minWidth: 150 }}
-                >
-                  <span className="lab">Ver</span>
-                </button>
-              )}
-            </>
+                <span className="lab">Ver</span>
+              </button>
+            )
           )}
         </div>
 
