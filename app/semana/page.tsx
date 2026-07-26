@@ -210,24 +210,19 @@ export default function SemanaPage() {
         </div>
 
         <div style={{ marginTop: 10 }}>
-          <WeekStep n={1} label="Cópialos a mano" labelEn="Copy them by hand" meta="12 min">
+          <WeekStep n={1} label="Cópialos a mano" labelEn="Copy them by hand">
             <WeekStems dayNums={dayNums} />
           </WeekStep>
 
-          <WeekStep n={2} label="Sin mirar" labelEn="Without looking" meta="10 min">
+          <WeekStep n={2} label="Sin mirar" labelEn="Without looking">
             <StemRecall dayNums={dayNums} />
           </WeekStep>
 
-          <WeekStep
-            n={3}
-            label="Escúchala"
-            labelEn="Listen to the week"
-            meta="10 min · opcional"
-          >
+          <WeekStep n={3} label="Escúchala" labelEn="Listen to the week" meta="opcional">
             {lines.length > 0 && <WeekPlayer lines={lines} />}
           </WeekStep>
 
-          <WeekStep n={4} label="Di una frase" labelEn="Say one sentence" meta="2 min">
+          <WeekStep n={4} label="Di una frase" labelEn="Say one sentence">
             <div
               style={{
                 padding: "18px 18px 20px",
@@ -364,6 +359,9 @@ function SectionHead({ label, labelEn }: { label: string; labelEn?: string }) {
  * opening one closes the last, so only the step you're on is ever on screen.
  * Browsers without that support degrade to four independent toggles, which is
  * still the collapsed-by-default behaviour that matters.
+ *
+ * No durations. The hour is unhurried by definition, and a number next to a
+ * step turns taking longer into falling behind.
  */
 function WeekStep({
   n,
@@ -375,7 +373,8 @@ function WeekStep({
   n: number;
   label: string;
   labelEn: string;
-  meta: string;
+  /** Only for genuine qualifiers ("opcional") — never a time estimate. */
+  meta?: string;
   children: ReactNode;
 }) {
   return (
@@ -390,7 +389,7 @@ function WeekStep({
           </span>
           <Gloss>{labelEn}</Gloss>
         </span>
-        <span className="mono-cap week-step__meta">{meta}</span>
+        {meta && <span className="mono-cap week-step__meta">{meta}</span>}
       </summary>
       <div className="week-step__body">{children}</div>
     </details>

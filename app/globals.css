@@ -1339,31 +1339,36 @@ a {
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 14px;
-  min-height: 44px;
-  padding: 15px 2px;
+  gap: 16px;
+  min-height: 64px;
+  padding: 20px 2px;
   color: var(--ink-soft);
 }
+/* Both spellings — Safari still wants the pseudo-element, everything else
+   takes `list-style` on the summary itself. Miss either and the native
+   disclosure triangle sits in front of the number. */
+.week-step > summary::marker,
 .week-step > summary::-webkit-details-marker {
   display: none;
+  content: "";
 }
 .week-step__n {
   flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 26px;
-  height: 26px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   border: 1px solid color-mix(in oklab, var(--zone) 45%, transparent);
   color: var(--zone);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 12.5px;
 }
 .week-step__title {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 3px;
   flex: 1;
   min-width: 0;
 }
@@ -1385,10 +1390,11 @@ a {
   color: var(--ink);
 }
 .week-step__body {
-  padding: 2px 0 26px;
+  padding: 6px 0 32px;
 }
 .week-step--plain > summary {
-  padding: 14px 2px;
+  min-height: 44px;
+  padding: 16px 2px;
 }
 
 /* ===== Print — the stem sheet, and nothing else =====
