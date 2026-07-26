@@ -13,7 +13,7 @@ export default function SentenceFormerPage() {
         <SettingsMenuButton />
       </header>
 
-      <SentenceFormerGame onQuit={() => router.push("/practice")} />
+      <SentenceFormerGame onQuit={() => router.push("/mas")} />
     </div>
   );
 }

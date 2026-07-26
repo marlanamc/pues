@@ -11,6 +11,8 @@ export type NavItem = {
 };
 
 export type NavSection = {
+  label?: string;
+  labelEn?: string;
   items: NavItem[];
 };
 
@@ -30,10 +32,18 @@ const IconToday = (
   </svg>
 );
 
-const IconPractice = (
+const IconSemana = (
   <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
-    <path d="M5 4h11a2 2 0 0 1 2 2v14H7a2 2 0 0 1-2-2Z" />
-    <path d="M9 8h6M9 12h6" />
+    <rect x="3.5" y="5" width="17" height="15" rx="2.5" />
+    <path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" />
+  </svg>
+);
+
+const IconMas = (
+  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
+    <circle cx="6" cy="12" r="2" />
+    <circle cx="12" cy="12" r="2" />
+    <circle cx="18" cy="12" r="2" />
   </svg>
 );
 
@@ -46,13 +56,6 @@ const IconFormer = (
 const IconRead = (
   <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
     <path d="M21 14.5A8.5 8.5 0 0 1 9.5 3 7 7 0 1 0 21 14.5Z" />
-  </svg>
-);
-
-const IconSemana = (
-  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
-    <rect x="3.5" y="5" width="17" height="15" rx="2.5" />
-    <path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" />
   </svg>
 );
 
@@ -80,6 +83,20 @@ const IconJuegos = (
   </svg>
 );
 
+const IconLugares = (
+  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
+    <path d="M12 21s-6-5.2-6-10a6 6 0 1 1 12 0c0 4.8-6 10-6 10Z" />
+    <circle cx="12" cy="11" r="2.5" />
+  </svg>
+);
+
+const IconOido = (
+  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
+    <path d="M6 8.5a6 6 0 1 1 12 0v4.5a3.5 3.5 0 0 1-7 0" />
+    <path d="M9 18a3 3 0 0 0 6 0" />
+  </svg>
+);
+
 const IconGuias = (
   <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
     <path d="M12 6.5C10 5 6.8 4.8 4 5.6V19c2.8-.8 6-.6 8 .9" />
@@ -88,67 +105,60 @@ const IconGuias = (
   </svg>
 );
 
-/**
- * Game routes live under /practice/* but belong to the Juegos tab, so the
- * Práctica match must exclude them — each tab's match runs independently and
- * two tabs must never light at once.
- */
+/** Game routes live under /practice/* — excludes sentence-former (Más práctica). */
 const gamePaths = ["/practice/games", ...games.map((g) => g.href)];
 const isGamePath = (p: string) => gamePaths.some((g) => p.startsWith(g));
 const isSentenceFormerPath = (p: string) => p.startsWith("/practice/sentence-former");
+const isMasPracticaPath = isSentenceFormerPath;
 
-const isPracticeHubPath = (p: string) =>
-  (p.startsWith("/practice") && !isGamePath(p) && !isSentenceFormerPath(p)) ||
+const isHoyPath = (p: string) =>
+  p === "/" ||
+  p.startsWith("/flow") ||
+  p.startsWith("/cuaderno") ||
+  p.startsWith("/thoughts") ||
+  p.startsWith("/read");
+
+const isSemanaPath = (p: string) =>
+  p.startsWith("/semana") || p.startsWith("/camino") || p.startsWith("/progress");
+
+const isExtrasPath = (p: string) =>
+  p.startsWith("/mas") ||
+  p.startsWith("/guides") ||
   p.startsWith("/situations") ||
-  p.startsWith("/lab");
+  p.startsWith("/lab") ||
+  isGamePath(p) ||
+  isMasPracticaPath(p);
 
-/** Mobile bottom tabs — four doors, unchanged. */
+/** Mobile bottom tabs — three zones: Ritual, Semana, Extras. */
 export const navItems: NavItem[] = [
   {
     href: "/",
     label: "Hoy",
-    // Camino and Cuaderno aren't tabs on mobile; keep Hoy lit when you're there.
-    // La semana isn't a tab on mobile (four doors, unchanged) — it's the weekly
-    // companion to Hoy, so keep Hoy lit while you're preparing the week.
-    match: (p) =>
-      p === "/" ||
-      p.startsWith("/flow") ||
-      p.startsWith("/semana") ||
-      p.startsWith("/camino") ||
-      p.startsWith("/progress") ||
-      p.startsWith("/cuaderno") ||
-      p.startsWith("/thoughts"),
+    match: isHoyPath,
     icon: IconToday,
     zone: "var(--accent)",
   },
   {
-    href: "/practice",
-    label: "Práctica",
-    match: (p) =>
-      isPracticeHubPath(p) ||
-      p.startsWith("/read"),
-    icon: IconPractice,
+    href: "/semana",
+    label: "La semana",
+    match: isSemanaPath,
+    icon: IconSemana,
+    zone: "var(--accent)",
+  },
+  {
+    href: "/mas",
+    label: "Más",
+    match: isExtrasPath,
+    icon: IconMas,
     zone: "var(--zone-practica)",
-  },
-  {
-    href: "/practice/games",
-    label: "Juegos",
-    match: isGamePath,
-    icon: IconJuegos,
-    zone: "var(--zone-lugares)",
-  },
-  {
-    href: "/guides",
-    label: "Guías",
-    match: (p) => p.startsWith("/guides"),
-    icon: IconGuias,
-    zone: "var(--zone-guias)",
   },
 ];
 
-/** Desktop left rail — every main page gets its own door. */
+/** Desktop left rail — three labeled sections. */
 export const sidebarSections: NavSection[] = [
   {
+    label: "Ritual",
+    labelEn: "Daily ritual",
     items: [
       {
         href: "/",
@@ -158,18 +168,11 @@ export const sidebarSections: NavSection[] = [
         zone: "var(--accent)",
       },
       {
-        href: "/semana",
-        label: "La semana",
-        match: (p) => p.startsWith("/semana"),
-        icon: IconSemana,
+        href: "/read",
+        label: "La lectura",
+        match: (p) => p.startsWith("/read"),
+        icon: IconRead,
         zone: "var(--accent)",
-      },
-      {
-        href: "/practice",
-        label: "Práctica",
-        match: isPracticeHubPath,
-        icon: IconPractice,
-        zone: "var(--zone-practica)",
       },
       {
         href: "/practice/sentence-former",
@@ -177,24 +180,6 @@ export const sidebarSections: NavSection[] = [
         match: isSentenceFormerPath,
         icon: IconFormer,
         zone: "var(--zone-lugares)",
-      },
-      {
-        href: "/read",
-        label: "La lectura",
-        match: (p) => p.startsWith("/read"),
-        icon: IconRead,
-        zone: "var(--accent)",
-      },
-    ],
-  },
-  {
-    items: [
-      {
-        href: "/camino",
-        label: "Camino",
-        match: (p) => p.startsWith("/camino") || p.startsWith("/progress"),
-        icon: IconCamino,
-        zone: "var(--accent)",
       },
       {
         href: "/cuaderno",
@@ -206,6 +191,28 @@ export const sidebarSections: NavSection[] = [
     ],
   },
   {
+    label: "La semana",
+    labelEn: "The week",
+    items: [
+      {
+        href: "/semana",
+        label: "La semana",
+        match: (p) => p.startsWith("/semana"),
+        icon: IconSemana,
+        zone: "var(--accent)",
+      },
+      {
+        href: "/camino",
+        label: "Camino",
+        match: (p) => p.startsWith("/camino") || p.startsWith("/progress"),
+        icon: IconCamino,
+        zone: "var(--accent)",
+      },
+    ],
+  },
+  {
+    label: "Extras",
+    labelEn: "Optional companions",
     items: [
       {
         href: "/practice/games",
@@ -213,6 +220,20 @@ export const sidebarSections: NavSection[] = [
         match: isGamePath,
         icon: IconJuegos,
         zone: "var(--zone-lugares)",
+      },
+      {
+        href: "/situations",
+        label: "Lugares",
+        match: (p) => p.startsWith("/situations"),
+        icon: IconLugares,
+        zone: "var(--zone-lugares)",
+      },
+      {
+        href: "/lab",
+        label: "El oído",
+        match: (p) => p.startsWith("/lab"),
+        icon: IconOido,
+        zone: "var(--zone-lab)",
       },
       {
         href: "/guides",

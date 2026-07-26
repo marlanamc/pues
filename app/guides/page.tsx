@@ -191,9 +191,12 @@ export default function GuidesHubPage() {
       className="space-y-6"
       style={{ "--zone": "var(--zone-guias)" } as CSSProperties}
     >
-      <PageHeader title={<Wordmark>Guías</Wordmark>} />
+      <PageHeader
+        title={<Wordmark>Guías</Wordmark>}
+        meta={<span className="mono-cap text-ink-mute">Referencia</span>}
+      />
 
-      <ZoneIntro zoneLabel="Guías" role="Referencia">
+      <ZoneIntro zoneLabel="Guías · Referencia" role="Referencia">
         El patrón, <Hue>justo cuando lo necesitas</Hue>.
         <Gloss>The pattern, right when you need it.</Gloss>
       </ZoneIntro>

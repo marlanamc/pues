@@ -18,10 +18,10 @@ export default function SerEstarPage() {
     >
       <header className="flex items-center justify-between">
         <Link
-          href="/practice"
+          href="/mas"
           className="text-caption text-ink-mute hover:text-accent transition-colors min-h-[40px] inline-flex items-center"
         >
-          ← Práctica
+          ← Más
         </Link>
         <p className="text-caption text-ink-mute">Juego</p>
         <SettingsMenuButton />

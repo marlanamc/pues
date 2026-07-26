@@ -25,9 +25,9 @@ export function practiceHubItems(opts?: {
 
   return [
     {
-      href: "/practice/plan",
-      label: "El plan",
-      description: "The 14-day phrase schedule — themes, frames, and prompts.",
+      href: "/semana",
+      label: "La semana",
+      description: "The week ahead — themes, frames, and prompts.",
       meta: planDay
         ? `Día ${String(planDay.current).padStart(2, "0")} de ${planDay.total}`
         : undefined,

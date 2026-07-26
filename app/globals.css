@@ -1334,6 +1334,25 @@ a {
 }
 
 /* ===== Speak — warmer prompt stage ===== */
+/* The unscripted turn opens on one oversized player — the only thing on the
+   screen, because listening is the whole first move. */
+.play-lead {
+  width: 92px;
+  height: 92px;
+  color: var(--accent-ink, var(--bg));
+  background: var(--accent);
+  border: none;
+  box-shadow: 0 0 0 10px color-mix(in oklab, var(--accent) 14%, transparent);
+}
+.play-lead:active {
+  transform: scale(0.97);
+}
+@media (prefers-reduced-motion: reduce) {
+  .play-lead:active {
+    transform: none;
+  }
+}
+
 .speak-stage {
   position: relative;
 }

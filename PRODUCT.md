@@ -20,6 +20,20 @@ Within it, one pass is diagnostic rather than orienting. **Sin mirar** runs the 
 
 Success looks like: the owner prepares most weeks, opens the app most days, says one sentence in Spanish without friction (recording optional), can browse what they've said before, and feels like they're sharpening — not grinding. One sentence is enough; more is welcome. The interface disappears in favor of the speaking.
 
+## Information Architecture
+
+The app is organized in three zones:
+
+| Zone | Job | Routes |
+|------|-----|--------|
+| **Ritual** | Say one sentence today. Nothing is calendar-due — *tu día* advances when you finish five frases, not at midnight. | Hoy (`/`), Flow (`/flow/*`), La lectura (`/read`), Formar la frase, Cuaderno (`/cuaderno`, `/thoughts`) |
+| **La semana** | Light the week once in an unhurried hour; pull days from the queue at your pace. | La semana (`/semana`), Camino (`/camino`), Progreso (`/progress`) |
+| **Extras** | Optional companions that feed the ritual — never a second course. | Más hub (`/mas`), Juegos, Lugares, El oído, Guías · Referencia |
+
+Mobile navigation uses three tabs: **Hoy**, **La semana**, **Más**. Desktop left rail groups the same zones with section labels (Ritual / La semana / Extras).
+
+There is no "due today." Week days are `done`, `now`, or `open` — never locked or behind. Guías are reference lookup, not sequenced lessons.
+
 ## Brand Personality
 
 Quiet. Editorial. Considered.

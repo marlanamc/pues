@@ -26,6 +26,9 @@ export function PlayButton({
   stopToken = 0,
   lang = "es",
   contextBefore,
+  onEnded,
+  onError,
+  variant = "default",
 }: {
   text: string;
   label?: string;
@@ -37,6 +40,20 @@ export function PlayButton({
   lang?: string;
   /** Unspoken context passed to TTS so short words get Spanish pronunciation. */
   contextBefore?: string;
+  /**
+   * Fires when playback reaches the end. The open turn uses this to arm the
+   * mic the instant the other person stops talking, so the pause before she
+   * answers lands inside the recording instead of before it.
+   */
+  onEnded?: () => void;
+  /**
+   * Fires when the clip can't be fetched or played at all — a dead TTS quota,
+   * an offline device. Lets a caller that gates on audio offer a way forward
+   * instead of stranding the user on a button that will never work.
+   */
+  onError?: () => void;
+  /** `lead` is the oversized primary player used to open the unscripted turn. */
+  variant?: "default" | "lead";
 }) {
   const [state, setState] = useState<"idle" | "loading" | "playing" | "error">("idle");
   const { speed: storedSpeed } = useAudioSpeed();
@@ -46,6 +63,12 @@ export function PlayButton({
   const urlRef = useRef<string | null>(null);
   const objectUrlRef = useRef<string | null>(null);
   const rateRef = useRef(playbackRate);
+  // Held in a ref because the <audio> element is built once in ensureAudio()
+  // and would otherwise close over the first render's callback forever.
+  const onEndedRef = useRef(onEnded);
+  onEndedRef.current = onEnded;
+  const onErrorRef = useRef(onError);
+  onErrorRef.current = onError;
 
   useEffect(() => {
     rateRef.current = playbackRate;
@@ -84,9 +107,15 @@ export function PlayButton({
       const el = new Audio();
       el.preload = "auto";
       applyPlaybackRate(el, rateRef.current);
-      el.onended = () => setState("idle");
+      el.onended = () => {
+        setState("idle");
+        onEndedRef.current?.();
+      };
       el.onpause = () => setState((s) => (s === "playing" ? "idle" : s));
-      el.onerror = () => setState("error");
+      el.onerror = () => {
+        setState("error");
+        onErrorRef.current?.();
+      };
       el.onplaying = () => applyPlaybackRate(el, rateRef.current);
       audioRef.current = el;
     }
@@ -156,25 +185,35 @@ export function PlayButton({
       }
     } catch {
       setState("error");
+      onErrorRef.current?.();
     }
   }
+
+  const lead = variant === "lead";
+  const iconSize = lead ? "h-7 w-7" : "h-4 w-4";
 
   return (
     <button
       type="button"
       onClick={play}
       aria-label={label ?? `Play: ${text}`}
-      className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-rule text-ink-mute transition-colors hover:text-accent hover:border-accent/60 active:bg-surface-sunk"
+      className={
+        lead
+          ? "play-lead inline-flex shrink-0 items-center justify-center rounded-full transition-colors"
+          : "inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-rule text-ink-mute transition-colors hover:text-accent hover:border-accent/60 active:bg-surface-sunk"
+      }
     >
       {state === "loading" ? (
-        <span className="block h-3 w-3 animate-spin rounded-full border border-current border-t-transparent" />
+        <span
+          className={`block animate-spin rounded-full border border-current border-t-transparent ${lead ? "h-5 w-5" : "h-3 w-3"}`}
+        />
       ) : state === "playing" ? (
-        <svg viewBox="0 0 16 16" className="h-4 w-4 fill-current" aria-hidden>
+        <svg viewBox="0 0 16 16" className={`${iconSize} fill-current`} aria-hidden>
           <rect x="4" y="3" width="3" height="10" rx="1" />
           <rect x="9" y="3" width="3" height="10" rx="1" />
         </svg>
       ) : (
-        <svg viewBox="0 0 16 16" className="h-4 w-4 fill-current" aria-hidden>
+        <svg viewBox="0 0 16 16" className={`${iconSize} fill-current`} aria-hidden>
           <path d="M5 3.5v9l7-4.5z" />
         </svg>
       )}

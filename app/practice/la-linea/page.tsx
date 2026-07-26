@@ -13,7 +13,7 @@ export default function LaLineaPage() {
         <SettingsMenuButton />
       </header>
 
-      <LaLineaGame onQuit={() => router.push("/practice")} />
+      <LaLineaGame onQuit={() => router.push("/mas")} />
     </div>
   );
 }

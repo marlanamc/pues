@@ -5,6 +5,7 @@ import { Fragment } from "react";
 import { usePathname } from "next/navigation";
 import { sidebarSections } from "@/content/nav";
 import { Wordmark } from "@/components/PageHeader";
+import { Gloss } from "@/components/Gloss";
 import { SettingsMenuButton } from "@/components/SettingsMenu";
 import { useSidebarVisible } from "@/hooks/useSidebarVisible";
 
@@ -95,6 +96,16 @@ export function LeftRailNav() {
                 aria-hidden
                 className={expanded ? "mx-3.5 my-2 border-t border-rule" : "my-2 w-7 border-t border-rule"}
               />
+            )}
+            {expanded && section.label && (
+              <li className="px-3.5 pb-1 pt-3">
+                <span className="mono-cap text-ink-mute">{section.label}</span>
+                {section.labelEn && (
+                  <span className="block">
+                    <Gloss>{section.labelEn}</Gloss>
+                  </span>
+                )}
+              </li>
             )}
             {section.items.map((item) => {
               const active = item.match(pathname);

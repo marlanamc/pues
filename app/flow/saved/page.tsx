@@ -2,14 +2,16 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { PROMPTS_PER_DAY, speakDays } from "@/content/prompts";
+import { PROMPTS_PER_DAY, speakDayForIndex, speakDays } from "@/content/prompts";
 import {
   advanceSession,
   completeCurrentDay,
   flagForPractice,
+  getStats,
 } from "@/lib/store";
 import { useFlowDraft } from "@/hooks/useFlowDraft";
 import { useThoughts } from "@/hooks/useThoughts";
+import Link from "next/link";
 import { PlayButton } from "@/components/PlayButton";
 import { RecordingPlayButton } from "@/components/RecordingPlayButton";
 import { Gloss } from "@/components/Gloss";
@@ -25,6 +27,9 @@ export default function SavedPage() {
   const [recordingId, setRecordingId] = useState<string | undefined>();
   const [returnHref, setReturnHref] = useState("/situations");
   const [savedSource, setSavedSource] = useState<"daily" | "situation">("daily");
+  // The day index captured *before* completeCurrentDay() rolls it forward —
+  // the unscripted turn belongs to the day just finished, not the next one.
+  const [openTurnHref, setOpenTurnHref] = useState<string | null>(null);
 
   // Bank the thought once, the moment we land here.
   useEffect(() => {
@@ -63,10 +68,17 @@ export default function SavedPage() {
     if (isSituationPractice) {
       setCount(null);
     } else {
+      const finishedDayIndex = getStats().currentDayIndex;
       const newCount = advanceSession(PROMPTS_PER_DAY);
       setCount(newCount);
       // Finishing the day's last prompt advances the phrase schedule.
-      if (newCount >= PROMPTS_PER_DAY) completeCurrentDay(speakDays.length);
+      if (newCount >= PROMPTS_PER_DAY) {
+        completeCurrentDay(speakDays.length);
+        // Days without an authored openTurn simply don't offer the sixth beat.
+        if (speakDayForIndex(finishedDayIndex).openTurn) {
+          setOpenTurnHref(`/flow/abierto?i=${finishedDayIndex}`);
+        }
+      }
     }
   }, [hydrated, draft, add, router]);
 
@@ -139,8 +151,8 @@ export default function SavedPage() {
         </p>
         {!isSituationPractice && count !== null && !dayJustCompleted && (
           <p className="mono-cap" style={{ marginTop: 6, color: "var(--ink-mute)" }}>
-            {count} de {PROMPTS_PER_DAY} hoy
-            <Gloss>{`${count} of ${PROMPTS_PER_DAY} today`}</Gloss>
+            {count} de {PROMPTS_PER_DAY} frases
+            <Gloss>{`${count} of ${PROMPTS_PER_DAY} sentences`}</Gloss>
           </p>
         )}
 
@@ -200,25 +212,68 @@ export default function SavedPage() {
           </button>
         ) : (
           <>
-            <button type="button" onClick={finish} className="btn-primary">
-              <span className="lab">Terminar</span>
-              <svg
-                viewBox="0 0 24 24"
-                width="19"
-                height="19"
-                aria-hidden
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={1.6}
-                strokeLinecap="round"
-                strokeLinejoin="round"
+            {dayJustCompleted && openTurnHref && (
+              <>
+                <Link
+                  href={openTurnHref}
+                  onClick={() => clear()}
+                  className="btn-primary"
+                >
+                  <span className="lab">Una más, sin guion</span>
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="19"
+                    height="19"
+                    aria-hidden
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={1.6}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M5 12h14M13 6l6 6-6 6" />
+                  </svg>
+                </Link>
+                <div className="text-center">
+                  <Gloss>One more — no English, no script</Gloss>
+                </div>
+              </>
+            )}
+            {dayJustCompleted && openTurnHref ? (
+              <button
+                type="button"
+                onClick={finish}
+                className="px-6 py-2.5 text-center min-h-[44px]"
+                style={{ color: "var(--ink-soft)" }}
               >
-                <path d="M5 12.5 10 17l9-10" />
-              </svg>
-            </button>
-            <div className="text-center">
-              <Gloss>Done for now</Gloss>
-            </div>
+                <span className="font-display" style={{ fontSize: "1.0625rem" }}>
+                  Terminar
+                </span>
+                <Gloss>Skip it — done for now</Gloss>
+              </button>
+            ) : (
+              <>
+                <button type="button" onClick={finish} className="btn-primary">
+                  <span className="lab">Terminar</span>
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="19"
+                    height="19"
+                    aria-hidden
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={1.6}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M5 12.5 10 17l9-10" />
+                  </svg>
+                </button>
+                <div className="text-center">
+                  <Gloss>Done for now</Gloss>
+                </div>
+              </>
+            )}
             {!dayJustCompleted && (
               <button
                 type="button"

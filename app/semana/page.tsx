@@ -131,7 +131,11 @@ export default function SemanaPage() {
         </div>
 
         {/* ===== Los días — the week itself, always open ===== */}
-        <SectionHead label="Los días" labelEn="The days" />
+        <SectionHead label="Los días" labelEn="The days — a queue, your order" />
+        <p className="font-display text-ink-soft" style={{ fontSize: 15, lineHeight: 1.45, margin: "-4px 0 12px" }}>
+          Los días son una cola — el orden es tuyo.
+        </p>
+        <Gloss>The days are a queue — you pick the order.</Gloss>
         <WeekDayList
           days={days}
           doneDays={done}
@@ -339,8 +343,8 @@ export default function SemanaPage() {
           <details className="week-step week-step--plain">
             <summary>
               <span className="week-step__title">
-                <span className="mono-cap">El plan entero</span>
-                <Gloss>The whole plan</Gloss>
+                <span className="mono-cap">Todo el camino</span>
+                <Gloss>The whole path</Gloss>
               </span>
             </summary>
             <div className="week-step__body">

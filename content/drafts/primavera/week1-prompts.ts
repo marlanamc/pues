@@ -84,6 +84,14 @@ export const priWeek1SpeakDays: SpeakDay[] = [
         ],
       },
     ],
+    openTurn: {
+      es: "A ver, en una frase: ¿cómo eres tú?",
+      en: "All right, in one sentence: what are you like?",
+      speaker: "camila",
+      hint: "No tienes que contestar la pregunta. Reacciona a ella.",
+      sigue: "Ay, no me cambies el tema. Te doy diez segundos más.",
+      sigueEn: "Oh no, don't change the subject on me. I'll give you ten more seconds.",
+    },
   },
   {
     day: 275,
@@ -159,6 +167,14 @@ export const priWeek1SpeakDays: SpeakDay[] = [
         ],
       },
     ],
+    openTurn: {
+      es: "Marlana, la copiadora otra vez. Y tienes reunión a las tres.",
+      en: "Marlana, the copier again. And you have a meeting at three.",
+      speaker: "rocio",
+      hint: "Dos reacciones seguidas: una para la copiadora, otra para ti.",
+      sigue: "Ya sé. Yo tampoco he comido nada. Nos vemos a las tres.",
+      sigueEn: "I know. I haven't eaten anything either. See you at three.",
+    },
   },
   {
     day: 276,
@@ -234,6 +250,14 @@ export const priWeek1SpeakDays: SpeakDay[] = [
         ],
       },
     ],
+    openTurn: {
+      es: "Mija, ¿supiste que la hija de la vecina compró casa? ¿Y tú?",
+      en: "Honey, did you hear the neighbor's daughter bought a house? And you?",
+      speaker: "mama",
+      hint: "Ella no espera una respuesta. Espera que reacciones.",
+      sigue: "Bueno, bueno, no dije nada. ¿Ya comiste?",
+      sigueEn: "All right, all right, I didn't say anything. Have you eaten?",
+    },
   },
   {
     day: 277,
@@ -308,6 +332,14 @@ export const priWeek1SpeakDays: SpeakDay[] = [
         ],
       },
     ],
+    openTurn: {
+      es: "Enséñame eso que haces de noche. Ahora, no el mes que viene.",
+      en: "Show me that thing you make at night. Now, not next month.",
+      speaker: "camila",
+      hint: "Puedes protegerlo y enseñárselo en la misma frase.",
+      sigue: "¿Y esto lo hiciste tú sola? A ver, muéstrame otra vez.",
+      sigueEn: "And you made this by yourself? Come on, show me again.",
+    },
   },
   {
     day: 278,
@@ -381,6 +413,14 @@ export const priWeek1SpeakDays: SpeakDay[] = [
         ],
       },
     ],
+    openTurn: {
+      es: "¿Sabes qué? La gente se relaja contigo y tú ni te das cuenta.",
+      en: "You know what? People relax around you and you don't even notice.",
+      speaker: "camila",
+      hint: "No lo niegues del todo. Recíbelo a medias.",
+      sigue: "No pongas esa cara. Es un cumplido, recíbelo y ya.",
+      sigueEn: "Don't make that face. It's a compliment, just take it.",
+    },
   },
   {
     day: 279,
@@ -454,6 +494,14 @@ export const priWeek1SpeakDays: SpeakDay[] = [
         ],
       },
     ],
+    openTurn: {
+      es: "Yo creo que le diste demasiada libertad a ese grupo. Por eso se te fue de las manos.",
+      en: "I think you gave that group too much freedom. That's why it got away from you.",
+      speaker: "camila",
+      hint: "Puedes no estar de acuerdo y quedarte en la mesa.",
+      sigue: "Ajá. ¿Y entonces por qué me lo has contado tres veces esta semana?",
+      sigueEn: "Uh-huh. So why have you told me about it three times this week?",
+    },
   },
   {
     day: 280,
@@ -528,5 +576,13 @@ export const priWeek1SpeakDays: SpeakDay[] = [
         ],
       },
     ],
+    openTurn: {
+      es: "¿Maestra? ¿Usted también lava aquí los sábados?",
+      en: "Teacher? Do you do laundry here on Saturdays too?",
+      speaker: "yesenia",
+      hint: "Nadie te está evaluando. Es sábado.",
+      sigue: "Yo vengo cada sábado a las nueve. Nunca la había visto.",
+      sigueEn: "I come every Saturday at nine. I'd never seen you here.",
+    },
   },
 ];

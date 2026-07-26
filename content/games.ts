@@ -2,10 +2,9 @@
  * Juegos — the Práctica game library.
  *
  * One source of truth for every playable game so the games shelf
- * (/practice/games), the Práctica door count, and any future "continue
- * playing" surface stay in sync. The shelf's lead tile ("Juego de hoy")
- * rotates through this list by day index — order matters for variety,
- * not for rank.
+ * (/practice/games), the Juegos door count, and any future "continue
+ * playing" surface stay in sync. Curriculum drills like Formar la frase
+ * live in content/masPractica.ts instead.
  */
 
 export type GameItem = {
@@ -58,15 +57,6 @@ export const games: GameItem[] = [
     group: "Verbos",
     level: "Principiante 1",
     iconId: "scales",
-  },
-  {
-    href: "/practice/sentence-former",
-    label: "Formar la frase",
-    description: "Termina la frase antes de pensarlo demasiado.",
-    descriptionEn: "Finish the sentence before you overthink it.",
-    group: "Frases",
-    level: "Principiante 1",
-    iconId: "flash",
   },
 ];
 

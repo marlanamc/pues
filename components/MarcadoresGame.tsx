@@ -385,7 +385,7 @@ function ModeSelect({ scope, setScope, onBack, onStart }: { scope: string; setSc
     <div className="flex flex-col lg:max-w-xl lg:mx-auto lg:w-full">
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <button onClick={onBack} style={{ display: "flex", alignItems: "center", gap: 5, background: "none", border: "none", color: "var(--ink-mute)", padding: 0, fontFamily: MONO, fontSize: 10, letterSpacing: "0.13em", textTransform: "uppercase", cursor: "pointer", minHeight: 40 }}>
-          <IconBack s={13} /> Práctica
+          <IconBack s={13} /> Más
         </button>
         <Cap>Marcadores</Cap>
       </div>

@@ -27,6 +27,9 @@ const IconBack = (
 
 export default function FlowLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() ?? "";
+  // The unscripted turn sits outside the 3-step wizard — it is a sixth beat
+  // after the day, not a fourth step inside a prompt.
+  const isOpenTurn = pathname.startsWith("/flow/abierto");
   const current =
     steps.find((s) => pathname.startsWith(s.path))?.step ?? 1;
 
@@ -44,6 +47,15 @@ export default function FlowLayout({ children }: { children: React.ReactNode }) 
         </Link>
         <div className="flex items-center gap-2.5 lg:contents">
           <div className="flex items-center gap-2 lg:justify-self-center">
+            {isOpenTurn ? (
+              <span
+                className="mono-cap"
+                style={{ fontSize: 9, color: "var(--ink-mute)" }}
+              >
+                Sin guion
+              </span>
+            ) : (
+            <>
             <div className="flex items-center gap-1.5" aria-hidden>
               {[1, 2, 3].map((n) => (
                 <span
@@ -64,6 +76,8 @@ export default function FlowLayout({ children }: { children: React.ReactNode }) 
             >
               {current} / 3
             </span>
+            </>
+            )}
           </div>
           <div className="lg:justify-self-end">
             <SettingsMenuButton />

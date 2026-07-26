@@ -225,7 +225,7 @@ export default function ProgressPage() {
           className="flex items-baseline justify-between gap-3"
           style={{ marginTop: 20 }}
         >
-          <p className="mono-cap text-ink-mute">El plan</p>
+          <p className="mono-cap text-ink-mute">Todo el camino</p>
           <p className="mono-cap text-ink-soft">
             {doneCount} / {totalDays}
           </p>

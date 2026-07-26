@@ -365,7 +365,7 @@ function CurrentSeasonPanel({
   daysDone: Set<number>;
 }) {
   return (
-    <aside className="hidden lg:flex lg:flex-col lg:gap-5">
+    <aside className="flex flex-col gap-5">
       <div>
         <span className="mono-cap" style={{ color: "var(--accent)" }}>
           Estás aquí · Día {dayLabel}
@@ -445,7 +445,7 @@ function CurrentSeasonPanel({
           return (
             <div
               key={goal}
-              className="flex items-center"
+              className="flex items-start"
               style={{
                 gap: 12,
                 padding: "12px 0",
@@ -454,13 +454,13 @@ function CurrentSeasonPanel({
               }}
             >
               {done ? (
-                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden {...ws} stroke={t.color} strokeWidth={2.4} style={{ flexShrink: 0 }}>
+                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden {...ws} stroke={t.color} strokeWidth={2.4} style={{ flexShrink: 0, marginTop: 2 }}>
                   <path d="M5 12.5 10 17l9-10" />
                 </svg>
               ) : (
-                <span style={{ width: 16, height: 16, borderRadius: "50%", border: "1.5px solid var(--rule)", flexShrink: 0 }} />
+                <span style={{ width: 16, height: 16, borderRadius: "50%", border: "1.5px solid var(--rule)", flexShrink: 0, marginTop: 2 }} />
               )}
-              <span className="font-display" style={{ fontSize: 15, lineHeight: 1.4, color: done ? "var(--ink-soft)" : "var(--ink-mute)" }}>
+              <span className="font-display min-w-0 flex-1" style={{ fontSize: 15, lineHeight: 1.4, color: done ? "var(--ink-soft)" : "var(--ink-mute)" }}>
                 {goal}
                 <Gloss>{t.goalsEn[i]}</Gloss>
               </span>
@@ -648,21 +648,24 @@ export default function CaminoPage() {
           </div>
         </div>
 
-        <div className="lg:sticky lg:top-24 lg:self-start">
-          <CurrentSeasonPanel
-            t={current}
-            dayLabel={dayLabel}
-            doneCount={doneCount}
-            weekNum={weekNum}
-            progressPct={progressPct}
-            streak={streak}
-            primedWeeks={primedWeeks}
-            daysDone={daysDone}
-          />
+        <div className="hidden lg:block lg:sticky lg:top-24 lg:self-start">
+          <div className="flex flex-col gap-5">
+            <CurrentSeasonPanel
+              t={current}
+              dayLabel={dayLabel}
+              doneCount={doneCount}
+              weekNum={weekNum}
+              progressPct={progressPct}
+              streak={streak}
+              primedWeeks={primedWeeks}
+              daysDone={daysDone}
+            />
+            <PracticeTodayLink />
+          </div>
         </div>
-
-        <PracticeTodayLink className="mt-8 lg:col-start-2 lg:mt-5" />
       </div>
+
+      <PracticeTodayLink className="mt-8 lg:hidden" />
     </div>
   );
 }

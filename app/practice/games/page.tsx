@@ -97,12 +97,12 @@ export default function GamesShelfPage() {
             <Gloss>The game room.</Gloss>
           </h1>
           <p className="text-display-italic text-[1.0625rem]" style={{ margin: "10px 0 0", maxWidth: "36ch" }}>
-            Cinco maneras de pensar en español sin darte cuenta.
-            <Gloss>Five ways to think in Spanish without noticing.</Gloss>
+            Cuatro maneras de pensar en español sin darte cuenta.
+            <Gloss>Four ways to think in Spanish without noticing.</Gloss>
           </p>
         </div>
 
-        {/* ===== Juego de hoy — the lead tile ===== */}
+        {/* ===== Para tu día — the lead tile ===== */}
         <Link
           href={today.href}
           className="flex items-center transition-colors active:bg-surface-sunk"
@@ -116,8 +116,8 @@ export default function GamesShelfPage() {
           }}
         >
           <span className="flex flex-col" style={{ flex: 1, minWidth: 0 }}>
-            <span className="mono-cap" style={{ color: "var(--accent)" }}>Juego de hoy</span>
-            <Gloss>Today&apos;s game</Gloss>
+            <span className="mono-cap" style={{ color: "var(--accent)" }}>Para tu día</span>
+            <Gloss>Suggested for your day</Gloss>
             <span className="font-display text-ink" style={{ fontWeight: 300, fontSize: 26, lineHeight: 1.15, marginTop: 8 }}>
               {today.label}
             </span>

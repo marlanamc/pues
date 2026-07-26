@@ -13,7 +13,7 @@ export default function MarcadoresPage() {
         <SettingsMenuButton />
       </header>
 
-      <MarcadoresGame onQuit={() => router.push("/practice")} />
+      <MarcadoresGame onQuit={() => router.push("/mas")} />
     </div>
   );
 }

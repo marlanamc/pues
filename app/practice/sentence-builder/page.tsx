@@ -67,10 +67,10 @@ export default function SentenceBuilderPage() {
     >
       <header className="flex items-center justify-between">
         <Link
-          href="/practice"
+          href="/mas"
           className="text-caption text-ink-mute transition-colors hover:text-accent min-h-[40px] inline-flex items-center"
         >
-          ← Práctica
+          ← Más
         </Link>
         <p className="text-caption text-ink-mute">{sentenceBuilderOverview.pill}</p>
         <SettingsMenuButton />

@@ -4,7 +4,13 @@ import Link from "next/link";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { Gloss } from "@/components/Gloss";
 import { PageHeader, Wordmark } from "@/components/PageHeader";
-import { speakDayForIndex, PROMPTS_PER_DAY } from "@/content/prompts";
+import { PlayButton } from "@/components/PlayButton";
+import { ClickablePrompt } from "@/components/ClickablePrompt";
+import {
+  speakDayForIndex,
+  PROMPTS_PER_DAY,
+  type SpeakPrompt,
+} from "@/content/prompts";
 import { TEMPORADAS } from "@/content/temporadas";
 import {
   currentWeek,
@@ -48,6 +54,7 @@ export default function HomePage() {
   const [now, setNow] = useState<Date | null>(null);
   const [sessionIndex, setSessionIndex] = useState(0);
   const [readingDone, setReadingDone] = useState(false);
+  const [showMoreExamples, setShowMoreExamples] = useState(false);
 
   useEffect(() => {
     setNow(new Date());
@@ -63,9 +70,6 @@ export default function HomePage() {
     return () => window.removeEventListener("pues:stats-change", sync);
   }, []);
 
-  // The week is the unit now: one unhurried session lights it, then its days
-  // are a queue pulled at whatever pace. `Semanas` counts weeks prepared —
-  // the ritual actually being built — where a day streak only counted pressure.
   const week = currentWeek(stats);
   const primed = isWeekPrimed(week, stats);
   const weekDone = useMemo(() => weekDaysDone(week, stats).length, [week, stats]);
@@ -79,19 +83,11 @@ export default function HomePage() {
   const mission = day.missionEs ?? day.line;
   const missionEn = day.missionEn;
 
-  // Season and in-season week come from the cursor, never from the wall calendar
-  // — same rule Camino follows, so the two screens can't disagree about which
-  // temporada you're in. `weekNum` here is the week *within* the season (1–13),
-  // which is what /semana labels; `week` above is the global key priming uses.
   const ctx = planContextFromDay(day.day);
   const season = SEASONS[ctx.seasonIdx];
   const temporada = TEMPORADAS[ctx.seasonIdx];
   const weekNum = ctx.weekNum;
 
-  // The unhurried hour only exists on a weekend. When there's one available and
-  // the week isn't lit yet, La semana leads and the day's sentence waits its
-  // turn — never gated, just quieter. `now` is null until the effect runs, so
-  // this is false through hydration and the server render can't disagree.
   const weekday = now?.getDay() ?? null;
   const weekendInvite = !primed && (weekday === 0 || weekday === 6);
   const weekendName = weekday === 0 ? "domingo" : "sábado";
@@ -105,6 +101,8 @@ export default function HomePage() {
         ? "Practice again"
         : "One more";
 
+  const examples = day.prompts.slice(0, showMoreExamples ? 5 : 3);
+
   return (
     <div className="hoy-stage fade-rise relative" style={{ paddingBottom: 96 }}>
       <PageHeader
@@ -117,12 +115,9 @@ export default function HomePage() {
       />
 
       <div className="page-column">
-        {/* ===== First viewport: brand + one sentence + CTA ===== */}
         <div className="hoy-hero">
           <div style={{ marginTop: 28 }}>
-            <h1 className="text-display-2xl text-ink hoy-brand">
-              Pues
-            </h1>
+            <h1 className="text-display-2xl text-ink hoy-brand">Pues</h1>
             <p
               className="font-display text-ink"
               style={{
@@ -147,10 +142,6 @@ export default function HomePage() {
                   : "One sentence in Spanish."}
             </Gloss>
 
-            {/* The weekly thread — an invitation when unprimed, never a gate.
-                On a weekend it becomes the lead action (the hour exists today);
-                the rest of the week it stays a quiet line and the day's sentence
-                leads. Either way /flow/speak is one tap from here. */}
             {weekendInvite ? (
               <>
                 <Link href="/semana" className="btn-primary hoy-cta" style={{ marginTop: 20 }}>
@@ -194,10 +185,12 @@ export default function HomePage() {
 
           <div className="hoy-mission">
             <span className="mono-cap flex items-center" style={{ gap: 7, color: "var(--accent)" }}>
-              <span aria-hidden style={{ display: "inline-flex" }}>{IconSun}</span>
-              Día {dayNum} · {day.themeEs}
+              <span aria-hidden style={{ display: "inline-flex" }}>
+                {IconSun}
+              </span>
+              Tu día · Día {dayNum} · {day.themeEs}
             </span>
-            <Gloss>{`Day ${dayNum} · ${day.themeEn}`}</Gloss>
+            <Gloss>{`Your day · Day ${dayNum} · ${day.themeEn}`}</Gloss>
 
             <h2 className="text-display-xl text-ink" style={{ margin: "14px 0 0" }}>
               {mission}
@@ -210,14 +203,11 @@ export default function HomePage() {
 
             {sessionIndex > 0 && sessionIndex < PROMPTS_PER_DAY && (
               <p className="mono-cap" style={{ margin: "14px 0 0", color: "var(--ink-mute)" }}>
-                {sessionIndex} hoy
-                <Gloss>{`${sessionIndex} today`}</Gloss>
+                {sessionIndex} de {PROMPTS_PER_DAY} frases · a tu ritmo
+                <Gloss>{`${sessionIndex} of ${PROMPTS_PER_DAY} sentences · at your pace`}</Gloss>
               </p>
             )}
 
-            {/* The accent is spent once per screen. On a weekend it belongs to
-                La semana above, so today's sentence keeps the quiet treatment —
-                still here, still one tap, just not the thing shouting. */}
             {weekendInvite ? (
               <Link
                 href="/flow/speak"
@@ -245,12 +235,33 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* ===== Below the fold — companions + path ===== */}
-        <details className="hoy-more">
+        <details className="hoy-more" id="ideas">
           <summary className="hoy-more-summary">
+            <span className="mono-cap">Ideas para empezar</span>
+            <Gloss>Ideas to get started</Gloss>
+          </summary>
+          <div style={{ marginTop: 12, display: "flex", flexDirection: "column", gap: 10 }}>
+            {examples.map((p) => (
+              <ExampleCard key={p.id} prompt={p} />
+            ))}
+            {!showMoreExamples && day.prompts.length > 3 && (
+              <button
+                type="button"
+                onClick={() => setShowMoreExamples(true)}
+                className="mono-cap transition-colors hover:text-accent"
+                style={{ alignSelf: "flex-start", color: "var(--accent)", padding: "6px 2px" }}
+              >
+                + Ver más ejemplos
+              </button>
+            )}
+          </div>
+        </details>
+
+        <section style={{ marginTop: 30 }}>
+          <span className="flex flex-col">
             <span className="mono-cap">También hoy</span>
             <Gloss>Also today</Gloss>
-          </summary>
+          </span>
           <div
             style={{
               display: "grid",
@@ -265,8 +276,8 @@ export default function HomePage() {
               iconBorder="var(--zone-lugares)"
               title="Formar la frase"
               titleEn="Sentence Former"
-              meta="5 frases · opcional"
-              metaEn="5 sentences · optional"
+              meta="5 frases"
+              metaEn="5 sentences"
             />
             <TodayExtraCard
               href="/read"
@@ -274,18 +285,30 @@ export default function HomePage() {
               iconBorder="var(--accent)"
               title="La lectura"
               titleEn="Reading"
-              meta={readingDone ? "Leído esta noche" : "Antes de dormir"}
-              metaEn={readingDone ? "Read tonight" : "Before bed"}
+              meta={readingDone ? "Leído esta noche" : "Esta noche"}
+              metaEn={readingDone ? "Read tonight" : "Tonight"}
               metaAccent={readingDone}
             />
           </div>
-        </details>
+          <div className="hidden lg:block" style={{ marginTop: 14 }}>
+            <Link href="/mas" className="mono-cap transition-colors hover:text-accent">
+              Juegos, lugares y más →
+            </Link>
+            <Gloss>Games, places, and more</Gloss>
+          </div>
+        </section>
 
         <SectionHead label="Tu progreso en el camino" labelEn="Your progress on the path" href="/camino" cta="Ver" />
         <Link
           href="/camino"
           className="flex items-center transition-colors active:bg-surface-sunk"
-          style={{ gap: 16, padding: "16px 18px", background: "var(--surface)", border: "1px solid var(--rule)", borderRadius: 16 }}
+          style={{
+            gap: 16,
+            padding: "16px 18px",
+            background: "var(--surface)",
+            border: "1px solid var(--rule)",
+            borderRadius: 16,
+          }}
         >
           <span
             className="flex flex-shrink-0 items-center justify-center font-display"
@@ -310,11 +333,46 @@ export default function HomePage() {
             </span>
             <Gloss>{`Week ${weekNum} of 13 · ${temporada.weeksEn[weekNum - 1]}`}</Gloss>
           </span>
-          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden {...ws} style={{ color: "var(--ink-mute)", flexShrink: 0 }}>
+          <svg
+            viewBox="0 0 24 24"
+            width="16"
+            height="16"
+            aria-hidden
+            {...ws}
+            style={{ color: "var(--ink-mute)", flexShrink: 0 }}
+          >
             <path d="M9 6l6 6-6 6" />
           </svg>
         </Link>
       </div>
+    </div>
+  );
+}
+
+function ExampleCard({ prompt }: { prompt: SpeakPrompt }) {
+  return (
+    <div
+      className="flex items-start"
+      style={{
+        gap: 12,
+        padding: "16px 16px",
+        background: "var(--surface)",
+        border: "1px solid var(--rule)",
+        borderRadius: 14,
+      }}
+    >
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <ClickablePrompt
+          text={prompt.english}
+          wordHints={prompt.wordHints}
+          className="font-display font-light text-[1.0625rem] leading-snug"
+          quotes={false}
+        />
+        <span className="mono-cap" style={{ fontSize: 9, marginTop: 6, display: "inline-block" }}>
+          toca o pasa el cursor por una palabra · ▶ en español
+        </span>
+      </div>
+      <PlayButton text={prompt.spanish} label={`Escuchar: ${prompt.spanish}`} />
     </div>
   );
 }
