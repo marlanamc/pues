@@ -116,7 +116,7 @@ export default function HomePage() {
         }
       />
 
-      <div style={{ maxWidth: 640, margin: "0 auto" }}>
+      <div className="page-column">
         {/* ===== First viewport: brand + one sentence + CTA ===== */}
         <div className="hoy-hero">
           <div style={{ marginTop: 28 }}>

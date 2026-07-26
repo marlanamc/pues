@@ -200,11 +200,36 @@ body {
 
 /* Comfortable reading — scales all rem-based typography. */
 html[data-text-size="comfortable"] {
-  font-size: 112.5%; /* 18px root */
+  font-size: 118.75%; /* 19px root */
 }
 
 html[data-text-size="large"] {
-  font-size: 125%; /* 20px root */
+  font-size: 131.25%; /* 21px root */
+}
+
+@media (min-width: 1024px) {
+  /* Desktop gets a touch more air by default; XL should feel clearly larger. */
+  html {
+    font-size: 106.25%; /* 17px */
+  }
+  html[data-text-size="comfortable"] {
+    font-size: 125%; /* 20px */
+  }
+  html[data-text-size="large"] {
+    font-size: 150%; /* 24px */
+  }
+}
+
+html[data-text-size="comfortable"] .mono-cap,
+html[data-text-size="comfortable"] .text-caption {
+  font-size: 0.8125rem;
+  letter-spacing: 0.1em;
+}
+
+html[data-text-size="large"] .mono-cap,
+html[data-text-size="large"] .text-caption {
+  font-size: 0.875rem;
+  letter-spacing: 0.09em;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -1327,6 +1352,192 @@ a {
   border-radius: 14px;
 }
 
+/* ===== Week plan — rem-based so text-size setting actually works ===== */
+.page-column {
+  max-width: 40rem;
+  margin-inline: auto;
+}
+
+@media (min-width: 1024px) {
+  .page-column {
+    max-width: 44rem;
+  }
+  html[data-text-size="large"] .page-column {
+    max-width: 48rem;
+  }
+}
+
+.gloss-line {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  font-style: italic;
+  color: var(--ink-mute);
+  margin-top: 0.2rem;
+  line-height: 1.4;
+}
+
+html[data-text-size="large"] .gloss-line {
+  font-size: 0.9375rem;
+}
+
+.stem-recall-card {
+  position: relative;
+  margin-top: 0.625rem;
+  padding: 1.75rem 1.25rem;
+  min-height: 12rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 16px;
+}
+
+.stem-recall-card__hint {
+  position: absolute;
+  top: 0.875rem;
+  left: 1rem;
+}
+
+.stem-recall-card__english {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  line-height: 1.35;
+  color: var(--ink-mute);
+  margin: 0;
+}
+
+.stem-recall-card__stem {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 4.5vw, 2.25rem);
+  font-weight: 300;
+  line-height: 1.2;
+  margin: 0.75rem 0 0;
+  color: var(--ink);
+}
+
+.stem-recall-done {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 300;
+  line-height: 1.25;
+  margin: 0;
+  color: var(--ink);
+}
+
+.stem-recall-intro-title {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  line-height: 1.3;
+  margin: 0;
+  color: var(--ink);
+}
+
+.stem-recall-body {
+  margin-top: 0.625rem;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--ink-mute);
+}
+
+.week-step__label {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+@media (min-width: 1024px) {
+  .stem-recall-card__english {
+    font-size: 1.375rem;
+  }
+  .week-step__label {
+    font-size: 1.25rem;
+  }
+}
+
+.week-day-title {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  line-height: 1.15;
+}
+
+.week-day-stems {
+  display: block;
+  margin-top: 0.125rem;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: var(--ink-mute);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.week-prompt-es {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  line-height: 1.3;
+  color: var(--ink);
+}
+
+.week-prompt-en {
+  display: block;
+  font-size: 0.875rem;
+  line-height: 1.35;
+  color: var(--ink-mute);
+  margin-top: 0.0625rem;
+}
+
+.week-stems-title {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.week-stems-stem {
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  line-height: 1.35;
+  flex-shrink: 0;
+  color: var(--ink);
+}
+
+.week-stems-gloss {
+  font-size: 0.875rem;
+  line-height: 1.35;
+  color: var(--ink-mute);
+  text-align: right;
+}
+
+.week-player-line {
+  font-size: 1rem;
+}
+
+.week-player-caption {
+  display: block;
+  margin-top: 0.125rem;
+  font-size: 0.875rem;
+  color: var(--ink-mute);
+}
+
+.week-player-error {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.8125rem;
+  color: var(--ink-mute);
+}
+
+.stem-recall-judge-label {
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+}
+
 /* ===== La semana — the hour, as numbered doors ===== */
 .week-step {
   border-top: 1px solid var(--rule);
@@ -1357,13 +1568,13 @@ a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 30px;
-  height: 30px;
+  width: 2rem;
+  height: 2rem;
   border-radius: 50%;
   border: 1px solid color-mix(in oklab, var(--zone) 45%, transparent);
   color: var(--zone);
   font-family: var(--font-mono);
-  font-size: 12.5px;
+  font-size: 0.8125rem;
 }
 .week-step__title {
   display: flex;

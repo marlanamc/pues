@@ -2,6 +2,7 @@ export type { VocabWord, DialogueLine, ReadingDay } from "./readings/types";
 import type { ReadingDay } from "./readings/types";
 import { veranoReadingDays } from "./readings/verano";
 import { otonoReadingDays } from "./readings/otono";
+import { inviernoReadingDays } from "./readings/invierno";
 
 /**
  * La Lectura barrel. Concatenates each season's day-aligned ReadingDay
@@ -9,7 +10,11 @@ import { otonoReadingDays } from "./readings/otono";
  * bedtime extra; from Otoño on, readings are the season's input backbone —
  * serialized weekly mini-stories coupled to that day's speak prompts.
  */
-export const readingDays: ReadingDay[] = [...veranoReadingDays, ...otonoReadingDays];
+export const readingDays: ReadingDay[] = [
+  ...veranoReadingDays,
+  ...otonoReadingDays,
+  ...inviernoReadingDays,
+];
 
 export function readingForIndex(i: number): ReadingDay {
   return readingDays[i % readingDays.length];

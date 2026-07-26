@@ -103,7 +103,7 @@ export default function SemanaPage() {
         }
       />
 
-      <div style={{ maxWidth: 640, margin: "0 auto", opacity: hydrated ? 1 : 0.6 }}>
+      <div className="page-column" style={{ opacity: hydrated ? 1 : 0.6 }}>
         {/* ===== The week itself ===== */}
         <div style={{ marginTop: 28 }}>
           <p className="mono-cap" style={{ color: "var(--zone)" }}>
@@ -384,9 +384,7 @@ function WeekStep({
           {n}
         </span>
         <span className="week-step__title">
-          <span className="font-display text-ink" style={{ fontSize: 17, lineHeight: 1.2 }}>
-            {label}
-          </span>
+          <span className="week-step__label">{label}</span>
           <Gloss>{labelEn}</Gloss>
         </span>
         {meta && <span className="mono-cap week-step__meta">{meta}</span>}

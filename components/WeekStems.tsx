@@ -80,9 +80,7 @@ export function WeekStems({ dayNums }: { dayNums: number[] }) {
         style={{ gap: 16, marginBottom: 14 }}
       >
         <span className="flex flex-col" style={{ minWidth: 0 }}>
-          <span className="font-display text-ink" style={{ fontSize: 17, lineHeight: 1.2 }}>
-            Los {uniqueCount} comienzos
-          </span>
+          <span className="week-stems-title">Los {uniqueCount} comienzos</span>
           <Gloss>{`The week's ${uniqueCount} stems — the part worth writing down`}</Gloss>
         </span>
         <button
@@ -122,12 +120,7 @@ export function WeekStems({ dayNums }: { dayNums: number[] }) {
                   opacity: r.firstSeenOn ? 0.5 : 1,
                 }}
               >
-                <span
-                  className="font-display text-ink"
-                  style={{ fontSize: 16, lineHeight: 1.35, flexShrink: 0 }}
-                >
-                  {r.stem}
-                </span>
+                <span className="week-stems-stem">{r.stem}</span>
                 <span
                   aria-hidden
                   style={{
@@ -137,14 +130,7 @@ export function WeekStems({ dayNums }: { dayNums: number[] }) {
                     transform: "translateY(-3px)",
                   }}
                 />
-                <span
-                  style={{
-                    fontSize: 13,
-                    lineHeight: 1.35,
-                    color: "var(--ink-mute)",
-                    textAlign: "right",
-                  }}
-                >
+                <span className="week-stems-gloss">
                   {r.english}
                   {r.firstSeenOn && (
                     <span className="mono-cap" style={{ marginLeft: 8 }}>

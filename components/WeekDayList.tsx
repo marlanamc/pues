@@ -162,28 +162,12 @@ export function WeekDayList({
               {dayBadge(status, dayNum)}
               <span style={{ flex: 1, minWidth: 0 }}>
                 <span
-                  className="font-display"
-                  style={{
-                    display: "block",
-                    fontSize: 17,
-                    lineHeight: 1.15,
-                    color: status === "open" ? "var(--ink-soft)" : "var(--ink)",
-                  }}
+                  className="week-day-title"
+                  style={{ color: status === "open" ? "var(--ink-soft)" : "var(--ink)" }}
                 >
                   {day.themeEs}
                 </span>
-                <span
-                  style={{
-                    display: "block",
-                    marginTop: 2,
-                    fontSize: 12.5,
-                    lineHeight: 1.4,
-                    color: "var(--ink-mute)",
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                  }}
-                >
+                <span className="week-day-stems">
                   {stems.join(" · ")}
                 </span>
               </span>
@@ -218,23 +202,8 @@ export function WeekDayList({
                         style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}
                       >
                         <span style={{ minWidth: 0 }}>
-                          <span
-                            className="font-display text-ink"
-                            style={{ display: "block", fontSize: 15, lineHeight: 1.3 }}
-                          >
-                            {p.spanish}
-                          </span>
-                          <span
-                            style={{
-                              display: "block",
-                              fontSize: 12.5,
-                              lineHeight: 1.35,
-                              color: "var(--ink-mute)",
-                              marginTop: 1,
-                            }}
-                          >
-                            {p.english}
-                          </span>
+                          <span className="week-prompt-es">{p.spanish}</span>
+                          <span className="week-prompt-en">{p.english}</span>
                         </span>
                         {showPlay && <PlayButton text={p.spanish} />}
                       </span>

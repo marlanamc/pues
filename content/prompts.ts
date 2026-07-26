@@ -2,6 +2,7 @@ export type { WordHint, SpeakPrompt, SpeakDay } from "./prompts/types";
 import type { SpeakDay, SpeakPrompt } from "./prompts/types";
 import { veranoSpeakDays } from "./prompts/verano";
 import { otonoSpeakDays } from "./prompts/otono";
+import { inviernoSpeakDays } from "./prompts/invierno";
 import { totalDays } from "./frames";
 
 /**
@@ -9,7 +10,11 @@ import { totalDays } from "./frames";
  * season's day-aligned SpeakDay arrays (see content/CURRICULUM.md
  * convention 7). Index-aligned with content/frames.ts.
  */
-export const speakDays: SpeakDay[] = [...veranoSpeakDays, ...otonoSpeakDays];
+export const speakDays: SpeakDay[] = [
+  ...veranoSpeakDays,
+  ...otonoSpeakDays,
+  ...inviernoSpeakDays,
+];
 
 /** Prompts per day (the daily session size). */
 export const PROMPTS_PER_DAY = 5;

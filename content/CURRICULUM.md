@@ -237,7 +237,7 @@ serialized mini-story (6 installments + repaso):
 | 12 | Mi semana de práctica | 169–175 |
 | 13 | Mi otoño en Pues | 176–182 |
 
-## Invierno, week by week (arcs)
+## Invierno, week by week (authored days 183–273)
 
 Spine: **natural, fast, real** — colloquial glue, the subjunctive as
 chunks (the way week 6 taught preterite/imperfect: as stems you complete,
@@ -246,27 +246,37 @@ natural* (weeks 1–4) → *subjunctive chunks* (weeks 5–8) → *real-time*
 (weeks 9–13). Invierno has 90 calendar days for 91 content days — fine;
 day advance is index-based and guilt-free.
 
-| Wk | Tema | Focus |
-|---|---|---|
-| 1 | Muletillas I | *pues* · *bueno* · *o sea* · *es que* · *a ver* — the app's namesake week |
-| 2 | Muletillas II | *fíjate que* · *la verdad es que* · *digo* · *¿me entiendes?* · *total, que* |
-| 2.5 | Estoy contigo | Listener signals & conversation rhythm: *ajá* · *claro* · *ya* · *exacto* · *entiendo* · *sí, sí* — sounding present while someone else talks |
-| 3 | Al teléfono | *¿Aló?* · *Le habla…* · *¿De parte de quién?* · *¿Me escuchas?* · *Se cortó* |
-| 4 | Notas de voz | Voice-message Spanish: *Te mando un audio porque…* · *Era para decirte que…* · *Avísame cuando puedas* |
-| 5 | Quiero que… | Subjunctive chunk 1 — wanting: *quiero que* · *necesito que* · *prefiero que* · *me gustaría que* |
-| 6 | Cuando llegues… | Subjunctive chunk 2 — future time: *cuando + subj* · *en cuanto* · *hasta que* · *antes de que* |
-| 7 | Ojalá | Subjunctive chunk 3 — wishes as set phrases: *ojalá* · *espero que* · *que te vaya bien* · *que descanses* |
-| 8 | Es mejor que… | Subjunctive chunk 4 — advice II: *es mejor que* · *es importante que* · *no hace falta que* · *te sugiero que* |
-| 9 | Interrumpir con gracia | *Perdona que te interrumpa* · *Espera, espera* · *Antes de que se me olvide* · *Una cosa…* |
-| 10 | El turno | Holding & passing the floor: *¿Y tú qué opinas?* · *Déjame terminar* · *A eso voy* · *Como te decía* |
-| 11 | Sin captar todo | Gist toolkit — extends (never repeats) day 16's clarification stems: *Más o menos entendí que…* · *Lo que sí entendí fue…* · *¿Dijiste que…?* |
-| 12 | A velocidad real | Linking & reductions in fast exchanges — ties to the existing `content/linking.ts` / pronunciation surfaces |
-| 13 | Capstone | Una charla de ida y vuelta — fillers, interruptions, repairs in one conversation; retrospective |
+Each week reuses one five-stem toolkit all week, with a serialized
+mini-story (6 installments + repaso), same as Otoño.
 
-**Boundary decision:** the "sin subtítulos" goal wants listen-first input.
-A cheap option that reuses the TTS pipeline: La Lectura days where the
-audio plays *before* the text reveals. Decide at the Invierno boundary,
-not before.
+| Wk | Tema · story | Days | Five stems |
+|---|---|---|---|
+| 1 | Muletillas I · El intercambio | 183–189 | *Pues* · *Bueno* · *O sea* · *Es que* · *A ver* — the app's namesake week |
+| 2 | Muletillas II · Las muletillas de Camila | 190–196 | *Fíjate que* · *La verdad es que* · *Digo* · *¿Me entiendes?* · *Total, que* |
+| 3 | Al teléfono · Sin cara, solo voz | 197–203 | *¿Aló?* · *Le habla…* · *¿De parte de quién?* · *¿Me escuchas?* · *Se cortó* — day 198 is deliberately usted |
+| 4 | Notas de voz · Un audio de dos minutos | 204–210 | *Te mando un audio porque…* · *Era para decirte que…* · *Te cuento rapidito* · *Avísame cuando puedas* · *Cualquier cosa, me escribes* |
+| 5 | Quiero que… · La noche de las familias | 211–217 | Subjunctive chunk 1, wanting: *quiero que* · *necesito que* · *prefiero que* · *me gustaría que* · *¿quieres que…?* |
+| 6 | Cuando llegues… · La tormenta | 218–224 | Subjunctive chunk 2, future time: *cuando* · *en cuanto* · *hasta que* · *antes de que* · *apenas* |
+| 7 | Ojalá · La abuela de Camila | 225–231 | Subjunctive chunk 3, wishes: *ojalá* · *espero que* · *que te vaya bien* · *que descanses* · *ojalá pudiera* |
+| 8 | Es mejor que… · La estudiante nueva | 232–238 | Subjunctive chunk 4, advice II: *es mejor que* · *es importante que* · *no hace falta que* · *te sugiero que* · *más vale que* |
+| 9 | Interrumpir · La junta del comité | 239–245 | *Perdona que te interrumpa* · *Espera, espera* · *Antes de que se me olvide* · *Una cosa…* · *Sí, sí, pero* |
+| 10 | El turno · La conversación de tres | 246–252 | *¿Y tú qué opinas?* · *Déjame terminar* · *A eso voy* · *Como te decía* · *Ajá, claro* |
+| 11 | Sin captar todo · Sin subtítulos | 253–259 | Gist toolkit — extends, never repeats, day 16's clarification stems: *Más o menos entendí que…* · *Lo que sí entendí fue…* · *¿Dijiste que…?* · *Se me escapó la parte de…* · *Por el contexto entiendo que…* |
+| 12 | A velocidad real · La panadería | 260–266 | Linking & reductions, applied to whole chunks (`content/linking.ts` teaches the mechanics): *¿Qué hubo?* → quiubo · *Voy a* · *Para que* → pa' que · *Está bien* → tá bien · *¿Y eso?* |
+| 13 | Ida y vuelta · El invierno entero | 267–273 | Capstone — one stem per movement of the season: *Pues* (wk 1) · *Quiero que* (wk 5) · *Perdona que te interrumpa* (wk 9) · *¿Y tú qué opinas?* (wk 10) · *Más o menos entendí que* (wk 11). Day 271 uses the day-42 variant: its five prompts are the beats of one conversation. |
+
+**Listener signals (the former "week 2.5").** An extra half-week was
+sketched here for *ajá · claro · ya · exacto · entiendo · sí, sí*. It was
+folded in rather than added: the season is 13 weeks / 91 days, which
+`app/camino/page.tsx` and `lib/planDay.ts` both hard-code. Day 195 gives
+it a story beat ("Escuchar en voz alta"), and week 10's fifth stem
+(*Ajá, claro…*) is the dedicated frame.
+
+**Boundary decision — resolved, deferred.** The "sin subtítulos" goal
+wanted listen-first La Lectura days (audio before the text reveals).
+Invierno was authored in the standard Otoño shape instead, so the
+decision now has 91 days of real content to be tried against rather than
+being made in the abstract. Revisit at the Primavera boundary.
 
 ## Primavera, week by week (arcs)
 
@@ -331,9 +341,12 @@ These should appear in the Camino experience, season retrospectives, and any fut
   each opening onto its days via `components/WeekDayList.tsx`, with the
   current week expanded by default. Sentence Former's own day selector is
   the remaining instance of this pattern.
-- One flag still open: the `category` enum
+- ~~One flag still open: the `category` enum
   (`food/time/activity/opinion/other`) may need widening for later weeks
-  (feelings, problems) — or just default to `other`.
+  (feelings, problems) — or just default to `other`.~~ **Resolved** in
+  Invierno: the enum stays as-is, and the season's conversational and
+  subjunctive completions use `"other"` wherever none of the narrower
+  buckets fit. No type change was needed across 91 days.
 
 ### La Lectura (`content/readings.ts`)
 
@@ -341,8 +354,12 @@ These should appear in the Camino experience, season retrospectives, and any fut
   bedtime extra; themes match `speakDays[i].themeEs` at each index.
 - **Otoño: daily and load-bearing** — the serialized weekly mini-stories
   described above, coupled to the day's prompts.
-- **Invierno: possible listen-first variant** (audio before text) —
-  boundary decision.
+- **Invierno: daily and load-bearing**, same shape as Otoño — thirteen
+  self-contained weekly mini-stories with a new cast (Camila, a Colombian
+  nurse working nights in Boston; Rocío, a Guatemalan colleague two
+  classrooms away; Yesenia, a new adult student), unconnected to Otoño's
+  "Naty se muda". The listen-first variant was deferred, not dropped —
+  see the Invierno section above.
 
 ---
 
@@ -384,6 +401,26 @@ These should appear in the Camino experience, season retrospectives, and any fut
    `content/<name>/invierno.ts` + barrel import at the next boundary.
 8. **No duplicate sentences.** Before finishing a week, scan for `examples`
    or `spanish` strings that already exist on earlier days.
+9. **Contemporary Latin American register.** A hard requirement on every
+   Spanish string, not a review afterthought — the content should sound
+   like someone talking now, not like a textbook from twenty years ago.
+   - **Use** the texture of how people actually talk: *te mando un audio*,
+     *te paso el link*, *te comparto*, *una videollamada*, *el chat*,
+     *quedó en visto*, *se cortó la llamada*, *te marco*, *ponme en
+     altavoz*, *el buzón de voz*, *una barra de señal*.
+   - **Avoid (Spain-coded):** *vosotros*, *vale* as an interjection,
+     *guay*, *móvil*, *ordenador*, *coger* (use *tomar* / *agarrar*),
+     *¿Diga?* on the phone, *tío/tía* as address.
+   - **Avoid (dated / textbook-only):** canned exchanges no adult says
+     (*"Muy bien, gracias, ¿y usted?"* as a unit), operator-era phone
+     Spanish (switchboards, *contestador*, *centralita*), and
+     *fax / mensaje de texto* where *audio / chat / link* is what's real.
+   - **Regionalisms are fine only when a `note` flags them as such.**
+     Invierno day 258 uses *chévere* deliberately — Camila is Colombian,
+     and both the frame note and the dialogue name it as a
+     Colombia/Caribbean word. Guessing it from context is the lesson.
+   - Weeks about phones and messaging are the highest-risk: ground them in
+     cell phones and voice notes, never landlines.
 
 ## Authoring checklist (per week)
 

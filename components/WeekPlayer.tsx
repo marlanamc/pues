@@ -146,11 +146,10 @@ export function WeekPlayer({ lines }: { lines: WeekPlayerLine[] }) {
           {playing ? `${i + 1} de ${lines.length}` : `${lines.length} frases · sin manos`}
         </span>
         <span
-          className="font-display text-ink"
+          className="font-display text-ink week-player-line"
           style={{
             display: "block",
             marginTop: 4,
-            fontSize: 15,
             lineHeight: 1.3,
             overflow: "hidden",
             textOverflow: "ellipsis",
@@ -159,18 +158,11 @@ export function WeekPlayer({ lines }: { lines: WeekPlayerLine[] }) {
         >
           {playing ? current.text : "Escuchar la semana entera"}
         </span>
-        <span
-          style={{
-            display: "block",
-            marginTop: 2,
-            fontSize: 12.5,
-            color: "var(--ink-mute)",
-          }}
-        >
+        <span className="week-player-caption">
           {playing ? current.caption : "Ponla mientras haces otra cosa."}
         </span>
         {error && (
-          <span style={{ display: "block", marginTop: 4, fontSize: 12, color: "var(--ink-mute)" }}>
+          <span className="week-player-error">
             Alguna frase no cargó — sigue igual.
           </span>
         )}

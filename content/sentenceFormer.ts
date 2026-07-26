@@ -8,6 +8,7 @@ export type {
 import type { SentenceFormerDay } from "./sentenceFormer/types";
 import { veranoSentenceFormerDays } from "./sentenceFormer/verano";
 import { otonoSentenceFormerDays } from "./sentenceFormer/otono";
+import { inviernoSentenceFormerDays } from "./sentenceFormer/invierno";
 
 /**
  * Sentence Former — quick-fire completion drill banks, barrel. Concatenates
@@ -17,6 +18,7 @@ import { otonoSentenceFormerDays } from "./sentenceFormer/otono";
 export const sentenceFormerDays: SentenceFormerDay[] = [
   ...veranoSentenceFormerDays,
   ...otonoSentenceFormerDays,
+  ...inviernoSentenceFormerDays,
 ];
 
 export function sentenceFormerDayByNumber(day: number): SentenceFormerDay | undefined {

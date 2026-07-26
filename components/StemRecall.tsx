@@ -276,51 +276,18 @@ export function StemRecall({ dayNums }: { dayNums: number[] }) {
           {pos + 1} de {queue.length}
         </p>
 
-        <div
-          style={{
-            position: "relative",
-            marginTop: 10,
-            padding: "28px 20px",
-            minHeight: 188,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            textAlign: "center",
-            background: "var(--surface)",
-            border: "1px solid var(--rule)",
-            borderRadius: 16,
-          }}
-        >
+        <div className="stem-recall-card">
           {!revealed && (
-            <span
-              className="mono-cap"
-              style={{
-                position: "absolute",
-                top: 14,
-                left: 16,
-                color: "var(--ink-mute)",
-              }}
-            >
+            <span className="mono-cap stem-recall-card__hint">
               Dilo en voz alta{handsFree ? "…" : "."}
             </span>
           )}
 
-          <p
-            className="font-display"
-            style={{ fontSize: 15, color: "var(--ink-mute)", margin: 0, lineHeight: 1.3 }}
-          >
-            {card.english}
-          </p>
+          <p className="stem-recall-card__english">{card.english}</p>
 
           {revealed ? (
             <>
-              <p
-                className="font-display text-ink"
-                style={{ fontSize: 26, fontWeight: 300, margin: "12px 0 0", lineHeight: 1.2 }}
-              >
-                {card.stem}
-              </p>
+              <p className="stem-recall-card__stem">{card.stem}</p>
               {!handsFree && (
                 <div style={{ display: "flex", gap: 10, marginTop: 22, flexWrap: "wrap", justifyContent: "center" }}>
                   <Judge label="Llegó" en="It arrived" tone="zone" onClick={() => judge(true)} />
@@ -361,11 +328,9 @@ export function StemRecall({ dayNums }: { dayNums: number[] }) {
   if (sessionHandsFree) {
     return (
       <div>
-        <p className="font-display text-ink" style={{ fontSize: 22, fontWeight: 300, margin: 0, lineHeight: 1.25 }}>
-          Hecho. {total} comienzos.
-        </p>
+        <p className="stem-recall-done">Hecho. {total} comienzos.</p>
         <Gloss>{`Done. ${total} stems.`}</Gloss>
-        <p style={{ marginTop: 10, fontSize: 14, lineHeight: 1.5, color: "var(--ink-mute)" }}>
+        <p className="stem-recall-body">
           Sin marcar — para eso, la vuelta a mano.
         </p>
         <Gloss>To flag what didn&apos;t arrive, run it by hand.</Gloss>
@@ -392,18 +357,16 @@ export function StemRecall({ dayNums }: { dayNums: number[] }) {
   const arrived = total - missed.length;
   return (
     <div>
-      <p className="font-display text-ink" style={{ fontSize: 22, fontWeight: 300, margin: 0, lineHeight: 1.25 }}>
-        {arrived} de {total} llegaron.
-      </p>
+      <p className="stem-recall-done">{arrived} de {total} llegaron.</p>
       <Gloss>{`${arrived} of ${total} arrived on their own`}</Gloss>
 
       {missed.length === 0 ? (
-        <p style={{ marginTop: 10, fontSize: 14, lineHeight: 1.5, color: "var(--ink-mute)" }}>
+        <p className="stem-recall-body">
           Nada que marcar. La semana ya está en la punta de la lengua.
         </p>
       ) : (
         <>
-          <p style={{ marginTop: 10, fontSize: 14, lineHeight: 1.5, color: "var(--ink-mute)" }}>
+          <p className="stem-recall-body">
             Estos son los de esta semana. Márcalos en tu cuaderno.
           </p>
           <StemList cards={missed} />
@@ -435,11 +398,11 @@ export function StemRecall({ dayNums }: { dayNums: number[] }) {
 function Intro({ count }: { count: number }) {
   return (
     <>
-      <p className="font-display text-ink" style={{ fontSize: 17, margin: 0, lineHeight: 1.3 }}>
+      <p className="stem-recall-intro-title">
         Del inglés al español, en voz alta, sin mirar.
       </p>
       <Gloss>From English to Spanish, out loud, without looking</Gloss>
-      <p style={{ marginTop: 8, fontSize: 13.5, lineHeight: 1.5, color: "var(--ink-mute)" }}>
+      <p className="stem-recall-body">
         Los {count} comienzos en orden aleatorio. Si tuviste que armarlo, no
         llegó — y eso es justo lo que quieres saber. O ponla sin manos: la
         respuesta y el audio, y sigue sola.
@@ -481,9 +444,7 @@ function Judge({
         cursor: "pointer",
       }}
     >
-      <span className="font-display" style={{ fontSize: 15 }}>
-        {label}
-      </span>
+      <span className="stem-recall-judge-label">{label}</span>
       <Gloss>{en}</Gloss>
     </button>
   );
@@ -503,10 +464,10 @@ function StemList({ cards }: { cards: Card[] }) {
             borderTop: "1px solid var(--rule)",
           }}
         >
-          <span className="font-display text-ink" style={{ fontSize: 15.5, flex: 1, minWidth: 0 }}>
+          <span className="week-stems-stem" style={{ flex: 1, minWidth: 0 }}>
             {c.stem}
           </span>
-          <span style={{ fontSize: 12.5, color: "var(--ink-mute)", textAlign: "right" }}>
+          <span className="week-stems-gloss">
             {c.english}
           </span>
         </li>
