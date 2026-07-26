@@ -465,11 +465,25 @@ export function advanceSession(perDay: number): number {
   return index;
 }
 
-/* ---------- Practice list ("Quiero practicarla" resurfacing) ---------- */
+/* ---------- Practice list ("Quiero practicarla" + "no llegó" resurfacing) ---------- */
+// Two things write here: the reflection step after a spoken sentence, and the
+// Sin mirar stem drill. Both mean the same thing — this one still needs work —
+// so they share a list, keyed by prompt id (stems map 1:1 onto the day's
+// prompts, enforced by content/content.test.ts).
 
 export function flagForPractice(promptId: string): void {
   const list = read<string[]>(K_PRACTICE, []);
   if (!list.includes(promptId)) write(K_PRACTICE, [...list, promptId]);
+}
+
+/** Clear one flag — the stem arrived this time, so stop resurfacing it. */
+export function unflagForPractice(promptId: string): void {
+  const list = read<string[]>(K_PRACTICE, []);
+  if (!list.includes(promptId)) return;
+  write(
+    K_PRACTICE,
+    list.filter((id) => id !== promptId),
+  );
 }
 
 export function listPracticeFlags(): string[] {

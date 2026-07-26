@@ -15,6 +15,8 @@ import {
   getReadingLog,
   listSentenceFormerEntries,
   listPracticeFlags,
+  flagForPractice,
+  unflagForPractice,
   primeWeek,
   currentWeek,
   isWeekPrimed,
@@ -353,5 +355,34 @@ describe("sentence-builder unlock", () => {
     // best should remain 5 — tolerate either property name in the stored result.
     const stored = JSON.parse(localStorage.getItem("pues:sb-progress") ?? "{}");
     expect(stored.L1.bestSolved).toBe(5);
+  });
+});
+
+describe("practice flags", () => {
+  beforeEach(() => localStorage.clear());
+
+  it("flags once and is idempotent", () => {
+    flagForPractice("d1-quiero");
+    flagForPractice("d1-quiero");
+    expect(listPracticeFlags()).toEqual(["d1-quiero"]);
+  });
+
+  it("unflags one id and leaves the rest", () => {
+    flagForPractice("d1-quiero");
+    flagForPractice("d1-necesito");
+    unflagForPractice("d1-quiero");
+    expect(listPracticeFlags()).toEqual(["d1-necesito"]);
+  });
+
+  it("unflagging something not flagged is a no-op", () => {
+    flagForPractice("d1-quiero");
+    unflagForPractice("d2-tengo");
+    expect(listPracticeFlags()).toEqual(["d1-quiero"]);
+  });
+
+  it("can empty the list completely", () => {
+    flagForPractice("d1-quiero");
+    unflagForPractice("d1-quiero");
+    expect(listPracticeFlags()).toEqual([]);
   });
 });

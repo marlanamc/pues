@@ -16,6 +16,8 @@ Pues is a personal Spanish-practice notebook — a PWA that walks the owner thro
 
 One surface sits above the day: **La semana**, the weekend momentum session. It is orientation and warm-up only — never homework, never a second chore that itself needs starting. Preparing a week is always an invitation and never a gate: every daily surface works identically whether or not the week was prepared.
 
+Within it, one pass is diagnostic rather than orienting. **Sin mirar** runs the week's stems backwards — English gloss first, say the Spanish out loud, then reveal and judge whether it *arrived* or you assembled it. This exists because recognition and production are different skills, and only the second one fails in conversation: knowing every stem on sight says nothing about whether it comes when you need it. Its output is a list of stems, never a score. Misses join the same practice list the "Quiero practicarla" reflection writes to, and resurface there until they arrive.
+
 Success looks like: the owner prepares most weeks, opens the app most days, says one sentence in Spanish without friction (recording optional), can browse what they've said before, and feels like they're sharpening — not grinding. One sentence is enough; more is welcome. The interface disappears in favor of the speaking.
 
 ## Brand Personality

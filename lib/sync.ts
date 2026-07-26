@@ -515,11 +515,34 @@ async function pullPractice(supabase: Supabase) {
 async function pushPractice(supabase: Supabase) {
   if (!userId) return;
   const local = readLocal<string[]>(K.practice, []);
-  if (local.length === 0) return;
-  const rows = local.map((prompt_id) => ({ user_id: userId!, prompt_id }));
-  const { error } = await supabase.from("practice_flags").upsert(rows, {
-    onConflict: "user_id,prompt_id",
-  });
+
+  if (local.length > 0) {
+    const rows = local.map((prompt_id) => ({ user_id: userId!, prompt_id }));
+    const { error } = await supabase.from("practice_flags").upsert(rows, {
+      onConflict: "user_id,prompt_id",
+    });
+    if (error) throw error;
+  }
+
+  // Clearing a flag has to reach the cloud, or `pullPractice`'s union would
+  // resurrect it on the next focus and "llegó" would never stick. So local wins
+  // on removal: delete any remote row this device no longer holds.
+  //
+  // The tradeoff is deliberate — a flag raised on another device and not yet
+  // pulled here can be deleted by this push. Pushes run after a pull
+  // (`pullThenFlush`) and are debounced, so the window is small, and an
+  // unflag is an explicit act that should beat a stale union.
+  const { data } = await supabase.from("practice_flags").select("prompt_id");
+  if (!data) return;
+  const stale = (data as { prompt_id: string }[])
+    .map((r) => r.prompt_id)
+    .filter((id) => !local.includes(id));
+  if (stale.length === 0) return;
+  const { error } = await supabase
+    .from("practice_flags")
+    .delete()
+    .eq("user_id", userId)
+    .in("prompt_id", stale);
   if (error) throw error;
 }
 
