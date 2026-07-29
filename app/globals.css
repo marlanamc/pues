@@ -39,6 +39,14 @@
    also carry a `.light` class so legacy `.light`-scoped rules keep working.
    Zone hues + La Línea tense colors stay constant *per mode* (one dark set,
    one deeper light set) so every theme reads as the same product.
+
+   CONTRAST CONTRACT — a new palette is not done until it passes.
+   `ink-mute` carries .mono-cap, hints, input placeholders and week-step meta:
+   small text, so it needs 4.5:1 (WCAG AA), not 3:1. Check it against the
+   *lightest* plane in a dark palette (surface-2) and the *darkest* plane in a
+   light one (bg) — those are the worst cases, and bg alone will pass while a
+   label on a card still fails. Keep ink > ink-soft > ink-mute monotonic in
+   OKLCH L with ≥0.06 between steps, or the ramp stops reading as a hierarchy.
    ============================================ */
 
 /* Shared — dark palettes (and the bare :root default before hydration). */
@@ -53,6 +61,13 @@
   --present: oklch(0.74 0.095 158);
   --future: oklch(0.73 0.085 245);
   --correct: oklch(0.68 0.14 145);
+  /* El Camino's four temporada accents — theme-aware (dark set). Invierno and
+     Primavera are lightened from their "natural" hue-driven values because
+     the raw hues fall under 4.5:1 against surface-2 in this palette family. */
+  --season-verano: oklch(0.77 0.105 66);
+  --season-otono: oklch(0.7 0.12 48);
+  --season-invierno: oklch(0.645 0.125 28);
+  --season-primavera: oklch(0.645 0.105 12);
   --grain-opacity: 0.35;
   --grain-blend: screen;
   color-scheme: dark;
@@ -71,6 +86,12 @@
   --present: oklch(0.50 0.11 158);
   --future: oklch(0.50 0.10 252);
   --correct: oklch(0.44 0.14 145);
+  /* El Camino's four temporada accents — theme-aware (light set). Same hues
+     as the dark set, darkened until each clears 4.5:1 on bone/fog paper. */
+  --season-verano: oklch(0.525 0.105 66);
+  --season-otono: oklch(0.53 0.12 48);
+  --season-invierno: oklch(0.53 0.125 28);
+  --season-primavera: oklch(0.53 0.105 12);
   --grain-opacity: 0.5;
   --grain-blend: multiply;
   color-scheme: light;
@@ -109,7 +130,7 @@
   --surface-2: #2c251c;
   --ink: #efe5d2;
   --ink-soft: #b4a98f;
-  --ink-mute: #7d7259;
+  --ink-mute: #988d73;
   --rule: #3a3127;
   --accent: #dd6a43;
 }
@@ -121,7 +142,7 @@
   --surface-2: #222b2e;
   --ink: #e8efee;
   --ink-soft: #9fb1b0;
-  --ink-mute: #6d7d7c;
+  --ink-mute: #849593;
   --rule: #2c3739;
   --accent: #4cb6a4;
 }
@@ -133,7 +154,7 @@
   --surface-2: #2b212b;
   --ink: #f0e6ec;
   --ink-soft: #bba3b4;
-  --ink-mute: #7d6c78;
+  --ink-mute: #998793;
   --rule: #392f38;
   --accent: #d77a9a;
 }
@@ -145,7 +166,7 @@
   --surface-2: #232b1b;
   --ink: #ebefdf;
   --ink-soft: #aeb795;
-  --ink-mute: #777f63;
+  --ink-mute: #8b9477;
   --rule: #333a28;
   --accent: #9bb24a;
 }
@@ -157,7 +178,7 @@
   --surface-2: #232639;
   --ink: #e7e8f2;
   --ink-soft: #a3a7c2;
-  --ink-mute: #6d7192;
+  --ink-mute: #898daf;
   --rule: #2f3247;
   --accent: #8a9cf0;
 }
@@ -169,9 +190,9 @@
   --surface-2: #f6ecd8;
   --ink: #28231b;
   --ink-soft: #5b5343;
-  --ink-mute: #978a73;
+  --ink-mute: #726550;
   --rule: #ddccae;
-  --accent: #bb4a2a;
+  --accent: #af4527;
 }
 
 /* ---- Niebla — sea green on cool fog (light) ---- */
@@ -180,10 +201,10 @@
   --surface: #f4f8f7;
   --surface-2: #eef3f2;
   --ink: #1c2625;
-  --ink-soft: #4f5f5d;
-  --ink-mute: #899794;
+  --ink-soft: #425250;
+  --ink-mute: #5f6c6a;
   --rule: #cdd9d7;
-  --accent: #2f8f7f;
+  --accent: #267568;
 }
 
 html,
@@ -272,19 +293,21 @@ body > main {
 .text-display-2xl {
   font-family: var(--font-display);
   font-weight: 300;
-  font-size: 2.875rem; /* 46px */
+  font-size: clamp(2.25rem, 9vw, 2.875rem); /* 36px → 46px */
   line-height: 1;
   letter-spacing: -0.02em;
   font-optical-sizing: auto;
+  text-wrap: balance;
 }
 
 .text-display-xl {
   font-family: var(--font-display);
-  font-weight: 300;
-  font-size: 1.875rem; /* 30px */
-  line-height: 1.1;
-  letter-spacing: -0.015em;
+  font-weight: 400;
+  font-size: clamp(1.875rem, 6vw, 2.25rem); /* 30px → 36px */
+  line-height: 1.08;
+  letter-spacing: -0.02em;
   font-optical-sizing: auto;
+  text-wrap: balance;
 }
 
 /* Lead-ins, wordmark, reflection question */
@@ -1014,9 +1037,11 @@ textarea {
   box-shadow: inset 0 1px 3px color-mix(in oklab, var(--ink) 6%, transparent);
 }
 
+/* No opacity here. `ink-mute` is tuned to clear 4.5:1 on the input ground in
+   every palette; fading it 15% puts a placeholder straight back under AA. */
 .questionnaire-input::placeholder {
   color: var(--ink-mute);
-  opacity: 0.85;
+  opacity: 1;
 }
 
 .questionnaire-input:hover {
@@ -1300,13 +1325,35 @@ a {
 }
 .hoy-mission {
   margin-top: 28px;
-  padding: 22px 20px;
-  background: color-mix(in oklab, var(--accent) 6%, var(--surface));
-  border: 1px solid color-mix(in oklab, var(--accent) 22%, var(--rule));
+  padding: 24px 22px;
+  background: color-mix(in oklab, var(--accent) 9%, var(--surface));
+  border: 1px solid color-mix(in oklab, var(--accent) 32%, var(--rule));
   border-radius: 14px;
 }
+
+/* The day's CTA is the single boldest control on Hoy — heavier label, firmer
+   press feedback, sized up from the shared .btn-primary .lab default. */
+.hoy-cta {
+  padding: 18px 20px;
+  transition:
+    background 120ms,
+    transform 120ms;
+}
+.hoy-cta .lab {
+  font-weight: 500;
+  font-size: 1.3125rem; /* 21px, up from the shared 19px */
+  letter-spacing: -0.01em;
+}
+.hoy-cta:active {
+  transform: scale(0.98);
+}
+@media (prefers-reduced-motion: reduce) {
+  .hoy-cta:active {
+    transform: none;
+  }
+}
 .hoy-more {
-  margin-top: 36px;
+  margin-top: 44px;
 }
 .hoy-more-summary {
   list-style: none;

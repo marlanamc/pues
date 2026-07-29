@@ -86,10 +86,10 @@ function SeasonHighlightCard({ t, dayLabel }: { t: Temporada; dayLabel: string }
         Estás aquí · Día {dayLabel}
         <Gloss>{`You are here · Day ${dayLabel}`}</Gloss>
       </span>
-      <h3 className="font-display text-ink" style={{ fontWeight: 300, fontSize: 26, lineHeight: 1.12, margin: "8px 0 4px" }}>
+      <h2 className="font-display text-ink" style={{ fontWeight: 300, fontSize: 26, lineHeight: 1.12, margin: "8px 0 4px" }}>
         T{t.index} — {t.title}
         <Gloss>{t.titleEn}</Gloss>
-      </h3>
+      </h2>
       <span className="mono-cap" style={{ color: t.color }}>
         {t.range}
         <Gloss>{t.rangeEn}</Gloss>
@@ -248,7 +248,7 @@ function UpcomingSeasonPreview({ t }: { t: Temporada }) {
     >
       <summary
         className="mono-cap flex cursor-pointer list-none items-center justify-between gap-3 transition-colors hover:text-accent [&::-webkit-details-marker]:hidden"
-        style={{ padding: "9px 12px", color: "var(--ink-soft)" }}
+        style={{ padding: "9px 12px", minHeight: 44, color: "var(--ink-soft)" }}
       >
         <span className="flex flex-col">
           <span>Ver qué incluye</span>
@@ -334,9 +334,9 @@ function UpcomingSeasonPreview({ t }: { t: Temporada }) {
   );
 }
 
-function PracticeTodayLink({ className }: { className?: string }) {
+function PracticeTodayLink() {
   return (
-    <Link href="/flow/speak" className={className ? `btn-primary ${className}` : "btn-primary"}>
+    <Link href="/flow/speak" className="btn-primary">
       <span className="lab">Practicar lo de hoy</span>
       <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden {...ws}>
         <path d="M5 12h14M13 6l6 6-6 6" />
@@ -664,8 +664,6 @@ export default function CaminoPage() {
           </div>
         </div>
       </div>
-
-      <PracticeTodayLink className="mt-8 lg:hidden" />
     </div>
   );
 }

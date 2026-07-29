@@ -1,7 +1,9 @@
 /**
- * The four-season journey ("El Camino"). Seasons are calendar-based and their
- * accent colors are fixed (theme-independent) so every palette reads as the
- * same product — see design_handoff_pues/README.md §"Seasonal accent colors".
+ * The four-season journey ("El Camino"). Seasons are calendar-based; each
+ * accent is the same hue across every palette so the journey reads as one
+ * product, but the lightness switches dark-set/light-set via the
+ * --season-* custom properties in globals.css (same pattern as --zone-*) so
+ * every temporada clears 4.5:1 in both the five dark palettes and Papel/Niebla.
  */
 
 export type Season = {
@@ -9,17 +11,17 @@ export type Season = {
   index: 1 | 2 | 3 | 4;
   key: "verano" | "otono" | "invierno" | "primavera";
   label: string;
-  /** Fixed seasonal accent (do NOT tokenize). */
+  /** Theme-aware seasonal accent — resolves via --season-* in globals.css. */
   color: string;
   /** Month range label, e.g. "Jul – Sep". */
   range: string;
 };
 
 export const SEASONS: Season[] = [
-  { index: 1, key: "verano", label: "Verano", color: "oklch(0.77 0.105 66)", range: "Jul – Sep" },
-  { index: 2, key: "otono", label: "Otoño", color: "oklch(0.70 0.12 48)", range: "Oct – Dic" },
-  { index: 3, key: "invierno", label: "Invierno", color: "oklch(0.62 0.125 28)", range: "Ene – Mar" },
-  { index: 4, key: "primavera", label: "Primavera", color: "oklch(0.55 0.105 12)", range: "Abr – Jun" },
+  { index: 1, key: "verano", label: "Verano", color: "var(--season-verano)", range: "Jul – Sep" },
+  { index: 2, key: "otono", label: "Otoño", color: "var(--season-otono)", range: "Oct – Dic" },
+  { index: 3, key: "invierno", label: "Invierno", color: "var(--season-invierno)", range: "Ene – Mar" },
+  { index: 4, key: "primavera", label: "Primavera", color: "var(--season-primavera)", range: "Abr – Jun" },
 ];
 
 /** Which temporada a calendar date falls in. */

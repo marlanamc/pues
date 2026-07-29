@@ -179,6 +179,7 @@ export default function HomePage() {
                     alignItems: "center",
                     gap: 7,
                     marginTop: 14,
+                    minHeight: 44,
                     color: "var(--ink-soft)",
                   }}
                 >
@@ -285,8 +286,13 @@ export default function HomePage() {
               <button
                 type="button"
                 onClick={() => setShowMoreExamples(true)}
-                className="mono-cap transition-colors hover:text-accent"
-                style={{ alignSelf: "flex-start", color: "var(--accent)", padding: "6px 2px" }}
+                className="mono-cap inline-flex items-center transition-colors hover:text-accent"
+                style={{
+                  alignSelf: "flex-start",
+                  color: "var(--accent)",
+                  minHeight: 44,
+                  padding: "6px 2px",
+                }}
               >
                 + Ver más ejemplos
               </button>
@@ -294,7 +300,7 @@ export default function HomePage() {
           </div>
         </details>
 
-        <section style={{ marginTop: 30 }}>
+        <section style={{ marginTop: 40 }}>
           <span className="flex flex-col">
             <span className="mono-cap">También hoy</span>
             <Gloss>Also today</Gloss>
