@@ -85,8 +85,8 @@ export default function CuadernoPage() {
         {/* ===== MAIN — everything you said ===== */}
         <div style={{ marginTop: 22 }}>
           <p className="mono-cap">
-            Tu cuaderno · {saidLabel} frases
-            <Gloss>{`Your notebook · ${saidLabel} sentences`}</Gloss>
+            Tu cuaderno
+            <Gloss>{"Your notebook"}</Gloss>
           </p>
           <h1 className="text-display-2xl text-ink" style={{ marginTop: 8 }}>
             Todo lo que dijiste.

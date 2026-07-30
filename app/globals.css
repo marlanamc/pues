@@ -1316,13 +1316,6 @@ a {
   z-index: -1;
   border-radius: 0 0 40% 40%;
 }
-.hoy-brand {
-  font-size: clamp(2.75rem, 10vw, 3.75rem);
-  font-weight: 300;
-  letter-spacing: -0.02em;
-  line-height: 1;
-  text-wrap: balance;
-}
 .hoy-mission {
   margin-top: 28px;
   padding: 24px 22px;

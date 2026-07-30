@@ -132,23 +132,13 @@ export default function HomePage() {
       <div className="page-column">
         <div className="hoy-hero">
           <div style={{ marginTop: 28 }}>
-            <h1 className="text-display-2xl text-ink hoy-brand">Pues</h1>
-            <p
-              className="font-display text-ink"
-              style={{
-                marginTop: 10,
-                fontSize: "clamp(1.25rem, 4vw, 1.5rem)",
-                fontWeight: 300,
-                lineHeight: 1.25,
-                letterSpacing: "-0.01em",
-              }}
-            >
+            <h1 className="text-display-2xl text-ink">
               {weekendInvite
                 ? `Es ${weekendName}. Enciende la semana.`
                 : primed
                   ? "Ya está lista la semana."
                   : "Una frase en español."}
-            </p>
+            </h1>
             <Gloss>
               {weekendInvite
                 ? `It's ${weekday === 0 ? "Sunday" : "Saturday"}. Light the week.`
