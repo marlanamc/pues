@@ -5,6 +5,7 @@ import { otonoSpeakDays } from "./prompts/otono";
 import { inviernoSpeakDays } from "./prompts/invierno";
 import { primaveraSpeakDays } from "./prompts/primavera";
 import { totalDays } from "./frames";
+import { shuffleWithSeed } from "./serEstar";
 
 /**
  * Pues — Speak-First prompts barrel ("El Cuaderno"). Concatenates each
@@ -61,6 +62,45 @@ export function promptForSession(
 ): SpeakPrompt {
   const day = speakDayForIndex(currentDayIndex);
   return day.prompts[sessionIndex % day.prompts.length];
+}
+
+export type QuizQuestion = {
+  promptId: string;
+  english: string;
+  correct: string;
+  /** Correct answer + distractors, shuffled. */
+  options: string[];
+};
+
+/**
+ * A short end-of-day multiple-choice recap built from the day's own prompts —
+ * the accountability checkin after the five silent-recall prompts. Correct
+ * answer plus two distractor `spanish` values drawn from sibling prompts on
+ * the same day. Deterministic per day (seeded off `day.day`) so re-opening
+ * the quiz the same day doesn't reshuffle which prompts were picked or how
+ * their options are ordered.
+ */
+export function quizQuestionsForDay(dayIndex: number, count = 3): QuizQuestion[] {
+  const day = speakDayForIndex(dayIndex);
+  const prompts = day.prompts;
+  if (prompts.length < 3) return [];
+
+  const picked = shuffleWithSeed(prompts, day.day).slice(0, Math.min(count, prompts.length));
+
+  return picked.map((prompt, i) => {
+    const distractors = shuffleWithSeed(
+      prompts.filter((p) => p.id !== prompt.id),
+      day.day + i + 1
+    )
+      .slice(0, 2)
+      .map((p) => p.spanish);
+    return {
+      promptId: prompt.id,
+      english: prompt.english,
+      correct: prompt.spanish,
+      options: shuffleWithSeed([prompt.spanish, ...distractors], day.day + i + 100),
+    };
+  });
 }
 
 /** Parse a `why` note: returns segments, marking *asterisk* spans for italics. */

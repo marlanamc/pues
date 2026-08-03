@@ -27,9 +27,10 @@ const IconBack = (
 
 export default function FlowLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() ?? "";
-  // The unscripted turn sits outside the 3-step wizard — it is a sixth beat
-  // after the day, not a fourth step inside a prompt.
+  // The unscripted turn and the end-of-day quiz sit outside the 3-step
+  // wizard — they come after the day's five prompts, not inside one.
   const isOpenTurn = pathname.startsWith("/flow/abierto");
+  const isQuiz = pathname.startsWith("/flow/quiz");
   const current =
     steps.find((s) => pathname.startsWith(s.path))?.step ?? 1;
 
@@ -53,6 +54,13 @@ export default function FlowLayout({ children }: { children: React.ReactNode }) 
                 style={{ fontSize: 9, color: "var(--ink-mute)" }}
               >
                 Sin guion
+              </span>
+            ) : isQuiz ? (
+              <span
+                className="mono-cap"
+                style={{ fontSize: 9, color: "var(--ink-mute)" }}
+              >
+                Comprobar
               </span>
             ) : (
             <>

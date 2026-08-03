@@ -6,8 +6,6 @@ import { promptForSession } from "@/content/prompts";
 import { getSessionIndex } from "@/lib/store";
 import { useStats } from "@/hooks/useStats";
 import { useFlowDraft } from "@/hooks/useFlowDraft";
-import { useRecorder } from "@/hooks/useRecorder";
-import { MicButton } from "@/components/MicButton";
 import { ClickablePrompt } from "@/components/ClickablePrompt";
 import { Gloss } from "@/components/Gloss";
 
@@ -15,7 +13,6 @@ export default function SpeakPage() {
   const router = useRouter();
   const { stats, hydrated: statsHydrated } = useStats();
   const { draft, patch, hydrated: draftHydrated } = useFlowDraft();
-  const recorder = useRecorder();
 
   const [sessionIndex, setSessionIndex] = useState(0);
   const [ready, setReady] = useState(false);
@@ -83,37 +80,12 @@ export default function SpeakPage() {
     });
   }, [ready, statsHydrated, draftHydrated, advancing, draft, prompt, patch]);
 
-  function finish(recordingId: string | null) {
+  function finish() {
     if (advancing) return;
     setAdvancing(true);
-    patch({ spoke: true, recordingId: recordingId ?? undefined });
+    patch({ spoke: true, recordingId: undefined });
     router.push("/flow/reveal");
   }
-
-  // When a recording stops, advance with its id.
-  useEffect(() => {
-    if (recorder.state === "done") finish(recorder.recordingId);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [recorder.state, recorder.recordingId]);
-
-  function onSaidIt() {
-    if (advancing || recorder.state === "recording") return;
-    finish(null);
-  }
-
-  async function onMicTap() {
-    if (advancing) return;
-    if (recorder.state === "recording") {
-      recorder.stop();
-      return;
-    }
-    if (recorder.state === "done") return;
-    const ok = await recorder.start();
-    // Mic denied / unsupported → still honor the speak-first gate.
-    if (!ok) finish(null);
-  }
-
-  const recording = recorder.state === "recording";
 
   const headerLabel =
     draft.source === "situation" ? (
@@ -153,72 +125,30 @@ export default function SpeakPage() {
       <div className="flex-1 lg:hidden" />
 
       <div className="flex flex-col items-center gap-4 lg:mt-8">
-        {recording ? (
-          <div className="flex flex-col items-center gap-2.5">
-            <MicButton state={recorder.state} onTap={onMicTap} />
-            <p className="text-display-italic text-center text-[0.9375rem] lg:text-base">
-              Listening… tap when you&apos;re done
-            </p>
-          </div>
-        ) : (
-          <>
-            <div className="flex w-full max-w-[320px] flex-col items-center gap-1.5">
-              <button
-                type="button"
-                onClick={onSaidIt}
-                disabled={advancing}
-                className="btn-primary btn-primary--center speak-dilo"
-              >
-                <span className="lab">Dilo</span>
-                <svg
-                  viewBox="0 0 24 24"
-                  width="19"
-                  height="19"
-                  aria-hidden
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={1.6}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M5 12h14M13 6l6 6-6 6" />
-                </svg>
-              </button>
-              <Gloss>I said it — continue</Gloss>
-            </div>
-
-            <div className="flex flex-col items-center gap-2">
-              <MicButton state={recorder.state} onTap={onMicTap} variant="optional" />
-              <p className="mono-cap text-center" style={{ color: "var(--ink-soft)" }}>
-                Grabar
-                <Gloss>Record if you want to compare later</Gloss>
-              </p>
-            </div>
-          </>
-        )}
-      </div>
-
-      <div
-        className="flex items-center justify-center gap-2 py-3.5 pb-5 lg:py-3 lg:pb-4"
-      >
-        <svg
-          viewBox="0 0 24 24"
-          width="12"
-          height="12"
-          aria-hidden
-          fill="none"
-          stroke="var(--ink-soft)"
-          strokeWidth={1.6}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <rect x="5" y="11" width="14" height="9" rx="2" />
-          <path d="M8 11V8a4 4 0 0 1 8 0v3" />
-        </svg>
-        <span className="mono-cap" style={{ color: "var(--ink-soft)" }}>
-          La respuesta se revela después
-          <Gloss>The answer is revealed after</Gloss>
-        </span>
+        <div className="flex w-full max-w-[320px] flex-col items-center gap-1.5">
+          <button
+            type="button"
+            onClick={finish}
+            disabled={advancing}
+            className="btn-primary btn-primary--center speak-dilo"
+          >
+            <span className="lab">Ver la respuesta</span>
+            <svg
+              viewBox="0 0 24 24"
+              width="19"
+              height="19"
+              aria-hidden
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={1.6}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+          </button>
+          <Gloss>See the answer</Gloss>
+        </div>
       </div>
     </div>
   );

@@ -13,7 +13,7 @@ import { RecordingCaptureButton } from "@/components/RecordingCaptureButton";
 import { Gloss } from "@/components/Gloss";
 
 const options: { value: Reflection; label: string; en: string }[] = [
-  { value: "yes", label: "Lo dije con soltura", en: "I said it naturally" },
+  { value: "yes", label: "Lo recordé sin problema", en: "I recalled it easily" },
   { value: "maybe", label: "Casi — por poco", en: "Almost — close enough" },
   { value: "not_really", label: "Quiero practicarla", en: "I want to practice this one" },
 ];
@@ -87,7 +87,7 @@ export default function RevealPage() {
             </div>
           </div>
 
-          {recorderSupported && (
+          {recorderSupported && draft.source === "situation" && (
             <div className="compare-audio__row">
               <div className="compare-audio__slot">
                 {draft.recordingId ? (
@@ -143,8 +143,8 @@ export default function RevealPage() {
 
       <div className="mt-6 lg:mt-8">
         <p className="mb-3 font-display text-base italic text-ink">
-          ¿Cómo se sintió la tuya?
-          <Gloss>How did yours feel?</Gloss>
+          ¿Cómo te fue?
+          <Gloss>How did it go?</Gloss>
         </p>
 
         <div className="mb-4 flex flex-col gap-2 lg:mb-0">

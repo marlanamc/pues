@@ -28,8 +28,9 @@ export default function SavedPage() {
   const [returnHref, setReturnHref] = useState("/situations");
   const [savedSource, setSavedSource] = useState<"daily" | "situation">("daily");
   // The day index captured *before* completeCurrentDay() rolls it forward —
-  // the unscripted turn belongs to the day just finished, not the next one.
-  const [openTurnHref, setOpenTurnHref] = useState<string | null>(null);
+  // the quiz (and the open turn it can lead to) belongs to the day just
+  // finished, not the next one.
+  const [quizHref, setQuizHref] = useState<string | null>(null);
 
   // Bank the thought once, the moment we land here.
   useEffect(() => {
@@ -75,9 +76,10 @@ export default function SavedPage() {
       if (newCount >= PROMPTS_PER_DAY) {
         completeCurrentDay(speakDays.length);
         // Days without an authored openTurn simply don't offer the sixth beat.
-        if (openTurnForDayIndex(finishedDayIndex)) {
-          setOpenTurnHref(`/flow/abierto?i=${finishedDayIndex}`);
-        }
+        const hasOpenTurn = Boolean(openTurnForDayIndex(finishedDayIndex));
+        setQuizHref(
+          `/flow/quiz?dayIndex=${finishedDayIndex}${hasOpenTurn ? `&openTurn=${finishedDayIndex}` : ""}`
+        );
       }
     }
   }, [hydrated, draft, add, router]);
@@ -212,14 +214,10 @@ export default function SavedPage() {
           </button>
         ) : (
           <>
-            {dayJustCompleted && openTurnHref && (
+            {dayJustCompleted && quizHref ? (
               <>
-                <Link
-                  href={openTurnHref}
-                  onClick={() => clear()}
-                  className="btn-primary"
-                >
-                  <span className="lab">Una más, sin guion</span>
+                <Link href={quizHref} onClick={() => clear()} className="btn-primary">
+                  <span className="lab">Comprobar</span>
                   <svg
                     viewBox="0 0 24 24"
                     width="19"
@@ -235,22 +233,20 @@ export default function SavedPage() {
                   </svg>
                 </Link>
                 <div className="text-center">
-                  <Gloss>One more — no English, no script</Gloss>
+                  <Gloss>A quick 3-question recap</Gloss>
                 </div>
+                <button
+                  type="button"
+                  onClick={finish}
+                  className="px-6 py-2.5 text-center min-h-[44px]"
+                  style={{ color: "var(--ink-soft)" }}
+                >
+                  <span className="font-display" style={{ fontSize: "1.0625rem" }}>
+                    Terminar
+                  </span>
+                  <Gloss>Skip it — done for now</Gloss>
+                </button>
               </>
-            )}
-            {dayJustCompleted && openTurnHref ? (
-              <button
-                type="button"
-                onClick={finish}
-                className="px-6 py-2.5 text-center min-h-[44px]"
-                style={{ color: "var(--ink-soft)" }}
-              >
-                <span className="font-display" style={{ fontSize: "1.0625rem" }}>
-                  Terminar
-                </span>
-                <Gloss>Skip it — done for now</Gloss>
-              </button>
             ) : (
               <>
                 <button type="button" onClick={finish} className="btn-primary">
