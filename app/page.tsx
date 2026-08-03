@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Gloss } from "@/components/Gloss";
 import { PageHeader, Wordmark } from "@/components/PageHeader";
 import { PlayButton } from "@/components/PlayButton";
@@ -40,17 +40,6 @@ const IconSun = (
     <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
   </svg>
 );
-const IconMoon = (
-  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden {...ws}>
-    <path d="M21 14.5A8.5 8.5 0 0 1 9.5 3 7 7 0 1 0 21 14.5Z" />
-  </svg>
-);
-const IconFlash = (
-  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden {...ws}>
-    <path d="M13 2 4 14h7l-1 8 10-14h-7l0-6Z" />
-  </svg>
-);
-
 export default function HomePage() {
   const { stats } = useStats();
   const [now, setNow] = useState<Date | null>(null);
@@ -131,63 +120,46 @@ export default function HomePage() {
 
       <div className="page-column">
         <div className="hoy-hero">
-          <div style={{ marginTop: 28 }}>
-            <h1 className="text-display-2xl text-ink">
-              {weekendInvite
-                ? `Es ${weekendName}. Enciende la semana.`
-                : primed
-                  ? "Ya está lista la semana."
-                  : "Una frase en español."}
-            </h1>
-            <Gloss>
-              {weekendInvite
-                ? `It's ${weekday === 0 ? "Sunday" : "Saturday"}. Light the week.`
-                : primed
-                  ? "The week is already set up."
-                  : "One sentence in Spanish."}
-            </Gloss>
+          {weekendInvite && (
+            <div style={{ marginTop: 28 }}>
+              <h1 className="text-display-2xl text-ink">
+                {`Es ${weekendName}. Enciende la semana.`}
+              </h1>
+              <Gloss>{`It's ${weekday === 0 ? "Sunday" : "Saturday"}. Light the week.`}</Gloss>
 
-            {weekendInvite ? (
-              <>
-                <Link href="/semana" className="btn-primary hoy-cta" style={{ marginTop: 20 }}>
-                  <span className="lab">Preparar la semana {weekNum}</span>
-                  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden {...ws}>
-                    <path d="M5 12h14M13 6l6 6-6 6" />
-                  </svg>
-                </Link>
-                <div style={{ marginTop: 6 }}>
-                  <Gloss>Read the week ahead — one hour, no rush</Gloss>
-                </div>
-              </>
-            ) : (
-              <>
-                <Link
-                  href="/semana"
-                  className="mono-cap transition-colors hover:text-accent"
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 7,
-                    marginTop: 14,
-                    minHeight: 44,
-                    color: "var(--ink-soft)",
-                  }}
-                >
-                  {primed
-                    ? `Semana ${weekNum} · ${weekDone} de ${weekLength}`
-                    : `Preparar la semana ${weekNum}`}
-                  <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden {...ws}>
-                    <path d="M5 12h14M13 6l6 6-6 6" />
-                  </svg>
-                </Link>
-                <Gloss>
-                  {primed
-                    ? `Week ${weekNum} · ${weekDone} of ${weekLength} done`
-                    : "Set the week up — an hour, whenever you have one"}
-                </Gloss>
-              </>
-            )}
-          </div>
+              <Link href="/semana" className="btn-primary hoy-cta" style={{ marginTop: 20 }}>
+                <span className="lab">Preparar la semana {weekNum}</span>
+                <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden {...ws}>
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+              </Link>
+              <div style={{ marginTop: 6 }}>
+                <Gloss>Read the week ahead — one hour, no rush</Gloss>
+              </div>
+            </div>
+          )}
+
+          {!weekendInvite && (
+            <Link
+              href="/semana"
+              className="mono-cap transition-colors hover:text-accent"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 7,
+                marginTop: 28,
+                minHeight: 44,
+                color: "var(--ink-soft)",
+              }}
+            >
+              {primed
+                ? `Semana ${weekNum} · ${weekDone} de ${weekLength}`
+                : `Preparar la semana ${weekNum}`}
+              <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden {...ws}>
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </Link>
+          )}
 
           <div className="hoy-mission">
             <span className="mono-cap flex items-center" style={{ gap: 7, color: "var(--accent)" }}>
@@ -265,10 +237,15 @@ export default function HomePage() {
 
         <details className="hoy-more" id="ideas">
           <summary className="hoy-more-summary">
-            <span className="mono-cap">Ideas para empezar</span>
-            <Gloss>Ideas to get started</Gloss>
+            <span className="mono-cap">Más de hoy</span>
+            <Gloss>More for today</Gloss>
           </summary>
-          <div style={{ marginTop: 12, display: "flex", flexDirection: "column", gap: 10 }}>
+
+          <div style={{ marginTop: 16, display: "flex", flexDirection: "column", gap: 10 }}>
+            <span className="mono-cap" style={{ color: "var(--ink-mute)" }}>
+              Ideas para empezar
+              <Gloss>Ideas to get started</Gloss>
+            </span>
             {examples.map((p) => (
               <ExampleCard key={p.id} prompt={p} />
             ))}
@@ -288,95 +265,77 @@ export default function HomePage() {
               </button>
             )}
           </div>
-        </details>
 
-        <section style={{ marginTop: 40 }}>
-          <span className="flex flex-col">
-            <span className="mono-cap">También hoy</span>
-            <Gloss>Also today</Gloss>
-          </span>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-              gap: 12,
-              marginTop: 12,
-            }}
-          >
-            <TodayExtraCard
+          <div style={{ marginTop: 24, display: "flex", flexDirection: "column", gap: 4 }}>
+            <span className="mono-cap" style={{ color: "var(--ink-mute)" }}>
+              También hoy
+              <Gloss>Also today</Gloss>
+            </span>
+            <TodayExtraRow
               href="/practice/sentence-former"
-              icon={IconFlash}
-              iconBorder="var(--zone-lugares)"
               title="Formar la frase"
               titleEn="Sentence Former"
               meta="5 frases"
-              metaEn="5 sentences"
             />
-            <TodayExtraCard
+            <TodayExtraRow
               href="/read"
-              icon={IconMoon}
-              iconBorder="var(--accent)"
               title="La lectura"
               titleEn="Reading"
               meta={readingDone ? "Leído esta noche" : "Esta noche"}
-              metaEn={readingDone ? "Read tonight" : "Tonight"}
               metaAccent={readingDone}
             />
-          </div>
-          <div className="hidden lg:block" style={{ marginTop: 14 }}>
-            <Link href="/mas" className="mono-cap transition-colors hover:text-accent">
+            <Link href="/mas" className="mono-cap transition-colors hover:text-accent" style={{ marginTop: 6 }}>
               Juegos, lugares y más →
             </Link>
             <Gloss>Games, places, and more</Gloss>
           </div>
-        </section>
 
-        <SectionHead label="Tu progreso en el camino" labelEn="Your progress on the path" href="/camino" cta="Ver" />
-        <Link
-          href="/camino"
-          className="flex items-center transition-colors active:bg-surface-sunk"
-          style={{
-            gap: 16,
-            padding: "16px 18px",
-            background: "var(--surface)",
-            border: "1px solid var(--rule)",
-            borderRadius: 16,
-          }}
-        >
-          <span
-            className="flex flex-shrink-0 items-center justify-center font-display"
-            style={{
-              width: 52,
-              height: 52,
-              borderRadius: "50%",
-              border: `2px solid ${season.color}`,
-              color: "var(--ink)",
-              fontSize: "1.0625rem",
-            }}
-          >
-            {dayNum}
-          </span>
-          <span className="flex flex-col" style={{ minWidth: 0, flex: 1 }}>
-            <span className="font-display text-ink text-[1.0625rem] leading-snug">
-              T{season.index} – {temporada.title}
+          <div style={{ marginTop: 24, display: "flex", flexDirection: "column", gap: 4 }}>
+            <span className="mono-cap" style={{ color: "var(--ink-mute)" }}>
+              Tu progreso en el camino
+              <Gloss>Your progress on the path</Gloss>
             </span>
-            <Gloss>{`S${season.index} – ${temporada.titleEn}`}</Gloss>
-            <span className="mono-cap" style={{ marginTop: 6 }}>
-              Semana {weekNum} de 13 · {temporada.weeks[weekNum - 1]}
-            </span>
-            <Gloss>{`Week ${weekNum} of 13 · ${temporada.weeksEn[weekNum - 1]}`}</Gloss>
-          </span>
-          <svg
-            viewBox="0 0 24 24"
-            width="16"
-            height="16"
-            aria-hidden
-            {...ws}
-            style={{ color: "var(--ink-mute)", flexShrink: 0 }}
-          >
-            <path d="M9 6l6 6-6 6" />
-          </svg>
-        </Link>
+            <Link
+              href="/camino"
+              className="flex items-center transition-colors active:bg-surface-sunk"
+              style={{
+                gap: 12,
+                padding: "10px 4px",
+                minHeight: 44,
+              }}
+            >
+              <span
+                className="flex flex-shrink-0 items-center justify-center font-display"
+                style={{
+                  width: 36,
+                  height: 36,
+                  borderRadius: "50%",
+                  border: `2px solid ${season.color}`,
+                  color: "var(--ink)",
+                  fontSize: "0.875rem",
+                }}
+              >
+                {dayNum}
+              </span>
+              <span className="flex flex-col" style={{ minWidth: 0, flex: 1 }}>
+                <span className="font-display text-ink" style={{ fontSize: "0.9375rem" }}>
+                  T{season.index} – {temporada.title} · Semana {weekNum} de 13
+                </span>
+                <Gloss>{`S${season.index} – ${temporada.titleEn} · Week ${weekNum} of 13`}</Gloss>
+              </span>
+              <svg
+                viewBox="0 0 24 24"
+                width="14"
+                height="14"
+                aria-hidden
+                {...ws}
+                style={{ color: "var(--ink-mute)", flexShrink: 0 }}
+              >
+                <path d="M9 6l6 6-6 6" />
+              </svg>
+            </Link>
+          </div>
+        </details>
       </div>
     </div>
   );
@@ -410,88 +369,37 @@ function ExampleCard({ prompt }: { prompt: SpeakPrompt }) {
   );
 }
 
-function TodayExtraCard({
+function TodayExtraRow({
   href,
-  icon,
-  iconBorder,
   title,
   titleEn,
   meta,
-  metaEn,
   metaAccent,
 }: {
   href: string;
-  icon: ReactNode;
-  iconBorder: string;
   title: string;
   titleEn: string;
   meta: string;
-  metaEn: string;
   metaAccent?: boolean;
 }) {
   return (
     <Link
       href={href}
-      className="flex flex-col transition-colors active:bg-surface-sunk"
-      style={{
-        gap: 10,
-        padding: "16px 18px",
-        background: "var(--surface)",
-        border: "1px solid var(--rule)",
-        borderRadius: 16,
-        minHeight: 0,
-      }}
+      className="flex items-center justify-between transition-colors active:bg-surface-sunk"
+      style={{ padding: "10px 4px", minHeight: 44 }}
     >
-      <span
-        aria-hidden
-        className="inline-flex items-center justify-center"
-        style={{
-          width: 40,
-          height: 40,
-          borderRadius: "50%",
-          border: `2px solid ${iconBorder}`,
-          color: "var(--ink)",
-        }}
-      >
-        {icon}
-      </span>
-      <span className="flex flex-col" style={{ minWidth: 0 }}>
-        <span className="font-display text-ink text-[1.0625rem] leading-snug">{title}</span>
-        <Gloss>{titleEn}</Gloss>
-        <span
-          className="mono-cap"
-          style={{ marginTop: 6, color: metaAccent ? "var(--accent)" : "var(--ink-soft)" }}
-        >
-          {meta}
+      <span className="flex flex-col">
+        <span className="font-display text-ink" style={{ fontSize: "0.9375rem" }}>
+          {title}
         </span>
-        <Gloss>{metaEn}</Gloss>
+        <Gloss>{titleEn}</Gloss>
+      </span>
+      <span
+        className="mono-cap"
+        style={{ color: metaAccent ? "var(--accent)" : "var(--ink-soft)" }}
+      >
+        {meta}
       </span>
     </Link>
-  );
-}
-
-function SectionHead({
-  label,
-  labelEn,
-  href,
-  cta,
-}: {
-  label: string;
-  labelEn?: string;
-  href?: string;
-  cta?: string;
-}) {
-  return (
-    <div className="flex items-baseline justify-between" style={{ marginTop: 30, marginBottom: 12 }}>
-      <span className="flex flex-col">
-        <span className="mono-cap">{label}</span>
-        {labelEn && <Gloss>{labelEn}</Gloss>}
-      </span>
-      {href && cta && (
-        <Link href={href} className="mono-cap transition-colors hover:text-accent">
-          {cta} →
-        </Link>
-      )}
-    </div>
   );
 }

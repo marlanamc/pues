@@ -584,7 +584,7 @@ async function pushPrefs(supabase: Supabase) {
       audio_speed: readLocal<string>(K.audioSpeed, "normal"),
       theme_mode: readLocal<string>(K.themeMode, "Almagre"),
       sidebar_visible: readLocal<boolean>(K.sidebar, true),
-      phrase_english_visible: readLocal<boolean>(K.phraseEnglish, false),
+      phrase_english_visible: readLocal<boolean>(K.phraseEnglish, true),
       updated_at: now,
     },
     { onConflict: "user_id" }

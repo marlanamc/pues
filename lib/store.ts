@@ -669,7 +669,7 @@ export function setSidebarVisible(visible: boolean): boolean {
 /* ---------- Situation phrase English glosses ---------- */
 
 export function getPhraseEnglishVisible(): boolean {
-  return read<boolean>(K_PHRASE_ENGLISH_VISIBLE, false);
+  return read<boolean>(K_PHRASE_ENGLISH_VISIBLE, true);
 }
 
 export function setPhraseEnglishVisible(visible: boolean): boolean {
