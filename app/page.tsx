@@ -119,6 +119,29 @@ export default function HomePage() {
       />
 
       <div className="page-column">
+        {!weekendInvite && (
+          <div className="hoy-crumb-row">
+            <Link
+              href="/semana"
+              className="mono-cap transition-colors hover:text-accent"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 7,
+                minHeight: 44,
+                color: "var(--ink-soft)",
+              }}
+            >
+              {primed
+                ? `Semana ${weekNum} · ${weekDone} de ${weekLength}`
+                : `Preparar la semana ${weekNum}`}
+              <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden {...ws}>
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </Link>
+          </div>
+        )}
+
         <div className="hoy-hero">
           {weekendInvite && (
             <div style={{ marginTop: 28 }}>
@@ -137,28 +160,6 @@ export default function HomePage() {
                 <Gloss>Read the week ahead — one hour, no rush</Gloss>
               </div>
             </div>
-          )}
-
-          {!weekendInvite && (
-            <Link
-              href="/semana"
-              className="mono-cap transition-colors hover:text-accent"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 7,
-                marginTop: 28,
-                minHeight: 44,
-                color: "var(--ink-soft)",
-              }}
-            >
-              {primed
-                ? `Semana ${weekNum} · ${weekDone} de ${weekLength}`
-                : `Preparar la semana ${weekNum}`}
-              <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden {...ws}>
-                <path d="M5 12h14M13 6l6 6-6 6" />
-              </svg>
-            </Link>
           )}
 
           <div className="hoy-mission">
@@ -289,53 +290,62 @@ export default function HomePage() {
             </Link>
             <Gloss>Games, places, and more</Gloss>
           </div>
-
-          <div style={{ marginTop: 24, display: "flex", flexDirection: "column", gap: 4 }}>
-            <span className="mono-cap" style={{ color: "var(--ink-mute)" }}>
-              Tu progreso en el camino
-              <Gloss>Your progress on the path</Gloss>
-            </span>
-            <Link
-              href="/camino"
-              className="flex items-center transition-colors active:bg-surface-sunk"
-              style={{
-                gap: 12,
-                padding: "10px 4px",
-                minHeight: 44,
-              }}
-            >
-              <span
-                className="flex flex-shrink-0 items-center justify-center font-display"
-                style={{
-                  width: 36,
-                  height: 36,
-                  borderRadius: "50%",
-                  border: `2px solid ${season.color}`,
-                  color: "var(--ink)",
-                  fontSize: "0.875rem",
-                }}
-              >
-                {dayNum}
-              </span>
-              <span className="flex flex-col" style={{ minWidth: 0, flex: 1 }}>
-                <span className="font-display text-ink" style={{ fontSize: "0.9375rem" }}>
-                  T{season.index} – {temporada.title} · Semana {weekNum} de 13
-                </span>
-                <Gloss>{`S${season.index} – ${temporada.titleEn} · Week ${weekNum} of 13`}</Gloss>
-              </span>
-              <svg
-                viewBox="0 0 24 24"
-                width="14"
-                height="14"
-                aria-hidden
-                {...ws}
-                style={{ color: "var(--ink-mute)", flexShrink: 0 }}
-              >
-                <path d="M9 6l6 6-6 6" />
-              </svg>
-            </Link>
-          </div>
         </details>
+
+        <div className="hoy-stat-strip">
+          <div>
+            <div className="hoy-stat-num">{stats.daysPracticed}</div>
+            <span className="mono-cap">Días</span>
+          </div>
+          <div>
+            <div className="hoy-stat-num">{stats.sentencesCreated}</div>
+            <span className="mono-cap">Frases</span>
+          </div>
+          <div>
+            <div className="hoy-stat-num">{stats.primedWeeks.length}</div>
+            <span className="mono-cap">Semanas</span>
+          </div>
+        </div>
+
+        <Link
+          href="/camino"
+          className="flex items-center transition-colors active:bg-surface-sunk"
+          style={{
+            gap: 12,
+            padding: "16px 4px 10px",
+            minHeight: 44,
+          }}
+        >
+          <span
+            className="flex flex-shrink-0 items-center justify-center font-display"
+            style={{
+              width: 36,
+              height: 36,
+              borderRadius: "50%",
+              border: `2px solid ${season.color}`,
+              color: "var(--ink)",
+              fontSize: "0.875rem",
+            }}
+          >
+            {dayNum}
+          </span>
+          <span className="flex flex-col" style={{ minWidth: 0, flex: 1 }}>
+            <span className="font-display text-ink" style={{ fontSize: "0.9375rem" }}>
+              T{season.index} – {temporada.title} · Semana {weekNum} de 13
+            </span>
+            <Gloss>{`S${season.index} – ${temporada.titleEn} · Week ${weekNum} of 13`}</Gloss>
+          </span>
+          <svg
+            viewBox="0 0 24 24"
+            width="14"
+            height="14"
+            aria-hidden
+            {...ws}
+            style={{ color: "var(--ink-mute)", flexShrink: 0 }}
+          >
+            <path d="M9 6l6 6-6 6" />
+          </svg>
+        </Link>
       </div>
     </div>
   );

@@ -363,7 +363,7 @@ body > main {
   cursor: pointer;
   text-decoration: underline dotted var(--ink-mute);
   text-underline-offset: 0.18em;
-  border-radius: 2px;
+  border-radius: 2px; /* one-off — softens the focus-ring corner on inline text, not a shape token */
   transition: color 0.15s ease, text-decoration-color 0.15s ease;
 }
 
@@ -908,7 +908,7 @@ textarea {
 .confusions-jump__link:focus-visible {
   outline: 2px solid color-mix(in oklab, var(--accent) 55%, transparent);
   outline-offset: 2px;
-  border-radius: 2px;
+  border-radius: 2px; /* one-off — softens the focus-ring corner on inline text, not a shape token */
 }
 
 .confusions-section {
@@ -1321,7 +1321,7 @@ a {
   padding: 24px 22px;
   background: color-mix(in oklab, var(--accent) 9%, var(--surface));
   border: 1px solid color-mix(in oklab, var(--accent) 32%, var(--rule));
-  border-radius: 14px;
+  border-radius: 14px 14px 0 0;
 }
 
 /* The day's CTA is the single boldest control on Hoy — heavier label, firmer
@@ -1345,8 +1345,11 @@ a {
     transform: none;
   }
 }
+/* Sealed continuation of .hoy-mission: shares its side/bottom border and
+   sits flush underneath (negative margin cancels the seam), rounded only
+   at the bottom, so it reads as one card instead of a floating pill. */
 .hoy-more {
-  margin-top: 44px;
+  margin-top: -1px;
 }
 .hoy-more-summary {
   list-style: none;
@@ -1358,17 +1361,15 @@ a {
   gap: 8px;
   min-height: 44px;
   padding: 12px 18px;
-  background: var(--surface);
-  border: 1px solid var(--rule);
-  border-radius: 14px;
+  background: color-mix(in oklab, var(--accent) 5%, var(--surface-2));
+  border: 1px solid color-mix(in oklab, var(--accent) 32%, var(--rule));
+  border-top: none;
+  border-radius: 0 0 14px 14px;
   color: var(--ink-soft);
   transition: border-color 120ms, background 120ms;
 }
 .hoy-more-summary:active {
   background: var(--surface-sunk);
-}
-.hoy-more[open] .hoy-more-summary {
-  border-color: color-mix(in oklab, var(--accent) 32%, var(--rule));
 }
 .hoy-more-summary::-webkit-details-marker {
   display: none;
@@ -1376,12 +1377,47 @@ a {
 .hoy-more-summary::after {
   content: "↓";
   font-family: var(--font-mono);
-  font-size: 0.65rem;
+  font-size: 0.65rem; /* one-off — the disclosure chevron glyph, not body text */
   letter-spacing: 0.13em;
   color: var(--ink-mute);
 }
 .hoy-more[open] .hoy-more-summary::after {
   content: "↑";
+}
+.hoy-more[open] .hoy-more-summary {
+  border-radius: 0;
+}
+
+/* Breadcrumb row: sits under the chrome (Wordmark/Semanas/settings), split
+   off by its own hairline instead of stacking as two rows of small text. */
+.hoy-crumb-row {
+  padding: 14px 0 16px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid var(--rule);
+}
+
+/* Always-visible below-fold strip: keeps the screen from dead-ending in
+   empty space once the hero card ends, even with .hoy-more collapsed. */
+.hoy-stat-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: 11px;
+  overflow: hidden;
+  margin-top: 28px;
+}
+.hoy-stat-strip > div {
+  background: var(--surface);
+  padding: 14px 10px;
+  text-align: center;
+}
+.hoy-stat-num {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: 1.5rem;
+  color: var(--ink);
 }
 
 /* ===== Speak — warmer prompt stage ===== */

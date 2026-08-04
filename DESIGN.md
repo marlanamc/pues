@@ -42,7 +42,7 @@ colors:
 typography:
   display:
     fontFamily: "Newsreader, Georgia, ui-serif, serif"
-    fontSize: "2.875rem"
+    fontSize: "clamp(2.25rem, 9vw, 2.875rem)"
     fontWeight: 300
     lineHeight: 1
     letterSpacing: "-0.02em"
@@ -55,7 +55,7 @@ typography:
     letterSpacing: "-0.02em"
   headline:
     fontFamily: "Newsreader, Georgia, ui-serif, serif"
-    fontSize: "1.875rem"
+    fontSize: "clamp(1.875rem, 6vw, 2.25rem)"
     fontWeight: 300
     lineHeight: 1.1
     letterSpacing: "-0.015em"
@@ -76,6 +76,26 @@ typography:
     fontSize: "1.5rem"
     fontWeight: 400
     lineHeight: 1.28
+  title-sm:
+    fontFamily: "Newsreader, Georgia, ui-serif, serif"
+    fontSize: "1.375rem"
+    fontWeight: 400
+    lineHeight: 1.18
+  title-xs:
+    fontFamily: "Newsreader, Georgia, ui-serif, serif"
+    fontSize: "1.25rem"
+    fontWeight: 400
+    lineHeight: 1.25
+  subtitle:
+    fontFamily: "Newsreader, Georgia, ui-serif, serif"
+    fontSize: "1.125rem"
+    fontWeight: 400
+    lineHeight: 1.25
+  row-title:
+    fontFamily: "Newsreader, Georgia, ui-serif, serif"
+    fontSize: "1.0625rem"
+    fontWeight: 400
+    lineHeight: 1.35
   display-italic:
     fontFamily: "Newsreader, Georgia, ui-serif, serif"
     fontSize: "1rem"
@@ -97,12 +117,28 @@ typography:
     fontSize: "0.875rem"
     fontWeight: 400
     lineHeight: 1.4
+  caption:
+    fontFamily: "Hanken Grotesk, system-ui, -apple-system, sans-serif"
+    fontSize: "0.8125rem"
+    fontWeight: 400
+    lineHeight: 1.4
+  toggle-label:
+    fontFamily: "Hanken Grotesk, system-ui, -apple-system, sans-serif"
+    fontSize: "0.6875rem"
+    fontWeight: 500
+    lineHeight: 1.3
   label:
     fontFamily: "Spline Sans Mono, ui-monospace, Menlo, monospace"
     fontSize: "0.72rem"
     fontWeight: 400
     lineHeight: 1.45
     letterSpacing: "0.11em"
+  label-compact:
+    fontFamily: "Spline Sans Mono, ui-monospace, Menlo, monospace"
+    fontSize: "0.6875rem"
+    fontWeight: 400
+    lineHeight: 1.4
+    letterSpacing: "0.07em"
 rounded:
   sm: "4px"
   md: "11px"
@@ -283,17 +319,26 @@ Color **IS** when. Confined to La Línea (the timeline game) and never decorativ
 ### Hierarchy
 
 - **Display Brand** (Newsreader 300, `clamp(2.75rem, 10vw, 3.75rem)`, lh 1, ls -0.02em, balanced): The Hoy greeting. The system's one fluid size, and its ceiling (60px) is deliberate.
-- **Display 2xl** (300, 2.875rem / 46px, lh 1, ls -0.02em): Hero greeting elsewhere.
-- **Headline** (300, 1.875rem / 30px, lh 1.1, ls -0.015em): Page titles on hubs and second-level pages.
+- **Display 2xl** (300, `clamp(2.25rem, 9vw, 2.875rem)` / 36px → 46px, lh 1, ls -0.02em): Hero greeting elsewhere.
+- **Headline** (300, `clamp(1.875rem, 6vw, 2.25rem)` / 30px → 36px, lh 1.1, ls -0.015em): Page titles on hubs and second-level pages.
 - **Title / Prompt** (300, 1.75rem → 2rem at ≥1024px, lh 1.22 → 1.24, ls -0.01em, `text-wrap: balance`): The Spanish sentence prompt — the warmest, most-loved type on any screen.
 - **Title lg** (300, 1.5625rem / 25px, lh 1.22, ls -0.01em): One warm display sentence per screen, used sparingly.
 - **Recall Stem** (`clamp(1.75rem, 4.5vw, 2.25rem)`): The stem under test in Sin mirar, centered on its card. Sized to be the only thing on the screen.
 - **Answer** (400, 1.5rem / 24px, lh 1.28): Revealed Spanish, and the saved sentence in the Cuaderno.
+- **Title sm** (400, 1.375rem / 22px, lh 1.18): Newsreader drill leads — the El oído prompt word, the desktop Sin mirar English gloss.
+- **Title xs** (400, 1.25rem / 20px, lh 1.25): Card and list-item titles set in serif — Cuaderno thought cards, situation cards, the reset-progress confirmation.
+- **Subtitle** (400, 1.125rem / 18px, lh 1.25): Secondary section headers below a Headline or Title — Settings section labels, La semana's stem-sheet title, Sin mirar's intro title.
+- **Row Title** (400, 1.0625rem / 17px, lh 1.35): The smallest serif step, for row and secondary-button labels that still want Newsreader's warmth instead of Hanken's neutrality — "Terminar" / "¿Otra?", example-card prompts, jump-nav summary labels, week-stem rows.
 - **Display Italic** (400, italic, `ink-soft`, ls -0.005em): Lead-ins, the wordmark, the reflection question. Italic earns its presence; never for emphasis inside body prose.
 - **Body** (Hanken 400, 0.9375rem / 15px, lh 1.55): Interface text. Cap prose at 65–75ch.
 - **Gloss** (Hanken 400, 0.875rem / 14px, `ink-soft`, lh 1.55): Sub-text under prompts — English translations, gentle hints.
 - **Gloss Italic** (Newsreader 400 italic, 0.875rem, `ink-mute`, lh 1.4): The inline English gloss beside Spanish in La semana. Serif-italic because it sits inside serif Spanish; a sans gloss there reads as chrome intruding on content.
+- **Caption** (Hanken 400, 0.8125rem / 13px, `ink-mute`, lh 1.4): Small standalone hint and error text that isn't tied to a prompt — questionnaire field hints, the week-player audio error. One step under Gloss, still sans, never mono (that's Label's job).
+- **Toggle Label** (Hanken 500, 0.6875rem / 11px, lh 1.3): The label inside a segmented pill toggle (English glosses On/Off, audio speed, text-size steps). Never for a standalone button — pills only.
 - **Label / mono-cap** (Spline Sans Mono 400, 0.72rem, ls 0.11em, uppercase, `ink-mute`): The library-card signal. Metadata only — day markers, timestamps, rail section labels, jump-nav category headers, step numerals. Never body, never button labels, never continuous reading.
+- **Label Compact** (Spline Sans Mono 400, 0.6875rem / 11px, ls 0.07em, uppercase, `ink-mute`): A tighter sibling of Label for metadata packed into small spaces — jump-nav hints, Sin mirar's reveal/start prompts. Same role as Label, one notch smaller; never a substitute for it at normal density.
+
+Title sm/xs, Subtitle, and Row Title sit close together on purpose — the serif carries more of the interface (row titles, secondary buttons, card headers) than the top-level Hierarchy names alone suggested, and each step above already had real, repeated call sites before it was named here. Reach for the closest existing step before adding a new one.
 
 ### Named Rules
 
