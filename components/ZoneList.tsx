@@ -61,7 +61,7 @@ export function ZoneIntro({
             background: "var(--zone)",
           }}
         />
-        <span className="mono-cap" style={{ color: "var(--zone)" }}>
+        <span className="text-caption" style={{ color: "var(--zone)" }}>
           {zoneLabel} · {role}
         </span>
       </span>
@@ -180,7 +180,7 @@ export function ZoneRow({
         )}
       </span>
       {meta && (
-        <span className="mono-cap" style={{ color: "var(--zone)" }}>
+        <span className="text-caption" style={{ color: "var(--zone)" }}>
           {meta}
         </span>
       )}
@@ -244,7 +244,7 @@ export function FeaturedRow({
         )}
       </span>
       {meta && (
-        <span className="mono-cap" style={{ color: "var(--zone)" }}>
+        <span className="text-caption" style={{ color: "var(--zone)" }}>
           {meta}
         </span>
       )}

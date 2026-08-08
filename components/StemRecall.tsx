@@ -360,7 +360,7 @@ export function StemRecall({ dayNums }: { dayNums: number[] }) {
               setReviewQueue(null);
               setReviewPos(0);
             }}
-            className="mono-cap transition-colors hover:text-accent"
+            className="text-caption transition-colors hover:text-accent"
             style={{ minHeight: 44, padding: "0 6px", color: "var(--ink-soft)", background: "transparent" }}
           >
             Saltar
@@ -414,7 +414,7 @@ export function StemRecall({ dayNums }: { dayNums: number[] }) {
 
         <div className="stem-recall-card">
           {!revealed && (
-            <span className="mono-cap stem-recall-card__hint">
+            <span className="text-caption stem-recall-card__hint">
               Dilo en voz alta{handsFree ? "…" : "."}
             </span>
           )}
@@ -454,7 +454,7 @@ export function StemRecall({ dayNums }: { dayNums: number[] }) {
           <button
             type="button"
             onClick={stop}
-            className="mono-cap transition-colors hover:text-accent"
+            className="text-caption transition-colors hover:text-accent"
             style={{ marginTop: 14, minHeight: 44, color: "var(--ink-mute)", background: "transparent" }}
           >
             Dejarlo aquí
@@ -502,7 +502,7 @@ export function StemRecall({ dayNums }: { dayNums: number[] }) {
           <button
             type="button"
             onClick={() => begin(all, { handsFree: true })}
-            className={missed.length > 0 ? "mono-cap transition-colors hover:text-accent" : "btn-primary"}
+            className={missed.length > 0 ? "text-caption transition-colors hover:text-accent" : "btn-primary"}
             style={
               missed.length > 0
                 ? {
@@ -534,7 +534,7 @@ export function StemRecall({ dayNums }: { dayNums: number[] }) {
           <button
             type="button"
             onClick={stop}
-            className="mono-cap transition-colors hover:text-accent"
+            className="text-caption transition-colors hover:text-accent"
             style={{ minHeight: 44, padding: "0 6px", color: "var(--ink-soft)", background: "transparent" }}
           >
             Listo
@@ -579,7 +579,7 @@ export function StemRecall({ dayNums }: { dayNums: number[] }) {
             <button
               type="button"
               onClick={() => begin(missed)}
-              className="mono-cap transition-colors hover:text-accent"
+              className="text-caption transition-colors hover:text-accent"
               style={{
                 minHeight: 44,
                 padding: "0 16px",
@@ -598,7 +598,7 @@ export function StemRecall({ dayNums }: { dayNums: number[] }) {
         <button
           type="button"
           onClick={stop}
-          className="mono-cap transition-colors hover:text-accent"
+          className="text-caption transition-colors hover:text-accent"
           style={{ minHeight: 44, padding: "0 6px", color: "var(--ink-soft)", background: "transparent" }}
         >
           Listo
@@ -695,7 +695,7 @@ function HandsFreeBar({
       </button>
 
       <span style={{ minWidth: 0, flex: 1 }}>
-        <span className="mono-cap" style={{ color: "var(--zone)" }}>
+        <span className="text-caption" style={{ color: "var(--zone)" }}>
           Sin manos · {pos + 1} de {total}
         </span>
         <Gloss>{paused ? "Paused · tap to continue" : "Hands-free · tap to pause"}</Gloss>
@@ -704,7 +704,7 @@ function HandsFreeBar({
       <button
         type="button"
         onClick={onEnd}
-        className="mono-cap shrink-0 transition-colors hover:text-accent"
+        className="text-caption shrink-0 transition-colors hover:text-accent"
         style={{
           minHeight: 44,
           padding: "0 12px",
@@ -801,7 +801,7 @@ function Standing({
 }) {
   return (
     <div style={{ marginTop: 26, paddingTop: 18, borderTop: "1px solid var(--rule)" }}>
-      <span className="mono-cap" style={{ color: "var(--zone)" }}>
+      <span className="text-caption" style={{ color: "var(--zone)" }}>
         En tu lista · {cards.length}
       </span>
       <Gloss>On your practice list from this week</Gloss>
@@ -810,7 +810,7 @@ function Standing({
         <button
           type="button"
           onClick={onReview}
-          className="mono-cap transition-colors hover:text-accent"
+          className="text-caption transition-colors hover:text-accent"
           style={{
             minHeight: 44,
             padding: "0 14px",
@@ -827,7 +827,7 @@ function Standing({
         <button
           type="button"
           onClick={onDrill}
-          className="mono-cap transition-colors hover:text-accent"
+          className="text-caption transition-colors hover:text-accent"
           style={{
             minHeight: 44,
             padding: "0 14px",

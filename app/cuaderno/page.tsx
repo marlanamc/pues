@@ -78,13 +78,13 @@ export default function CuadernoPage() {
     <div className="fade-rise relative" style={{ paddingBottom: 96 }}>
       <PageHeader
         title={<Wordmark>Cuaderno</Wordmark>}
-        meta={<span className="mono-cap">{saidLabel} frases</span>}
+        meta={<span className="text-caption">{saidLabel} frases</span>}
       />
 
       <div className="lg:mt-8 lg:grid lg:grid-cols-[1.4fr_1fr] lg:items-start lg:gap-12">
         {/* ===== MAIN — everything you said ===== */}
         <div style={{ marginTop: 22 }}>
-          <p className="mono-cap">
+          <p className="text-caption">
             Tu cuaderno
             <Gloss>{"Your notebook"}</Gloss>
           </p>
@@ -142,7 +142,7 @@ export default function CuadernoPage() {
           )}
 
           {/* Mobile-reachable door to the full journal (the aside is desktop-only). */}
-          <Link href="/thoughts" className="mono-cap transition-colors hover:text-accent lg:hidden" style={{ display: "inline-block", marginTop: 34 }}>
+          <Link href="/thoughts" className="text-caption transition-colors hover:text-accent lg:hidden" style={{ display: "inline-block", marginTop: 34 }}>
             ver el diario completo →
           </Link>
         </div>
@@ -157,14 +157,14 @@ export default function CuadernoPage() {
           <div className="flex" style={{ gap: 14, marginTop: 24 }}>
             <div style={{ flex: 1, padding: 18, background: "var(--surface)", border: "1px solid var(--rule)", borderRadius: 14 }}>
               <span className="font-display" style={{ fontWeight: 300, fontSize: 34, color: "var(--accent)" }}>{saidLabel}</span>
-              <p className="mono-cap" style={{ margin: "6px 0 0" }}>
+              <p className="text-caption" style={{ margin: "6px 0 0" }}>
                 frases dichas
                 <Gloss>{"sentences said"}</Gloss>
               </p>
             </div>
             <div style={{ flex: 1, padding: 18, background: "var(--surface)", border: "1px solid var(--rule)", borderRadius: 14 }}>
               <span className="font-display text-ink" style={{ fontWeight: 300, fontSize: 34 }}>{hydrated ? streak : "—"}</span>
-              <p className="mono-cap" style={{ margin: "6px 0 0" }}>
+              <p className="text-caption" style={{ margin: "6px 0 0" }}>
                 días de racha
                 <Gloss>{"days streak"}</Gloss>
               </p>
@@ -172,7 +172,7 @@ export default function CuadernoPage() {
           </div>
 
           <div style={{ marginTop: 26 }}>
-            <span className="mono-cap">
+            <span className="text-caption">
               Por temporada
               <Gloss>{"By season"}</Gloss>
             </span>
@@ -194,7 +194,7 @@ export default function CuadernoPage() {
             <Gloss>{"Every sentence here, you said it. Nobody translated it for you."}</Gloss>
           </p>
 
-          <Link href="/thoughts" className="mono-cap transition-colors hover:text-accent" style={{ marginTop: 18 }}>
+          <Link href="/thoughts" className="text-caption transition-colors hover:text-accent" style={{ marginTop: 18 }}>
             ver el diario completo →
           </Link>
         </aside>

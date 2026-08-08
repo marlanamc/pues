@@ -41,7 +41,7 @@ export default function FlowLayout({ children }: { children: React.ReactNode }) 
           href="/"
           aria-label="Salir"
           onClick={() => clearDraft()}
-          className="mono-cap inline-flex min-h-[44px] items-center gap-1.5 px-2 -ml-2 transition-colors hover:text-ink-soft lg:justify-self-start"
+          className="text-caption inline-flex min-h-[44px] items-center gap-1.5 px-2 -ml-2 transition-colors hover:text-ink-soft lg:justify-self-start"
         >
           {IconBack}
           Salir
@@ -50,21 +50,24 @@ export default function FlowLayout({ children }: { children: React.ReactNode }) 
           <div className="flex items-center gap-2 lg:justify-self-center">
             {isOpenTurn ? (
               <span
-                className="mono-cap"
+                className="text-caption"
                 style={{ fontSize: 9, color: "var(--ink-mute)" }}
               >
                 Sin guion
               </span>
             ) : isQuiz ? (
               <span
-                className="mono-cap"
+                className="text-caption"
                 style={{ fontSize: 9, color: "var(--ink-mute)" }}
               >
                 Comprobar
               </span>
             ) : (
-            <>
-            <div className="flex items-center gap-1.5" aria-hidden>
+            <div
+              className="flex items-center gap-1.5"
+              role="img"
+              aria-label={`Paso ${current} de 3`}
+            >
               {[1, 2, 3].map((n) => (
                 <span
                   key={n}
@@ -77,14 +80,6 @@ export default function FlowLayout({ children }: { children: React.ReactNode }) 
                 />
               ))}
             </div>
-            <span
-              className="mono-cap"
-              style={{ fontSize: 9, color: "var(--ink-mute)" }}
-              aria-label={`Paso ${current} de 3`}
-            >
-              {current} / 3
-            </span>
-            </>
             )}
           </div>
           <div className="lg:justify-self-end">

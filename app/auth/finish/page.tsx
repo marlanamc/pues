@@ -65,7 +65,7 @@ export default function AuthFinishPage() {
           </p>
           <a
             href="/settings"
-            className="mono-cap mt-2 rounded-full border border-rule px-4 py-2 text-ink-soft transition-colors hover:border-accent/60 hover:text-accent"
+            className="text-caption mt-2 rounded-full border border-rule px-4 py-2 text-ink-soft transition-colors hover:border-accent/60 hover:text-accent"
           >
             Back to Settings
           </a>

@@ -23,7 +23,7 @@ export default function RealPage() {
             </span>
           }
           meta={
-            <span className="mono-cap" style={{ color: "var(--accent)" }}>
+            <span className="text-caption" style={{ color: "var(--accent)" }}>
               Cómo se habla
             </span>
           }
@@ -43,7 +43,7 @@ export default function RealPage() {
       </section>
 
       <div className="tip-card">
-        <span className="tip-card__label mono-cap">Tu objetivo</span>
+        <span className="tip-card__label text-caption">Tu objetivo</span>
         <p className="tip-card__body">
           You don&apos;t need to speak this way yet. You just need to{" "}
           <em>recognize</em> it. That recognition is what closes the gap between

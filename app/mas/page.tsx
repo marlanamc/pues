@@ -35,7 +35,7 @@ export default function MasPage() {
 
       <div style={{ maxWidth: 640, margin: "0 auto" }}>
         <section style={{ marginTop: 24 }}>
-          <p className="mono-cap" style={{ marginBottom: 4 }}>Más práctica</p>
+          <p className="text-caption" style={{ marginBottom: 4 }}>Más práctica</p>
           <Gloss>More practice</Gloss>
           <p
             className="font-display text-ink-soft"
@@ -67,7 +67,7 @@ export default function MasPage() {
         </section>
 
         <section style={{ marginTop: 36 }}>
-          <p className="mono-cap" style={{ marginBottom: 4 }}>Extras</p>
+          <p className="text-caption" style={{ marginBottom: 4 }}>Extras</p>
           <Gloss>Optional companions</Gloss>
           <p
             className="font-display text-ink-soft"
@@ -141,7 +141,7 @@ function ExtraRow({
       {meta && (
         <span className="flex flex-col items-end" style={{ flexShrink: 0 }}>
           <span
-            className="mono-cap"
+            className="text-caption"
             style={{ color: metaAccent ? "var(--accent)" : undefined }}
           >
             {meta}

@@ -193,7 +193,7 @@ export default function GuidesHubPage() {
     >
       <PageHeader
         title={<Wordmark>Guías</Wordmark>}
-        meta={<span className="mono-cap text-ink-mute">Referencia</span>}
+        meta={<span className="text-caption text-ink-mute">Referencia</span>}
       />
 
       <ZoneIntro zoneLabel="Guías · Referencia" role="Referencia">
@@ -203,7 +203,7 @@ export default function GuidesHubPage() {
 
       {groups.map((group) => (
         <section key={group.label} style={{ marginTop: 26 }}>
-          <p className="mono-cap" style={{ marginBottom: 2 }}>{group.label}</p>
+          <p className="text-caption" style={{ marginBottom: 2 }}>{group.label}</p>
           <div style={{ marginBottom: 10 }}><Gloss>{group.labelEn}</Gloss></div>
           <ul className="rounded-lg border border-rule bg-surface divide-y divide-rule overflow-hidden lg:grid lg:grid-cols-2 lg:gap-4 lg:divide-y-0 lg:border-0 lg:bg-transparent lg:overflow-visible">
             {group.rows.map((row) => (

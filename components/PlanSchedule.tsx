@@ -88,7 +88,7 @@ export function PlanSchedule() {
                     {ctx.temporada.weeks[ctx.weekNum - 1]}
                   </span>
                   <span
-                    className="mono-cap"
+                    className="text-caption"
                     style={{ display: "block", marginTop: 3, color: "var(--ink-mute)" }}
                   >
                     T{season.index} · {ctx.temporada.seasonLabel} · {doneCount} de{" "}

@@ -10,8 +10,8 @@ colors:
   surface-2: "#2c251c"
   surface-sunk: "#1f1a14"
   ink: "#efe5d2"
-  ink-soft: "#b4a98f"
-  ink-mute: "#988d73"
+  ink-soft: "#c5bca8"
+  ink-mute: "#b8b09e"
   rule: "#3a3127"
   accent: "#dd6a43"
   accent-soft: "#c25a37"
@@ -41,63 +41,63 @@ colors:
   correct: "oklch(0.68 0.14 145)"
 typography:
   display:
-    fontFamily: "Newsreader, Georgia, ui-serif, serif"
+    fontFamily: "Atkinson Hyperlegible, -apple-system, system-ui, sans-serif"
     fontSize: "clamp(2.25rem, 9vw, 2.875rem)"
-    fontWeight: 300
+    fontWeight: 400
     lineHeight: 1
     letterSpacing: "-0.02em"
     fontFeature: "'liga', 'kern'"
   display-brand:
-    fontFamily: "Newsreader, Georgia, ui-serif, serif"
+    fontFamily: "Atkinson Hyperlegible, -apple-system, system-ui, sans-serif"
     fontSize: "clamp(2.75rem, 10vw, 3.75rem)"
-    fontWeight: 300
+    fontWeight: 400
     lineHeight: 1
     letterSpacing: "-0.02em"
   headline:
-    fontFamily: "Newsreader, Georgia, ui-serif, serif"
+    fontFamily: "Atkinson Hyperlegible, -apple-system, system-ui, sans-serif"
     fontSize: "clamp(1.875rem, 6vw, 2.25rem)"
-    fontWeight: 300
+    fontWeight: 400
     lineHeight: 1.1
     letterSpacing: "-0.015em"
   title:
-    fontFamily: "Newsreader, Georgia, ui-serif, serif"
+    fontFamily: "Atkinson Hyperlegible, -apple-system, system-ui, sans-serif"
     fontSize: "1.75rem"
-    fontWeight: 300
+    fontWeight: 400
     lineHeight: 1.22
     letterSpacing: "-0.01em"
   title-lg:
-    fontFamily: "Newsreader, Georgia, ui-serif, serif"
+    fontFamily: "Atkinson Hyperlegible, -apple-system, system-ui, sans-serif"
     fontSize: "1.5625rem"
-    fontWeight: 300
+    fontWeight: 400
     lineHeight: 1.22
     letterSpacing: "-0.01em"
   answer:
-    fontFamily: "Newsreader, Georgia, ui-serif, serif"
+    fontFamily: "Atkinson Hyperlegible, -apple-system, system-ui, sans-serif"
     fontSize: "1.5rem"
     fontWeight: 400
     lineHeight: 1.28
   title-sm:
-    fontFamily: "Newsreader, Georgia, ui-serif, serif"
+    fontFamily: "Atkinson Hyperlegible, -apple-system, system-ui, sans-serif"
     fontSize: "1.375rem"
     fontWeight: 400
     lineHeight: 1.18
   title-xs:
-    fontFamily: "Newsreader, Georgia, ui-serif, serif"
+    fontFamily: "Atkinson Hyperlegible, -apple-system, system-ui, sans-serif"
     fontSize: "1.25rem"
     fontWeight: 400
     lineHeight: 1.25
   subtitle:
-    fontFamily: "Newsreader, Georgia, ui-serif, serif"
+    fontFamily: "Atkinson Hyperlegible, -apple-system, system-ui, sans-serif"
     fontSize: "1.125rem"
     fontWeight: 400
     lineHeight: 1.25
   row-title:
-    fontFamily: "Newsreader, Georgia, ui-serif, serif"
+    fontFamily: "Atkinson Hyperlegible, -apple-system, system-ui, sans-serif"
     fontSize: "1.0625rem"
     fontWeight: 400
     lineHeight: 1.35
-  display-italic:
-    fontFamily: "Newsreader, Georgia, ui-serif, serif"
+  display-emphasis:
+    fontFamily: "Atkinson Hyperlegible, -apple-system, system-ui, sans-serif"
     fontSize: "1rem"
     fontWeight: 400
     lineHeight: 1.3
@@ -112,8 +112,8 @@ typography:
     fontSize: "0.875rem"
     fontWeight: 400
     lineHeight: 1.55
-  gloss-italic:
-    fontFamily: "Newsreader, Georgia, ui-serif, serif"
+  gloss-line:
+    fontFamily: "Atkinson Hyperlegible, -apple-system, system-ui, sans-serif"
     fontSize: "0.875rem"
     fontWeight: 400
     lineHeight: 1.4
@@ -221,9 +221,9 @@ components:
 
 **Creative North Star: "The Quiet Notebook"**
 
-Pues is a personal Spanish-practice notebook rendered as a PWA. The interface treats itself as a private ledger: warm dark paper at night, bone-warm or cool-fog paper by day, ink that breathes, and one saturated accent used sparingly enough that it always means something. Newsreader carries the Spanish sentences with the dignity they deserve; Hanken Grotesk handles the chrome quietly; Spline Sans Mono whispers metadata in tracked-out small caps, the library-card signal at the edge of every screen. A feTurbulence noise layer washes over everything — a whisper of paper grain — and a faint accent radial bleeds down from the top of the page, like ink soaking through from the sheet above. Hierarchy comes from type, whitespace, and hairline rules, never from elevation. There are no drop shadows on content. Cards exist, but they earn their place; they are sunk into the surface with borders, not lifted off it.
+Pues is a personal Spanish-practice notebook rendered as a PWA. The interface treats itself as a private ledger: warm dark paper at night, bone-warm or cool-fog paper by day, ink that breathes, and one saturated accent used sparingly enough that it always means something. Atkinson Hyperlegible carries the Spanish sentences with clarity, upright and never italic; Hanken Grotesk handles the chrome quietly; Spline Sans Mono whispers rare, genuine metadata, the library-card signal at the edge of a screen. A faint accent radial bleeds down from the top of the page, like ink soaking through from the sheet above — the paper-grain texture that used to sit under it has been removed. Hierarchy comes from type, whitespace, and hairline rules, never from elevation. There are no drop shadows on content. Cards exist, but they earn their place; they are sunk into the surface with borders, not lifted off it.
 
-The system's most important structural fact is that **color is a variable and everything else is not.** Seven named palettes — `Almagre`, `Pizarra`, `Ciruela`, `Bosque`, `Medianoche` (dark) and `Papel`, `Niebla` (light) — each fill the same eight semantic slots, and the user picks one in Settings. Almagre, the warm iron-red the product was born in, is the default fill of the accent slot and nothing more privileged than that. Identity therefore lives in the parts that never move: the Newsreader/Hanken/mono triad, the grain, the hairline, the tonal ramp, the generosity of the whitespace. A screen that only reads well in one palette is a broken screen. Zone hues and La Línea's tense colors stay constant *per mode* (one dark set, one deeper light set) precisely so that switching skins never changes what a color means.
+The system's most important structural fact is that **color is a variable and everything else is not.** Seven named palettes — `Almagre`, `Pizarra`, `Ciruela`, `Bosque`, `Medianoche` (dark) and `Papel`, `Niebla` (light) — each fill the same eight semantic slots, and the user picks one in Settings. Almagre, the warm iron-red the product was born in, is the default fill of the accent slot and nothing more privileged than that. Identity therefore lives in the parts that never move: the Atkinson/Hanken/mono triad, the hairline, the tonal ramp, the generosity of the whitespace. A screen that only reads well in one palette is a broken screen. Zone hues and La Línea's tense colors stay constant *per mode* (one dark set, one deeper light set) precisely so that switching skins never changes what a color means.
 
 This system explicitly rejects everything that makes a language app feel like a slot machine. No XP bars, no badges, no streak-as-pressure, no celebration confetti, no gradient-hero / feature-card-grid SaaS template, no glassmorphism, no dashboard density. The warmth is in the paper and the type, not in chirpy copy. The accent is committed — always doing real work, never decoration. And when tinted neutrals push secondary text toward the muted edge of the ramp, the design fights back to keep contrast honest: quietness is not the same as washed-out.
 
@@ -232,7 +232,7 @@ This system explicitly rejects everything that makes a language app feel like a 
 - Dark by default; light palettes are peers, not afterthoughts.
 - Eight semantic color slots, seven interchangeable palettes, zero hue-specific components.
 - One saturated accent per palette, on ≤10% of any screen.
-- Type-led hierarchy: Newsreader serif display, Hanken sans body, Spline mono labels.
+- Type-led hierarchy: Atkinson Hyperlegible display (upright, no italic), Hanken sans body, Spline mono labels (rare metadata only).
 - Hairline rules (1px) and generous whitespace do the structural work.
 - Flat surfaces; no drop shadows on content. Depth is tonal layering and ink mass.
 - Paper grain (feTurbulence) plus a soft accent top-of-page wash on every screen; stronger washes stage the two activation surfaces (Hoy, Speak).
@@ -253,7 +253,7 @@ Eight semantic slots carry the entire system. A palette is nothing but a set of 
 
 ### The Seven Palettes
 
-Dark palettes carry `color-scheme: dark` and grain at 0.35 opacity in `screen` blend. Light palettes carry `color-scheme: light`, grain at 0.5 in `multiply`, plus a `.light` class so legacy `.light`-scoped rules keep resolving.
+Dark palettes carry `color-scheme: dark`; light palettes carry `color-scheme: light`, plus a `.light` class so legacy `.light`-scoped rules keep resolving. The `feTurbulence` paper-grain overlay has been removed (`--grain-opacity: 0` in both modes) — it sat directly behind body text and compounded with marginal contrast to make small text harder to parse. The base `--paper-wash` accent tint is also cut roughly in half from its original strength for the same reason.
 
 | Palette | Mode | Character | `bg` | `accent` |
 |---|---|---|---|---|
@@ -274,8 +274,8 @@ Every palette declares the same eight: `bg`, `surface`, `surface-2`, `ink`, `ink
 - **`--surface-2`**: A second step up, for nested or selected surfaces and popovers.
 - **`--surface-sunk`**: One step *below* `bg`. Input fields and recessed wells. Derived, not authored.
 - **`--ink`**: Body text at full strength.
-- **`--ink-soft`**: Secondary text, glosses, descriptions. Must clear 4.5:1 against `bg` in all seven.
-- **`--ink-mute`**: Tertiary text, mono labels, hints, placeholders. The quietest readable voice — and the slot where contrast most often slips. It carries small text, so it needs the full 4.5:1, measured against the *lightest* plane in a dark palette (`surface-2`) and the *darkest* plane in a light one (`bg`). Checking it against `bg` alone will pass while a label on a card still fails.
+- **`--ink-soft`**: Secondary text, glosses, descriptions. Must clear 8:1 against its worst-case plane in all seven — raised from the original 4.5:1 AA floor, which technically passed but read as faint in practice, especially stacked with small size or a muted color.
+- **`--ink-mute`**: Tertiary text, mono labels, hints, placeholders. The quietest readable voice — and the slot where contrast most often slips. It carries small text, so it needs 7:1, measured against the *lightest* plane in a dark palette (`surface-2`) and the *darkest* plane in a light one (`bg`). Checking it against `bg` alone will pass while a label on a card still fails.
 - **`--rule`**: Hairline borders. Always 1px, never thicker.
 
 ### Tertiary — Zone Hues
@@ -308,41 +308,45 @@ Color **IS** when. Confined to La Línea (the timeline game) and never decorativ
 
 ## 3. Typography
 
-**Display Font:** Newsreader (Google Fonts; weights 300 / 400 / 500, italic; optical sizing on).
+**Display Font:** Atkinson Hyperlegible (Google Fonts; weights 400 / 700, upright only — no italic style is loaded).
 **Body Font:** Hanken Grotesk (Google Fonts; weights 400 / 500 / 600).
-**Label / Mono Font:** Spline Sans Mono (Google Fonts; weights 400 / 500).
+**Label / Mono Font:** Spline Sans Mono (Google Fonts; weights 400 / 500) — now reserved for genuinely rare metadata; see the narrowed Mono-as-Metadata Rule below.
 
-**Character:** A literary serif paired with a humanist sans and a mono used strictly as metadata. Newsreader is the soul of the look — its optical sizing handles the shift from hero greeting to inline Spanish prompt without losing weight. Hanken stays quiet; it never competes with the serif. Spline Sans Mono is the library-card signal: tracked-out, tiny, uppercase, `ink-mute`. Never a body font.
+**Character:** Newsreader — a literary serif set in italic for every Spanish sentence — was the app's original soul, but italic serif at small sizes is a real reading barrier for dyslexic readers, and the app's own owner reported avoiding the product because of it. Atkinson Hyperlegible replaces it everywhere the serif used to appear: headlines, the wordmark, every Spanish sentence, and every gloss. It's a face designed specifically for low-vision and dyslexic legibility, set upright only — the system no longer uses italic as a default anywhere. Hanken stays quiet in the body role; it never competed with the serif and doesn't compete with Atkinson either. Spline Sans Mono still whispers metadata, now used far more sparingly than before (see below).
 
-**The root scale moves.** Base is 16px, rising to 17px at ≥1024px. A `data-text-size` attribute on `<html>` offers three steps — `default`, `comfortable` (118.75%, 125% desktop), `large` (131.25%, 150% desktop) — so *every* size in this system must be authored in `rem`. Px-based type silently opts out of an accessibility setting the owner actually uses. Mono labels and the italic gloss line carry explicit per-step overrides because tracking and italic serif need retuning as they grow, not merely scaling.
+**Weight note:** Atkinson Hyperlegible ships only 400 and 700 — there is no light weight. Every display step that was previously Newsreader 300 now renders at 400; nothing in the display hierarchy uses a weight below 400 anymore.
+
+**The root scale moves.** Base is 16px, rising to 17px at ≥1024px. A `data-text-size` attribute on `<html>` offers three steps — `default`, `comfortable` (118.75%, 125% desktop), `large` (131.25%, 150% desktop) — so *every* size in this system must be authored in `rem`. Px-based type silently opts out of an accessibility setting the owner actually uses. Mono labels carry explicit per-step overrides because tracking needs retuning as they grow, not merely scaling.
 
 ### Hierarchy
 
-- **Display Brand** (Newsreader 300, `clamp(2.75rem, 10vw, 3.75rem)`, lh 1, ls -0.02em, balanced): The Hoy greeting. The system's one fluid size, and its ceiling (60px) is deliberate.
-- **Display 2xl** (300, `clamp(2.25rem, 9vw, 2.875rem)` / 36px → 46px, lh 1, ls -0.02em): Hero greeting elsewhere.
-- **Headline** (300, `clamp(1.875rem, 6vw, 2.25rem)` / 30px → 36px, lh 1.1, ls -0.015em): Page titles on hubs and second-level pages.
-- **Title / Prompt** (300, 1.75rem → 2rem at ≥1024px, lh 1.22 → 1.24, ls -0.01em, `text-wrap: balance`): The Spanish sentence prompt — the warmest, most-loved type on any screen.
-- **Title lg** (300, 1.5625rem / 25px, lh 1.22, ls -0.01em): One warm display sentence per screen, used sparingly.
+- **Display Brand** (Atkinson Hyperlegible 400, `clamp(2.75rem, 10vw, 3.75rem)`, lh 1, ls -0.02em, balanced): The Hoy greeting. The system's one fluid size, and its ceiling (60px) is deliberate.
+- **Display 2xl** (400, `clamp(2.25rem, 9vw, 2.875rem)` / 36px → 46px, lh 1, ls -0.02em): Hero greeting elsewhere.
+- **Headline** (400, `clamp(1.875rem, 6vw, 2.25rem)` / 30px → 36px, lh 1.1, ls -0.015em): Page titles on hubs and second-level pages.
+- **Title / Prompt** (400, 1.75rem → 2rem at ≥1024px, lh 1.22 → 1.24, ls -0.01em, `text-wrap: balance`): The Spanish sentence prompt — the warmest, most-loved type on any screen.
+- **Title lg** (400, 1.5625rem / 25px, lh 1.22, ls -0.01em): One warm display sentence per screen, used sparingly.
 - **Recall Stem** (`clamp(1.75rem, 4.5vw, 2.25rem)`): The stem under test in Sin mirar, centered on its card. Sized to be the only thing on the screen.
 - **Answer** (400, 1.5rem / 24px, lh 1.28): Revealed Spanish, and the saved sentence in the Cuaderno.
-- **Title sm** (400, 1.375rem / 22px, lh 1.18): Newsreader drill leads — the El oído prompt word, the desktop Sin mirar English gloss.
-- **Title xs** (400, 1.25rem / 20px, lh 1.25): Card and list-item titles set in serif — Cuaderno thought cards, situation cards, the reset-progress confirmation.
+- **Title sm** (400, 1.375rem / 22px, lh 1.18): Display-font drill leads — the El oído prompt word, the desktop Sin mirar English gloss.
+- **Title xs** (400, 1.25rem / 20px, lh 1.25): Card and list-item titles set in the display face — Cuaderno thought cards, situation cards, the reset-progress confirmation.
 - **Subtitle** (400, 1.125rem / 18px, lh 1.25): Secondary section headers below a Headline or Title — Settings section labels, La semana's stem-sheet title, Sin mirar's intro title.
-- **Row Title** (400, 1.0625rem / 17px, lh 1.35): The smallest serif step, for row and secondary-button labels that still want Newsreader's warmth instead of Hanken's neutrality — "Terminar" / "¿Otra?", example-card prompts, jump-nav summary labels, week-stem rows.
-- **Display Italic** (400, italic, `ink-soft`, ls -0.005em): Lead-ins, the wordmark, the reflection question. Italic earns its presence; never for emphasis inside body prose.
+- **Row Title** (400, 1.0625rem / 17px, lh 1.35): The smallest display-font step, for row and secondary-button labels that still want the display face's warmth instead of Hanken's neutrality — "Terminar" / "¿Otra?", example-card prompts, jump-nav summary labels, week-stem rows.
+- **Display Emphasis** (400, upright, `ink-soft`, ls -0.005em): Lead-ins, the wordmark, the reflection question. Formerly set in italic Newsreader; italic is no longer used as a default anywhere in the system.
 - **Body** (Hanken 400, 0.9375rem / 15px, lh 1.55): Interface text. Cap prose at 65–75ch.
 - **Gloss** (Hanken 400, 0.875rem / 14px, `ink-soft`, lh 1.55): Sub-text under prompts — English translations, gentle hints.
-- **Gloss Italic** (Newsreader 400 italic, 0.875rem, `ink-mute`, lh 1.4): The inline English gloss beside Spanish in La semana. Serif-italic because it sits inside serif Spanish; a sans gloss there reads as chrome intruding on content.
-- **Caption** (Hanken 400, 0.8125rem / 13px, `ink-mute`, lh 1.4): Small standalone hint and error text that isn't tied to a prompt — questionnaire field hints, the week-player audio error. One step under Gloss, still sans, never mono (that's Label's job).
+- **Gloss Line** (Atkinson Hyperlegible 400, upright, 0.875rem, `ink-mute`, lh 1.4): The inline English gloss beside Spanish in La semana. Formerly serif-italic; now upright in the same display face as the Spanish it sits beside, since italic-as-default is gone system-wide.
+- **Caption** (Hanken 400, 0.8125rem / 13px, `ink-mute`, lh 1.4): Small standalone hint and error text that isn't tied to a prompt, and the landing style for anything converted off Label/mono-cap that isn't genuine metadata (nav links, section headers, stat captions meant to be read). One step under Gloss, still sans, never mono.
 - **Toggle Label** (Hanken 500, 0.6875rem / 11px, lh 1.3): The label inside a segmented pill toggle (English glosses On/Off, audio speed, text-size steps). Never for a standalone button — pills only.
-- **Label / mono-cap** (Spline Sans Mono 400, 0.72rem, ls 0.11em, uppercase, `ink-mute`): The library-card signal. Metadata only — day markers, timestamps, rail section labels, jump-nav category headers, step numerals. Never body, never button labels, never continuous reading.
-- **Label Compact** (Spline Sans Mono 400, 0.6875rem / 11px, ls 0.07em, uppercase, `ink-mute`): A tighter sibling of Label for metadata packed into small spaces — jump-nav hints, Sin mirar's reveal/start prompts. Same role as Label, one notch smaller; never a substitute for it at normal density.
+- **Label / mono-cap** (Spline Sans Mono 400, 0.72rem, ls 0.11em, uppercase, `ink-mute`): The library-card signal. Reserved for *rare, genuine* metadata only — timestamps, day/week/step counters, date-group headers — text meant to be glance-scanned, never read as prose. Narrowed from its earlier, much broader usage (nav links, section headers, and other read-as-words labels moved to Caption) because tiny tracked-out caps are harder to scan than they look, even at passing contrast. Never body, never button labels, never continuous reading.
+- **Label Compact** (Spline Sans Mono 400, 0.6875rem / 11px, ls 0.07em, uppercase, `ink-mute`): A tighter sibling of Label for metadata packed into small spaces. Same narrowed role as Label, one notch smaller; never a substitute for it at normal density.
 
-Title sm/xs, Subtitle, and Row Title sit close together on purpose — the serif carries more of the interface (row titles, secondary buttons, card headers) than the top-level Hierarchy names alone suggested, and each step above already had real, repeated call sites before it was named here. Reach for the closest existing step before adding a new one.
+Title sm/xs, Subtitle, and Row Title sit close together on purpose — the display face carries more of the interface (row titles, secondary buttons, card headers) than the top-level Hierarchy names alone suggested, and each step above already had real, repeated call sites before it was named here. Reach for the closest existing step before adding a new one.
 
 ### Named Rules
 
-**The Newsreader-for-Spanish Rule.** Every Spanish sentence in the app — prompt, frame stem, saved sentence, gloss source — is set in Newsreader. The serif gives the language the dignity the product is built around. Hanken handles English chrome.
+**The Display-Font-for-Spanish Rule.** Every Spanish sentence in the app — prompt, frame stem, saved sentence, gloss source — is set in the display face (Atkinson Hyperlegible). Hanken handles English chrome. Newsreader's italic serif carried this role until the app's own owner reported that the combination of italic, serif, and small size was a real reading barrier, not just a taste preference — Atkinson Hyperlegible was chosen specifically because it's designed for low-vision and dyslexic legibility.
+
+**The No-Italic Rule.** Nothing in the system defaults to italic anymore. Where italic previously signaled "this is Spanish" or "this is a gloss," weight and color slot now carry that distinction instead.
 
 **The Mono-as-Metadata Rule.** Spline Sans Mono is reserved for small, uppercase, tracked-out, `ink-mute` metadata. Using it for buttons, body, or display text breaks the metaphor — those tracked caps tell the reader "this is the catalog edge of the page, not the content."
 
@@ -380,7 +384,7 @@ The system is **flat**. There are no drop shadows on content surfaces. Depth com
 ### Buttons
 
 - **Shape:** 14px (`--radius-lg`) for the primary; 11px (`--radius-md`) for secondary; 10px for judge buttons; 999px for pills and round players.
-- **Primary (`btn-primary`):** Full-width accent fill, `accent-ink` text, space-between with the label left and a `›` arrow right. Padding 16×18px. The label is Newsreader at 1.1875rem / 19px — a serif-on-saturated-fill signature unique to this product. Pressed: `accent-soft`. 120ms.
+- **Primary (`btn-primary`):** Full-width accent fill, `accent-ink` text, space-between with the label left and a `›` arrow right. Padding 16×18px. The label is set in the display face at 1.1875rem / 19px, weight 700 (Atkinson Hyperlegible has no 300/400-on-saturated-fill contrast the way Newsreader did, so the button label leans on its bold weight instead). Pressed: `accent-soft`. 120ms.
 - **Primary — Zones (`btn-primary--zones`):** The Empezar action on home. A four-stop sweep through all four zone hues (práctica → lugares → guías → lab) — the one place the zones appear together. Pressed: `brightness(0.9)`. Not repurposable as decoration.
 - **Primary — Spectrum (`btn-primary--spectrum`):** Comprobar in Sentence Builder. A five-stop sweep (accent → amber → green → blue → magenta). Exactly one use site. Pressed: `brightness(0.92)`.
 - **Primary — Center (`btn-primary--center`):** Centered label plus arrow, for half-width grid cells in the Sentence Builder action row. Min-height 52px.
@@ -388,7 +392,7 @@ The system is **flat**. There are no drop shadows on content surfaces. Depth com
 
 ### Self-Check Judges (Signature)
 
-The three-way verdict control shared by Sin mirar and Solo escuchar — the product's most consequential interaction, since the whole diagnostic rests on an honest answer. Deliberately *unlike* a button: transparent ground, 1px border, 44px min-height, 10px radius, Newsreader label at 0.875rem, laid out on a `repeat(3, 1fr)` grid capped at 22rem (a `--duo` variant is two columns at 16rem). Three variants, in weight order:
+The three-way verdict control shared by Sin mirar and Solo escuchar — the product's most consequential interaction, since the whole diagnostic rests on an honest answer. Deliberately *unlike* a button: transparent ground, 1px border, 44px min-height, 10px radius, display-face label at 0.875rem, laid out on a `repeat(3, 1fr)` grid capped at 22rem (a `--duo` variant is two columns at 16rem). Three variants, in weight order:
 
 - **`--zone`**: The affirmative ("llegó" — it arrived). Colored `var(--zone)`, border at 45% zone, ground at 7% zone. Retints per hub automatically.
 - **`--mute`**: The middle ("la armé" — I assembled it). `ink-soft`, border mixing 28% `ink-soft` into `rule`.
@@ -408,7 +412,7 @@ This is the system's one sanctioned use of numbered sections: the hour genuinely
 
 ### Recall Card
 
-The stage for a single stem under test (Sin mirar). 16px radius, `surface`, 1px `rule`, min-height 12rem, contents centered on both axes, 28×20px padding. The hint sits absolutely positioned at the top-left as mono-cap; the English gloss is Newsreader 1.25rem in `ink-mute`; the Spanish stem is the clamped Recall Stem size. Everything about it says *one thing at a time*.
+The stage for a single stem under test (Sin mirar). 16px radius, `surface`, 1px `rule`, min-height 12rem, contents centered on both axes, 28×20px padding. The hint sits absolutely positioned at the top-left as mono-cap; the English gloss is the display face at 1.25rem in `ink-mute`; the Spanish stem is the clamped Recall Stem size. Everything about it says *one thing at a time*.
 
 ### Pills & Chips
 
@@ -425,7 +429,7 @@ The stage for a single stem under test (Sin mirar). 16px radius, `surface`, 1px 
 
 ### Tip Card (`tip-card`)
 
-A low-key inline card delivering a why-note beside a prompt. Border at 24% accent mixed into rule, ground at 10% accent mixed into surface, italic Newsreader for emphasized terms inside the body, gloss-sized type, accent label over `ink-soft` body. Light palettes dial the wash to 8%.
+A low-key inline card delivering a why-note beside a prompt. Border at 24% accent mixed into rule, ground at 10% accent mixed into surface, bold display-face weight for emphasized terms inside the body (upright, not italic), gloss-sized type, accent label over `ink-soft` body. Light palettes dial the wash to 8%.
 
 ### Inputs / Fields
 
@@ -444,7 +448,7 @@ First-class, not a utility afterthought. `.hairline` (full-width, 1px, `rule`) d
 Three zones, two shells, one active-state language: the current item takes its own zone hue, and nothing else on the screen is colored.
 
 - **Bottom Tabs (`BottomTabNav`, <1024px):** Fixed, `border-t` hairline, `bg/90` with `backdrop-blur-md` — the one sanctioned blur in the system, there to keep scrolling text legible under the bar, not for glass. Three tabs (Hoy · La semana · Más) capped at 520px, icon over mono-cap label, active item colored by its zone. Bottom padding respects `env(safe-area-inset-bottom)`. Hidden entirely on `/flow/*`.
-- **Left Rail (`LeftRailNav`, ≥1024px):** Sticky full-height column, `border-r` hairline, collapsible between 15rem and 4.5rem with a 200ms width transition. Expanded shows the italic Newsreader wordmark, three mono-cap section labels (Ritual / La semana / Extras) each with an italic English gloss, hairline dividers between groups, and 2xl-radius rows; collapsed shows a circular "P" mark and 40px circular icon buttons with `title` tooltips. The active row is its zone hue at weight 500 over a 10%-zone ground. Hidden on `/flow/*`.
+- **Left Rail (`LeftRailNav`, ≥1024px):** Sticky full-height column, `border-r` hairline, collapsible between 15rem and 4.5rem with a 200ms width transition. Expanded shows the upright display-face wordmark, three mono-cap section labels (Ritual / La semana / Extras) each with an upright English gloss, hairline dividers between groups, and 2xl-radius rows; collapsed shows a circular "P" mark and 40px circular icon buttons with `title` tooltips. The active row is its zone hue at weight 500 over a 10%-zone ground. Hidden on `/flow/*`.
 - **Jump Navs (`confusions-jump`, `accent-marks-jump`, …):** A `<details>` collapsed by default with a mono chevron, accent on hover/open, and inside, mono-cap category headers grouping hairline-separated links. An in-page table of contents for long reference pages.
 
 ### Players
@@ -488,15 +492,15 @@ Every animation is wrapped in `prefers-reduced-motion: no-preference` or explici
 - **Do** author against the slot (`var(--accent)`, `var(--ink-soft)`, `var(--zone)`), never against a hue. This is the rule the other rules depend on.
 - **Do** read every new surface in all seven palettes — `Almagre`, `Pizarra`, `Ciruela`, `Bosque`, `Medianoche`, `Papel`, `Niebla` — before calling it done. Bosque and Medianoche break things Almagre hides.
 - **Do** derive with `color-mix(in oklab, …)` instead of adding a token. Eight values per palette is the budget.
-- **Do** set every Spanish sentence in Newsreader. The serif is the language's voice in this product.
+- **Do** set every Spanish sentence in the display face (Atkinson Hyperlegible), upright. It's the language's voice in this product, chosen for legibility over ornament.
 - **Do** treat the accent as the One Voice — primary action, active state, selection, focus ring, top-of-page wash. Nothing else.
 - **Do** use the four-step tonal ramp (`surface-sunk` → `bg` → `surface` → `surface-2`) to convey depth. Inputs sink, cards rest, nested surfaces rise one step.
 - **Do** keep every border at 1px `rule`, or `rule` color-mixed with accent for emphasis.
-- **Do** size type and type-bearing containers in `rem` so `data-text-size` actually works; give mono labels and italic glosses explicit per-step overrides.
-- **Do** preserve the paper grain and the top-of-page wash on every page.
-- **Do** verify `ink-soft` and `ink-mute` clear 4.5:1 against the *worst* plane in every palette — `surface-2` in dark, `bg` in light — not just against `bg`. Tinted neutrals make washed-out gray easy to slip into, and `ink-mute` is where it happens.
+- **Do** size type and type-bearing containers in `rem` so `data-text-size` actually works; give mono labels explicit per-step overrides.
+- **Do** keep the top-of-page accent wash subtle. The paper-grain texture that used to sit under it has been removed — it compounded with marginal contrast to make small text harder to read.
+- **Do** verify `ink-soft` clears 8:1 and `ink-mute` clears 7:1 against the *worst* plane in every palette — `surface-2` in dark, `bg` in light — not just against `bg`. Tinted neutrals make washed-out gray easy to slip into, and `ink-mute` is where it happens.
 - **Do** keep `ink` > `ink-soft` > `ink-mute` monotonic in OKLCH lightness with ≥0.06 between steps. Two adjacent grays that pass contrast but read identically are not a hierarchy.
-- **Do** reserve mono-cap (Spline Sans Mono, 0.11em tracking, uppercase, `ink-mute`) for metadata only.
+- **Do** reserve mono-cap (Spline Sans Mono, 0.11em tracking, uppercase, `ink-mute`) for *rare, genuine* metadata only — timestamps, day/week/step counters, date-group headers. Anything meant to be read as words (nav links, section headers, stat captions) belongs in Caption instead.
 - **Do** cap prose at 65–75ch.
 - **Do** pair every animation with a `prefers-reduced-motion: reduce` alternative; the default state is the end state.
 - **Do** keep touch targets ≥44px on every control the daily ritual passes through.
@@ -513,7 +517,8 @@ Every animation is wrapped in `prefers-reduced-motion: no-preference` or explici
 - **Don't** make the affirmative judge louder than the other two, or fill any judge with a background. A control that visually rewards "llegó" corrupts the diagnostic it exists to run.
 - **Don't** let an optional mic breathe. Idle animation reads as a demand, and recording is never the gate.
 - **Don't** set body text or button labels in Spline Sans Mono. Mono is metadata; using it as content breaks the library-card metaphor.
-- **Don't** set English chrome in Newsreader. Hanken handles interface text; Newsreader carries Spanish and display moments.
+- **Don't** set English chrome in the display face. Hanken handles interface text; Atkinson Hyperlegible carries Spanish and display moments.
+- **Don't** default anything to italic. The system dropped italic-as-default system-wide; use weight or the ink ramp to signal emphasis instead.
 - **Don't** size type in px. It opts out of the `data-text-size` accessibility setting silently.
 - **Don't** mimic Duolingo or other gamified language apps — no mascots, no XP bars, no streak pressure, no celebration confetti, no chirpy push-to-engage copy. Streaks may exist as quiet stats; they are never motivators.
 - **Don't** ship generic SaaS marketing tropes — no gradient hero, no three-icon value-prop row, no feature-card grid, no "Trusted by" logo wall, no glassmorphism cards. The tab bar's `backdrop-blur` is legibility under a fixed bar and is the only blur in the system.

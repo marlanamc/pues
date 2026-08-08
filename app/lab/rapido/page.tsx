@@ -23,7 +23,7 @@ export default function RapidoPage() {
             </span>
           }
           meta={
-            <span className="mono-cap" style={{ color: "var(--accent)" }}>
+            <span className="text-caption" style={{ color: "var(--accent)" }}>
               Español Real
             </span>
           }
@@ -37,7 +37,7 @@ export default function RapidoPage() {
       </p>
 
       <div className="tip-card">
-        <span className="tip-card__label mono-cap">Enlace</span>
+        <span className="tip-card__label text-caption">Enlace</span>
         <p className="tip-card__body">
           When a word ends in a vowel and the next starts with one, they link
           together into a single syllable. <em>Voy a ir</em> becomes{" "}
@@ -64,7 +64,7 @@ export default function RapidoPage() {
                 contextBefore="En español:"
               />
               <div className="flex-1 min-w-0">
-                <p className="mono-cap mb-1" style={{ color: "var(--ink-mute)" }}>
+                <p className="text-caption mb-1" style={{ color: "var(--ink-mute)" }}>
                   Lo que ves
                 </p>
                 <p
@@ -88,7 +88,7 @@ export default function RapidoPage() {
                 label={`Escuchar como suena: ${phrase.spoken}`}
               />
               <div className="flex-1 min-w-0">
-                <p className="mono-cap mb-1" style={{ color: "var(--accent)" }}>
+                <p className="text-caption mb-1" style={{ color: "var(--accent)" }}>
                   Lo que oyes
                 </p>
                 <p

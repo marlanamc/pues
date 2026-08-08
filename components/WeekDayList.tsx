@@ -173,7 +173,7 @@ export function WeekDayList({
                 </span>
               </span>
               {status === "now" && (
-                <span className="mono-cap" style={{ color: "var(--zone)" }}>
+                <span className="text-caption" style={{ color: "var(--zone)" }}>
                   Aquí
                 </span>
               )}
@@ -196,7 +196,7 @@ export function WeekDayList({
                 <ul style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                   {day.prompts.map((p) => (
                     <li key={p.id}>
-                      <p className="mono-cap" style={{ color: "var(--zone)", marginBottom: 2 }}>
+                      <p className="text-caption" style={{ color: "var(--zone)", marginBottom: 2 }}>
                         {p.frameStem}
                       </p>
                       <span
@@ -267,7 +267,7 @@ export function WeekDayList({
                   <Link
                     href={`/flow/abierto?i=${day.day - 1}`}
                     onClick={() => clearDraft()}
-                    className="mono-cap inline-flex items-center transition-colors hover:text-accent"
+                    className="text-caption inline-flex items-center transition-colors hover:text-accent"
                     style={{
                       marginTop: 12,
                       gap: 6,

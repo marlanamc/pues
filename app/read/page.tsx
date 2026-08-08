@@ -250,7 +250,7 @@ export default function ReadPage() {
           <button
             type="button"
             onClick={() => selectDay(todayDay)}
-            className="mono-cap"
+            className="text-caption"
             style={{ color: "var(--accent)", background: "none", border: "none", cursor: "pointer", padding: 0, flexShrink: 0 }}
           >
             Volver a hoy
@@ -277,7 +277,7 @@ export default function ReadPage() {
 
       {/* ── Vocabulario ── */}
       <section style={{ marginBottom: 36 }}>
-        <p className="mono-cap" style={{ marginBottom: 14 }}>
+        <p className="text-caption" style={{ marginBottom: 14 }}>
           Vocabulario
         </p>
         <div
@@ -305,7 +305,7 @@ export default function ReadPage() {
               </p>
               {translationsVisible && (
                 <p
-                  className="mono-cap"
+                  className="text-caption"
                   style={{ color: "var(--ink-mute)", marginTop: 4 }}
                 >
                   {w.en}
@@ -336,7 +336,7 @@ export default function ReadPage() {
           className="flex items-baseline justify-between gap-4"
           style={{ marginBottom: 4 }}
         >
-          <p className="mono-cap">Diálogo</p>
+          <p className="text-caption">Diálogo</p>
           {!translationsVisible && (
             <p className="text-[0.6875rem] text-ink-mute">Toca una línea para ver la traducción</p>
           )}
@@ -446,7 +446,7 @@ export default function ReadPage() {
           </button>
         ) : done ? (
           <p
-            className="mono-cap"
+            className="text-caption"
             style={{ color: "var(--accent)", textAlign: "center", padding: "14px 0" }}
           >
             Leído esta noche · ✓

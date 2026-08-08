@@ -99,7 +99,7 @@ export function LeftRailNav() {
             )}
             {expanded && section.label && (
               <li className="px-3.5 pb-1 pt-3">
-                <span className="mono-cap text-ink-mute">{section.label}</span>
+                <span className="text-caption text-ink-mute">{section.label}</span>
                 {section.labelEn && (
                   <span className="block">
                     <Gloss>{section.labelEn}</Gloss>

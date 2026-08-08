@@ -135,7 +135,7 @@ function QuizScreen() {
         <span className="mono-cap" style={{ color: "var(--ink-mute)" }}>
           Pregunta {index + 1} de {total}
         </span>
-        <Link href="/" className="mono-cap transition-colors hover:text-accent" style={{ color: "var(--ink-soft)" }}>
+        <Link href="/" className="text-caption transition-colors hover:text-accent" style={{ color: "var(--ink-soft)" }}>
           Saltar
         </Link>
       </div>

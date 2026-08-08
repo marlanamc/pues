@@ -87,7 +87,7 @@ export default function GamesShelfPage() {
     >
       <PageHeader
         title={<Wordmark>Juegos</Wordmark>}
-        meta={<span className="mono-cap">{gameCount} juegos</span>}
+        meta={<span className="text-caption">{gameCount} juegos</span>}
       />
 
       <div style={{ maxWidth: 640, margin: "0 auto" }}>
@@ -116,7 +116,7 @@ export default function GamesShelfPage() {
           }}
         >
           <span className="flex flex-col" style={{ flex: 1, minWidth: 0 }}>
-            <span className="mono-cap" style={{ color: "var(--accent)" }}>Para tu día</span>
+            <span className="text-caption" style={{ color: "var(--accent)" }}>Para tu día</span>
             <Gloss>Suggested for your day</Gloss>
             <span className="font-display text-ink" style={{ fontWeight: 300, fontSize: 26, lineHeight: 1.15, marginTop: 8 }}>
               {today.label}
@@ -125,7 +125,7 @@ export default function GamesShelfPage() {
               {today.description}
             </span>
             <Gloss>{today.descriptionEn}</Gloss>
-            <span className="mono-cap" style={{ marginTop: 12 }}>{today.group} · {today.level}</span>
+            <span className="text-caption" style={{ marginTop: 12 }}>{today.group} · {today.level}</span>
           </span>
           <span aria-hidden className="flex-shrink-0">
             <Motif id={today.iconId} size={72} />
@@ -156,7 +156,7 @@ export default function GamesShelfPage() {
                 {game.description}
               </span>
               <Gloss>{game.descriptionEn}</Gloss>
-              <span className="mono-cap" style={{ marginTop: "auto", paddingTop: 12 }}>{game.group} · {game.level}</span>
+              <span className="text-caption" style={{ marginTop: "auto", paddingTop: 12 }}>{game.group} · {game.level}</span>
             </Link>
           ))}
         </div>

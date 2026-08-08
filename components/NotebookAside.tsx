@@ -42,10 +42,10 @@ export function NotebookAside() {
       }}
     >
       <div className="flex items-center justify-between gap-3">
-        <p className="mono-cap">Tu cuaderno</p>
+        <p className="text-caption">Tu cuaderno</p>
         <Link
           href="/progress"
-          className="mono-cap transition-colors hover:text-accent"
+          className="text-caption transition-colors hover:text-accent"
           style={{ color: "var(--ink-mute)" }}
         >
           Ver más
@@ -53,7 +53,7 @@ export function NotebookAside() {
       </div>
 
       <div style={{ marginTop: 18 }}>
-        <p className="mono-cap" style={{ marginBottom: 6 }}>
+        <p className="text-caption" style={{ marginBottom: 6 }}>
           Racha actual
         </p>
         <div className="flex items-center" style={{ gap: 8, marginBottom: 22 }}>
@@ -79,7 +79,7 @@ export function NotebookAside() {
           </p>
         </div>
 
-        <p className="mono-cap" style={{ marginBottom: 10 }}>
+        <p className="text-caption" style={{ marginBottom: 10 }}>
           Días de racha
         </p>
         <div
@@ -126,7 +126,7 @@ export function NotebookAside() {
         </div>
 
         <div className="flex items-baseline justify-between gap-3">
-          <p className="mono-cap">Hoy</p>
+          <p className="text-caption">Hoy</p>
           <p className="mono-cap text-ink-soft">
             {todayProgress} de {PROMPTS_PER_DAY}
           </p>

@@ -44,7 +44,7 @@ export default function DiarioPage() {
           title={<Wordmark>Diario</Wordmark>}
           meta={
             hydrated && thoughts.length > 0 ? (
-              <span className="mono-cap">{thoughts.length} frases</span>
+              <span className="text-caption">{thoughts.length} frases</span>
             ) : undefined
           }
         />

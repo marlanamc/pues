@@ -15,7 +15,7 @@ export default function NotFound() {
       </div>
       <Link
         href="/"
-        className="mono-cap inline-flex items-center justify-center rounded-full border border-rule px-5 py-2 text-ink-soft transition-colors hover:border-accent/60 hover:text-accent"
+        className="text-caption inline-flex items-center justify-center rounded-full border border-rule px-5 py-2 text-ink-soft transition-colors hover:border-accent/60 hover:text-accent"
       >
         Ir al inicio
       </Link>

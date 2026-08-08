@@ -84,12 +84,12 @@ function OpenTurnScreen() {
       <div className="speak-prompt-panel">
         <div className="situation-pill mt-[22px] lg:mt-4">
           <span className="dot" aria-hidden />
-          <span className="mono-cap" style={{ color: "var(--ink-soft)" }}>
+          <span className="text-caption" style={{ color: "var(--ink-soft)" }}>
             {speaker.name} · {speaker.note}
           </span>
         </div>
 
-        <p className="mono-cap mt-7 mb-3 lg:mt-5 lg:mb-2.5">
+        <p className="text-caption mt-7 mb-3 lg:mt-5 lg:mb-2.5">
           Sin guion
           <Gloss>No script — answer out loud</Gloss>
         </p>
@@ -109,7 +109,7 @@ function OpenTurnScreen() {
             >
               {turn.sigueEn}
             </p>
-            <p className="mono-cap mt-5" style={{ color: "var(--ink-mute)" }}>
+            <p className="text-caption mt-5" style={{ color: "var(--ink-mute)" }}>
               Lo que dijo después
               <Gloss>What they said next — not the answer you should have given</Gloss>
             </p>
@@ -167,7 +167,7 @@ function OpenTurnScreen() {
               onEnded={arm}
               onError={onAudioError}
             />
-            <p className="mono-cap text-center" style={{ color: "var(--ink-soft)" }}>
+            <p className="text-caption text-center" style={{ color: "var(--ink-soft)" }}>
               Escuchar
               <Gloss>The mic starts on its own when the line ends</Gloss>
             </p>
@@ -175,7 +175,7 @@ function OpenTurnScreen() {
               <button
                 type="button"
                 onClick={() => void arm()}
-                className="mono-cap min-h-[44px] px-6 py-2.5 text-center"
+                className="text-caption min-h-[44px] px-6 py-2.5 text-center"
                 style={{ color: "var(--ink-mute)" }}
               >
                 No hay audio — léela y contesta
@@ -193,24 +193,24 @@ function OpenTurnScreen() {
         ) : answered ? (
           <div className="flex items-center justify-center gap-5">
             <div className="flex items-center gap-2">
-              <span className="mono-cap">Tu voz</span>
+              <span className="text-caption">Tu voz</span>
               {recorder.recordingId ? (
                 <RecordingPlayButton recordingId={recorder.recordingId} />
               ) : (
-                <span className="mono-cap" style={{ color: "var(--ink-mute)" }}>
+                <span className="text-caption" style={{ color: "var(--ink-mute)" }}>
                   —
                 </span>
               )}
             </div>
             <div className="flex items-center gap-2">
-              <span className="mono-cap">{speaker.name}</span>
+              <span className="text-caption">{speaker.name}</span>
               <PlayButton text={turn.sigue} label={`Escuchar: ${turn.sigue}`} />
             </div>
           </div>
         ) : (
           <div className="flex flex-col items-center gap-2.5">
             <MicButton state={recorder.state} onTap={onMicTap} />
-            <p className="mono-cap text-center" style={{ color: "var(--ink-soft)" }}>
+            <p className="text-caption text-center" style={{ color: "var(--ink-soft)" }}>
               {micFailed ? "Contesta igual, sin grabar" : "Contestar"}
               <Gloss>
                 {micFailed
@@ -253,7 +253,7 @@ function OpenTurnScreen() {
           <button
             type="button"
             onClick={() => setShowText((v) => !v)}
-            className="mono-cap min-h-[44px] px-6 py-2.5 text-center"
+            className="text-caption min-h-[44px] px-6 py-2.5 text-center"
             style={{ color: "var(--ink-mute)" }}
           >
             {showText ? "Ocultar la frase" : "Ver la frase"}

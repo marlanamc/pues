@@ -1,17 +1,19 @@
 import type { Metadata, Viewport } from "next";
-import { Newsreader, Hanken_Grotesk, Spline_Sans_Mono } from "next/font/google";
+import { Atkinson_Hyperlegible, Hanken_Grotesk, Spline_Sans_Mono } from "next/font/google";
 import { BottomTabNav } from "@/components/BottomTabNav";
 import { LeftRailNav } from "@/components/LeftRailNav";
 import { SupabaseBootstrap } from "@/components/SupabaseBootstrap";
 import { TextSizeBootstrap } from "@/components/TextSizeBootstrap";
 import "./globals.css";
 
-// Newsreader — display, headlines, and all Spanish sentences. The soul of the look.
-const newsreader = Newsreader({
+// Atkinson Hyperlegible — display, headlines, and all Spanish sentences.
+// Designed for low-vision and dyslexic readers; replaced Newsreader app-wide
+// because the serif-italic treatment was a real reading barrier. No italic
+// style loaded — the system no longer uses italic as a default anywhere.
+const atkinson = Atkinson_Hyperlegible({
   subsets: ["latin"],
-  weight: ["300", "400", "500"],
-  style: ["normal", "italic"],
-  variable: "--font-newsreader",
+  weight: ["400", "700"],
+  variable: "--font-atkinson",
   display: "swap",
 });
 
@@ -67,7 +69,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${newsreader.variable} ${hanken.variable} ${splineMono.variable}`}
+      className={`${atkinson.variable} ${hanken.variable} ${splineMono.variable}`}
       suppressHydrationWarning
     >
       <body className="min-h-dvh bg-bg text-ink antialiased lg:flex">

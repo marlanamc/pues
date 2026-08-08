@@ -113,12 +113,12 @@ export default function SpeakPage() {
       <div className="speak-prompt-panel">
         <div className="situation-pill mt-[22px] lg:mt-4">
           <span className="dot" aria-hidden />
-          <span className="mono-cap" style={{ color: "var(--ink-soft)" }}>
+          <span className="text-caption" style={{ color: "var(--ink-soft)" }}>
             {prompt.situationLabel}
           </span>
         </div>
 
-        <p className="mono-cap mt-7 mb-3 lg:mt-5 lg:mb-2.5">{headerLabel}</p>
+        <p className="text-caption mt-7 mb-3 lg:mt-5 lg:mb-2.5">{headerLabel}</p>
         <ClickablePrompt text={prompt.english} wordHints={prompt.wordHints} />
       </div>
 

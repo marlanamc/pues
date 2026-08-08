@@ -23,7 +23,7 @@ export default function LLYPage() {
             </span>
           }
           meta={
-            <span className="mono-cap" style={{ color: "var(--accent)" }}>
+            <span className="text-caption" style={{ color: "var(--accent)" }}>
               Español Real
             </span>
           }
@@ -38,7 +38,7 @@ export default function LLYPage() {
       </p>
 
       <div className="tip-card">
-        <span className="tip-card__label mono-cap">Yeísmo</span>
+        <span className="tip-card__label text-caption">Yeísmo</span>
         <p className="tip-card__body">
           The merger of LL and Y is called <em>yeísmo</em> — and it&apos;s the
           dominant pattern across the Spanish-speaking world. You don&apos;t need

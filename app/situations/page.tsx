@@ -167,7 +167,7 @@ export default function SituationsLibraryPage() {
                       <span className="font-display text-[1.25rem] leading-tight text-ink">
                         {categoryLabels[cat]}
                       </span>
-                      <span className="mono-cap" style={{ color: "var(--zone)" }}>
+                      <span className="text-caption" style={{ color: "var(--zone)" }}>
                         {list.length} temas
                       </span>
                     </span>
@@ -201,7 +201,7 @@ export default function SituationsLibraryPage() {
                         </span>
                         {(situation.phrases?.length ||
                           situation.practiceItems?.length) && (
-                          <span className="mono-cap" style={{ color: "var(--zone)" }}>
+                          <span className="text-caption" style={{ color: "var(--zone)" }}>
                             Listo
                           </span>
                         )}

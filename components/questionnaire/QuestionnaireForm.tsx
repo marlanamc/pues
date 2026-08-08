@@ -55,7 +55,7 @@ function QuestionnaireSectionBlock({
     <section id={section.id} className="questionnaire-section">
       <div className="questionnaire-section__head">
         {showPartLabel && (
-          <p className="mono-cap text-accent">{section.part}</p>
+          <p className="text-caption text-accent">{section.part}</p>
         )}
         <h2 className="questionnaire-section__title">{section.title}</h2>
         {section.description && (
@@ -198,7 +198,7 @@ export function QuestionnaireForm() {
             {progress.answered} of {progress.total} fields filled
           </p>
           <p
-            className="mono-cap questionnaire-status__saved"
+            className="text-caption questionnaire-status__saved"
             style={{ color: saveFlash ? "var(--accent)" : "var(--ink-mute)" }}
           >
             {saveFlash ? "Saved on this device" : "Auto-saves on this device"}
@@ -207,7 +207,7 @@ export function QuestionnaireForm() {
       </div>
 
       <aside className="tip-card questionnaire-done-card">
-        <span className="mono-cap tip-card__label">Already answered</span>
+        <span className="text-caption tip-card__label">Already answered</span>
         <ul className="questionnaire-done-list">
           {completedSectionSummaries.map((item) => (
             <li key={item.title}>
@@ -229,7 +229,7 @@ export function QuestionnaireForm() {
       <div className="questionnaire-sections">
         {partGroups.map((group) => (
           <div key={group.part} className="questionnaire-part">
-            <p className="mono-cap questionnaire-part__label">{group.part}</p>
+            <p className="text-caption questionnaire-part__label">{group.part}</p>
             {group.sections.map((section) => (
               <QuestionnaireSectionBlock
                 key={section.id}
@@ -245,7 +245,7 @@ export function QuestionnaireForm() {
 
       <div className="questionnaire-export">
         <div className="questionnaire-export__head">
-          <p className="mono-cap">Export for AI</p>
+          <p className="text-caption">Export for AI</p>
           <p className="questionnaire-export__desc">
             Your answers stay in this browser. When you&apos;re ready, copy or
             download only what you&apos;ve filled in — no need to complete the

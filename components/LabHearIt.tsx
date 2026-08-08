@@ -137,12 +137,12 @@ export function LabHearIt({ pairs, contextBefore = "En español:" }: { pairs: He
               >
                 <span className="text-display-lg">{word}</span>
                 {phase === "revealed" && isTarget && (
-                  <span className="mono-cap" style={{ color: "var(--correct)" }}>
+                  <span className="text-caption" style={{ color: "var(--correct)" }}>
                     ✓ correcto
                   </span>
                 )}
                 {phase === "revealed" && !isTarget && isChosen && (
-                  <span className="mono-cap" style={{ color: "var(--ink-mute)" }}>
+                  <span className="text-caption" style={{ color: "var(--ink-mute)" }}>
                     no era esta
                   </span>
                 )}
@@ -168,7 +168,7 @@ export function LabHearIt({ pairs, contextBefore = "En español:" }: { pairs: He
             }}
           >
             <p
-              className="mono-cap mb-1"
+              className="text-caption mb-1"
               style={{ color: isCorrect ? "var(--correct)" : "var(--ink-mute)" }}
             >
               {isCorrect ? "Lo oíste" : "Sigue practicando"}
@@ -182,7 +182,7 @@ export function LabHearIt({ pairs, contextBefore = "En español:" }: { pairs: He
 
           {/* Compare both */}
           <div className="space-y-2">
-            <p className="mono-cap" style={{ color: "var(--ink-mute)" }}>
+            <p className="text-caption" style={{ color: "var(--ink-mute)" }}>
               Escucha los dos
             </p>
             <div className="flex gap-3">
@@ -209,7 +209,7 @@ export function LabHearIt({ pairs, contextBefore = "En español:" }: { pairs: He
           {/* Note */}
           {pair.note && (
             <div className="tip-card">
-              <span className="tip-card__label mono-cap">Nota</span>
+              <span className="tip-card__label text-caption">Nota</span>
               <p className="tip-card__body">{pair.note}</p>
             </div>
           )}

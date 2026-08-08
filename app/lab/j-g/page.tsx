@@ -23,7 +23,7 @@ export default function JGPage() {
             </span>
           }
           meta={
-            <span className="mono-cap" style={{ color: "var(--accent)" }}>
+            <span className="text-caption" style={{ color: "var(--accent)" }}>
               Pronuncia
             </span>
           }
@@ -37,7 +37,7 @@ export default function JGPage() {
       </p>
 
       <div className="tip-card">
-        <span className="tip-card__label mono-cap">La regla</span>
+        <span className="tip-card__label text-caption">La regla</span>
         <p className="tip-card__body">
           J → always H sound (<em>José, trabajo, reloj</em>).
           G before E or I → same H sound (<em>gente, girar</em>).
@@ -65,7 +65,7 @@ export default function JGPage() {
                 >
                   {item.word}
                 </span>
-                <span className="mono-cap" style={{ color: "var(--accent)" }}>
+                <span className="text-caption" style={{ color: "var(--accent)" }}>
                   sonido {item.sound}
                 </span>
               </div>

@@ -15,7 +15,7 @@ export function LabRealSpanish({ pairs }: { pairs: RealPair[] }) {
           <div className="grid grid-cols-2 divide-x" style={{ borderColor: "var(--rule)" }}>
             {/* Textbook */}
             <div className="flex flex-col gap-3 p-4">
-              <p className="mono-cap" style={{ color: "var(--ink-mute)" }}>
+              <p className="text-caption" style={{ color: "var(--ink-mute)" }}>
                 Lo que ves
               </p>
               <p
@@ -38,7 +38,7 @@ export function LabRealSpanish({ pairs }: { pairs: RealPair[] }) {
                 background: "color-mix(in oklab, var(--accent) 5%, var(--surface))",
               }}
             >
-              <p className="mono-cap" style={{ color: "var(--accent)" }}>
+              <p className="text-caption" style={{ color: "var(--accent)" }}>
                 Lo que oyes
               </p>
               <p

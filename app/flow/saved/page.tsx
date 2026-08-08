@@ -177,7 +177,7 @@ export default function SavedPage() {
           {sentence && (
             <div className="mt-4 flex items-center justify-center gap-4">
               <div className="flex items-center gap-2">
-                <span className="mono-cap">Modelo</span>
+                <span className="text-caption">Modelo</span>
                 <PlayButton
                   text={sentence}
                   label={`Escuchar: ${sentence}`}
@@ -185,7 +185,7 @@ export default function SavedPage() {
               </div>
               {recordingId && (
                 <div className="flex items-center gap-2">
-                  <span className="mono-cap">Tu voz</span>
+                  <span className="text-caption">Tu voz</span>
                   <RecordingPlayButton recordingId={recordingId} />
                 </div>
               )}
@@ -249,8 +249,8 @@ export default function SavedPage() {
               </>
             ) : (
               <>
-                <button type="button" onClick={finish} className="btn-primary">
-                  <span className="lab">Terminar</span>
+                <button type="button" onClick={next} className="btn-primary">
+                  <span className="lab">¿Otra?</span>
                   <svg
                     viewBox="0 0 24 24"
                     width="19"
@@ -262,26 +262,24 @@ export default function SavedPage() {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   >
-                    <path d="M5 12.5 10 17l9-10" />
+                    <path d="M5 12h14M13 6l6 6-6 6" />
                   </svg>
                 </button>
                 <div className="text-center">
-                  <Gloss>Done for now</Gloss>
+                  <Gloss>One more</Gloss>
                 </div>
+                <button
+                  type="button"
+                  onClick={finish}
+                  className="px-6 py-2.5 text-center min-h-[44px]"
+                  style={{ color: "var(--ink-soft)" }}
+                >
+                  <span className="font-display" style={{ fontSize: "1.0625rem" }}>
+                    Terminar
+                  </span>
+                  <Gloss>Done for now</Gloss>
+                </button>
               </>
-            )}
-            {!dayJustCompleted && (
-              <button
-                type="button"
-                onClick={next}
-                className="px-6 py-2.5 text-center min-h-[44px]"
-                style={{ color: "var(--ink-soft)" }}
-              >
-                <span className="font-display" style={{ fontSize: "1.0625rem" }}>
-                  ¿Otra?
-                </span>
-                <Gloss>One more</Gloss>
-              </button>
             )}
           </>
         )}

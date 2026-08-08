@@ -36,7 +36,7 @@ export default function GlobalError({
         <script dangerouslySetInnerHTML={{ __html: themeModeScript }} />
         <div className="flex min-h-dvh flex-col items-center justify-center gap-6 px-6 text-center">
           <div className="flex flex-col gap-2">
-            <p className="mono-cap text-ink-mute">Algo salió mal</p>
+            <p className="text-caption text-ink-mute">Algo salió mal</p>
             <h1 className="font-display text-2xl text-ink">
               La aplicación tropezó.
             </h1>
@@ -48,7 +48,7 @@ export default function GlobalError({
           <button
             type="button"
             onClick={reset}
-            className="mono-cap inline-flex items-center justify-center rounded-full bg-accent px-5 py-2 text-accent-ink transition-opacity hover:opacity-90"
+            className="text-caption inline-flex items-center justify-center rounded-full bg-accent px-5 py-2 text-accent-ink transition-opacity hover:opacity-90"
           >
             Recargar
           </button>

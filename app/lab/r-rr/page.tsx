@@ -23,7 +23,7 @@ export default function RRPage() {
             </span>
           }
           meta={
-            <span className="mono-cap" style={{ color: "var(--accent)" }}>
+            <span className="text-caption" style={{ color: "var(--accent)" }}>
               Escucha
             </span>
           }
@@ -37,7 +37,7 @@ export default function RRPage() {
       </p>
 
       <div className="tip-card">
-        <span className="tip-card__label mono-cap">Cómo funciona</span>
+        <span className="tip-card__label text-caption">Cómo funciona</span>
         <p className="tip-card__body">
           You&apos;ll hear one word — either the R or the RR version. Choose
           which you heard. Then compare both.

@@ -76,7 +76,7 @@ export default function ProgressPage() {
       {/* Tier 1 — open hero, no box */}
       <section className="text-center" style={{ marginTop: 20 }}>
         <span className="hairline-accent-center" aria-hidden style={{ margin: "0 auto" }} />
-        <p className="mono-cap" style={{ marginTop: 10 }}>
+        <p className="text-caption" style={{ marginTop: 10 }}>
           Semanas preparadas
         </p>
         <Gloss>Weeks you lit ahead of time</Gloss>
@@ -117,7 +117,7 @@ export default function ProgressPage() {
 
         <Link
           href="/semana"
-          className="mono-cap transition-colors hover:text-accent"
+          className="text-caption transition-colors hover:text-accent"
           style={{
             display: "inline-flex",
             marginTop: 8,
@@ -131,7 +131,7 @@ export default function ProgressPage() {
 
         {practicedToday && (
           <p
-            className="mono-cap"
+            className="text-caption"
             style={{ color: "var(--accent)", marginTop: 6 }}
           >
             Hoy ✓
@@ -200,7 +200,7 @@ export default function ProgressPage() {
           borderRadius: 16,
         }}
       >
-        <span className="mono-cap" style={{ color: temporada.color }}>
+        <span className="text-caption" style={{ color: temporada.color }}>
           Estás en el día {dayLabel}
           <Gloss>{`You are on day ${dayLabel}`}</Gloss>
         </span>
@@ -216,7 +216,7 @@ export default function ProgressPage() {
           T{temporada.index} — {temporada.title}
           <Gloss>{temporada.titleEn}</Gloss>
         </h2>
-        <p className="mono-cap" style={{ color: temporada.color }}>
+        <p className="text-caption" style={{ color: temporada.color }}>
           Semana {weekNum} · {weekTheme}
           <Gloss>{`Week ${weekNum} · ${weekThemeEn}`}</Gloss>
         </p>
@@ -225,7 +225,7 @@ export default function ProgressPage() {
           className="flex items-baseline justify-between gap-3"
           style={{ marginTop: 20 }}
         >
-          <p className="mono-cap text-ink-mute">Todo el camino</p>
+          <p className="text-caption text-ink-mute">Todo el camino</p>
           <p className="mono-cap text-ink-soft">
             {doneCount} / {totalDays}
           </p>
@@ -245,7 +245,7 @@ export default function ProgressPage() {
 
         <span className="hairline" aria-hidden style={{ marginTop: 20 }} />
 
-        <p className="mono-cap text-ink-mute" style={{ marginTop: 16 }}>
+        <p className="text-caption text-ink-mute" style={{ marginTop: 16 }}>
           En total
         </p>
         <div
@@ -302,7 +302,7 @@ function SectionHead({
       style={{ marginTop: 30, marginBottom: 12 }}
     >
       <span className="flex flex-col">
-        <span className="mono-cap">{label}</span>
+        <span className="text-caption">{label}</span>
         {labelEn && <Gloss>{labelEn}</Gloss>}
       </span>
     </div>
@@ -367,7 +367,7 @@ function NavRow({
         <Gloss>{gloss}</Gloss>
       </div>
       <div className="flex shrink-0 items-center gap-3">
-        <span className="mono-cap text-ink-mute">{meta}</span>
+        <span className="text-caption text-ink-mute">{meta}</span>
         <span
           className="text-ink-mute transition-colors group-hover:text-accent"
           aria-hidden

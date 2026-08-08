@@ -218,7 +218,7 @@ export function WeekBlindListen({ dayNums }: { dayNums: number[] }) {
               setReviewQueue(null);
               setReviewPos(0);
             }}
-            className="mono-cap transition-colors hover:text-accent"
+            className="text-caption transition-colors hover:text-accent"
             style={{ minHeight: 44, padding: "0 6px", color: "var(--ink-soft)", background: "transparent" }}
           >
             Saltar
@@ -271,7 +271,7 @@ export function WeekBlindListen({ dayNums }: { dayNums: number[] }) {
           {pos + 1} de {queue.length}
         </p>
         <div className="stem-recall-card">
-          <span className="mono-cap stem-recall-card__hint">
+          <span className="text-caption stem-recall-card__hint">
             {playing ? "Escucha…" : "¿Entró?"}
           </span>
           {!playing && !judging && (
@@ -326,7 +326,7 @@ export function WeekBlindListen({ dayNums }: { dayNums: number[] }) {
         <button
           type="button"
           onClick={stop}
-          className="mono-cap transition-colors hover:text-accent"
+          className="text-caption transition-colors hover:text-accent"
           style={{ marginTop: 14, minHeight: 44, color: "var(--ink-mute)", background: "transparent" }}
         >
           Dejarlo aquí
@@ -366,7 +366,7 @@ export function WeekBlindListen({ dayNums }: { dayNums: number[] }) {
         <button
           type="button"
           onClick={() => begin(missed.length > 0 ? missed : all)}
-          className={missed.length > 0 ? "mono-cap transition-colors hover:text-accent" : "btn-primary"}
+          className={missed.length > 0 ? "text-caption transition-colors hover:text-accent" : "btn-primary"}
           style={
             missed.length > 0
               ? {
@@ -398,7 +398,7 @@ export function WeekBlindListen({ dayNums }: { dayNums: number[] }) {
         <button
           type="button"
           onClick={stop}
-          className="mono-cap transition-colors hover:text-accent"
+          className="text-caption transition-colors hover:text-accent"
           style={{ minHeight: 44, padding: "0 6px", color: "var(--ink-soft)", background: "transparent" }}
         >
           Listo
@@ -467,7 +467,7 @@ function StandingList({
 }) {
   return (
     <div style={{ marginTop: 26, paddingTop: 18, borderTop: "1px solid var(--rule)" }}>
-      <span className="mono-cap" style={{ color: "var(--zone)" }}>
+      <span className="text-caption" style={{ color: "var(--zone)" }}>
         En tu lista · {sentences.length}
       </span>
       <Gloss>On your practice list from this week</Gloss>

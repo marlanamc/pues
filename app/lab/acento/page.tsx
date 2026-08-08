@@ -23,7 +23,7 @@ export default function AcentoPage() {
             </span>
           }
           meta={
-            <span className="mono-cap" style={{ color: "var(--accent)" }}>
+            <span className="text-caption" style={{ color: "var(--accent)" }}>
               Escucha
             </span>
           }
@@ -37,7 +37,7 @@ export default function AcentoPage() {
       </p>
 
       <div className="tip-card">
-        <span className="tip-card__label mono-cap">Cómo funciona</span>
+        <span className="tip-card__label text-caption">Cómo funciona</span>
         <p className="tip-card__body">
           You&apos;ll hear one word. Listen for where the stress falls, then
           choose which version you heard.

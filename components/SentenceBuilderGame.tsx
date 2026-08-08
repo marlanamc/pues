@@ -486,7 +486,7 @@ export function SentenceBuilderGame({
           <button
             type="button"
             onClick={onQuit}
-            className="mono-cap flex items-center gap-2 text-ink-mute transition-colors hover:text-accent min-h-[40px]"
+            className="text-caption flex items-center gap-2 text-ink-mute transition-colors hover:text-accent min-h-[40px]"
           >
             <span aria-hidden className="text-base leading-none">×</span>
             Salir
@@ -504,7 +504,7 @@ export function SentenceBuilderGame({
             <span className="text-accent">{streak} 🔥</span> — vuelve cuando
             quieras y repítelas.
           </p>
-          <p className="mono-cap text-ink-mute">
+          <p className="text-caption text-ink-mute">
             Mejor · {Math.max(solved, sbBestSolved(deck))} / {deck.length}
           </p>
           <div className="mx-auto mt-2 flex max-w-xs flex-col gap-3">
@@ -549,14 +549,14 @@ export function SentenceBuilderGame({
         <button
           type="button"
           onClick={onQuit}
-          className="mono-cap flex items-center gap-1.5 text-ink-mute transition-colors hover:text-accent min-h-[40px]"
+          className="text-caption flex items-center gap-1.5 text-ink-mute transition-colors hover:text-accent min-h-[40px]"
         >
           <span aria-hidden className="text-base leading-none">×</span>
           Salir
         </button>
 
         <div className="flex flex-1 items-center gap-2.5">
-          <span className="mono-cap whitespace-nowrap text-ink-soft">
+          <span className="text-caption whitespace-nowrap text-ink-soft">
             Racha · {streak}{" "}
             <span aria-hidden className="text-accent">🔥</span>
           </span>
@@ -579,7 +579,7 @@ export function SentenceBuilderGame({
               <span key={s.key} className="flex items-center gap-1.5">
                 {i > 0 && <span className="text-ink-mute" aria-hidden>·</span>}
                 <span
-                  className="mono-cap transition-colors"
+                  className="text-caption transition-colors"
                   style={{ color: s.key === currentStep ? "var(--accent)" : "var(--ink-mute)" }}
                 >
                   {s.label}
@@ -588,7 +588,7 @@ export function SentenceBuilderGame({
             ))}
           </div>
         ) : (
-          <p className="mono-cap">Construye la frase</p>
+          <p className="text-caption">Construye la frase</p>
         )}
         <p className="mono-cap text-ink-mute shrink-0">
           {String(cardIndex + 1).padStart(2, "0")} / {String(deck.length).padStart(2, "0")}
@@ -681,7 +681,7 @@ export function SentenceBuilderGame({
       {/* ── Mini progress card (desktop — streak already in header on mobile) ── */}
       <div className="hidden lg:flex items-center gap-4 rounded-lg border border-rule bg-surface px-4 py-3">
         <div className="flex items-center gap-2 px-1">
-          <span className="mono-cap">Racha</span>
+          <span className="text-caption">Racha</span>
           <span className="flex items-center gap-1 font-display text-lg text-accent">
             <span aria-hidden>🔥</span>
             {streak}
@@ -690,7 +690,7 @@ export function SentenceBuilderGame({
         <span className="h-8 w-px bg-rule" />
         <div className="flex-1 space-y-1">
           <div className="flex items-center justify-between gap-2">
-            <span className="mono-cap">Nivel · {card.level}</span>
+            <span className="text-caption">Nivel · {card.level}</span>
           </div>
           <div className="h-1.5 w-full overflow-hidden rounded-full bg-surface-sunk">
             <div
@@ -821,7 +821,7 @@ function BuildStep({
 
       {/* Word bank */}
       <div className="space-y-2">
-        <p className="mono-cap">Palabras disponibles</p>
+        <p className="text-caption">Palabras disponibles</p>
         <div className="rounded-lg border border-rule bg-surface p-4">
           {bank.length === 0 ? (
             <p className="py-2 text-center text-sm text-ink-mute">
@@ -849,7 +849,7 @@ function BuildStep({
         {phase === "correct" && (
           <div className="fade-in rounded-lg border border-[color:var(--correct)]/40 bg-surface p-4 space-y-2.5">
             <div className="flex items-start justify-between gap-4">
-              <p className="mono-cap pt-0.5" style={{ color: "var(--correct)" }}>¡Perfecto!</p>
+              <p className="text-caption pt-0.5" style={{ color: "var(--correct)" }}>¡Perfecto!</p>
               <PlayButton text={card.displayAnswer} label={`Escuchar: ${card.displayAnswer}`} />
             </div>
             <p className="text-display-md text-ink">{card.displayAnswer}</p>
@@ -1007,14 +1007,14 @@ function RecallStep({
 
       {/* Tools */}
       <div className="flex items-center justify-between gap-2">
-        <p className="mono-cap">Sin banco de palabras</p>
+        <p className="text-caption">Sin banco de palabras</p>
         <div className="flex items-center gap-2">
           <PlayButton text={card.displayAnswer} label="Escuchar la frase completa" />
           {recall.revealAnswerAllowed && !showSpanish && (
             <button
               type="button"
               onClick={onReveal}
-              className="mono-cap text-ink-mute transition-colors hover:text-accent"
+              className="text-caption text-ink-mute transition-colors hover:text-accent"
             >
               Ver frase
             </button>
@@ -1027,7 +1027,7 @@ function RecallStep({
         {recallPhase === "correct" && (
           <div className="fade-in rounded-lg border border-[color:var(--correct)]/40 bg-surface p-4 space-y-2.5">
             <div className="flex items-start justify-between gap-4">
-              <p className="mono-cap pt-0.5" style={{ color: "var(--correct)" }}>Sí, eso es.</p>
+              <p className="text-caption pt-0.5" style={{ color: "var(--correct)" }}>Sí, eso es.</p>
               <PlayButton text={card.displayAnswer} label={`Escuchar: ${card.displayAnswer}`} />
             </div>
             <p className="text-display-md text-ink">{card.displayAnswer}</p>
@@ -1141,13 +1141,13 @@ function WriteStep({
         />
       </form>
 
-      <p className="mono-cap text-ink-mute">Sin pistas ni banco de palabras</p>
+      <p className="text-caption text-ink-mute">Sin pistas ni banco de palabras</p>
 
       <div aria-live="polite">
         {writePhase === "correct" && (
           <div className="fade-in rounded-lg border border-[color:var(--correct)]/40 bg-surface p-4 space-y-2.5">
             <div className="flex items-start justify-between gap-4">
-              <p className="mono-cap pt-0.5" style={{ color: "var(--correct)" }}>Sí, eso es.</p>
+              <p className="text-caption pt-0.5" style={{ color: "var(--correct)" }}>Sí, eso es.</p>
               <PlayButton text={card.displayAnswer} label={`Escuchar: ${card.displayAnswer}`} />
             </div>
             <p className="text-display-md text-ink">{card.displayAnswer}</p>
@@ -1219,7 +1219,7 @@ function SayStep({
     <div className="space-y-4">
       {/* Prompt */}
       <div className="space-y-2">
-        <p className="mono-cap" style={{ color: "var(--accent)" }}>DILO EN VOZ ALTA</p>
+        <p className="text-caption" style={{ color: "var(--accent)" }}>DILO EN VOZ ALTA</p>
         <h1 className="text-display-prompt text-ink">{say.promptEnglish}</h1>
         <p className="text-sm text-ink-mute">{say.instruction}</p>
       </div>
@@ -1227,7 +1227,7 @@ function SayStep({
       {/* Spanish reveal */}
       {showSpanish && (
         <div className="fade-in rounded-lg border border-rule bg-surface p-4 space-y-1">
-          <p className="mono-cap text-ink-mute">La frase</p>
+          <p className="text-caption text-ink-mute">La frase</p>
           <p className="text-display-md text-ink">{say.displayAnswer}</p>
         </div>
       )}
@@ -1235,7 +1235,7 @@ function SayStep({
       {/* "Una vez más" nudge after confirming */}
       {showSaidAgain && (
         <div className="fade-in rounded-lg border border-[color:var(--correct)]/30 bg-surface p-4 space-y-1">
-          <p className="mono-cap" style={{ color: "var(--correct)" }}>Bien.</p>
+          <p className="text-caption" style={{ color: "var(--correct)" }}>Bien.</p>
           <p className="text-sm text-ink-soft">Una vez más, un poco más rápido.</p>
         </div>
       )}
@@ -1332,7 +1332,7 @@ function RemixStep({
     <div className="space-y-4">
       {/* Prompt */}
       <div className="space-y-1.5">
-        <p className="mono-cap" style={{ color: "var(--accent)" }}>CAMBIA UNA COSA</p>
+        <p className="text-caption" style={{ color: "var(--accent)" }}>CAMBIA UNA COSA</p>
         <h1 className="text-display-prompt text-ink">{remix.promptEnglish}</h1>
         <p className="text-sm text-ink-mute">Usa el mismo patrón con una palabra nueva.</p>
       </div>
@@ -1375,7 +1375,7 @@ function RemixStep({
 
       {/* Word bank */}
       <div className="space-y-2">
-        <p className="mono-cap">Palabras disponibles</p>
+        <p className="text-caption">Palabras disponibles</p>
         <div className="rounded-lg border border-rule bg-surface p-4">
           {remixBank.length === 0 ? (
             <p className="py-2 text-center text-sm text-ink-mute">
@@ -1403,7 +1403,7 @@ function RemixStep({
         {remixPhase === "correct" && (
           <div className="fade-in rounded-lg border border-[color:var(--correct)]/40 bg-surface p-4 space-y-2.5">
             <div className="flex items-start justify-between gap-4">
-              <p className="mono-cap pt-0.5" style={{ color: "var(--correct)" }}>¡Perfecto!</p>
+              <p className="text-caption pt-0.5" style={{ color: "var(--correct)" }}>¡Perfecto!</p>
               <PlayButton text={remix.displayAnswer} label={`Escuchar: ${remix.displayAnswer}`} />
             </div>
             <p className="text-display-md text-ink">{remix.displayAnswer}</p>

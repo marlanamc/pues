@@ -86,7 +86,7 @@ export function WeekStems({ dayNums }: { dayNums: number[] }) {
         <button
           type="button"
           onClick={() => void handleCopy()}
-          className="week-stems__copy mono-cap transition-colors hover:text-accent"
+          className="week-stems__copy text-caption transition-colors hover:text-accent"
           style={{
             flexShrink: 0,
             minHeight: 44,
@@ -103,7 +103,7 @@ export function WeekStems({ dayNums }: { dayNums: number[] }) {
       <dl style={{ margin: 0 }}>
         {days.map((d) => (
           <div key={d.day} style={{ borderTop: "1px solid var(--rule)", padding: "14px 0 4px" }}>
-            <dt className="mono-cap" style={{ color: "var(--zone)", marginBottom: 8 }}>
+            <dt className="text-caption" style={{ color: "var(--zone)", marginBottom: 8 }}>
               Día {String(d.day).padStart(2, "0")} · {d.themeEs}
               <Gloss>{d.themeEn}</Gloss>
             </dt>

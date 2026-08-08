@@ -23,7 +23,7 @@ export default function VocalesPage() {
             </span>
           }
           meta={
-            <span className="mono-cap" style={{ color: "var(--accent)" }}>
+            <span className="text-caption" style={{ color: "var(--accent)" }}>
               Escucha
             </span>
           }
@@ -37,7 +37,7 @@ export default function VocalesPage() {
       </p>
 
       <div className="tip-card">
-        <span className="tip-card__label mono-cap">Cómo funciona</span>
+        <span className="tip-card__label text-caption">Cómo funciona</span>
         <p className="tip-card__body">
           You&apos;ll hear one word. Then choose which you heard.
           After your answer, you can compare both words side by side.

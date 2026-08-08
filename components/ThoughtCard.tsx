@@ -57,7 +57,7 @@ export function ThoughtCard({ thought }: { thought: Thought }) {
         {thought.audioId && (
           <>
             <RecordingPlayButton recordingId={thought.audioId} />
-            <span className="mono-cap text-ink-mute">Tu voz</span>
+            <span className="text-caption text-ink-mute">Tu voz</span>
           </>
         )}
       </div>
@@ -66,16 +66,16 @@ export function ThoughtCard({ thought }: { thought: Thought }) {
         <div className="mt-4 space-y-2 border-t border-rule pt-4 text-sm text-ink-soft">
           {thought.english && (
             <div>
-              <span className="mono-cap mr-2">En inglés</span>
+              <span className="text-caption mr-2">En inglés</span>
               {thought.english}
             </div>
           )}
           <div>
-            <span className="mono-cap mr-2">Marco</span>
+            <span className="text-caption mr-2">Marco</span>
             {thought.frameStem}
           </div>
           <div>
-            <span className="mono-cap mr-2">Cómo se sintió</span>
+            <span className="text-caption mr-2">Cómo se sintió</span>
             {reflectionLabel[thought.reflection]}
           </div>
         </div>

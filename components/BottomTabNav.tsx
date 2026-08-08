@@ -26,7 +26,7 @@ export function BottomTabNav() {
                 style={{ color: active ? t.zone : "var(--ink-mute)", gap: 3 }}
               >
                 {t.icon}
-                <span className="mono-cap" style={{ color: "inherit" }}>
+                <span className="text-caption" style={{ color: "inherit" }}>
                   {t.label}
                 </span>
               </Link>

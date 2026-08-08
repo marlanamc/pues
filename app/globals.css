@@ -22,7 +22,7 @@
   --color-accent-ink: var(--accent-ink);
   --color-highlight: var(--highlight);
 
-  --font-display: var(--font-newsreader), Georgia, ui-serif, serif;
+  --font-display: var(--font-atkinson), -apple-system, system-ui, sans-serif;
   --font-body: var(--font-hanken), system-ui, -apple-system, sans-serif;
   --font-mono: var(--font-spline-mono), ui-monospace, Menlo, monospace;
 
@@ -42,11 +42,13 @@
 
    CONTRAST CONTRACT — a new palette is not done until it passes.
    `ink-mute` carries .mono-cap, hints, input placeholders and week-step meta:
-   small text, so it needs 4.5:1 (WCAG AA), not 3:1. Check it against the
-   *lightest* plane in a dark palette (surface-2) and the *darkest* plane in a
-   light one (bg) — those are the worst cases, and bg alone will pass while a
-   label on a card still fails. Keep ink > ink-soft > ink-mute monotonic in
-   OKLCH L with ≥0.06 between steps, or the ramp stops reading as a hierarchy.
+   small text, so it needs 7:1 (comfortably past WCAG AA, not just clearing
+   it — the old 4.5:1 floor passed the letter of AA but read as faint in
+   practice). `ink-soft` needs 8:1. Check both against the *lightest* plane
+   in a dark palette (surface-2) and the *darkest* plane in a light one (bg)
+   — those are the worst cases, and bg alone will pass while a label on a
+   card still fails. Keep ink > ink-soft > ink-mute monotonic in OKLCH L with
+   ≥0.06 between steps, or the ramp stops reading as a hierarchy.
    ============================================ */
 
 /* Shared — dark palettes (and the bare :root default before hydration). */
@@ -68,7 +70,7 @@
   --season-otono: oklch(0.7 0.12 48);
   --season-invierno: oklch(0.645 0.125 28);
   --season-primavera: oklch(0.645 0.105 12);
-  --grain-opacity: 0.35;
+  --grain-opacity: 0;
   --grain-blend: screen;
   color-scheme: dark;
 }
@@ -92,7 +94,7 @@
   --season-otono: oklch(0.53 0.12 48);
   --season-invierno: oklch(0.53 0.125 28);
   --season-primavera: oklch(0.53 0.105 12);
-  --grain-opacity: 0.5;
+  --grain-opacity: 0;
   --grain-blend: multiply;
   color-scheme: light;
 }
@@ -102,24 +104,11 @@
   --highlight: var(--accent);
   --accent-soft: color-mix(in oklab, var(--accent) 85%, #000);
   --surface-sunk: color-mix(in oklab, var(--bg) 78%, var(--surface));
-  --paper-wash:
-    radial-gradient(120% 80% at 50% -10%, color-mix(in oklab, var(--accent) 6%, transparent), transparent 60%);
-  /* Stronger wash for Hoy / Speak activation surfaces */
-  --hoy-wash:
-    radial-gradient(110% 70% at 50% -8%, color-mix(in oklab, var(--accent) 18%, transparent), transparent 55%),
-    radial-gradient(80% 50% at 90% 20%, color-mix(in oklab, var(--accent) 8%, transparent), transparent 50%);
-  --speak-wash:
-    radial-gradient(100% 60% at 50% 0%, color-mix(in oklab, var(--accent) 14%, transparent), transparent 55%);
-}
-:root[data-theme="Papel"],
-:root[data-theme="Niebla"] {
-  --paper-wash:
-    radial-gradient(120% 70% at 50% -10%, color-mix(in oklab, var(--accent) 4%, transparent), transparent 58%);
-  --hoy-wash:
-    radial-gradient(110% 70% at 50% -8%, color-mix(in oklab, var(--accent) 12%, transparent), transparent 55%),
-    radial-gradient(80% 50% at 90% 20%, color-mix(in oklab, var(--accent) 6%, transparent), transparent 50%);
-  --speak-wash:
-    radial-gradient(100% 60% at 50% 0%, color-mix(in oklab, var(--accent) 10%, transparent), transparent 55%);
+  /* Gradient washes removed — they read as visual noise, not atmosphere,
+     for the app's owner. Flat surfaces throughout. */
+  --paper-wash: none;
+  --hoy-wash: none;
+  --speak-wash: none;
 }
 
 /* ---- Almagre — warm red on dark clay (default) ---- */
@@ -129,8 +118,8 @@
   --surface: #251f18;
   --surface-2: #2c251c;
   --ink: #efe5d2;
-  --ink-soft: #b4a98f;
-  --ink-mute: #988d73;
+  --ink-soft: #c5bca8;
+  --ink-mute: #b8b09e;
   --rule: #3a3127;
   --accent: #dd6a43;
 }
@@ -141,8 +130,8 @@
   --surface: #1d2427;
   --surface-2: #222b2e;
   --ink: #e8efee;
-  --ink-soft: #9fb1b0;
-  --ink-mute: #849593;
+  --ink-soft: #b6c4c3;
+  --ink-mute: #abb7b5;
   --rule: #2c3739;
   --accent: #4cb6a4;
 }
@@ -153,8 +142,8 @@
   --surface: #241b24;
   --surface-2: #2b212b;
   --ink: #f0e6ec;
-  --ink-soft: #bba3b4;
-  --ink-mute: #998793;
+  --ink-soft: #c8b5c2;
+  --ink-mute: #b7abb3;
   --rule: #392f38;
   --accent: #d77a9a;
 }
@@ -165,8 +154,8 @@
   --surface: #1d2416;
   --surface-2: #232b1b;
   --ink: #ebefdf;
-  --ink-soft: #aeb795;
-  --ink-mute: #8b9477;
+  --ink-soft: #bbc3a6;
+  --ink-mute: #afb6a2;
   --rule: #333a28;
   --accent: #9bb24a;
 }
@@ -177,8 +166,8 @@
   --surface: #1d1f2e;
   --surface-2: #232639;
   --ink: #e7e8f2;
-  --ink-soft: #a3a7c2;
-  --ink-mute: #898daf;
+  --ink-soft: #b9bdd1;
+  --ink-mute: #aeb1c8;
   --rule: #2f3247;
   --accent: #8a9cf0;
 }
@@ -189,10 +178,10 @@
   --surface: #fbf4e6;
   --surface-2: #f6ecd8;
   --ink: #28231b;
-  --ink-soft: #5b5343;
-  --ink-mute: #726550;
+  --ink-soft: #494336;
+  --ink-mute: #544a3b;
   --rule: #ddccae;
-  --accent: #af4527;
+  --accent: #bb4a2a;
 }
 
 /* ---- Niebla — sea green on cool fog (light) ---- */
@@ -201,10 +190,10 @@
   --surface: #f4f8f7;
   --surface-2: #eef3f2;
   --ink: #1c2625;
-  --ink-soft: #425250;
-  --ink-mute: #5f6c6a;
+  --ink-soft: #3a4847;
+  --ink-mute: #47504f;
   --rule: #cdd9d7;
-  --accent: #267568;
+  --accent: #2f8f7f;
 }
 
 html,
@@ -292,7 +281,7 @@ body > main {
 /* Hero greeting — "Marlana" */
 .text-display-2xl {
   font-family: var(--font-display);
-  font-weight: 300;
+  font-weight: 400;
   font-size: clamp(2.25rem, 9vw, 2.875rem); /* 36px → 46px */
   line-height: 1;
   letter-spacing: -0.02em;
@@ -313,7 +302,7 @@ body > main {
 /* Lead-ins, wordmark, reflection question */
 .text-display-italic {
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: normal;
   font-weight: 400;
   color: var(--ink-soft);
   letter-spacing: -0.005em;
@@ -322,7 +311,7 @@ body > main {
 /* One warm display sentence per screen */
 .text-display-lg {
   font-family: var(--font-display);
-  font-weight: 300;
+  font-weight: 400;
   font-size: 1.5625rem; /* 25px */
   line-height: 1.22;
   letter-spacing: -0.01em;
@@ -332,7 +321,7 @@ body > main {
 /* The prompt / larger display sentence */
 .text-display-prompt {
   font-family: var(--font-display);
-  font-weight: 300;
+  font-weight: 400;
   font-size: 1.75rem; /* 28px */
   line-height: 1.22;
   letter-spacing: -0.01em;
@@ -451,14 +440,13 @@ body > main {
   color: var(--ink-mute);
 }
 
-/* Legacy alias — kept so existing call sites keep working; styled as mono-cap. */
+/* Readable label — normal case, sans, no tracking. The default landing spot
+   for anything converted off .mono-cap that isn't genuine metadata. */
 .text-caption {
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-weight: 400;
-  font-size: 0.72rem;
-  line-height: 1.45;
-  letter-spacing: 0.11em;
-  text-transform: uppercase;
+  font-size: 0.8125rem; /* 13px */
+  line-height: 1.4;
   color: var(--ink-mute);
 }
 
@@ -533,8 +521,8 @@ body > main {
   cursor: pointer;
   background: var(--accent);
   color: var(--accent-ink);
-  border-radius: 14px;
-  padding: 16px 18px;
+  border-radius: 12px;
+  padding: 13px 16px;
   text-align: left;
   transition: background 120ms;
 }
@@ -543,39 +531,15 @@ body > main {
   background: var(--accent-soft);
 }
 
-/* Home Empezar — all four hub hues in one sweep */
-.btn-primary.btn-primary--zones {
-  background-color: transparent;
-  background-image: linear-gradient(
-    90deg,
-    var(--zone-practica) 0%,
-    var(--zone-lugares) 25%,
-    var(--zone-guias) 50%,
-    var(--zone-lab) 100%
-  );
-  color: var(--accent-ink);
-  transition: filter 120ms;
-}
-
+/* Home Empezar — flat accent fill. Formerly a four-hue gradient sweep;
+   removed because gradient surfaces read as visual noise for the app's
+   owner. Falls back to .btn-primary's solid var(--accent). */
 .btn-primary.btn-primary--zones:active {
   filter: brightness(0.9);
 }
 
-/* Comprobar — the one full-spectrum sweep in the app (Sentence Builder). */
-.btn-primary.btn-primary--spectrum {
-  background-color: transparent;
-  background-image: linear-gradient(
-    90deg,
-    var(--accent) 0%,
-    oklch(0.78 0.13 60) 22%,
-    oklch(0.74 0.095 158) 48%,
-    oklch(0.73 0.1 245) 72%,
-    oklch(0.72 0.12 332) 100%
-  );
-  color: var(--accent-ink);
-  transition: filter 120ms;
-}
-
+/* Comprobar (Sentence Builder) — flat accent fill. Formerly a five-stop
+   spectrum sweep; same reasoning as --zones above. */
 .btn-primary.btn-primary--spectrum:active {
   filter: brightness(0.92);
 }
@@ -592,12 +556,13 @@ body > main {
 }
 
 .sb-step-actions button {
-  min-height: 52px;
+  min-height: 46px;
 }
 
 .btn-primary .lab {
   font-family: var(--font-display);
-  font-size: 1.1875rem; /* 19px */
+  font-size: 1.0625rem; /* 17px */
+  font-weight: 700;
 }
 
 .pill-lower {
@@ -649,7 +614,8 @@ body > main {
 
 .tip-card__body em {
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: normal;
+  font-weight: 700;
   color: var(--ink);
 }
 
@@ -1317,24 +1283,130 @@ a {
   border-radius: 0 0 40% 40%;
 }
 .hoy-mission {
-  margin-top: 28px;
-  padding: 24px 22px;
+  margin-top: 20px;
+  padding: 16px 18px 18px;
   background: color-mix(in oklab, var(--accent) 9%, var(--surface));
   border: 1px solid color-mix(in oklab, var(--accent) 32%, var(--rule));
   border-radius: 14px 14px 0 0;
 }
 
+.hoy-mission__main {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px 28px;
+  margin-top: 10px;
+}
+
+.hoy-mission__copy {
+  flex: 1;
+  min-width: 0;
+}
+
+.hoy-mission__mission-en {
+  color: var(--ink-mute);
+  margin: 4px 0 0;
+}
+
+.hoy-mission__hint {
+  margin: 10px 0 0;
+  color: var(--ink-mute);
+}
+
+.hoy-mission__cta-col {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  padding-top: 2px;
+}
+
+.hoy-mission__progress {
+  margin: 0;
+  color: var(--ink-mute);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.hoy-mission__cta-col .gloss-line {
+  text-align: right;
+}
+
+.hoy-mission__open-turn {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid color-mix(in oklab, var(--accent) 18%, var(--rule));
+}
+
+@media (max-width: 540px) {
+  .hoy-mission {
+    padding: 14px 16px 16px;
+  }
+
+  .hoy-mission__main {
+    flex-direction: column;
+    gap: 0;
+    margin-top: 8px;
+  }
+
+  .hoy-mission__copy .text-display-lg {
+    font-size: 1.375rem;
+    line-height: 1.2;
+  }
+
+  .hoy-mission__mission-en {
+    margin-top: 3px;
+  }
+
+  .hoy-mission__hint {
+    margin-top: 8px;
+  }
+
+  .hoy-mission__cta-col {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px 12px;
+    width: 100%;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid color-mix(in oklab, var(--accent) 18%, var(--rule));
+  }
+
+  .hoy-mission__progress {
+    flex: 1 1 7rem;
+    min-width: 0;
+    text-align: left;
+    white-space: normal;
+  }
+
+  .hoy-mission__cta-col .gloss-line {
+    display: none;
+  }
+
+  .hoy-cta {
+    padding: 11px 14px;
+  }
+
+  .hoy-cta .lab {
+    font-size: 1rem;
+  }
+}
+
 /* The day's CTA is the single boldest control on Hoy — heavier label, firmer
-   press feedback, sized up from the shared .btn-primary .lab default. */
+   press feedback, slightly sized up from the shared .btn-primary .lab default. */
 .hoy-cta {
-  padding: 18px 20px;
+  width: fit-content;
+  padding: 14px 18px;
   transition:
     background 120ms,
     transform 120ms;
 }
 .hoy-cta .lab {
   font-weight: 500;
-  font-size: 1.3125rem; /* 21px, up from the shared 19px */
+  font-size: 1.125rem; /* 18px, up from the shared 17px */
   letter-spacing: -0.01em;
 }
 .hoy-cta:active {
@@ -1415,7 +1487,7 @@ a {
 }
 .hoy-stat-num {
   font-family: var(--font-display);
-  font-weight: 300;
+  font-weight: 400;
   font-size: 1.5rem;
   color: var(--ink);
 }
@@ -1477,7 +1549,7 @@ a {
   display: block;
   font-family: var(--font-display);
   font-size: 0.875rem;
-  font-style: italic;
+  font-style: normal;
   color: var(--ink-mute);
   margin-top: 0.2rem;
   line-height: 1.4;
@@ -1519,7 +1591,7 @@ html[data-text-size="large"] .gloss-line {
 .stem-recall-card__stem {
   font-family: var(--font-display);
   font-size: clamp(1.75rem, 4.5vw, 2.25rem);
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.2;
   margin: 0.75rem 0 0;
   color: var(--ink);
@@ -1589,7 +1661,7 @@ html[data-text-size="large"] .gloss-line {
 .stem-recall-done {
   font-family: var(--font-display);
   font-size: 1.5rem;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.25;
   margin: 0;
   color: var(--ink);

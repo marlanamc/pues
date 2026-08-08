@@ -136,7 +136,7 @@ export function AccountCard() {
           <button
             type="button"
             onClick={signOut}
-            className="mono-cap shrink-0 rounded-full border border-rule px-3 py-1.5 text-ink-soft transition-colors hover:border-accent/60 hover:text-accent"
+            className="text-caption shrink-0 rounded-full border border-rule px-3 py-1.5 text-ink-soft transition-colors hover:border-accent/60 hover:text-accent"
           >
             Sign out
           </button>
@@ -181,7 +181,7 @@ export function AccountCard() {
         />
         <button
           type="submit"
-          className="mono-cap w-full rounded-full bg-accent px-4 py-2.5 text-bg transition-opacity hover:opacity-90"
+          className="text-caption w-full rounded-full bg-accent px-4 py-2.5 text-bg transition-opacity hover:opacity-90"
         >
           {mode === "sign-in" ? "Sign in →" : "Create account →"}
         </button>

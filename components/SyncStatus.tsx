@@ -36,7 +36,7 @@ export function SyncStatus() {
   // Avoid an SSR/client mismatch on navigator.onLine.
   if (!mounted || state === "synced") {
     return (
-      <p className="mono-cap text-ink-mute" suppressHydrationWarning>
+      <p className="text-caption text-ink-mute" suppressHydrationWarning>
         Sincronizado
       </p>
     );
@@ -44,7 +44,7 @@ export function SyncStatus() {
 
   if (state === "offline") {
     return (
-      <p className="mono-cap" style={{ color: "var(--ink-soft)" }}>
+      <p className="text-caption" style={{ color: "var(--ink-soft)" }}>
         Sin conexión — se reintentará
       </p>
     );
@@ -52,13 +52,13 @@ export function SyncStatus() {
 
   return (
     <div className="flex items-center gap-2">
-      <p className="mono-cap" style={{ color: "var(--accent)" }}>
+      <p className="text-caption" style={{ color: "var(--accent)" }}>
         No se pudo sincronizar
       </p>
       <button
         type="button"
         onClick={() => flushSyncQueue()}
-        className="mono-cap rounded-full border border-rule px-2.5 py-1 text-ink-soft transition-colors hover:border-accent/60 hover:text-accent"
+        className="text-caption rounded-full border border-rule px-2.5 py-1 text-ink-soft transition-colors hover:border-accent/60 hover:text-accent"
       >
         Reintentar
       </button>

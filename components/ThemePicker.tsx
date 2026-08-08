@@ -88,7 +88,7 @@ function Swatch({
       </span>
       {!compact && (
         <span
-          className="mono-cap"
+          className="text-caption"
           style={{
             fontSize: 8.5,
             color: active ? "var(--accent)" : "var(--ink-mute)",
@@ -109,7 +109,7 @@ export function ThemePicker({ compact = false }: { compact?: boolean }) {
 
   const renderGroup = (label: string, palettes: ThemePalette[]) => (
     <div className="space-y-2">
-      <p className="mono-cap" style={{ fontSize: 8.5 }}>
+      <p className="text-caption" style={{ fontSize: 8.5 }}>
         {label}
       </p>
       <div

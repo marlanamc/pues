@@ -112,7 +112,7 @@ export default function HomePage() {
       <PageHeader
         title={<Wordmark>Pues</Wordmark>}
         meta={
-          <span className="mono-cap" style={{ color: "var(--accent)" }}>
+          <span className="text-caption" style={{ color: "var(--accent)" }}>
             Semanas · {stats.primedWeeks.length}
           </span>
         }
@@ -123,7 +123,7 @@ export default function HomePage() {
           <div className="hoy-crumb-row">
             <Link
               href="/semana"
-              className="mono-cap transition-colors hover:text-accent"
+              className="text-caption transition-colors hover:text-accent"
               style={{
                 display: "inline-flex",
                 alignItems: "center",
@@ -163,67 +163,69 @@ export default function HomePage() {
           )}
 
           <div className="hoy-mission">
-            <span className="mono-cap flex items-center" style={{ gap: 7, color: "var(--accent)" }}>
-              <span aria-hidden style={{ display: "inline-flex" }}>
-                {IconSun}
-              </span>
-              Tu día · Día {dayNum} · {day.themeEs}
-            </span>
-            <Gloss>{`Your day · Day ${dayNum} · ${day.themeEn}`}</Gloss>
-
-            <h2 className="text-display-xl text-ink" style={{ margin: "14px 0 0" }}>
-              {mission}
-            </h2>
-            {missionEn && (
-              <p className="text-gloss" style={{ color: "var(--ink-mute)", margin: "6px 0 0" }}>
-                {missionEn}
-              </p>
-            )}
-
-            {sessionIndex > 0 && sessionIndex < PROMPTS_PER_DAY && (
-              <p className="mono-cap" style={{ margin: "14px 0 0", color: "var(--ink-mute)" }}>
-                {sessionIndex} de {PROMPTS_PER_DAY} frases · a tu ritmo
-                <Gloss>{`${sessionIndex} of ${PROMPTS_PER_DAY} sentences · at your pace`}</Gloss>
-              </p>
-            )}
-
-            {weekendInvite ? (
-              <Link
-                href="/flow/speak"
-                className="inline-flex min-h-[44px] items-center transition-colors hover:text-accent"
-                style={{ gap: 8, marginTop: 16, color: "var(--ink-soft)" }}
-              >
-                <span className="font-display" style={{ fontSize: "1.0625rem" }}>
-                  {ctaLabel}
+            <div className="hoy-mission__meta">
+              <span className="text-caption flex items-center hoy-mission__day" style={{ gap: 7, color: "var(--accent)" }}>
+                <span aria-hidden style={{ display: "inline-flex" }}>
+                  {IconSun}
                 </span>
-                <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden {...ws}>
-                  <path d="M5 12h14M13 6l6 6-6 6" />
-                </svg>
-              </Link>
-            ) : (
-              <Link href="/flow/speak" className="btn-primary hoy-cta" style={{ marginTop: 22 }}>
-                <span className="lab">{ctaLabel}</span>
-                <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden {...ws}>
-                  <path d="M5 12h14M13 6l6 6-6 6" />
-                </svg>
-              </Link>
-            )}
-            <div style={{ marginTop: 6 }}>
-              <Gloss>{ctaGloss}</Gloss>
+                Tu día · Día {dayNum} · {day.themeEs}
+              </span>
+              <Gloss>{`Your day · Day ${dayNum} · ${day.themeEn}`}</Gloss>
             </div>
 
-            {openTurnHint && (
-              <p className="mono-cap" style={{ marginTop: 14, color: "var(--ink-mute)" }}>
-                Después de cinco frases · sin guion
-                <Gloss>After five sentences — one unscripted turn</Gloss>
-              </p>
-            )}
+            <div className="hoy-mission__main">
+              <div className="hoy-mission__copy">
+                <h2 className="text-display-lg text-ink">{mission}</h2>
+                {missionEn && (
+                  <p className="text-gloss hoy-mission__mission-en">{missionEn}</p>
+                )}
+
+                {openTurnHint && (
+                  <p className="text-caption hoy-mission__hint">
+                    Después de cinco frases · sin guion
+                    <Gloss>After five sentences — one unscripted turn</Gloss>
+                  </p>
+                )}
+              </div>
+
+              <div className="hoy-mission__cta-col">
+                {sessionIndex > 0 && sessionIndex < PROMPTS_PER_DAY && (
+                  <p className="text-caption hoy-mission__progress">
+                    {sessionIndex} de {PROMPTS_PER_DAY} frases · a tu ritmo
+                    <Gloss>{`${sessionIndex} of ${PROMPTS_PER_DAY} sentences · at your pace`}</Gloss>
+                  </p>
+                )}
+
+                {weekendInvite ? (
+                  <Link
+                    href="/flow/speak"
+                    className="hoy-mission__cta-secondary inline-flex min-h-[44px] items-center transition-colors hover:text-accent"
+                    style={{ gap: 8, color: "var(--ink-soft)" }}
+                  >
+                    <span className="font-display" style={{ fontSize: "1.0625rem" }}>
+                      {ctaLabel}
+                    </span>
+                    <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden {...ws}>
+                      <path d="M5 12h14M13 6l6 6-6 6" />
+                    </svg>
+                  </Link>
+                ) : (
+                  <Link href="/flow/speak" className="btn-primary hoy-cta">
+                    <span className="lab">{ctaLabel}</span>
+                    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden {...ws}>
+                      <path d="M5 12h14M13 6l6 6-6 6" />
+                    </svg>
+                  </Link>
+                )}
+                <Gloss>{ctaGloss}</Gloss>
+              </div>
+            </div>
 
             {canDoOpenTurn && openTurnIndex !== null && (
               <Link
                 href={`/flow/abierto?i=${openTurnIndex}`}
-                className="inline-flex min-h-[44px] items-center transition-colors hover:text-accent"
-                style={{ gap: 8, marginTop: 14, color: "var(--ink-soft)" }}
+                className="hoy-mission__open-turn inline-flex min-h-[44px] items-center transition-colors hover:text-accent"
+                style={{ gap: 8, color: "var(--ink-soft)" }}
               >
                 <span className="font-display" style={{ fontSize: "1.0625rem" }}>
                   Una más, sin guion
@@ -238,12 +240,12 @@ export default function HomePage() {
 
         <details className="hoy-more" id="ideas">
           <summary className="hoy-more-summary">
-            <span className="mono-cap">Más de hoy</span>
+            <span className="text-caption">Más de hoy</span>
             <Gloss>More for today</Gloss>
           </summary>
 
           <div style={{ marginTop: 16, display: "flex", flexDirection: "column", gap: 10 }}>
-            <span className="mono-cap" style={{ color: "var(--ink-mute)" }}>
+            <span className="text-caption" style={{ color: "var(--ink-mute)" }}>
               Ideas para empezar
               <Gloss>Ideas to get started</Gloss>
             </span>
@@ -254,7 +256,7 @@ export default function HomePage() {
               <button
                 type="button"
                 onClick={() => setShowMoreExamples(true)}
-                className="mono-cap inline-flex items-center transition-colors hover:text-accent"
+                className="text-caption inline-flex items-center transition-colors hover:text-accent"
                 style={{
                   alignSelf: "flex-start",
                   color: "var(--accent)",
@@ -268,7 +270,7 @@ export default function HomePage() {
           </div>
 
           <div style={{ marginTop: 24, display: "flex", flexDirection: "column", gap: 4 }}>
-            <span className="mono-cap" style={{ color: "var(--ink-mute)" }}>
+            <span className="text-caption" style={{ color: "var(--ink-mute)" }}>
               También hoy
               <Gloss>Also today</Gloss>
             </span>
@@ -285,7 +287,7 @@ export default function HomePage() {
               meta={readingDone ? "Leído esta noche" : "Esta noche"}
               metaAccent={readingDone}
             />
-            <Link href="/mas" className="mono-cap transition-colors hover:text-accent" style={{ marginTop: 6 }}>
+            <Link href="/mas" className="text-caption transition-colors hover:text-accent" style={{ marginTop: 6 }}>
               Juegos, lugares y más →
             </Link>
             <Gloss>Games, places, and more</Gloss>
@@ -295,15 +297,15 @@ export default function HomePage() {
         <div className="hoy-stat-strip">
           <div>
             <div className="hoy-stat-num">{stats.daysPracticed}</div>
-            <span className="mono-cap">Días</span>
+            <span className="text-caption">Días</span>
           </div>
           <div>
             <div className="hoy-stat-num">{stats.sentencesCreated}</div>
-            <span className="mono-cap">Frases</span>
+            <span className="text-caption">Frases</span>
           </div>
           <div>
             <div className="hoy-stat-num">{stats.primedWeeks.length}</div>
-            <span className="mono-cap">Semanas</span>
+            <span className="text-caption">Semanas</span>
           </div>
         </div>
 
@@ -370,7 +372,7 @@ function ExampleCard({ prompt }: { prompt: SpeakPrompt }) {
           className="font-display font-light text-[1.0625rem] leading-snug"
           quotes={false}
         />
-        <span className="mono-cap" style={{ fontSize: 9, marginTop: 6, display: "inline-block" }}>
+        <span className="text-caption" style={{ fontSize: 9, marginTop: 6, display: "inline-block" }}>
           toca o pasa el cursor por una palabra · ▶ en español
         </span>
       </div>
@@ -405,7 +407,7 @@ function TodayExtraRow({
         <Gloss>{titleEn}</Gloss>
       </span>
       <span
-        className="mono-cap"
+        className="text-caption"
         style={{ color: metaAccent ? "var(--accent)" : "var(--ink-soft)" }}
       >
         {meta}

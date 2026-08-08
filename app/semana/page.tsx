@@ -96,7 +96,7 @@ export default function SemanaPage() {
       <div className="page-column" style={{ opacity: hydrated ? 1 : 0.6 }}>
         {/* ===== The week itself ===== */}
         <div style={{ marginTop: 28 }}>
-          <p className="mono-cap" style={{ color: "var(--zone)" }}>
+          <p className="text-caption" style={{ color: "var(--zone)" }}>
             T{season.index} · {temporada.seasonLabel} · Semana {weekNum} de 13
           </p>
           <Gloss>{`S${season.index} · Week ${weekNum} of 13`}</Gloss>
@@ -125,7 +125,7 @@ export default function SemanaPage() {
               : "One unhurried hour. Copy the stems, listen to the week, retrieve them — and Monday starts already lit."}
           </Gloss>
 
-          <p className="mono-cap" style={{ marginTop: 14, color: "var(--ink-mute)" }}>
+          <p className="text-caption" style={{ marginTop: 14, color: "var(--ink-mute)" }}>
             {temporada.arc}
           </p>
         </div>
@@ -171,7 +171,7 @@ export default function SemanaPage() {
               {IconBook}
             </span>
             <span style={{ minWidth: 0 }}>
-              <span className="mono-cap" style={{ display: "block", color: "var(--zone)" }}>
+              <span className="text-caption" style={{ display: "block", color: "var(--zone)" }}>
                 El hilo de la semana
               </span>
               <span
@@ -191,7 +191,7 @@ export default function SemanaPage() {
               >
                 {story.dialogue.situation}
               </span>
-              <span className="mono-cap" style={{ display: "block", marginTop: 8 }}>
+              <span className="text-caption" style={{ display: "block", marginTop: 8 }}>
                 Se lee un capítulo por día
               </span>
               <Gloss>One chapter a day</Gloss>
@@ -206,7 +206,7 @@ export default function SemanaPage() {
             copy them, hear them, retrieve them, listen blind. Speaking stays
             in Los días — that's daily work, not week prep. */}
         <div style={{ marginTop: 34 }}>
-          <p className="mono-cap">La hora</p>
+          <p className="text-caption">La hora</p>
           <Gloss>The hour</Gloss>
         </div>
 
@@ -240,7 +240,7 @@ export default function SemanaPage() {
             justPrimed ? (
               <div>
                 <p
-                  className="mono-cap"
+                  className="text-caption"
                   style={{
                     display: "flex",
                     alignItems: "center",
@@ -270,7 +270,7 @@ export default function SemanaPage() {
                 </div>
                 <Link
                   href="/"
-                  className="mono-cap transition-colors hover:text-accent"
+                  className="text-caption transition-colors hover:text-accent"
                   style={{
                     display: "inline-flex",
                     marginTop: 14,
@@ -284,7 +284,7 @@ export default function SemanaPage() {
             ) : (
               <>
                 <p
-                  className="mono-cap"
+                  className="text-caption"
                   style={{
                     display: "flex",
                     alignItems: "center",
@@ -343,7 +343,7 @@ export default function SemanaPage() {
           <details className="week-step week-step--plain">
             <summary>
               <span className="week-step__title">
-                <span className="mono-cap">Todo el camino</span>
+                <span className="text-caption">Todo el camino</span>
                 <Gloss>The whole path</Gloss>
               </span>
             </summary>
@@ -360,7 +360,7 @@ export default function SemanaPage() {
 function SectionHead({ label, labelEn }: { label: string; labelEn?: string }) {
   return (
     <div style={{ marginTop: 30, marginBottom: 12 }}>
-      <span className="mono-cap">{label}</span>
+      <span className="text-caption">{label}</span>
       {labelEn && <Gloss>{labelEn}</Gloss>}
     </div>
   );
@@ -401,7 +401,7 @@ function WeekStep({
           <span className="week-step__label">{label}</span>
           <Gloss>{labelEn}</Gloss>
         </span>
-        {meta && <span className="mono-cap week-step__meta">{meta}</span>}
+        {meta && <span className="text-caption week-step__meta">{meta}</span>}
       </summary>
       <div className="week-step__body">{children}</div>
     </details>

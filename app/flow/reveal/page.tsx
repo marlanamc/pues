@@ -44,7 +44,7 @@ export default function RevealPage() {
       className="flex flex-1 flex-col"
       style={{ opacity: hydrated ? 1 : 0.5 }}
     >
-      <p className="mono-cap mt-6 mb-3 lg:mt-4 lg:mb-2.5">
+      <p className="text-caption mt-6 mb-3 lg:mt-4 lg:mb-2.5">
         Una forma natural de decirlo
         <Gloss>A natural way to say it</Gloss>
       </p>
@@ -63,23 +63,23 @@ export default function RevealPage() {
               />
             </div>
             <div className="compare-audio__meta">
-              <span className="mono-cap compare-audio__label">Modelo</span>
-              <span className="mono-cap text-ink-mute">·</span>
+              <span className="text-caption compare-audio__label">Modelo</span>
+              <span className="text-caption text-ink-mute">·</span>
               <button
                 type="button"
                 onClick={() => setSpeed("slow")}
                 aria-pressed={speed === "slow"}
-                className="mono-cap transition-colors"
+                className="text-caption transition-colors"
                 style={{ color: speed === "slow" ? "var(--accent)" : undefined }}
               >
                 lento
               </button>
-              <span className="mono-cap text-ink-mute">/</span>
+              <span className="text-caption text-ink-mute">/</span>
               <button
                 type="button"
                 onClick={() => setSpeed("normal")}
                 aria-pressed={speed === "normal"}
-                className="mono-cap transition-colors"
+                className="text-caption transition-colors"
                 style={{ color: speed === "normal" ? "var(--accent)" : undefined }}
               >
                 normal
@@ -115,10 +115,10 @@ export default function RevealPage() {
                 )}
               </div>
               <div className="compare-audio__meta">
-                <span className="mono-cap compare-audio__label compare-audio__label--mine">
+                <span className="text-caption compare-audio__label compare-audio__label--mine">
                   Tu voz
                 </span>
-                <span className="mono-cap text-ink-mute">·</span>
+                <span className="text-caption text-ink-mute">·</span>
                 <RecordingCaptureButton
                   replaceId={draft.recordingId}
                   label={draft.recordingId ? "Grabar de nuevo" : "Grabar ahora"}
@@ -132,7 +132,7 @@ export default function RevealPage() {
 
       {whySegments.length > 0 && (
         <aside className="tip-card mt-4 lg:mt-3.5" aria-label="Nota">
-          <span className="mono-cap tip-card__label">Nota</span>
+          <span className="text-caption tip-card__label">Nota</span>
           <p className="tip-card__body">
             {whySegments.map((seg, i) =>
               seg.italic ? <em key={i}>{seg.text}</em> : <span key={i}>{seg.text}</span>

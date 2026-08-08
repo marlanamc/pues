@@ -53,7 +53,7 @@ export function RecordingCaptureButton({
       type="button"
       onClick={onTap}
       aria-label={subtitle}
-      className="mono-cap inline-flex items-center gap-1.5 transition-colors hover:text-accent"
+      className="text-caption inline-flex items-center gap-1.5 transition-colors hover:text-accent"
       style={{ color: recording ? "var(--accent)" : "var(--ink-mute)" }}
     >
       {recording ? (

@@ -84,7 +84,7 @@ export default function SentenceBuilderPage() {
 
       {/* How to play */}
       <section className="space-y-3">
-        <p className="mono-cap">Cómo se juega</p>
+        <p className="text-caption">Cómo se juega</p>
         <ol className="rounded-lg border border-rule bg-surface divide-y divide-rule overflow-hidden">
           {sentenceBuilderHowTo.map((step, i) => (
             <li key={step.title} className="flex items-start gap-3.5 px-4 py-3.5">
@@ -113,7 +113,7 @@ export default function SentenceBuilderPage() {
 
       {/* Levels */}
       <section className="space-y-3">
-        <p className="mono-cap">Niveles</p>
+        <p className="text-caption">Niveles</p>
         <ul className="space-y-2.5">
           {levels.map((level, i) => {
             const unlocked = isUnlocked(i);
@@ -146,7 +146,7 @@ export default function SentenceBuilderPage() {
                     </span>
                   </div>
                   <span
-                    className="mono-cap shrink-0 text-right"
+                    className="text-caption shrink-0 text-right"
                     style={{ color: unlocked ? "var(--accent)" : "var(--ink-mute)" }}
                   >
                     {unlocked ? `${count} frases` : "Bloqueado"}

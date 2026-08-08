@@ -82,7 +82,7 @@ function SeasonHighlightCard({ t, dayLabel }: { t: Temporada; dayLabel: string }
         borderRadius: 16,
       }}
     >
-      <span className="mono-cap" style={{ color: "var(--accent)" }}>
+      <span className="text-caption" style={{ color: "var(--accent)" }}>
         Estás aquí · Día {dayLabel}
         <Gloss>{`You are here · Day ${dayLabel}`}</Gloss>
       </span>
@@ -112,7 +112,7 @@ function SeasonBodyCard({ t }: { t: Temporada }) {
 function SeasonArcCard({ t }: { t: Temporada }) {
   return (
     <div style={{ padding: "14px 16px", background: "var(--surface-2)", border: "1px solid var(--rule)", borderRadius: 12 }}>
-      <p className="mono-cap" style={{ marginBottom: 6 }}>
+      <p className="text-caption" style={{ marginBottom: 6 }}>
         Arco de la temporada
         <Gloss>Season arc</Gloss>
       </p>
@@ -142,7 +142,7 @@ function SeasonWeeksCard({
           Semana {weekNum} de 13
           <Gloss>{`Week ${weekNum} of 13`}</Gloss>
         </span>
-        <span className="mono-cap" style={{ color: "var(--accent)" }}>{t.weeks[weekNum - 1]}</span>
+        <span className="text-caption" style={{ color: "var(--accent)" }}>{t.weeks[weekNum - 1]}</span>
       </div>
       <WeekList t={t} weekNum={weekNum} primedWeeks={primedWeeks} daysDone={daysDone} />
     </div>
@@ -247,7 +247,7 @@ function UpcomingSeasonPreview({ t }: { t: Temporada }) {
       }}
     >
       <summary
-        className="mono-cap flex cursor-pointer list-none items-center justify-between gap-3 transition-colors hover:text-accent [&::-webkit-details-marker]:hidden"
+        className="text-caption flex cursor-pointer list-none items-center justify-between gap-3 transition-colors hover:text-accent [&::-webkit-details-marker]:hidden"
         style={{ padding: "9px 12px", minHeight: 44, color: "var(--ink-soft)" }}
       >
         <span className="flex flex-col">
@@ -282,7 +282,7 @@ function UpcomingSeasonPreview({ t }: { t: Temporada }) {
         </p>
 
         <div style={{ padding: "10px 12px", background: "var(--surface-2)", borderRadius: 10 }}>
-          <p className="mono-cap" style={{ marginBottom: 4, fontSize: 10 }}>
+          <p className="text-caption" style={{ marginBottom: 4, fontSize: 10 }}>
             Arco
             <Gloss>Arc</Gloss>
           </p>
@@ -293,7 +293,7 @@ function UpcomingSeasonPreview({ t }: { t: Temporada }) {
         </div>
 
         <div>
-          <p className="mono-cap" style={{ marginBottom: 6, fontSize: 10 }}>
+          <p className="text-caption" style={{ marginBottom: 6, fontSize: 10 }}>
             Metas
             <Gloss>Goals</Gloss>
           </p>
@@ -311,7 +311,7 @@ function UpcomingSeasonPreview({ t }: { t: Temporada }) {
         </div>
 
         <div>
-          <p className="mono-cap" style={{ marginBottom: 8, fontSize: 10 }}>
+          <p className="text-caption" style={{ marginBottom: 8, fontSize: 10 }}>
             13 semanas
             <Gloss>13 weeks</Gloss>
           </p>
@@ -367,7 +367,7 @@ function CurrentSeasonPanel({
   return (
     <aside className="flex flex-col gap-5">
       <div>
-        <span className="mono-cap" style={{ color: "var(--accent)" }}>
+        <span className="text-caption" style={{ color: "var(--accent)" }}>
           Estás aquí · Día {dayLabel}
           <Gloss>{`You are here · Day ${dayLabel}`}</Gloss>
         </span>
@@ -375,14 +375,14 @@ function CurrentSeasonPanel({
           {t.title}
           <Gloss>{t.titleEn}</Gloss>
         </h2>
-        <span className="mono-cap" style={{ color: t.color, marginTop: 6, display: "inline-block" }}>
+        <span className="text-caption" style={{ color: t.color, marginTop: 6, display: "inline-block" }}>
           Temporada {t.index} · {t.seasonLabel}
         </span>
       </div>
 
       <div style={{ padding: 18, background: "var(--surface)", border: "1px solid var(--rule)", borderRadius: 16 }}>
         <div className="flex items-baseline justify-between">
-          <span className="mono-cap">
+          <span className="text-caption">
             Progreso
             <Gloss>Progress</Gloss>
           </span>
@@ -424,7 +424,7 @@ function CurrentSeasonPanel({
             Semana {weekNum} de 13
             <Gloss>{`Week ${weekNum} of 13`}</Gloss>
           </span>
-          <span className="mono-cap" style={{ color: "var(--accent)" }}>{t.weeks[weekNum - 1]}</span>
+          <span className="text-caption" style={{ color: "var(--accent)" }}>{t.weeks[weekNum - 1]}</span>
         </div>
         <WeekList
           t={t}
@@ -436,7 +436,7 @@ function CurrentSeasonPanel({
       </div>
 
       <div>
-        <span className="mono-cap">
+        <span className="text-caption">
           Metas de la temporada
           <Gloss>Season goals</Gloss>
         </span>
@@ -508,7 +508,7 @@ export default function CaminoPage() {
 
       {/* Intro spans full width — keeps columns aligned below */}
       <section style={{ marginTop: 22, maxWidth: "52ch" }}>
-        <p className="mono-cap">
+        <p className="text-caption">
           El Camino · un año
           <Gloss>The Path · one year</Gloss>
         </p>
@@ -537,7 +537,7 @@ export default function CaminoPage() {
                 top: 8,
                 height: 88,
                 width: 2,
-                background: `linear-gradient(${SEASONS[0].color}, ${SEASONS[1].color})`,
+                background: SEASONS[0].color,
               }}
             />
 
@@ -635,7 +635,7 @@ export default function CaminoPage() {
                 />
               </div>
               <div>
-                <span className="mono-cap">
+                <span className="text-caption">
                   El horizonte
                   <Gloss>The horizon</Gloss>
                 </span>
