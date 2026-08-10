@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { Gloss } from "@/components/Gloss";
 import { PageHeader, Wordmark } from "@/components/PageHeader";
+import { PlayButton } from "@/components/PlayButton";
 import {
   speakDayForIndex,
   PROMPTS_PER_DAY,
@@ -12,10 +13,12 @@ import {
 } from "@/content/prompts";
 import { TEMPORADAS } from "@/content/temporadas";
 import {
+  clearDraft,
   currentWeek,
   getSessionIndex,
   isWeekPrimed,
   readingDoneToday,
+  setCurrentDayIndex,
   weekDaysDone,
 } from "@/lib/store";
 import { useStats } from "@/hooks/useStats";
@@ -98,6 +101,7 @@ export default function HomePage() {
   const [now, setNow] = useState<Date | null>(null);
   const [sessionIndex, setSessionIndex] = useState(0);
   const [readingDone, setReadingDone] = useState(false);
+  const [openedDay, setOpenedDay] = useState<{ day: number | null } | null>(null);
 
   useEffect(() => {
     setNow(new Date());
@@ -288,36 +292,84 @@ export default function HomePage() {
                 const stems = [...new Set(speakDay.prompts.map((p) => p.frameStem))].join(" · ");
                 const isCurrent = d === day.day;
                 const isDone = weekDoneDays.has(d);
-                const row = (
-                  <>
-                    <span className="hoy-dash__week-row-badge">{String(i + 1).padStart(2, "0")}</span>
-                    <span className="hoy-dash__week-row-text">
-                      <span className="hoy-dash__week-row-title">{speakDay.themeEs}</span>
-                      <span className="text-caption hoy-dash__week-row-sub">{stems}</span>
-                    </span>
-                    <span className="hoy-dash__week-row-status">
-                      {isCurrent ? (
-                        <>
-                          <span className="hoy-dash__week-row-tag">Hoy</span>
-                          {ArrowSmall}
-                        </>
-                      ) : isDone ? (
-                        <span style={{ color: "var(--accent)" }}>{Check}</span>
-                      ) : (
-                        ArrowSmall
-                      )}
-                    </span>
-                  </>
-                );
-                return isCurrent ? (
+                const isOpen = (openedDay ? openedDay.day : day.day) === d;
+                const hasOpenTurn = Boolean(openTurnForDayIndex(d - 1));
+
+                return (
                   <li key={d}>
-                    <Link href="/flow/speak" className="hoy-dash__week-row hoy-dash__week-row--current">
-                      {row}
-                    </Link>
-                  </li>
-                ) : (
-                  <li key={d} className="hoy-dash__week-row">
-                    {row}
+                    <button
+                      type="button"
+                      onClick={() => setOpenedDay({ day: isOpen ? null : d })}
+                      aria-expanded={isOpen}
+                      className={`hoy-dash__week-row${isCurrent ? " hoy-dash__week-row--current" : ""}`}
+                    >
+                      <span className="hoy-dash__week-row-badge">{String(i + 1).padStart(2, "0")}</span>
+                      <span className="hoy-dash__week-row-text">
+                        <span className="hoy-dash__week-row-title">{speakDay.themeEs}</span>
+                        <span className="text-caption hoy-dash__week-row-sub">{stems}</span>
+                      </span>
+                      <span className="hoy-dash__week-row-status">
+                        {isCurrent && <span className="hoy-dash__week-row-tag">Hoy</span>}
+                        {isDone && !isCurrent && <span style={{ color: "var(--accent)" }}>{Check}</span>}
+                        <span
+                          className={`hoy-dash__week-row-chevron${isOpen ? " hoy-dash__week-row-chevron--open" : ""}`}
+                        >
+                          {ArrowSmall}
+                        </span>
+                      </span>
+                    </button>
+
+                    {isOpen && (
+                      <div className="hoy-dash__week-expanded">
+                        {speakDay.prompts.map((p) => (
+                          <div key={p.id} className="hoy-dash__week-expanded-prompt">
+                            <span style={{ minWidth: 0 }}>
+                              <span className="text-caption hoy-dash__week-expanded-stem">{p.frameStem}</span>
+                              <span className="font-display text-ink" style={{ display: "block", fontSize: "0.9375rem" }}>
+                                {p.spanish}
+                              </span>
+                              <span className="text-caption" style={{ display: "block", color: "var(--ink-mute)" }}>
+                                {p.english}
+                              </span>
+                            </span>
+                            <PlayButton text={p.spanish} label={`Escuchar: ${p.spanish}`} />
+                          </div>
+                        ))}
+
+                        <div className="hoy-dash__week-expanded-actions">
+                          {isCurrent ? (
+                            <Link href="/flow/speak" onClick={() => clearDraft()} className="btn-primary hoy-cta">
+                              <span className="lab">Practicar</span>
+                              {ArrowSmall}
+                            </Link>
+                          ) : (
+                            <Link
+                              href="/flow/speak"
+                              onClick={() => {
+                                setCurrentDayIndex(d - 1);
+                                clearDraft();
+                              }}
+                              className="text-caption transition-colors hover:text-accent"
+                              style={{ display: "inline-flex", alignItems: "center", gap: 6, color: "var(--accent)" }}
+                            >
+                              {isDone ? "Repetir este día" : "Empezar aquí"}
+                              {ArrowSmall}
+                            </Link>
+                          )}
+                          {hasOpenTurn && (
+                            <Link
+                              href={`/flow/abierto?i=${d - 1}`}
+                              onClick={() => clearDraft()}
+                              className="text-caption transition-colors hover:text-accent"
+                              style={{ display: "inline-flex", alignItems: "center", gap: 6, color: "var(--ink-soft)" }}
+                            >
+                              Sin guion
+                              {ArrowSmall}
+                            </Link>
+                          )}
+                        </div>
+                      </div>
+                    )}
                   </li>
                 );
               })}

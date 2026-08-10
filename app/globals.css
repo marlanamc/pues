@@ -1431,12 +1431,56 @@ a {
 .hoy-dash__week-row {
   display: flex;
   align-items: center;
+  width: 100%;
   gap: 12px;
   padding: 8px 10px;
   border-radius: 10px;
+  background: none;
+  border: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background 120ms;
+}
+.hoy-dash__week-row:hover {
+  background: var(--surface-sunk);
 }
 .hoy-dash__week-row--current {
   background: color-mix(in oklab, var(--accent) 9%, transparent);
+}
+.hoy-dash__week-row--current:hover {
+  background: color-mix(in oklab, var(--accent) 14%, transparent);
+}
+.hoy-dash__week-row-chevron {
+  display: inline-flex;
+  transition: transform 150ms;
+}
+.hoy-dash__week-row-chevron--open {
+  transform: rotate(90deg);
+}
+.hoy-dash__week-expanded {
+  padding: 4px 10px 14px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.hoy-dash__week-expanded-prompt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.hoy-dash__week-expanded-stem {
+  color: var(--accent);
+  margin-bottom: 1px;
+}
+.hoy-dash__week-expanded-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 2px;
+  flex-wrap: wrap;
 }
 .hoy-dash__week-row-badge {
   display: inline-flex;
