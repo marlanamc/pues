@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import { Gloss } from "@/components/Gloss";
 import { PageHeader, Wordmark } from "@/components/PageHeader";
 import { PlayButton } from "@/components/PlayButton";
@@ -11,7 +11,6 @@ import {
   openTurnForDayIndex,
   openTurnReviewDayIndex,
 } from "@/content/prompts";
-import { TEMPORADAS } from "@/content/temporadas";
 import {
   clearDraft,
   currentWeek,
@@ -24,7 +23,6 @@ import {
 import { useStats } from "@/hooks/useStats";
 import { daysInWeek, planContextFromDay } from "@/lib/planDay";
 import { totalDays } from "@/content/frames";
-import { SEASONS } from "@/lib/season";
 
 const ws = {
   fill: "none" as const,
@@ -52,12 +50,6 @@ const Check = (
   </svg>
 );
 
-const ChevronDown = (
-  <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden {...ws}>
-    <path d="M6 9l6 6 6-6" />
-  </svg>
-);
-
 const IconExpand = (
   <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden {...ws}>
     <path d="M9 3H3v6M15 21h6v-6M3 3l7 7M21 21l-7-7" />
@@ -78,21 +70,30 @@ const IconTrend = (
 );
 
 const IconMountain = (
-  <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden {...ws}>
+  <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden {...ws}>
     <path d="M3 19l6-11 4 6.5 2-3L21 19H3Z" />
   </svg>
 );
 
 const IconPuzzle = (
-  <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden {...ws}>
+  <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden {...ws}>
     <path d="M10 4h4v2.2a1.8 1.8 0 1 0 0 3.6V12h2.2a1.8 1.8 0 1 1 0 3.6H14v2.2a1.8 1.8 0 1 1-3.6 0V15.6H8.2a1.8 1.8 0 1 1 0-3.6H10V9.8a1.8 1.8 0 1 1-3.6 0V4H10Z" />
   </svg>
 );
 
-const IconBook = (
-  <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden {...ws}>
+/* Cuaderno — a pencil, the act of writing your own sentences down. */
+const IconPencil = (
+  <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden {...ws}>
     <path d="M12 20h9" />
     <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
+  </svg>
+);
+
+/* La lectura — an open book, two facing pages. */
+const IconRead = (
+  <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden {...ws}>
+    <path d="M4 5.5h5.5a2.5 2.5 0 0 1 2.5 2.5v10a2 2 0 0 0-2-2H4Z" />
+    <path d="M20 5.5h-5.5A2.5 2.5 0 0 0 12 8v10a2 2 0 0 1 2-2h6Z" />
   </svg>
 );
 
@@ -131,8 +132,6 @@ export default function HomePage() {
   const missionEn = day.missionEn;
 
   const ctx = planContextFromDay(day.day);
-  const season = SEASONS[ctx.seasonIdx];
-  const temporada = TEMPORADAS[ctx.seasonIdx];
   const weekNum = ctx.weekNum;
   const doneCount = stats.daysDone.length;
   const planPct = Math.min(100, (doneCount / totalDays) * 100);
@@ -142,13 +141,11 @@ export default function HomePage() {
   const weekendName = weekday === 0 ? "domingo" : "sábado";
 
   const ctaLabel =
-    sessionIndex === 0 ? "Una frase" : sessionIndex >= PROMPTS_PER_DAY ? "Repasar" : "¿Otra?";
-  const ctaGloss =
     sessionIndex === 0
-      ? "One sentence"
+      ? "Decir una frase"
       : sessionIndex >= PROMPTS_PER_DAY
-        ? "Practice again"
-        : "One more";
+        ? "Repasar el día"
+        : "Decir otra frase";
 
   const openTurnIndex = useMemo(
     () => openTurnReviewDayIndex(stats.currentDayIndex, stats.daysDone),
@@ -170,27 +167,55 @@ export default function HomePage() {
     ? `${dateWeekday}, ${now.getDate()} de ${now.toLocaleDateString("es", { month: "long" })}`
     : "";
 
+  /* Sidebar shortcuts. Each tint is a zone token, so the badges re-hue with
+     the active theme instead of pinning one palette's hex. */
+  const accesos = [
+    {
+      href: "/camino",
+      icon: IconMountain,
+      tint: "var(--zone-practica)",
+      title: "Tu camino",
+      sub: `Semana ${weekNum} de 13`,
+    },
+    {
+      href: "/practice/sentence-former",
+      icon: IconPuzzle,
+      tint: "var(--zone-lab)",
+      title: "Formar la frase",
+      sub: `${PROMPTS_PER_DAY} frases nuevas`,
+    },
+    {
+      href: "/cuaderno",
+      icon: IconPencil,
+      tint: "var(--zone-lugares)",
+      title: "Cuaderno",
+      sub: `${stats.daysPracticed} días · ${stats.sentencesCreated} frases`,
+    },
+    {
+      href: "/read",
+      icon: IconRead,
+      tint: "var(--zone-guias)",
+      title: "La lectura",
+      sub: readingDone ? "Leído esta noche" : "Esta noche",
+    },
+  ];
+
   return (
     <div style={{ paddingBottom: 72 }}>
       <div className="lg:hidden">
         <PageHeader title={<Wordmark>Pues</Wordmark>} />
       </div>
 
-      <div className="hoy-dash__topbar">
-        <Link href="/semana" className="hoy-dash__week-select">
-          Semana {weekNum}
-          {ChevronDown}
-        </Link>
-        <Link href="/camino" className="hoy-dash__view-full text-caption">
-          Vista completa
-          {IconExpand}
-        </Link>
-      </div>
-
       <div className="hoy-dash__grid">
         <div className="hoy-dash__main">
           <div className="hoy-dash__date">
-            <h1>{dateHeadline || "Hoy"}</h1>
+            <div className="hoy-dash__date-row">
+              <h1>{dateHeadline || "Hoy"}</h1>
+              <Link href="/camino" className="hoy-dash__view-full text-caption">
+                Vista completa
+                {IconExpand}
+              </Link>
+            </div>
             <p className="text-caption">
               Semana {weekNum} · Día {dayNum}
             </p>
@@ -235,9 +260,9 @@ export default function HomePage() {
 
           <div className="hoy-card hoy-dash__today-card">
             <div className="hoy-dash__today-card-head">
-              <span className="text-caption" style={{ display: "inline-flex", alignItems: "center", gap: 6, color: "var(--accent)" }}>
+              <span className="hoy-dash__today-eyebrow">
                 {IconSun}
-                HOY
+                <span>Hoy · {dayNum} · {day.themeEs}</span>
               </span>
               {sessionIndex > 0 && (
                 <span className="mono-cap">
@@ -246,48 +271,43 @@ export default function HomePage() {
               )}
             </div>
 
-            <div className="hoy-dash__today-card-body">
-              <div style={{ minWidth: 0, flex: 1 }}>
-                <span className="text-caption hoy-dash__today-eyebrow">
-                  {dayNum} · {day.themeEs}
-                </span>
-                <h2 className="hoy-dash__today-headline">{mission}</h2>
-                {missionEn && <p className="hoy-dash__today-gloss">{missionEn}</p>}
+            <h2 className="hoy-dash__today-headline">{mission}</h2>
+            {missionEn && <p className="hoy-dash__today-gloss">{missionEn}</p>}
 
-                {openTurnHint && (
-                  <p className="text-caption" style={{ marginTop: 10, color: "var(--ink-mute)" }}>
-                    Después de cinco frases · sin guion
-                    <Gloss>After five sentences — one unscripted turn</Gloss>
-                  </p>
-                )}
+            {openTurnHint && (
+              <p className="text-caption" style={{ marginTop: 10, color: "var(--ink-mute)" }}>
+                Después de cinco frases · sin guion
+                <Gloss>After five sentences — one unscripted turn</Gloss>
+              </p>
+            )}
 
-                {canDoOpenTurn && openTurnIndex !== null && (
-                  <Link
-                    href={`/flow/abierto?i=${openTurnIndex}`}
-                    className="text-caption transition-colors hover:text-accent"
-                    style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 10, color: "var(--ink-soft)" }}
-                  >
-                    Una más, sin guion
-                    {ArrowSmall}
-                  </Link>
-                )}
-              </div>
-
-              <Link href="/flow/speak" className="btn-primary hoy-cta" style={{ flexShrink: 0 }}>
-                <span className="lab">{ctaLabel}</span>
+            <div className="hoy-dash__today-actions">
+              <Link href="/flow/speak" className="hoy-dash__today-cta">
+                {ctaLabel}
                 {Arrow}
               </Link>
+
+              {canDoOpenTurn && openTurnIndex !== null && (
+                <Link
+                  href={`/flow/abierto?i=${openTurnIndex}`}
+                  className="text-caption transition-colors hover:text-accent"
+                  style={{ display: "inline-flex", alignItems: "center", gap: 6, color: "var(--ink-soft)" }}
+                >
+                  Una más, sin guion
+                  {ArrowSmall}
+                </Link>
+              )}
             </div>
           </div>
 
           <div className="hoy-dash__week-section">
             <div className="hoy-dash__week-section-head">
-              <span className="text-caption">Esta semana</span>
-              <span className="mono-cap text-ink-soft">{weekDayNums.length} días</span>
+              <span className="mono-cap">Esta semana</span>
+              <span className="text-caption">{weekDayNums.length} días</span>
             </div>
 
-            <ul className="hoy-dash__week-list">
-              {weekDayNums.map((d, i) => {
+            <ul className="hoy-card hoy-dash__week-list">
+              {weekDayNums.map((d) => {
                 const speakDay = speakDayForIndex(d - 1);
                 const stems = [...new Set(speakDay.prompts.map((p) => p.frameStem))].join(" · ");
                 const isCurrent = d === day.day;
@@ -296,14 +316,14 @@ export default function HomePage() {
                 const hasOpenTurn = Boolean(openTurnForDayIndex(d - 1));
 
                 return (
-                  <li key={d}>
+                  <li key={d} className="hoy-dash__week-item">
                     <button
                       type="button"
                       onClick={() => setOpenedDay({ day: isOpen ? null : d })}
                       aria-expanded={isOpen}
                       className={`hoy-dash__week-row${isCurrent ? " hoy-dash__week-row--current" : ""}`}
                     >
-                      <span className="hoy-dash__week-row-badge">{String(i + 1).padStart(2, "0")}</span>
+                      <span className="hoy-dash__week-row-badge">{speakDay.day}</span>
                       <span className="hoy-dash__week-row-text">
                         <span className="hoy-dash__week-row-title">{speakDay.themeEs}</span>
                         <span className="text-caption hoy-dash__week-row-sub">{stems}</span>
@@ -324,7 +344,7 @@ export default function HomePage() {
                         {speakDay.prompts.map((p) => (
                           <div key={p.id} className="hoy-dash__week-expanded-prompt">
                             <span style={{ minWidth: 0 }}>
-                              <span className="text-caption hoy-dash__week-expanded-stem">{p.frameStem}</span>
+                              <span className="hoy-dash__week-expanded-stem">{p.frameStem}</span>
                               <span className="font-display text-ink" style={{ display: "block", fontSize: "0.9375rem" }}>
                                 {p.spanish}
                               </span>
@@ -338,8 +358,8 @@ export default function HomePage() {
 
                         <div className="hoy-dash__week-expanded-actions">
                           {isCurrent ? (
-                            <Link href="/flow/speak" onClick={() => clearDraft()} className="btn-primary hoy-cta">
-                              <span className="lab">Practicar</span>
+                            <Link href="/flow/speak" onClick={() => clearDraft()} className="hoy-dash__today-cta">
+                              Practicar
                               {ArrowSmall}
                             </Link>
                           ) : (
@@ -375,7 +395,7 @@ export default function HomePage() {
               })}
             </ul>
 
-            <Link href="/semana" className="text-caption transition-colors hover:text-accent" style={{ display: "inline-flex", marginTop: 16, color: "var(--accent)" }}>
+            <Link href="/semana" className="text-caption transition-colors hover:text-accent" style={{ display: "inline-flex", marginTop: 14, color: "var(--accent)" }}>
               Ver todas las semanas →
             </Link>
           </div>
@@ -413,65 +433,27 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className="hoy-card hoy-side-card">
+          <div className="hoy-card hoy-side-card hoy-accesos">
             <div className="hoy-side-card__head">
-              <span className="hoy-side-card__eyebrow">{IconMountain}Tu camino</span>
+              <span className="hoy-side-card__eyebrow">Accesos</span>
             </div>
-            <p className="font-display text-ink" style={{ fontSize: "0.9375rem", margin: "10px 0 0" }}>
-              T{season.index} · {temporada.title}
-            </p>
-            <p className="text-caption" style={{ marginTop: 2 }}>
-              Semana {weekNum} de 13
-            </p>
-            <div className="hoy-dash__camino-bar">
-              <div style={{ width: `${planPct}%` }} />
-            </div>
-            <Link href="/camino" className="hoy-side-card__link text-caption">
-              Continuar camino →
-            </Link>
-          </div>
-
-          <div className="hoy-card hoy-side-card">
-            <div className="hoy-side-card__head">
-              <span className="hoy-side-card__eyebrow">{IconPuzzle}Formar la frase</span>
-              <span className="hoy-side-card__tag">5 frases</span>
-            </div>
-            <p className="font-display text-ink" style={{ fontSize: "0.9375rem", margin: "10px 0 0" }}>
-              Juegos, lugares y más
-            </p>
-            <p className="text-caption" style={{ marginTop: 4 }}>
-              Practica construyendo tus propias frases.
-            </p>
-            <Link href="/practice/sentence-former" className="hoy-side-card__link text-caption">
-              Practicar ahora →
-            </Link>
-          </div>
-
-          <div className="hoy-card hoy-side-card">
-            <div className="hoy-side-card__head">
-              <span className="hoy-side-card__eyebrow">{IconBook}Tu cuaderno</span>
-            </div>
-            <p className="font-display text-ink" style={{ fontSize: "0.9375rem", margin: "10px 0 0" }}>
-              {stats.daysPracticed} días · {stats.sentencesCreated} frases
-            </p>
-            <p className="text-caption" style={{ marginTop: 4 }}>
-              Tus frases, ideas y ejemplos en un solo lugar.
-            </p>
-            <Link href="/cuaderno" className="hoy-side-card__link text-caption">
-              Abrir cuaderno →
-            </Link>
-          </div>
-
-          <div className="hoy-card hoy-side-card">
-            <div className="hoy-side-card__head">
-              <span className="hoy-side-card__eyebrow">La lectura</span>
-            </div>
-            <p className="text-caption" style={{ marginTop: 10, color: readingDone ? "var(--accent)" : "var(--ink-soft)" }}>
-              {readingDone ? "Leído esta noche" : "Esta noche"}
-            </p>
-            <Link href="/read" className="hoy-side-card__link text-caption">
-              Abrir lectura →
-            </Link>
+            <ul className="hoy-accesos__list">
+              {accesos.map((a) => (
+                <li key={a.href}>
+                  <Link
+                    href={a.href}
+                    className="hoy-acceso"
+                    style={{ "--tint": a.tint } as CSSProperties}
+                  >
+                    <span className="hoy-acceso__badge">{a.icon}</span>
+                    <span className="hoy-acceso__text">
+                      <span className="hoy-acceso__title">{a.title}</span>
+                      <span className="text-caption hoy-acceso__sub">{a.sub}</span>
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
         </aside>
       </div>
