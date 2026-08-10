@@ -7,7 +7,6 @@ import { PageHeader, Wordmark } from "@/components/PageHeader";
 import { useStats } from "@/hooks/useStats";
 import { useThoughts } from "@/hooks/useThoughts";
 import type { Thought } from "@/lib/store";
-import { currentStreak, practiceDatesFromThoughts } from "@/lib/streak";
 import { SEASONS, seasonForDate } from "@/lib/season";
 
 const DIA_SHORT = ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"];
@@ -45,10 +44,6 @@ export default function CuadernoPage() {
   // Hold counts at an em dash until the store has hydrated, so they don't flash
   // 0 → real value on first paint.
   const saidLabel = hydrated ? String(said) : "—";
-  const streak = useMemo(
-    () => currentStreak(practiceDatesFromThoughts(thoughts)),
-    [thoughts],
-  );
 
   // Group (already sorted newest-first) into ordered week buckets.
   const groups = useMemo(() => {
@@ -163,10 +158,10 @@ export default function CuadernoPage() {
               </p>
             </div>
             <div style={{ flex: 1, padding: 18, background: "var(--surface)", border: "1px solid var(--rule)", borderRadius: 14 }}>
-              <span className="font-display text-ink" style={{ fontWeight: 300, fontSize: 34 }}>{hydrated ? streak : "—"}</span>
+              <span className="font-display text-ink" style={{ fontWeight: 300, fontSize: 34 }}>{hydrated ? stats.daysPracticed : "—"}</span>
               <p className="text-caption" style={{ margin: "6px 0 0" }}>
-                días de racha
-                <Gloss>{"days streak"}</Gloss>
+                días practicados
+                <Gloss>{"days practiced"}</Gloss>
               </p>
             </div>
           </div>

@@ -5,12 +5,10 @@ import { useMemo } from "react";
 import { Gloss } from "@/components/Gloss";
 import { PageHeader, Wordmark } from "@/components/PageHeader";
 import { useStats } from "@/hooks/useStats";
-import { useThoughts } from "@/hooks/useThoughts";
 import { totalDays } from "@/content/frames";
 import { TEMPORADAS, type Temporada } from "@/content/temporadas";
 import { SEASONS } from "@/lib/season";
 import { daysInWeek } from "@/lib/planDay";
-import { currentStreak, practiceDatesFromThoughts } from "@/lib/streak";
 
 const ws = {
   fill: "none" as const,
@@ -351,7 +349,6 @@ function CurrentSeasonPanel({
   doneCount,
   weekNum,
   progressPct,
-  streak,
   primedWeeks,
   daysDone,
 }: {
@@ -360,7 +357,6 @@ function CurrentSeasonPanel({
   doneCount: number;
   weekNum: number;
   progressPct: number;
-  streak: number;
   primedWeeks: Set<number>;
   daysDone: Set<number>;
 }) {
@@ -440,33 +436,25 @@ function CurrentSeasonPanel({
           Metas de la temporada
           <Gloss>Season goals</Gloss>
         </span>
-        {t.goals.map((goal, i) => {
-          const done = i === 0 && streak > 0;
-          return (
-            <div
-              key={goal}
-              className="flex items-start"
-              style={{
-                gap: 12,
-                padding: "12px 0",
-                borderTop: "1px solid var(--rule)",
-                marginTop: i === 0 ? 10 : 0,
-              }}
-            >
-              {done ? (
-                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden {...ws} stroke={t.color} strokeWidth={2.4} style={{ flexShrink: 0, marginTop: 2 }}>
-                  <path d="M5 12.5 10 17l9-10" />
-                </svg>
-              ) : (
-                <span style={{ width: 16, height: 16, borderRadius: "50%", border: "1.5px solid var(--rule)", flexShrink: 0, marginTop: 2 }} />
-              )}
-              <span className="font-display min-w-0 flex-1" style={{ fontSize: 15, lineHeight: 1.4, color: done ? "var(--ink-soft)" : "var(--ink-mute)" }}>
-                {goal}
-                <Gloss>{t.goalsEn[i]}</Gloss>
-              </span>
-            </div>
-          );
-        })}
+        {/* Goals have no completion signal yet — rendered plain until one exists. */}
+        {t.goals.map((goal, i) => (
+          <div
+            key={goal}
+            className="flex items-start"
+            style={{
+              gap: 12,
+              padding: "12px 0",
+              borderTop: "1px solid var(--rule)",
+              marginTop: i === 0 ? 10 : 0,
+            }}
+          >
+            <span style={{ width: 16, height: 16, borderRadius: "50%", border: "1.5px solid var(--rule)", flexShrink: 0, marginTop: 2 }} />
+            <span className="font-display min-w-0 flex-1" style={{ fontSize: 15, lineHeight: 1.4, color: "var(--ink-mute)" }}>
+              {goal}
+              <Gloss>{t.goalsEn[i]}</Gloss>
+            </span>
+          </div>
+        ))}
       </div>
     </aside>
   );
@@ -474,7 +462,6 @@ function CurrentSeasonPanel({
 
 export default function CaminoPage() {
   const { stats } = useStats();
-  const { thoughts } = useThoughts();
 
   const dayNum = (stats.currentDayIndex % totalDays) + 1;
   const dayLabel = String(dayNum).padStart(2, "0");
@@ -491,11 +478,6 @@ export default function CaminoPage() {
   const dayInSeason = ((dayNum - 1) % SEASON_LEN) + 1;
   const weekNum = Math.min(13, Math.ceil(dayInSeason / 7));
   const currentIndex = seasonIdx + 1;
-
-  const streak = useMemo(
-    () => currentStreak(practiceDatesFromThoughts(thoughts)),
-    [thoughts],
-  );
 
   const current = TEMPORADAS[seasonIdx];
 
@@ -656,7 +638,6 @@ export default function CaminoPage() {
               doneCount={doneCount}
               weekNum={weekNum}
               progressPct={progressPct}
-              streak={streak}
               primedWeeks={primedWeeks}
               daysDone={daysDone}
             />

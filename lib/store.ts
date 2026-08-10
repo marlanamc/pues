@@ -137,7 +137,6 @@ const K_PRACTICE = "pues:practice";
 const K_SB_PROGRESS = "pues:sb-progress";
 const K_AUDIO_SPEED = "pues:audio-speed";
 const K_THEME_MODE = "pues:theme-mode";
-const K_SIDEBAR_VISIBLE = "pues:sidebar-visible";
 const K_PHRASE_ENGLISH_VISIBLE = "pues:phrase-english-visible";
 const K_TEXT_SIZE = "pues:text-size";
 
@@ -653,17 +652,6 @@ export function getTheme(): ThemeName {
 export function setTheme(name: ThemeName): ThemeName {
   write(K_THEME_MODE, name);
   return name;
-}
-
-/* ---------- Desktop sidebar (expanded vs icon-collapsed) ---------- */
-
-export function getSidebarVisible(): boolean {
-  return read<boolean>(K_SIDEBAR_VISIBLE, true);
-}
-
-export function setSidebarVisible(visible: boolean): boolean {
-  write(K_SIDEBAR_VISIBLE, visible);
-  return visible;
 }
 
 /* ---------- Situation phrase English glosses ---------- */

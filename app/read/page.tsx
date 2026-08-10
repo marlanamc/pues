@@ -245,7 +245,7 @@ export default function ReadPage() {
           }}
         >
           <span className="text-caption" style={{ color: "var(--ink-soft)" }}>
-            Repasando — no cuenta para tu racha de hoy.
+            Repasando — no marca la lectura de hoy como leída.
           </span>
           <button
             type="button"

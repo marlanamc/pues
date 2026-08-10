@@ -9,7 +9,7 @@ import { useStats } from "@/hooks/useStats";
 import { useThoughts } from "@/hooks/useThoughts";
 import { daysInWeek, planContextFromDay } from "@/lib/planDay";
 import { currentWeek, isWeekPrimed, weekDaysDone } from "@/lib/store";
-import { currentStreak, last7Days, practiceDatesFromThoughts } from "@/lib/streak";
+import { last7Days, practiceDatesFromThoughts } from "@/lib/streak";
 
 export default function ProgressPage() {
   const { stats, hydrated } = useStats();
@@ -23,10 +23,6 @@ export default function ProgressPage() {
   const practiced = useMemo(
     () => practiceDatesFromThoughts(thoughts),
     [thoughts],
-  );
-  const streak = useMemo(
-    () => currentStreak(practiced, now ?? new Date()),
-    [practiced, now],
   );
   const last7 = useMemo(
     () => last7Days(practiced, now ?? new Date()),
@@ -249,14 +245,11 @@ export default function ProgressPage() {
           En total
         </p>
         <div
-          className="grid grid-cols-3 gap-4"
+          className="grid grid-cols-2 gap-4"
           style={{ marginTop: 12 }}
         >
           <InlineStat label="Frases dichas" value={spokenLabel} accent={spoken > 0} />
           <InlineStat label="Días practicados" value={stats.daysPracticed} />
-          {/* Kept, quietly. It's a description of the last few days, not a
-              thing to protect — the weekly count above is the real rhythm. */}
-          <InlineStat label="Racha" value={hydrated ? streak : "—"} />
         </div>
       </section>
 

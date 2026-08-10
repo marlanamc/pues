@@ -11,31 +11,13 @@ export type DayActivity = {
 const DAY_LABELS = ["D", "L", "M", "M", "J", "V", "S"] as const;
 
 /**
- * The streak counts ONLY spoken phrases (thoughts from the speak flow).
- * La lectura, Sentence Former, and games are optional extras and deliberately
- * don't extend it — and thoughts are also the one activity that syncs across
- * devices (lib/sync.ts), so the streak reads the same everywhere.
+ * Collapses spoken phrases (thoughts from the speak flow) into the set of
+ * calendar days they were said on — the basis for the calm "did I practice
+ * today" checkmark calendar below. Thoughts are also the one activity that
+ * syncs across devices (lib/sync.ts), so this reads the same everywhere.
  */
 export function practiceDatesFromThoughts(thoughts: Thought[]): Set<string> {
   return new Set(thoughts.map((t) => calendarDateKey(new Date(t.createdAt))));
-}
-
-/** Consecutive practice days ending today, or yesterday if today is still open. */
-export function currentStreak(practiced: Set<string>, now = new Date()): number {
-  const today = calendarDateKey(now);
-  let cursor = now;
-
-  if (!practiced.has(today)) {
-    cursor = addCalendarDays(now, -1);
-  }
-
-  let streak = 0;
-  while (practiced.has(calendarDateKey(cursor))) {
-    streak += 1;
-    cursor = addCalendarDays(cursor, -1);
-  }
-
-  return streak;
 }
 
 export function last7Days(practiced: Set<string>, now = new Date()): DayActivity[] {

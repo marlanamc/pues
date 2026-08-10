@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Atkinson_Hyperlegible, Hanken_Grotesk, Spline_Sans_Mono } from "next/font/google";
 import { BottomTabNav } from "@/components/BottomTabNav";
-import { LeftRailNav } from "@/components/LeftRailNav";
+import { TopNav } from "@/components/TopNav";
 import { SupabaseBootstrap } from "@/components/SupabaseBootstrap";
 import { TextSizeBootstrap } from "@/components/TextSizeBootstrap";
 import "./globals.css";
@@ -72,12 +72,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${atkinson.variable} ${hanken.variable} ${splineMono.variable}`}
       suppressHydrationWarning
     >
-      <body className="min-h-dvh bg-bg text-ink antialiased lg:flex">
+      <body className="min-h-dvh bg-bg text-ink antialiased">
         <script dangerouslySetInnerHTML={{ __html: themeModeScript }} />
         <SupabaseBootstrap />
         <TextSizeBootstrap />
-        <LeftRailNav />
-        <main className="w-full px-6 pt-3 pb-28 lg:flex lg:flex-1 lg:min-h-0 lg:min-w-0 lg:flex-col lg:px-0 lg:pt-10 lg:pb-12">
+        <TopNav />
+        <main className="w-full px-6 pt-3 pb-28 lg:px-0 lg:pt-4 lg:pb-12">
           <div className="mx-auto flex w-full max-w-[520px] flex-1 flex-col md:max-w-[720px] md:px-2 lg:max-w-[1080px] lg:px-12">
             {children}
           </div>

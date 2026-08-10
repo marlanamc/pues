@@ -41,11 +41,11 @@ export function ResetProgressCard() {
           Reiniciar progreso
         </p>
         <p className="text-sm text-ink-mute leading-relaxed">
-          Borra tu diario, racha, día del plan y todo el historial de práctica.
+          Borra tu diario, día del plan y todo el historial de práctica.
           Tus preferencias de apariencia y audio se quedan igual.
         </p>
         <Gloss>
-          Reset progress — erases your diary, streak, plan day, and practice
+          Reset progress — erases your diary, plan day, and practice
           history. Appearance and audio settings stay.
         </Gloss>
       </div>
@@ -131,11 +131,11 @@ function ResetProgressDialog({
             ¿Reiniciar progreso?
           </h2>
           <p className="text-sm text-ink-mute leading-relaxed">
-            Esto borra tu diario, racha, día del plan y todo el historial de
+            Esto borra tu diario, día del plan y todo el historial de
             práctica. No se puede deshacer.
           </p>
           <Gloss>
-            This erases your diary, streak, plan day, and practice history. It
+            This erases your diary, plan day, and practice history. It
             cannot be undone.
           </Gloss>
         </div>

@@ -10,12 +10,6 @@ export type NavItem = {
   zone: string;
 };
 
-export type NavSection = {
-  label?: string;
-  labelEn?: string;
-  items: NavItem[];
-};
-
 const stroke = {
   fill: "none",
   stroke: "currentColor",
@@ -44,58 +38,6 @@ const IconMas = (
     <circle cx="6" cy="12" r="2" />
     <circle cx="12" cy="12" r="2" />
     <circle cx="18" cy="12" r="2" />
-  </svg>
-);
-
-const IconFormer = (
-  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
-    <path d="M13 2 4 14h7l-1 8 10-14h-7l0-6Z" />
-  </svg>
-);
-
-const IconCamino = (
-  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
-    <circle cx="6" cy="18" r="2.5" />
-    <circle cx="18" cy="6" r="2.5" />
-    <path d="M8.5 16.5 15.5 8.5" />
-  </svg>
-);
-
-const IconCuaderno = (
-  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
-    <path d="M12 20h9" />
-    <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
-  </svg>
-);
-
-const IconJuegos = (
-  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
-    <rect x="4.5" y="4.5" width="15" height="15" rx="3.5" />
-    <circle cx="9" cy="9" r="1.3" fill="currentColor" stroke="none" />
-    <circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none" />
-    <circle cx="15" cy="15" r="1.3" fill="currentColor" stroke="none" />
-  </svg>
-);
-
-const IconLugares = (
-  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
-    <path d="M12 21s-6-5.2-6-10a6 6 0 1 1 12 0c0 4.8-6 10-6 10Z" />
-    <circle cx="12" cy="11" r="2.5" />
-  </svg>
-);
-
-const IconOido = (
-  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
-    <path d="M6 8.5a6 6 0 1 1 12 0v4.5a3.5 3.5 0 0 1-7 0" />
-    <path d="M9 18a3 3 0 0 0 6 0" />
-  </svg>
-);
-
-const IconGuias = (
-  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden {...stroke}>
-    <path d="M12 6.5C10 5 6.8 4.8 4 5.6V19c2.8-.8 6-.6 8 .9" />
-    <path d="M12 6.5C14 5 17.2 4.8 20 5.6V19c-2.8-.8-6-.6-8 .9" />
-    <path d="M12 6.5v13.4" />
   </svg>
 );
 
@@ -147,90 +89,3 @@ export const navItems: NavItem[] = [
     zone: "var(--zone-practica)",
   },
 ];
-
-/** Desktop left rail — three labeled sections. */
-export const sidebarSections: NavSection[] = [
-  {
-    label: "Ritual",
-    labelEn: "Daily ritual",
-    items: [
-      {
-        href: "/",
-        label: "Hoy",
-        match: (p) => p === "/" || p.startsWith("/flow"),
-        icon: IconToday,
-        zone: "var(--accent)",
-      },
-      {
-        href: "/practice/sentence-former",
-        label: "Formar la frase",
-        match: isSentenceFormerPath,
-        icon: IconFormer,
-        zone: "var(--zone-lugares)",
-      },
-      {
-        href: "/cuaderno",
-        label: "Cuaderno",
-        match: (p) => p.startsWith("/cuaderno") || p.startsWith("/thoughts"),
-        icon: IconCuaderno,
-        zone: "var(--zone-guias)",
-      },
-    ],
-  },
-  {
-    label: "La semana",
-    labelEn: "The week",
-    items: [
-      {
-        href: "/semana",
-        label: "La semana",
-        match: (p) => p.startsWith("/semana"),
-        icon: IconSemana,
-        zone: "var(--accent)",
-      },
-      {
-        href: "/camino",
-        label: "Camino",
-        match: (p) => p.startsWith("/camino") || p.startsWith("/progress"),
-        icon: IconCamino,
-        zone: "var(--accent)",
-      },
-    ],
-  },
-  {
-    label: "Extras",
-    labelEn: "Optional companions",
-    items: [
-      {
-        href: "/practice/games",
-        label: "Juegos",
-        match: isGamePath,
-        icon: IconJuegos,
-        zone: "var(--zone-lugares)",
-      },
-      {
-        href: "/situations",
-        label: "Lugares",
-        match: (p) => p.startsWith("/situations"),
-        icon: IconLugares,
-        zone: "var(--zone-lugares)",
-      },
-      {
-        href: "/lab",
-        label: "El oído",
-        match: (p) => p.startsWith("/lab"),
-        icon: IconOido,
-        zone: "var(--zone-lab)",
-      },
-      {
-        href: "/guides",
-        label: "Guías",
-        match: (p) => p.startsWith("/guides"),
-        icon: IconGuias,
-        zone: "var(--zone-guias)",
-      },
-    ],
-  },
-];
-
-export const sidebarNavItems = sidebarSections.flatMap((s) => s.items);

@@ -112,10 +112,10 @@ export default function SettingsPage() {
                 Progreso
               </p>
               <p className="text-sm text-ink-mute leading-relaxed">
-                Racha, frases dichas, y tu día en el plan.
+                Frases dichas, días practicados, y tu día en el plan.
               </p>
               <p className="text-gloss">
-                Streak, spoken phrases, and your place in the plan.
+                Spoken phrases, practiced days, and your place in the plan.
               </p>
             </div>
             <span className="text-ink-mute" aria-hidden>

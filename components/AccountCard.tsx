@@ -153,8 +153,8 @@ export function AccountCard() {
         </p>
         <p className="text-sm text-ink-mute leading-relaxed">
           {mode === "sign-in"
-            ? "Sign in with the same email and password on every device. Your journal, streak, and preferences will merge automatically."
-            : "Create an account to sync your journal and streak across devices."}
+            ? "Sign in with the same email and password on every device. Your journal, practice history, and preferences will merge automatically."
+            : "Create an account to sync your journal and practice history across devices."}
         </p>
       </div>
 
