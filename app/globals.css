@@ -1315,59 +1315,63 @@ a {
   min-width: 0;
 }
 
-/* Hero: mission + side accesos in a compact grid; watermark is decorative. */
+/* Hero: mission + side accesos in a notebook master card layout. */
 .hoy3__hero {
   position: relative;
   overflow: hidden;
   background: var(--surface);
   border: 1px solid color-mix(in oklab, var(--accent) 26%, var(--rule));
-  border-radius: 16px;
-  padding: 18px 20px;
+  border-radius: 18px;
+  padding: 22px 24px;
 }
 @media (min-width: 640px) {
   .hoy3__hero {
-    padding: 20px 24px;
+    padding: 24px 28px;
+  }
+}
+.hoy3__hero-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 20px;
+  align-items: stretch;
+}
+@media (min-width: 640px) {
+  .hoy3__hero-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(210px, 250px);
+    gap: 24px 28px;
   }
 }
 .hoy3__hero-main {
   position: relative;
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   min-width: 0;
+}
+.hoy3__hero-watermark {
+  position: absolute;
+  top: -14px;
+  right: 12px;
+  z-index: 0;
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(5.5rem, 14vw, 7.5rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: color-mix(in oklab, var(--ink) 4.5%, transparent);
+  pointer-events: none;
+  user-select: none;
 }
 .hoy3__hero-main > :not(.hoy3__hero-watermark) {
   position: relative;
   z-index: 1;
 }
-.hoy3__hero-watermark {
-  position: absolute;
-  top: -6px;
-  right: -4px;
-  z-index: 0;
-  font-family: var(--font-display);
-  font-weight: 300;
-  font-size: min(14vw, 72px);
-  line-height: 1;
-  letter-spacing: -0.04em;
-  color: color-mix(in oklab, var(--ink) 6%, transparent);
-  pointer-events: none;
-  user-select: none;
-}
-.hoy3__hero-grid {
-  position: relative;
-  display: grid;
-  gap: 14px;
-  align-items: start;
-}
-@media (min-width: 640px) {
-  .hoy3__hero-grid {
-    grid-template-columns: minmax(0, 1fr) minmax(196px, 240px);
-    gap: 18px 22px;
-  }
-}
 .hoy3__hero-eyebrow {
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  min-height: 18px;
   font-family: var(--font-mono);
   font-size: 0.6875rem;
   letter-spacing: 0.12em;
@@ -1375,68 +1379,84 @@ a {
   color: var(--accent);
   white-space: nowrap;
 }
+.hoy3__hero-content {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
 .hoy3__hero-headline {
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: clamp(1.5rem, 4.5vw, 1.875rem);
-  line-height: 1.2;
+  font-size: clamp(1.625rem, 4.5vw, 2.125rem);
+  line-height: 1.18;
   letter-spacing: -0.02em;
-  margin: 8px 0 0;
+  margin: 0;
   color: var(--ink);
 }
 .hoy3__hero-gloss {
-  margin: 5px 0 0;
-  font-size: 0.8125rem;
+  margin: 6px 0 0;
+  font-size: 0.875rem;
   color: var(--ink-mute);
 }
 .hoy3__hero-hint {
-  margin: 6px 0 0;
+  margin: 8px 0 0;
   color: var(--ink-mute);
 }
 .hoy3__hero-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
   flex-wrap: wrap;
-  margin-top: 14px;
+  margin-top: auto;
 }
 .hoy3__hero-cta {
   width: fit-content;
 }
 .hoy3__hero-side {
+  display: flex;
+  flex-direction: column;
   min-width: 0;
 }
-.hoy3__hero-more {
-  margin-top: 0;
+.hoy3__hero-side-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: var(--surface-sunk);
+  border: 1px solid var(--rule);
 }
 .hoy3__hero-more-label {
-  display: block;
-  margin-bottom: 6px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 18px;
+  margin-bottom: 12px;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   color: var(--ink-mute);
 }
 .hoy3__hero-more-list {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
-}
-@media (min-width: 640px) {
-  .hoy3__hero-more-list {
-    grid-template-columns: minmax(0, 1fr);
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 .hoy3__hero-more-item {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 9px 10px;
-  border-radius: 12px;
-  background: var(--surface-sunk);
-  border: 1px solid var(--rule);
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--surface);
+  border: 1px solid color-mix(in oklab, var(--rule) 85%, transparent);
   color: inherit;
   text-decoration: none;
+  transition: border-color 180ms ease, background-color 180ms ease, transform 180ms ease;
 }
 .hoy3__hero-more-item:hover {
-  border-color: color-mix(in oklab, var(--tint) 40%, var(--rule));
+  border-color: color-mix(in oklab, var(--tint) 45%, var(--rule));
+  background: color-mix(in oklab, var(--tint) 4%, var(--surface));
+  transform: translateY(-1px);
 }
 .hoy3__hero-more-item:focus-visible {
   outline: 2px solid color-mix(in oklab, var(--tint) 55%, transparent);
@@ -1446,8 +1466,8 @@ a {
   border-color: color-mix(in oklab, var(--tint) 35%, var(--rule));
 }
 .hoy3__hero-more-icon {
-  width: 28px;
-  height: 28px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   flex-shrink: 0;
   display: inline-flex;
@@ -1472,11 +1492,6 @@ a {
   text-overflow: ellipsis;
   white-space: nowrap;
   color: var(--ink-mute);
-}
-@media (prefers-reduced-motion: no-preference) {
-  .hoy3__hero-more-item {
-    transition: border-color 180ms ease;
-  }
 }
 
 .hoy3__chain {

@@ -177,7 +177,7 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* Hero: today's mission — compact grid; weekly chain lives in camino. */}
+      {/* Hero: today's mission — notebook master card */}
       <div className="hoy3__hero">
         <div className="hoy3__hero-grid">
           <div className="hoy3__hero-main">
@@ -196,38 +196,40 @@ export default function HomePage() {
               )}
             </span>
 
-            <h1 className="hoy3__hero-headline">{mission}</h1>
-            {missionEn && englishVisible && (
-              <p className="hoy3__hero-gloss">{missionEn}</p>
-            )}
+            <div className="hoy3__hero-content">
+              <h1 className="hoy3__hero-headline">{mission}</h1>
+              {missionEn && englishVisible && (
+                <p className="hoy3__hero-gloss">{missionEn}</p>
+              )}
 
-            {openTurnHint && (
-              <p className="text-caption hoy3__hero-hint">
-                Después de cinco frases · sin guion
-                <Gloss>After five sentences — one unscripted turn</Gloss>
-              </p>
-            )}
+              {openTurnHint && (
+                <p className="text-caption hoy3__hero-hint">
+                  Después de cinco frases · sin guion
+                  <Gloss>After five sentences — one unscripted turn</Gloss>
+                </p>
+              )}
+            </div>
 
             <div className="hoy3__hero-actions">
               <Link href="/flow/speak" className="btn-primary hoy-cta hoy3__hero-cta">
                 <span className="lab">{ctaLabel}</span>
                 {Arrow}
               </Link>
-            </div>
 
-            {canDoOpenTurn && openTurnIndex !== null && (
-              <Link
-                href={`/flow/abierto?i=${openTurnIndex}`}
-                className="text-caption transition-colors hover:text-accent hoy2__open-link"
-              >
-                Una más, sin guion
-                {ArrowSmall}
-              </Link>
-            )}
+              {canDoOpenTurn && openTurnIndex !== null && (
+                <Link
+                  href={`/flow/abierto?i=${openTurnIndex}`}
+                  className="text-caption transition-colors hover:text-accent hoy2__open-link"
+                >
+                  Una más, sin guion
+                  {ArrowSmall}
+                </Link>
+              )}
+            </div>
           </div>
 
           <aside className="hoy3__hero-side" aria-label="También hoy">
-            <div className="hoy3__hero-more">
+            <div className="hoy3__hero-side-card">
               <span className="mono-cap hoy3__hero-more-label">También hoy</span>
               <div className="hoy3__hero-more-list">
                 <Link
