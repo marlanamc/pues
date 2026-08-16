@@ -269,8 +269,12 @@ body > main {
 
 /* Push content below the iOS status bar on devices with safe-area insets. */
 @media (max-width: 1023px) {
+  .mobile-chrome {
+    padding-top: env(safe-area-inset-top);
+  }
   body > main {
-    padding-top: max(env(safe-area-inset-top), 0.75rem);
+    padding-top: 0.5rem;
+    overflow-x: clip;
   }
 }
 
@@ -1289,17 +1293,60 @@ a {
 /* ---- Hoy — single column: hero, camino tick line, filmstrip. TopNav /
    BottomTabNav supply the chrome. Weekend invite and "una más sin guion"
    survive from the previous pass. */
-.hoy2__weekend-card {
+.hoy3__week-banner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 14px;
+  gap: 12px 16px;
   flex-wrap: wrap;
-  padding: 13px 15px;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
+  padding: 10px 12px 10px 16px;
+  background: color-mix(in oklab, var(--accent) 7%, var(--surface-sunk));
+  border: 1px dashed color-mix(in oklab, var(--accent) 24%, var(--rule));
+  border-radius: 999px;
+}
+.hoy3__week-banner-body {
+  min-width: 0;
+  flex: 1;
+}
+.hoy3__week-banner-eyebrow {
+  display: block;
+  color: var(--accent);
+  margin-bottom: 3px;
+}
+.hoy3__week-banner-text {
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  line-height: 1.35;
+  color: var(--ink-soft);
+  margin: 0;
+}
+.hoy3__week-banner-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  padding: 7px 12px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklab, var(--accent) 32%, var(--rule));
   background: var(--surface);
-  border: 1px solid var(--rule);
-  border-radius: 16px;
+  color: var(--accent);
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background 120ms ease,
+    border-color 120ms ease;
+}
+.hoy3__week-banner-action:hover {
+  background: color-mix(in oklab, var(--accent) 5%, var(--surface));
+  border-color: color-mix(in oklab, var(--accent) 48%, var(--rule));
+}
+.hoy3__week-banner-action:focus-visible {
+  outline: 2px solid color-mix(in oklab, var(--accent) 45%, transparent);
+  outline-offset: 2px;
 }
 .hoy2__open-link {
   display: inline-flex;
@@ -1310,15 +1357,19 @@ a {
 }
 
 .hoy3 {
+  width: 100%;
   max-width: 1180px;
   margin: 0 auto;
   min-width: 0;
+  overflow-x: clip;
 }
 
 /* Hero: mission + side accesos in a notebook master card layout. */
 .hoy3__hero {
   position: relative;
   overflow: hidden;
+  max-width: 100%;
+  box-sizing: border-box;
   background: var(--surface);
   border: 1px solid color-mix(in oklab, var(--accent) 26%, var(--rule));
   border-radius: 18px;
@@ -1507,6 +1558,13 @@ a {
   align-items: center;
   gap: 20px;
   flex-wrap: wrap;
+  min-width: 0;
+}
+.hoy3__hero-banner-shortcuts {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
 }
 .hoy3__hero-banner-badge {
   flex-shrink: 0;
@@ -1553,6 +1611,7 @@ a {
   display: flex;
   align-items: center;
   gap: 10px;
+  min-width: 0;
 }
 .hoy3__hero-banner-icon {
   width: 42px;
@@ -1589,12 +1648,117 @@ a {
   padding: 11px 18px;
   font-size: 0.875rem;
 }
-@media (max-width: 479px) {
+/* btn-primary is width:100% globally — never let that resolve inside the
+   hero actions flex row or the CTA blows out to thousands of px. */
+.hoy3__hero-banner-cta.btn-primary {
+  width: auto;
+  max-width: 100%;
+  flex: 0 1 auto;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+@media (max-width: 1023px) {
+  .hoy3__week-banner {
+    flex-direction: column;
+    align-items: stretch;
+    border-radius: 14px;
+    padding: 12px 14px;
+    gap: 10px;
+  }
+  .hoy3__week-banner-action {
+    align-self: stretch;
+    justify-content: center;
+    white-space: normal;
+    text-align: center;
+  }
+
+  .hoy3__hero--banner {
+    padding: 14px 16px;
+  }
   .hoy3__hero-banner-row {
-    gap: 14px 16px;
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr);
+    gap: 10px 12px;
+    align-items: start;
+    min-width: 0;
+  }
+  .hoy3__hero-banner-badge {
+    width: 40px;
+    height: 40px;
+    font-size: 0.8125rem;
+  }
+  .hoy3__hero-banner-main {
+    min-width: 0;
+  }
+  .hoy3__hero-banner-eyebrow {
+    white-space: normal;
   }
   .hoy3__hero-banner-headline {
     white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+    font-size: 1.25rem;
+  }
+  .hoy3__hero-banner-actions {
+    grid-column: 1 / -1;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+  .hoy3__hero-banner-shortcuts {
+    gap: 8px;
+    padding-left: 2px;
+  }
+  .hoy3__hero-banner-divider {
+    display: none;
+  }
+  .hoy3__hero-banner-cta.btn-primary {
+    width: auto;
+    flex: none;
+    align-self: stretch;
+  }
+
+  .hoy3__camino {
+    min-width: 0;
+    max-width: 100%;
+  }
+  .hoy3__camino-head .mono-cap:first-child {
+    flex: 1 1 100%;
+    min-width: 0;
+    line-height: 1.45;
+  }
+  .hoy3__camino-link {
+    white-space: normal;
+    text-align: right;
+  }
+  .hoy3__camino-track {
+    max-width: 100%;
+  }
+
+  .hoy3__week {
+    overflow: hidden;
+  }
+  .hoy3__filmstrip {
+    margin-left: -1.5rem;
+    margin-right: -1.5rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    scroll-padding-left: 1.5rem;
+    scroll-padding-right: 1.5rem;
+  }
+}
+
+@media (max-width: 479px) {
+  .hoy3__hero-banner-headline {
+    font-size: 1.125rem;
+  }
+  .hoy3__hero-banner-icon {
+    width: 38px;
+    height: 38px;
   }
 }
 
@@ -1655,46 +1819,65 @@ a {
   display: inline-flex;
 }
 
-.hoy3__chain {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
+.mas-page {
+  padding-bottom: 96px;
+  max-width: 640px;
+  margin: 0 auto;
+  min-width: 0;
+  overflow-x: clip;
+  --zone: var(--zone-practica);
 }
-.hoy3__chain--camino {
-  margin: 0;
-  flex: 1;
-  justify-content: center;
-}
+
 @media (max-width: 639px) {
-  .hoy3__camino-head {
-    flex-wrap: wrap;
+  .mas-page {
+    padding-bottom: 88px;
   }
-  .hoy3__chain--camino {
-    order: 3;
-    width: 100%;
-    justify-content: flex-start;
+  .mas-section {
+    margin-top: 22px;
   }
-}
-.hoy3__chain-dots {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
-.hoy3__chain-dot {
-  display: inline-flex;
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--rule);
-  flex-shrink: 0;
-}
-.hoy3__chain-dot--done {
-  background: var(--accent);
-}
-.hoy3__chain-dot--today {
-  width: 12px;
-  height: 12px;
+  .mas-section:first-of-type,
+  .mas-section--first {
+    margin-top: 4px;
+  }
+  .mas-row {
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr) auto;
+    grid-template-rows: auto auto;
+    column-gap: 10px;
+    row-gap: 4px;
+    padding: 12px 14px;
+    align-items: start;
+  }
+  .mas-row-icon {
+    grid-row: 1 / span 2;
+    width: 34px;
+    height: 34px;
+    margin-top: 1px;
+  }
+  .mas-row-text {
+    grid-column: 2;
+    min-width: 0;
+  }
+  .mas-row-title {
+    font-size: 0.875rem;
+    line-height: 1.35;
+  }
+  .mas-row-chevron {
+    grid-column: 3;
+    grid-row: 1;
+    align-self: center;
+    margin-left: 0;
+  }
+  .mas-row-meta {
+    grid-column: 2 / -1;
+    grid-row: 2;
+    order: unset;
+    width: auto;
+    padding-left: 0;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 8px;
+  }
 }
 
 /* Camino: horizontal progress line, a tick per week, a marker at the
@@ -1705,8 +1888,9 @@ a {
 }
 .hoy3__camino-head {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 10px;
 }
 .hoy3__camino-link {
@@ -2236,11 +2420,22 @@ a {
 /* The day's CTA is the single boldest control on Hoy — heavier label, firmer
    press feedback, slightly sized up from the shared .btn-primary .lab default. */
 .hoy-cta {
-  width: fit-content;
   padding: 11px 16px;
   transition:
     background 120ms,
     transform 120ms;
+}
+@media (min-width: 1024px) {
+  .hoy-cta {
+    width: fit-content;
+  }
+}
+@media (max-width: 1023px) {
+  .hoy3__hero-banner-cta.hoy-cta {
+    width: auto;
+    max-width: none;
+    align-self: stretch;
+  }
 }
 .hoy-cta .lab {
   font-weight: 500;

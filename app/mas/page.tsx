@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useMemo } from "react";
 import type { CSSProperties, ReactNode } from "react";
 import { Gloss } from "@/components/Gloss";
-import { PageHeader, Wordmark } from "@/components/PageHeader";
 import { gameCount } from "@/content/games";
 import { masPracticaItems } from "@/content/masPractica";
 import { openTurnReviewDayIndex, speakDayForIndex } from "@/content/prompts";
@@ -18,9 +17,20 @@ const stroke = {
   strokeLinejoin: "round" as const,
 };
 
-const IconPuzzle = (
+const IconArrow = (
   <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden {...stroke}>
-    <path d="M10 4h4v2.2a1.8 1.8 0 1 0 0 3.6V12h2.2a1.8 1.8 0 1 1 0 3.6H14v2.2a1.8 1.8 0 1 1-3.6 0V15.6H8.2a1.8 1.8 0 1 1 0-3.6H10V9.8a1.8 1.8 0 1 1-3.6 0V4H10Z" />
+    <path d="M5 12h14M13 6l6 6-6 6" />
+  </svg>
+);
+
+const IconSentenceFormer = (
+  <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden {...stroke}>
+    <path d="M4 7h16" />
+    <path d="M4 11h4.5" />
+    <circle cx="11" cy="11" r="1" fill="currentColor" stroke="none" />
+    <circle cx="14" cy="11" r="1" fill="currentColor" stroke="none" />
+    <circle cx="17" cy="11" r="1" fill="currentColor" stroke="none" />
+    <path d="M4 15h12" />
   </svg>
 );
 
@@ -78,12 +88,10 @@ export default function MasPage() {
 
   return (
     <div
-      className="fade-rise"
-      style={{ paddingBottom: 96, maxWidth: 640, margin: "0 auto", "--zone": "var(--zone-practica)" } as CSSProperties}
+      className="mas-page fade-rise"
+      style={{ "--zone": "var(--zone-practica)" } as CSSProperties}
     >
-      <PageHeader title={<Wordmark>Más</Wordmark>} />
-
-      <section className="mas-section">
+      <section className="mas-section mas-section--first">
         <p className="text-caption" style={{ marginBottom: 4 }}>Más práctica</p>
         <Gloss>More practice</Gloss>
         <p
@@ -99,8 +107,8 @@ export default function MasPage() {
             <MasRow
               key={item.href}
               href={item.href}
-              icon={i === 0 ? IconPuzzle : IconBook}
-              tint="var(--zone-lab)"
+              icon={i === 0 ? IconSentenceFormer : IconBook}
+              tint={i === 0 ? "var(--zone-lab)" : "var(--zone-guias)"}
               title={item.label}
               titleEn={item.descriptionEn}
               meta={item.meta ?? ""}
@@ -110,7 +118,7 @@ export default function MasPage() {
           {openTurnIndex !== null && openTurnDay && (
             <MasRow
               href={`/flow/abierto?i=${openTurnIndex}`}
-              icon={IconPuzzle}
+              icon={IconArrow}
               tint="var(--accent)"
               title="Sin guion"
               titleEn="Answer one line cold — no English, no script"
@@ -200,7 +208,7 @@ function MasRow({
         <Gloss>{titleEn}</Gloss>
       </span>
       {meta && (
-        <span className="flex flex-col items-end" style={{ flexShrink: 0 }}>
+        <span className="mas-row-meta flex flex-col items-end" style={{ flexShrink: 0 }}>
           <span className="text-caption">{meta}</span>
           {metaEn && <Gloss>{metaEn}</Gloss>}
         </span>

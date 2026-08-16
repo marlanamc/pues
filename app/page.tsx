@@ -20,10 +20,8 @@ import {
 } from "@/lib/store";
 import { usePhraseEnglishVisible } from "@/hooks/usePhraseEnglishVisible";
 import { useStats } from "@/hooks/useStats";
-import { useThoughts } from "@/hooks/useThoughts";
 import { daysInWeek, planContextFromDay } from "@/lib/planDay";
 import { totalDays } from "@/content/frames";
-import { last7Days, practiceDatesFromThoughts } from "@/lib/streak";
 
 const ws = {
   fill: "none" as const,
@@ -57,9 +55,15 @@ const IconMountain = (
   </svg>
 );
 
-const IconPuzzle = (
+/* Formar la frase — a stem to finish (middle line trails into …). */
+const IconSentenceFormer = (
   <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden {...ws}>
-    <path d="M10 4h4v2.2a1.8 1.8 0 1 0 0 3.6V12h2.2a1.8 1.8 0 1 1 0 3.6H14v2.2a1.8 1.8 0 1 1-3.6 0V15.6H8.2a1.8 1.8 0 1 1 0-3.6H10V9.8a1.8 1.8 0 1 1-3.6 0V4H10Z" />
+    <path d="M4 7h16" />
+    <path d="M4 11h4.5" />
+    <circle cx="11" cy="11" r="1" fill="currentColor" stroke="none" />
+    <circle cx="14" cy="11" r="1" fill="currentColor" stroke="none" />
+    <circle cx="17" cy="11" r="1" fill="currentColor" stroke="none" />
+    <path d="M4 15h12" />
   </svg>
 );
 
@@ -74,7 +78,6 @@ const IconRead = (
 export default function HomePage() {
   const { visible: englishVisible } = usePhraseEnglishVisible();
   const { stats } = useStats();
-  const { thoughts } = useThoughts();
   const [now, setNow] = useState<Date | null>(null);
   const [sessionIndex, setSessionIndex] = useState(0);
   const [readingDone, setReadingDone] = useState(false);
@@ -112,10 +115,6 @@ export default function HomePage() {
   const weekday = now?.getDay() ?? null;
   const weekendInvite = !primed && (weekday === 0 || weekday === 6);
   const weekendName = weekday === 0 ? "domingo" : "sábado";
-
-  const practiced = useMemo(() => practiceDatesFromThoughts(thoughts), [thoughts]);
-  const last7 = useMemo(() => last7Days(practiced, now ?? new Date()), [practiced, now]);
-  const streakDays = last7.filter((d) => d.practiced).length;
 
   const ctaLabel =
     sessionIndex === 0
@@ -156,16 +155,17 @@ export default function HomePage() {
   return (
     <div className="hoy3">
       {weekendInvite && (
-        <div className="hoy2__weekend-card">
-          <div>
-            <p className="font-display text-ink" style={{ fontSize: "1.0625rem", margin: 0 }}>
-              {`Es ${weekendName}. Enciende la semana.`}
-            </p>
-            <Gloss>{`It's ${weekday === 0 ? "Sunday" : "Saturday"}. Light the week.`}</Gloss>
+        <div className="hoy3__week-banner" role="note">
+          <div className="hoy3__week-banner-body">
+            <span className="mono-cap hoy3__week-banner-eyebrow">Semana {weekNum}</span>
+            <p className="hoy3__week-banner-text">{`Es ${weekendName}. Enciende la semana.`}</p>
+            {englishVisible && (
+              <Gloss>{`It's ${weekday === 0 ? "Sunday" : "Saturday"}. Light the week.`}</Gloss>
+            )}
           </div>
-          <Link href="/semana" className="btn-primary hoy-cta">
-            <span className="lab">Preparar la semana {weekNum}</span>
-            {Arrow}
+          <Link href="/semana" className="hoy3__week-banner-action">
+            Preparar la semana {weekNum}
+            {ArrowSmall}
           </Link>
         </div>
       )}
@@ -201,33 +201,35 @@ export default function HomePage() {
           </div>
 
           <div className="hoy3__hero-banner-actions">
-            <Link
-              href="/practice/sentence-former"
-              title={`Formar la frase · ${PROMPTS_PER_DAY} frases`}
-              className="hoy3__hero-banner-icon"
-              style={{ "--tint": "var(--zone-lab)" } as CSSProperties}
-            >
-              {IconPuzzle}
-            </Link>
-            <Link
-              href="/read"
-              title={`La lectura · ${readingDone ? "leído esta noche" : "esta noche"}`}
-              className={`hoy3__hero-banner-icon${readingDone ? " hoy3__hero-banner-icon--done" : ""}`}
-              style={{ "--tint": "var(--zone-guias)" } as CSSProperties}
-            >
-              {IconRead}
-            </Link>
-
-            {canDoOpenTurn && openTurnIndex !== null && (
+            <div className="hoy3__hero-banner-shortcuts">
               <Link
-                href={`/flow/abierto?i=${openTurnIndex}`}
-                title="Una más, sin guion"
+                href="/practice/sentence-former"
+                title={`Formar la frase · ${PROMPTS_PER_DAY} frases`}
                 className="hoy3__hero-banner-icon"
-                style={{ "--tint": "var(--accent)" } as CSSProperties}
+                style={{ "--tint": "var(--zone-lab)" } as CSSProperties}
               >
-                {ArrowSmall}
+                {IconSentenceFormer}
               </Link>
-            )}
+              <Link
+                href="/read"
+                title={`La lectura · ${readingDone ? "leído esta noche" : "esta noche"}`}
+                className={`hoy3__hero-banner-icon${readingDone ? " hoy3__hero-banner-icon--done" : ""}`}
+                style={{ "--tint": "var(--zone-guias)" } as CSSProperties}
+              >
+                {IconRead}
+              </Link>
+
+              {canDoOpenTurn && openTurnIndex !== null && (
+                <Link
+                  href={`/flow/abierto?i=${openTurnIndex}`}
+                  title="Una más, sin guion"
+                  className="hoy3__hero-banner-icon"
+                  style={{ "--tint": "var(--accent)" } as CSSProperties}
+                >
+                  {ArrowSmall}
+                </Link>
+              )}
+            </div>
 
             <span className="hoy3__hero-banner-divider" aria-hidden="true" />
 
@@ -243,19 +245,6 @@ export default function HomePage() {
       <div className="hoy3__camino">
         <div className="hoy3__camino-head">
           <span className="mono-cap">Tu camino · semana {weekNum} de {totalWeeksInSeason}</span>
-          <div className="hoy3__chain hoy3__chain--camino">
-            <span className="mono-cap">{streakDays} de 7 días</span>
-            <div className="hoy3__chain-dots">
-              {last7.map((d) => (
-                <span
-                  key={d.date}
-                  className={`hoy3__chain-dot${d.practiced ? " hoy3__chain-dot--done" : ""}${
-                    d.isToday ? " hoy3__chain-dot--today" : ""
-                  }`}
-                />
-              ))}
-            </div>
-          </div>
           <Link href="/camino" className="hoy3__camino-link">
             Ver camino completo {ArrowSmall}
           </Link>

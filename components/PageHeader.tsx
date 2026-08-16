@@ -2,7 +2,6 @@
 
 import type { ReactNode } from "react";
 import { usePathname } from "next/navigation";
-import { SettingsMenuButton } from "@/components/SettingsMenu";
 
 export function Wordmark({ children }: { children: ReactNode }) {
   return (
@@ -11,7 +10,7 @@ export function Wordmark({ children }: { children: ReactNode }) {
 }
 
 type PageHeaderProps = {
-  title: ReactNode;
+  title?: ReactNode;
   meta?: ReactNode;
   className?: string;
 };
@@ -23,18 +22,11 @@ export function PageHeader({ title, meta, className }: PageHeaderProps) {
 
   return (
     <header
-      className={`flex items-center justify-between${className ? ` ${className}` : ""}`}
+      className={`flex items-center ${title ? "justify-between" : "justify-end"}${className ? ` ${className}` : ""}`}
       style={{ paddingTop: 4 }}
     >
-      <div>{title}</div>
-      <div className="flex items-center gap-2.5">
-        {meta}
-        {/* TopNav already carries a settings button at lg+; showing both
-            here would repeat the same control on the same screen. */}
-        <div className="lg:hidden">
-          <SettingsMenuButton />
-        </div>
-      </div>
+      {title ? <div>{title}</div> : null}
+      {meta ? <div className="flex items-center gap-2.5">{meta}</div> : null}
     </header>
   );
 }

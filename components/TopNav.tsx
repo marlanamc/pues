@@ -12,10 +12,23 @@ export function TopNav() {
   if (pathname.startsWith("/flow")) return null;
 
   return (
-    <nav
-      aria-label="Primary"
-      className="sticky top-0 z-30 hidden border-b border-rule bg-bg/85 backdrop-blur-md lg:block"
-    >
+    <>
+      <header
+        aria-label="App"
+        className="mobile-chrome sticky top-0 z-30 border-b border-rule bg-bg/85 backdrop-blur-md lg:hidden"
+      >
+        <div className="mobile-chrome__inner mx-auto flex h-12 max-w-[520px] items-center justify-between px-6 md:max-w-[720px]">
+          <Link href="/" className="shrink-0" aria-label="Pues — inicio">
+            <Wordmark>Pues</Wordmark>
+          </Link>
+          <SettingsMenuButton />
+        </div>
+      </header>
+
+      <nav
+        aria-label="Primary"
+        className="sticky top-0 z-30 hidden border-b border-rule bg-bg/85 backdrop-blur-md lg:block"
+      >
       <div className="mx-auto flex h-16 max-w-[1400px] items-center justify-between px-8">
         <Link href="/" className="shrink-0" aria-label="Pues — inicio">
           <Wordmark>Pues</Wordmark>
@@ -52,5 +65,6 @@ export function TopNav() {
         </div>
       </div>
     </nav>
+    </>
   );
 }
