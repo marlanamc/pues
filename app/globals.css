@@ -1286,84 +1286,323 @@ a {
   color: var(--accent);
 }
 
-/* minmax(0, 1fr), not 1fr: the week rows carry `white-space: nowrap` subs, so
-   an `auto` minimum lets the main track blow past the viewport on narrow
-   screens instead of letting those subs ellipsize. */
-.hoy-dash__grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 340px;
-  gap: 40px;
-  align-items: start;
+/* ---- Hoy, Pues Dashboard direction — full-width two-column layout, hand-
+   ported from the Claude Design .dc.html mock (hero with day-number
+   watermark, horizontal camino tick line, horizontal filmstrip, tile-style
+   Accesos rail). TopNav/BottomTabNav supply the chrome; this is page body
+   only. Two rules from the previous single-column pass are still used
+   (weekend invite card, "una más sin guion" link) and kept below. */
+.hoy2__weekend-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 13px 15px;
+  margin-bottom: 14px;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 16px;
+}
+.hoy2__open-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   margin-top: 12px;
+  color: var(--ink-soft);
+}
+
+.hoy3 {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+.hoy3__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 230px;
+  gap: 26px;
+  align-items: start;
 }
 @media (max-width: 1023px) {
-  .hoy-dash__grid {
+  .hoy3__grid {
     grid-template-columns: minmax(0, 1fr);
     gap: 20px;
   }
 }
+.hoy3__main {
+  min-width: 0;
+}
 
-/* Headline and "Vista completa" share one baseline row — the standalone
-   topbar above the grid is gone. */
-.hoy-dash__date-row {
+/* Hero: a giant faded day number bleeds off the top-right corner, per the
+   mock — decorative only, hence aria-hidden in the markup. */
+.hoy3__hero {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid color-mix(in oklab, var(--accent) 26%, var(--rule));
+  border-radius: 16px;
+  padding: 32px 36px;
+}
+@media (max-width: 479px) {
+  .hoy3__hero {
+    padding: 24px 20px;
+  }
+}
+.hoy3__hero-watermark {
+  position: absolute;
+  top: -4px;
+  right: 18px;
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: min(22vw, 120px);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: color-mix(in oklab, var(--ink) 6%, transparent);
+  pointer-events: none;
+  user-select: none;
+}
+.hoy3__hero-content {
+  position: relative;
+  max-width: 600px;
+}
+.hoy3__hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  white-space: nowrap;
+}
+.hoy3__hero-headline {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.875rem, 6vw, 2.25rem);
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+  margin: 13px 0 0;
+  color: var(--ink);
+}
+.hoy3__hero-gloss {
+  margin: 8px 0 0;
+  font-size: 0.875rem;
+  color: var(--ink-mute);
+}
+.hoy3__hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+.hoy3__hero-cta {
+  width: fit-content;
+}
+
+.hoy3__chain {
+  margin-top: 26px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.hoy3__chain-dots {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.hoy3__chain-dot {
+  display: inline-flex;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--rule);
+  flex-shrink: 0;
+}
+.hoy3__chain-dot--done {
+  background: var(--accent);
+}
+.hoy3__chain-dot--today {
+  width: 12px;
+  height: 12px;
+}
+
+/* Camino: horizontal progress line, a tick per week, a marker at the
+   current position. */
+.hoy3__camino {
+  margin-top: 20px;
+  padding: 0 2px;
+}
+.hoy3__camino-head {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: 16px;
+  gap: 12px;
 }
-.hoy-dash__date h1 {
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: clamp(1.5rem, 2.8vw, 2rem);
-  letter-spacing: -0.015em;
-  color: var(--ink);
-  margin: 0;
-  text-transform: capitalize;
+.hoy3__camino-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8125rem;
+  color: var(--accent);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
-.hoy-dash__date p {
-  margin: 3px 0 0;
-  color: var(--ink-mute);
+.hoy3__camino-track {
+  position: relative;
+  margin-top: 30px;
+  height: 2px;
+  background: var(--rule);
+  border-radius: 2px;
+}
+.hoy3__camino-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+}
+.hoy3__camino-tick {
+  position: absolute;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--surface-2);
+  border: 1.5px solid var(--rule);
+}
+.hoy3__camino-tick--done {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.hoy3__camino-marker {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -130%);
+  color: var(--accent);
+  display: inline-flex;
 }
 
-.hoy-dash__daystrip {
+/* Esta semana: horizontal-scrolling filmstrip of day cards. */
+.hoy3__week {
+  margin-top: 26px;
+}
+.hoy3__week-head {
   display: flex;
+  align-items: baseline;
   justify-content: space-between;
-  gap: 4px;
-  margin-top: 18px;
 }
-.hoy-dash__daystrip-cell {
+.hoy3__filmstrip {
+  margin-top: 12px;
   display: flex;
-  flex-direction: column;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  scroll-snap-type: x proximity;
+}
+.hoy3__film-card {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+  width: 168px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  color: inherit;
+  text-decoration: none;
+}
+.hoy3__film-card--today {
+  background: color-mix(in oklab, var(--accent) 8%, var(--surface));
+  border-color: color-mix(in oklab, var(--accent) 30%, var(--rule));
+}
+.hoy3__film-card-head {
+  display: flex;
   align-items: center;
-  gap: 8px;
-  flex: 1;
+  justify-content: space-between;
 }
-.hoy-dash__daystrip-label {
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink-mute);
-}
-.hoy-dash__daystrip-dot {
+.hoy3__film-badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
-  border: 1.5px solid var(--rule);
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  background: var(--surface-sunk);
   color: var(--ink-mute);
 }
-.hoy-dash__daystrip-dot--done {
+.hoy3__film-card--today .hoy3__film-badge {
   background: var(--accent);
-  border-color: var(--accent);
   color: var(--accent-ink);
 }
-.hoy-dash__daystrip-dot--current {
-  border-color: var(--accent);
-  background: color-mix(in oklab, var(--accent) 14%, transparent);
-  color: var(--accent);
+.hoy3__film-title {
+  display: block;
+  margin-top: 12px;
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  line-height: 1.25;
+  color: var(--ink);
+}
+.hoy3__film-stems {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.71875rem;
+  color: var(--ink-mute);
+}
+
+/* Accesos: compact tile rail beside the hero on desktop, falls below the
+   filmstrip on narrow screens via the grid's single-column collapse. */
+.hoy3__accesos-label {
+  display: block;
+  margin-bottom: 12px;
+}
+.hoy3__accesos-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.hoy3__acceso {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 14px;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  color: inherit;
+  text-decoration: none;
+}
+.hoy3__acceso-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in oklab, var(--tint) 16%, var(--surface-2));
+  color: var(--tint);
+}
+.hoy3__acceso-text {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.hoy3__acceso-title {
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  color: var(--ink);
+}
+.hoy3__acceso-sub {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .hoy-card {
