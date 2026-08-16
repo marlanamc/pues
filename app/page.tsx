@@ -312,7 +312,7 @@ export default function HomePage() {
                 const stems = [...new Set(speakDay.prompts.map((p) => p.frameStem))].join(" · ");
                 const isCurrent = d === day.day;
                 const isDone = weekDoneDays.has(d);
-                const isOpen = (openedDay ? openedDay.day : day.day) === d;
+                const isOpen = openedDay?.day === d;
                 const hasOpenTurn = Boolean(openTurnForDayIndex(d - 1));
 
                 return (
