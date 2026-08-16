@@ -1286,12 +1286,9 @@ a {
   color: var(--accent);
 }
 
-/* ---- Hoy, Pues Dashboard direction — full-width two-column layout, hand-
-   ported from the Claude Design .dc.html mock (hero with day-number
-   watermark, horizontal camino tick line, horizontal filmstrip, tile-style
-   Accesos rail). TopNav/BottomTabNav supply the chrome; this is page body
-   only. Two rules from the previous single-column pass are still used
-   (weekend invite card, "una más sin guion" link) and kept below. */
+/* ---- Hoy — single column: hero, camino tick line, filmstrip. TopNav /
+   BottomTabNav supply the chrome. Weekend invite and "una más sin guion"
+   survive from the previous pass. */
 .hoy2__weekend-card {
   display: flex;
   align-items: center;
@@ -1315,54 +1312,57 @@ a {
 .hoy3 {
   max-width: 1180px;
   margin: 0 auto;
-}
-.hoy3__grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 230px;
-  gap: 26px;
-  align-items: start;
-}
-@media (max-width: 1023px) {
-  .hoy3__grid {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 20px;
-  }
-}
-.hoy3__main {
   min-width: 0;
 }
 
-/* Hero: a giant faded day number bleeds off the top-right corner, per the
-   mock — decorative only, hence aria-hidden in the markup. */
+/* Hero: mission + side accesos in a compact grid; watermark is decorative. */
 .hoy3__hero {
   position: relative;
   overflow: hidden;
   background: var(--surface);
   border: 1px solid color-mix(in oklab, var(--accent) 26%, var(--rule));
   border-radius: 16px;
-  padding: 32px 36px;
+  padding: 18px 20px;
 }
-@media (max-width: 479px) {
+@media (min-width: 640px) {
   .hoy3__hero {
-    padding: 24px 20px;
+    padding: 20px 24px;
   }
+}
+.hoy3__hero-main {
+  position: relative;
+  overflow: hidden;
+  min-width: 0;
+}
+.hoy3__hero-main > :not(.hoy3__hero-watermark) {
+  position: relative;
+  z-index: 1;
 }
 .hoy3__hero-watermark {
   position: absolute;
-  top: -4px;
-  right: 18px;
+  top: -6px;
+  right: -4px;
+  z-index: 0;
   font-family: var(--font-display);
   font-weight: 300;
-  font-size: min(22vw, 120px);
+  font-size: min(14vw, 72px);
   line-height: 1;
   letter-spacing: -0.04em;
   color: color-mix(in oklab, var(--ink) 6%, transparent);
   pointer-events: none;
   user-select: none;
 }
-.hoy3__hero-content {
+.hoy3__hero-grid {
   position: relative;
-  max-width: 600px;
+  display: grid;
+  gap: 14px;
+  align-items: start;
+}
+@media (min-width: 640px) {
+  .hoy3__hero-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(196px, 240px);
+    gap: 18px 22px;
+  }
 }
 .hoy3__hero-eyebrow {
   display: inline-flex;
@@ -1378,34 +1378,127 @@ a {
 .hoy3__hero-headline {
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: clamp(1.875rem, 6vw, 2.25rem);
-  line-height: 1.18;
+  font-size: clamp(1.5rem, 4.5vw, 1.875rem);
+  line-height: 1.2;
   letter-spacing: -0.02em;
-  margin: 13px 0 0;
+  margin: 8px 0 0;
   color: var(--ink);
 }
 .hoy3__hero-gloss {
-  margin: 8px 0 0;
-  font-size: 0.875rem;
+  margin: 5px 0 0;
+  font-size: 0.8125rem;
+  color: var(--ink-mute);
+}
+.hoy3__hero-hint {
+  margin: 6px 0 0;
   color: var(--ink-mute);
 }
 .hoy3__hero-actions {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   flex-wrap: wrap;
-  margin-top: 20px;
+  margin-top: 14px;
 }
 .hoy3__hero-cta {
   width: fit-content;
 }
-
-.hoy3__chain {
-  margin-top: 26px;
+.hoy3__hero-side {
+  min-width: 0;
+}
+.hoy3__hero-more {
+  margin-top: 0;
+}
+.hoy3__hero-more-label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--ink-mute);
+}
+.hoy3__hero-more-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+@media (min-width: 640px) {
+  .hoy3__hero-more-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.hoy3__hero-more-item {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 8px;
+  padding: 9px 10px;
+  border-radius: 12px;
+  background: var(--surface-sunk);
+  border: 1px solid var(--rule);
+  color: inherit;
+  text-decoration: none;
+}
+.hoy3__hero-more-item:hover {
+  border-color: color-mix(in oklab, var(--tint) 40%, var(--rule));
+}
+.hoy3__hero-more-item:focus-visible {
+  outline: 2px solid color-mix(in oklab, var(--tint) 55%, transparent);
+  outline-offset: 2px;
+}
+.hoy3__hero-more-item--done {
+  border-color: color-mix(in oklab, var(--tint) 35%, var(--rule));
+}
+.hoy3__hero-more-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in oklab, var(--tint) 16%, var(--surface-2));
+  color: var(--tint);
+}
+.hoy3__hero-more-text {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.hoy3__hero-more-title {
+  font-family: var(--font-display);
+  font-size: 0.8125rem;
+  color: var(--ink);
+}
+.hoy3__hero-more-sub {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--ink-mute);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hoy3__hero-more-item {
+    transition: border-color 180ms ease;
+  }
+}
+
+.hoy3__chain {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   flex-wrap: wrap;
+}
+.hoy3__chain--camino {
+  margin: 0;
+  flex: 1;
+  justify-content: center;
+}
+@media (max-width: 639px) {
+  .hoy3__camino-head {
+    flex-wrap: wrap;
+  }
+  .hoy3__chain--camino {
+    order: 3;
+    width: 100%;
+    justify-content: flex-start;
+  }
 }
 .hoy3__chain-dots {
   display: flex;
@@ -1431,14 +1524,14 @@ a {
 /* Camino: horizontal progress line, a tick per week, a marker at the
    current position. */
 .hoy3__camino {
-  margin-top: 20px;
+  margin-top: 16px;
   padding: 0 2px;
 }
 .hoy3__camino-head {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 10px;
 }
 .hoy3__camino-link {
   display: inline-flex;
@@ -1451,7 +1544,7 @@ a {
 }
 .hoy3__camino-track {
   position: relative;
-  margin-top: 30px;
+  margin-top: 22px;
   height: 2px;
   background: var(--rule);
   border-radius: 2px;
@@ -1500,8 +1593,23 @@ a {
   display: flex;
   gap: 12px;
   overflow-x: auto;
-  padding-bottom: 6px;
+  padding-bottom: 8px;
   scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklab, var(--ink) 18%, transparent) transparent;
+}
+.hoy3__filmstrip::-webkit-scrollbar {
+  height: 3px;
+}
+.hoy3__filmstrip::-webkit-scrollbar-track {
+  background: transparent;
+}
+.hoy3__filmstrip::-webkit-scrollbar-thumb {
+  background: color-mix(in oklab, var(--ink) 18%, transparent);
+  border-radius: 999px;
+}
+.hoy3__filmstrip::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in oklab, var(--ink) 32%, transparent);
 }
 .hoy3__film-card {
   scroll-snap-align: start;
@@ -1549,60 +1657,19 @@ a {
   color: var(--ink);
 }
 .hoy3__film-stems {
-  display: block;
-  margin-top: 6px;
-  font-size: 0.71875rem;
-  color: var(--ink-mute);
-}
-
-/* Accesos: compact tile rail beside the hero on desktop, falls below the
-   filmstrip on narrow screens via the grid's single-column collapse. */
-.hoy3__accesos-label {
-  display: block;
-  margin-bottom: 12px;
-}
-.hoy3__accesos-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.hoy3__acceso {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px;
-  border-radius: 14px;
-  background: var(--surface);
-  border: 1px solid var(--rule);
-  color: inherit;
-  text-decoration: none;
-}
-.hoy3__acceso-icon {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: color-mix(in oklab, var(--tint) 16%, var(--surface-2));
-  color: var(--tint);
-}
-.hoy3__acceso-text {
-  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 2px;
+  margin-top: 8px;
+  font-size: 0.71875rem;
+  line-height: 1.35;
+  color: var(--ink-mute);
 }
-.hoy3__acceso-title {
-  font-family: var(--font-display);
-  font-size: 0.875rem;
-  color: var(--ink);
-}
-.hoy3__acceso-sub {
+.hoy3__film-stem {
+  display: block;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .hoy-card {

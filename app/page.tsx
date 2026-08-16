@@ -18,6 +18,7 @@ import {
   setCurrentDayIndex,
   weekDaysDone,
 } from "@/lib/store";
+import { usePhraseEnglishVisible } from "@/hooks/usePhraseEnglishVisible";
 import { useStats } from "@/hooks/useStats";
 import { useThoughts } from "@/hooks/useThoughts";
 import { daysInWeek, planContextFromDay } from "@/lib/planDay";
@@ -64,28 +65,21 @@ const IconMountain = (
 );
 
 const IconPuzzle = (
-  <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden {...ws}>
+  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden {...ws}>
     <path d="M10 4h4v2.2a1.8 1.8 0 1 0 0 3.6V12h2.2a1.8 1.8 0 1 1 0 3.6H14v2.2a1.8 1.8 0 1 1-3.6 0V15.6H8.2a1.8 1.8 0 1 1 0-3.6H10V9.8a1.8 1.8 0 1 1-3.6 0V4H10Z" />
-  </svg>
-);
-
-/* Cuaderno — a pencil, the act of writing your own sentences down. */
-const IconPencil = (
-  <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden {...ws}>
-    <path d="M12 20h9" />
-    <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
   </svg>
 );
 
 /* La lectura — an open book, two facing pages. */
 const IconRead = (
-  <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden {...ws}>
+  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden {...ws}>
     <path d="M4 5.5h5.5a2.5 2.5 0 0 1 2.5 2.5v10a2 2 0 0 0-2-2H4Z" />
     <path d="M20 5.5h-5.5A2.5 2.5 0 0 0 12 8v10a2 2 0 0 1 2-2h6Z" />
   </svg>
 );
 
 export default function HomePage() {
+  const { visible: englishVisible } = usePhraseEnglishVisible();
   const { stats } = useStats();
   const { thoughts } = useThoughts();
   const [now, setNow] = useState<Date | null>(null);
@@ -150,46 +144,13 @@ export default function HomePage() {
   const openTurnHint =
     openTurnForDayIndex(stats.currentDayIndex) && sessionIndex < PROMPTS_PER_DAY;
 
-  /* Accesos rail. Each tint is a zone token, so the tiles re-hue with the
-     active theme instead of pinning one palette's hex. */
-  const accesos = [
-    {
-      href: "/camino",
-      icon: IconMountain,
-      tint: "var(--accent)",
-      title: "Tu camino",
-      sub: `Semana ${weekNum} de 13`,
-    },
-    {
-      href: "/practice/sentence-former",
-      icon: IconPuzzle,
-      tint: "var(--zone-lab)",
-      title: "Formar la frase",
-      sub: `${PROMPTS_PER_DAY} frases nuevas`,
-    },
-    {
-      href: "/cuaderno",
-      icon: IconPencil,
-      tint: "var(--zone-lugares)",
-      title: "Cuaderno",
-      sub: `${stats.daysPracticed} días · ${stats.sentencesCreated} frases`,
-    },
-    {
-      href: "/read",
-      icon: IconRead,
-      tint: "var(--zone-guias)",
-      title: "La lectura",
-      sub: readingDone ? "Leído esta noche" : "Esta noche",
-    },
-  ];
-
   const totalWeeksInSeason = 13;
   const caminoPct = (weekNum / totalWeeksInSeason) * 100;
   const caminoTicks = Array.from({ length: totalWeeksInSeason }, (_, i) => i + 1);
 
   const filmstripDays = weekDayNums.map((d) => {
     const speakDay = speakDayForIndex(d - 1);
-    const stems = [...new Set(speakDay.prompts.map((p) => p.frameStem))].join(" · ");
+    const stems = [...new Set(speakDay.prompts.map((p) => p.frameStem))];
     return {
       d,
       speakDay,
@@ -201,158 +162,173 @@ export default function HomePage() {
 
   return (
     <div className="hoy3">
-      <div className="hoy3__grid">
-        <div className="hoy3__main">
-          {weekendInvite && (
-            <div className="hoy2__weekend-card">
-              <div>
-                <p className="font-display text-ink" style={{ fontSize: "1.0625rem", margin: 0 }}>
-                  {`Es ${weekendName}. Enciende la semana.`}
-                </p>
-                <Gloss>{`It's ${weekday === 0 ? "Sunday" : "Saturday"}. Light the week.`}</Gloss>
-              </div>
-              <Link href="/semana" className="btn-primary hoy-cta">
-                <span className="lab">Preparar la semana {weekNum}</span>
-                {Arrow}
-              </Link>
-            </div>
-          )}
+      {weekendInvite && (
+        <div className="hoy2__weekend-card">
+          <div>
+            <p className="font-display text-ink" style={{ fontSize: "1.0625rem", margin: 0 }}>
+              {`Es ${weekendName}. Enciende la semana.`}
+            </p>
+            <Gloss>{`It's ${weekday === 0 ? "Sunday" : "Saturday"}. Light the week.`}</Gloss>
+          </div>
+          <Link href="/semana" className="btn-primary hoy-cta">
+            <span className="lab">Preparar la semana {weekNum}</span>
+            {Arrow}
+          </Link>
+        </div>
+      )}
 
-          {/* Hero: today's mission, with a faint watermark of the day number */}
-          <div className="hoy3__hero">
+      {/* Hero: today's mission — compact grid; weekly chain lives in camino. */}
+      <div className="hoy3__hero">
+        <div className="hoy3__hero-grid">
+          <div className="hoy3__hero-main">
             <span aria-hidden="true" className="hoy3__hero-watermark">
               {dayNum}
             </span>
 
-            <div className="hoy3__hero-content">
-              <span className="hoy3__hero-eyebrow">
-                {IconSun}
-                Hoy · Día {dayNum} · Semana {weekNum}
-              </span>
-
-              <h1 className="hoy3__hero-headline">{mission}</h1>
-              {missionEn && <p className="hoy3__hero-gloss">{missionEn}</p>}
-
-              {openTurnHint && (
-                <p className="text-caption" style={{ marginTop: 8, color: "var(--ink-mute)" }}>
-                  Después de cinco frases · sin guion
-                  <Gloss>After five sentences — one unscripted turn</Gloss>
-                </p>
+            <span className="hoy3__hero-eyebrow">
+              {IconSun}
+              Hoy · Día {dayNum} · Semana {weekNum}
+              {sessionIndex > 0 && (
+                <>
+                  {" · "}
+                  {sessionIndex} de {PROMPTS_PER_DAY}
+                </>
               )}
+            </span>
 
-              <div className="hoy3__hero-actions">
-                <Link href="/flow/speak" className="btn-primary hoy3__hero-cta">
-                  <span className="lab">{ctaLabel}</span>
-                  {Arrow}
-                </Link>
-                {sessionIndex > 0 && (
-                  <span className="mono-cap" style={{ color: "var(--ink-mute)" }}>
-                    {sessionIndex} de {PROMPTS_PER_DAY}
-                  </span>
-                )}
-              </div>
+            <h1 className="hoy3__hero-headline">{mission}</h1>
+            {missionEn && englishVisible && (
+              <p className="hoy3__hero-gloss">{missionEn}</p>
+            )}
 
-              {canDoOpenTurn && openTurnIndex !== null && (
-                <Link
-                  href={`/flow/abierto?i=${openTurnIndex}`}
-                  className="text-caption transition-colors hover:text-accent hoy2__open-link"
-                >
-                  Una más, sin guion
-                  {ArrowSmall}
-                </Link>
-              )}
+            {openTurnHint && (
+              <p className="text-caption hoy3__hero-hint">
+                Después de cinco frases · sin guion
+                <Gloss>After five sentences — one unscripted turn</Gloss>
+              </p>
+            )}
 
-              <div className="hoy3__chain">
-                <span className="mono-cap">{streakDays} de 7 días esta semana</span>
-                <div className="hoy3__chain-dots">
-                  {last7.map((d) => (
-                    <span
-                      key={d.date}
-                      className={`hoy3__chain-dot${d.practiced ? " hoy3__chain-dot--done" : ""}${
-                        d.isToday ? " hoy3__chain-dot--today" : ""
-                      }`}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Camino: horizontal progress line with a tick per week */}
-          <div className="hoy3__camino">
-            <div className="hoy3__camino-head">
-              <span className="mono-cap">Tu camino · semana {weekNum} de {totalWeeksInSeason}</span>
-              <Link href="/camino" className="hoy3__camino-link">
-                Ver camino completo {ArrowSmall}
+            <div className="hoy3__hero-actions">
+              <Link href="/flow/speak" className="btn-primary hoy-cta hoy3__hero-cta">
+                <span className="lab">{ctaLabel}</span>
+                {Arrow}
               </Link>
             </div>
-            <div className="hoy3__camino-track">
-              <div className="hoy3__camino-fill" style={{ width: `${caminoPct}%` }} />
-              {caminoTicks.map((w) => (
+
+            {canDoOpenTurn && openTurnIndex !== null && (
+              <Link
+                href={`/flow/abierto?i=${openTurnIndex}`}
+                className="text-caption transition-colors hover:text-accent hoy2__open-link"
+              >
+                Una más, sin guion
+                {ArrowSmall}
+              </Link>
+            )}
+          </div>
+
+          <aside className="hoy3__hero-side" aria-label="También hoy">
+            <div className="hoy3__hero-more">
+              <span className="mono-cap hoy3__hero-more-label">También hoy</span>
+              <div className="hoy3__hero-more-list">
+                <Link
+                  href="/practice/sentence-former"
+                  className="hoy3__hero-more-item"
+                  style={{ "--tint": "var(--zone-lab)" } as CSSProperties}
+                >
+                  <span className="hoy3__hero-more-icon">{IconPuzzle}</span>
+                  <span className="hoy3__hero-more-text">
+                    <span className="hoy3__hero-more-title">Formar la frase</span>
+                    <span className="text-caption hoy3__hero-more-sub">{PROMPTS_PER_DAY} frases</span>
+                  </span>
+                </Link>
+                <Link
+                  href="/read"
+                  className={`hoy3__hero-more-item${readingDone ? " hoy3__hero-more-item--done" : ""}`}
+                  style={{ "--tint": "var(--zone-guias)" } as CSSProperties}
+                >
+                  <span className="hoy3__hero-more-icon">{IconRead}</span>
+                  <span className="hoy3__hero-more-text">
+                    <span className="hoy3__hero-more-title">La lectura</span>
+                    <span className="text-caption hoy3__hero-more-sub">
+                      {readingDone ? "Leído esta noche" : "Esta noche"}
+                    </span>
+                  </span>
+                </Link>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      {/* Camino: horizontal progress line with a tick per week */}
+      <div className="hoy3__camino">
+        <div className="hoy3__camino-head">
+          <span className="mono-cap">Tu camino · semana {weekNum} de {totalWeeksInSeason}</span>
+          <div className="hoy3__chain hoy3__chain--camino">
+            <span className="mono-cap">{streakDays} de 7 días</span>
+            <div className="hoy3__chain-dots">
+              {last7.map((d) => (
                 <span
-                  key={w}
-                  className={`hoy3__camino-tick${w <= weekNum ? " hoy3__camino-tick--done" : ""}`}
-                  style={{ left: `${((w - 1) / (totalWeeksInSeason - 1)) * 100}%` }}
+                  key={d.date}
+                  className={`hoy3__chain-dot${d.practiced ? " hoy3__chain-dot--done" : ""}${
+                    d.isToday ? " hoy3__chain-dot--today" : ""
+                  }`}
                 />
               ))}
-              <span className="hoy3__camino-marker" style={{ left: `${caminoPct}%` }}>
-                {IconMountain}
-              </span>
             </div>
           </div>
-
-          {/* Esta semana: horizontal-scrolling filmstrip */}
-          <div className="hoy3__week">
-            <div className="hoy3__week-head">
-              <span className="mono-cap">Esta semana</span>
-              <Link href="/semana" className="hoy3__camino-link">Ver todas →</Link>
-            </div>
-            <div className="hoy3__filmstrip">
-              {filmstripDays.map(({ d, speakDay, stems, isToday, isDone }) => (
-                <Link
-                  key={d}
-                  href="/flow/speak"
-                  onClick={() => {
-                    if (!isToday) {
-                      setCurrentDayIndex(d - 1);
-                      clearDraft();
-                    }
-                  }}
-                  className={`hoy3__film-card${isToday ? " hoy3__film-card--today" : ""}`}
-                >
-                  <div className="hoy3__film-card-head">
-                    <span className="hoy3__film-badge">{speakDay.day}</span>
-                    {isToday && <span className="mono-cap" style={{ color: "var(--accent)" }}>Hoy</span>}
-                    {isDone && !isToday && <span style={{ color: "var(--accent)" }}>{Check}</span>}
-                  </div>
-                  <span className="hoy3__film-title">{speakDay.themeEs}</span>
-                  <span className="hoy3__film-stems">{stems}</span>
-                </Link>
-              ))}
-            </div>
-          </div>
+          <Link href="/camino" className="hoy3__camino-link">
+            Ver camino completo {ArrowSmall}
+          </Link>
         </div>
+        <div className="hoy3__camino-track">
+          <div className="hoy3__camino-fill" style={{ width: `${caminoPct}%` }} />
+          {caminoTicks.map((w) => (
+            <span
+              key={w}
+              className={`hoy3__camino-tick${w <= weekNum ? " hoy3__camino-tick--done" : ""}`}
+              style={{ left: `${((w - 1) / (totalWeeksInSeason - 1)) * 100}%` }}
+            />
+          ))}
+          <span className="hoy3__camino-marker" style={{ left: `${caminoPct}%` }}>
+            {IconMountain}
+          </span>
+        </div>
+      </div>
 
-        {/* Accesos: vertical tile rail beside the hero */}
-        <aside className="hoy3__accesos">
-          <span className="mono-cap hoy3__accesos-label">Accesos</span>
-          <div className="hoy3__accesos-list">
-            {accesos.map((a) => (
-              <Link
-                key={a.href}
-                href={a.href}
-                className="hoy3__acceso"
-                style={{ "--tint": a.tint } as CSSProperties}
-              >
-                <span className="hoy3__acceso-icon">{a.icon}</span>
-                <span className="hoy3__acceso-text">
-                  <span className="hoy3__acceso-title">{a.title}</span>
-                  <span className="text-caption hoy3__acceso-sub">{a.sub}</span>
-                </span>
-              </Link>
-            ))}
-          </div>
-        </aside>
+      {/* Esta semana: horizontal-scrolling filmstrip */}
+      <div className="hoy3__week">
+        <div className="hoy3__week-head">
+          <span className="mono-cap">Esta semana</span>
+          <Link href="/semana" className="hoy3__camino-link">Ver todas →</Link>
+        </div>
+        <div className="hoy3__filmstrip">
+          {filmstripDays.map(({ d, speakDay, stems, isToday, isDone }) => (
+            <Link
+              key={d}
+              href="/flow/speak"
+              onClick={() => {
+                if (!isToday) {
+                  setCurrentDayIndex(d - 1);
+                  clearDraft();
+                }
+              }}
+              className={`hoy3__film-card${isToday ? " hoy3__film-card--today" : ""}`}
+            >
+              <div className="hoy3__film-card-head">
+                <span className="hoy3__film-badge">{speakDay.day}</span>
+                {isToday && <span className="mono-cap" style={{ color: "var(--accent)" }}>Hoy</span>}
+                {isDone && !isToday && <span style={{ color: "var(--accent)" }}>{Check}</span>}
+              </div>
+              <span className="hoy3__film-title">{speakDay.themeEs}</span>
+              <span className="hoy3__film-stems">
+                {stems.map((stem) => (
+                  <span key={stem} className="hoy3__film-stem">{stem}</span>
+                ))}
+              </span>
+            </Link>
+          ))}
+        </div>
       </div>
     </div>
   );
