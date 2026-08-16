@@ -1494,6 +1494,167 @@ a {
   color: var(--ink-mute);
 }
 
+/* Hero — banner: a slim single row. Day badge, headline, icon-only side
+   links for "también hoy", and the CTA pill — all on one line on desktop,
+   wrapping to two on narrow screens. */
+.hoy3__hero--banner {
+  padding: 20px 24px;
+}
+.hoy3__hero-banner-row {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.hoy3__hero-banner-badge {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: color-mix(in oklab, var(--accent) 14%, var(--surface-sunk));
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.9375rem;
+}
+.hoy3__hero-banner-main {
+  min-width: 0;
+  flex: 1;
+}
+.hoy3__hero-banner-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  white-space: nowrap;
+}
+.hoy3__hero-banner-headline {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.3rem, 2.6vw, 1.625rem);
+  line-height: 1.22;
+  letter-spacing: -0.015em;
+  margin: 5px 0 0;
+  color: var(--ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.hoy3__hero-banner-actions {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.hoy3__hero-banner-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-sunk);
+  border: 1.5px solid color-mix(in oklab, var(--tint) 40%, var(--rule));
+  color: var(--tint);
+  text-decoration: none;
+  transition: transform 140ms ease, border-color 140ms ease;
+}
+.hoy3__hero-banner-icon:hover {
+  transform: translateY(-1px);
+  border-color: var(--tint);
+}
+.hoy3__hero-banner-icon:focus-visible {
+  outline: 2px solid color-mix(in oklab, var(--tint) 55%, transparent);
+  outline-offset: 2px;
+}
+.hoy3__hero-banner-icon--done {
+  border-color: color-mix(in oklab, var(--tint) 55%, var(--rule));
+}
+.hoy3__hero-banner-divider {
+  width: 1px;
+  height: 26px;
+  background: var(--rule);
+  margin: 0 2px;
+  flex-shrink: 0;
+}
+.hoy3__hero-banner-cta {
+  padding: 11px 18px;
+  font-size: 0.875rem;
+}
+@media (max-width: 479px) {
+  .hoy3__hero-banner-row {
+    gap: 14px 16px;
+  }
+  .hoy3__hero-banner-headline {
+    white-space: normal;
+  }
+}
+
+/* Más — grouped card sections. Each section's rows sit inside one rounded
+   card instead of a flat divided list, so related destinations read as a
+   set rather than a continuation of the same list. */
+.mas-section {
+  margin-top: 28px;
+}
+.mas-card {
+  margin-top: 14px;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.mas-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  text-decoration: none;
+  color: inherit;
+  transition: background-color 140ms ease;
+}
+.mas-row:hover {
+  background: var(--surface-sunk);
+}
+.mas-row + .mas-row {
+  border-top: 1px solid var(--rule);
+}
+.mas-row-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in oklab, var(--tint) 16%, var(--surface-2));
+  color: var(--tint);
+}
+.mas-row-text {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.mas-row-title {
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  color: var(--ink);
+}
+.mas-row-chevron {
+  flex-shrink: 0;
+  color: var(--ink-mute);
+  display: inline-flex;
+}
+
 .hoy3__chain {
   display: flex;
   align-items: center;

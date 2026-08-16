@@ -33,7 +33,18 @@ function ActiveTemporadaCard({
   daysDone: Set<number>;
 }) {
   return (
-    <div className="flex flex-col gap-2.5">
+    <div
+      style={{
+        marginTop: 14,
+        background: "var(--surface-sunk)",
+        border: "1px solid var(--rule)",
+        borderRadius: 18,
+        padding: 18,
+        display: "flex",
+        flexDirection: "column",
+        gap: 16,
+      }}
+    >
       <SeasonHighlightCard t={t} dayLabel={dayLabel} />
       <SeasonBodyCard t={t} />
       <SeasonArcCard t={t} />
@@ -43,6 +54,37 @@ function ActiveTemporadaCard({
         primedWeeks={primedWeeks}
         daysDone={daysDone}
       />
+      <SeasonGoals t={t} />
+      <PracticeTodayLink />
+    </div>
+  );
+}
+
+function SeasonGoals({ t }: { t: Temporada }) {
+  return (
+    <div>
+      <span className="text-caption">
+        Metas de la temporada
+        <Gloss>Season goals</Gloss>
+      </span>
+      {t.goals.map((goal, i) => (
+        <div
+          key={goal}
+          className="flex items-start"
+          style={{
+            gap: 12,
+            padding: "12px 0",
+            borderTop: "1px solid var(--rule)",
+            marginTop: i === 0 ? 10 : 0,
+          }}
+        >
+          <span style={{ width: 16, height: 16, borderRadius: "50%", border: "1.5px solid var(--rule)", flexShrink: 0, marginTop: 2 }} />
+          <span className="font-display min-w-0 flex-1" style={{ fontSize: 15, lineHeight: 1.4, color: "var(--ink-mute)" }}>
+            {goal}
+            <Gloss>{t.goalsEn[i]}</Gloss>
+          </span>
+        </div>
+      ))}
     </div>
   );
 }
@@ -431,31 +473,7 @@ function CurrentSeasonPanel({
         />
       </div>
 
-      <div>
-        <span className="text-caption">
-          Metas de la temporada
-          <Gloss>Season goals</Gloss>
-        </span>
-        {/* Goals have no completion signal yet — rendered plain until one exists. */}
-        {t.goals.map((goal, i) => (
-          <div
-            key={goal}
-            className="flex items-start"
-            style={{
-              gap: 12,
-              padding: "12px 0",
-              borderTop: "1px solid var(--rule)",
-              marginTop: i === 0 ? 10 : 0,
-            }}
-          >
-            <span style={{ width: 16, height: 16, borderRadius: "50%", border: "1.5px solid var(--rule)", flexShrink: 0, marginTop: 2 }} />
-            <span className="font-display min-w-0 flex-1" style={{ fontSize: 15, lineHeight: 1.4, color: "var(--ink-mute)" }}>
-              {goal}
-              <Gloss>{t.goalsEn[i]}</Gloss>
-            </span>
-          </div>
-        ))}
-      </div>
+      <SeasonGoals t={t} />
     </aside>
   );
 }

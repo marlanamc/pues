@@ -51,13 +51,6 @@ const Check = (
   </svg>
 );
 
-const IconSun = (
-  <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden {...ws}>
-    <circle cx="12" cy="12" r="4" />
-    <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
-  </svg>
-);
-
 const IconMountain = (
   <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden {...ws}>
     <path d="M3 19l6-11 4 6.5 2-3L21 19H3Z" />
@@ -177,17 +170,17 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* Hero: today's mission — notebook master card */}
-      <div className="hoy3__hero">
-        <div className="hoy3__hero-grid">
-          <div className="hoy3__hero-main">
-            <span aria-hidden="true" className="hoy3__hero-watermark">
-              {dayNum}
-            </span>
+      {/* Hero: banner — a slim single row (day badge, mission, icon-only
+          "también hoy" links, CTA) instead of a two-column split card. */}
+      <div className="hoy3__hero hoy3__hero--banner">
+        <div className="hoy3__hero-banner-row">
+          <span className="hoy3__hero-banner-badge" aria-hidden="true">
+            {dayNum}
+          </span>
 
-            <span className="hoy3__hero-eyebrow">
-              {IconSun}
-              Hoy · Día {dayNum} · Semana {weekNum}
+          <div className="hoy3__hero-banner-main">
+            <span className="hoy3__hero-banner-eyebrow">
+              Hoy · Semana {weekNum}
               {sessionIndex > 0 && (
                 <>
                   {" · "}
@@ -195,70 +188,54 @@ export default function HomePage() {
                 </>
               )}
             </span>
-
-            <div className="hoy3__hero-content">
-              <h1 className="hoy3__hero-headline">{mission}</h1>
-              {missionEn && englishVisible && (
-                <p className="hoy3__hero-gloss">{missionEn}</p>
-              )}
-
-              {openTurnHint && (
-                <p className="text-caption hoy3__hero-hint">
-                  Después de cinco frases · sin guion
-                  <Gloss>After five sentences — one unscripted turn</Gloss>
-                </p>
-              )}
-            </div>
-
-            <div className="hoy3__hero-actions">
-              <Link href="/flow/speak" className="btn-primary hoy-cta hoy3__hero-cta">
-                <span className="lab">{ctaLabel}</span>
-                {Arrow}
-              </Link>
-
-              {canDoOpenTurn && openTurnIndex !== null && (
-                <Link
-                  href={`/flow/abierto?i=${openTurnIndex}`}
-                  className="text-caption transition-colors hover:text-accent hoy2__open-link"
-                >
-                  Una más, sin guion
-                  {ArrowSmall}
-                </Link>
-              )}
-            </div>
+            <h1 className="hoy3__hero-banner-headline">{mission}</h1>
+            {missionEn && englishVisible && (
+              <p className="hoy3__hero-gloss">{missionEn}</p>
+            )}
+            {openTurnHint && (
+              <p className="text-caption hoy3__hero-hint">
+                Después de cinco frases · sin guion
+                <Gloss>After five sentences — one unscripted turn</Gloss>
+              </p>
+            )}
           </div>
 
-          <aside className="hoy3__hero-side" aria-label="También hoy">
-            <div className="hoy3__hero-side-card">
-              <span className="mono-cap hoy3__hero-more-label">También hoy</span>
-              <div className="hoy3__hero-more-list">
-                <Link
-                  href="/practice/sentence-former"
-                  className="hoy3__hero-more-item"
-                  style={{ "--tint": "var(--zone-lab)" } as CSSProperties}
-                >
-                  <span className="hoy3__hero-more-icon">{IconPuzzle}</span>
-                  <span className="hoy3__hero-more-text">
-                    <span className="hoy3__hero-more-title">Formar la frase</span>
-                    <span className="text-caption hoy3__hero-more-sub">{PROMPTS_PER_DAY} frases</span>
-                  </span>
-                </Link>
-                <Link
-                  href="/read"
-                  className={`hoy3__hero-more-item${readingDone ? " hoy3__hero-more-item--done" : ""}`}
-                  style={{ "--tint": "var(--zone-guias)" } as CSSProperties}
-                >
-                  <span className="hoy3__hero-more-icon">{IconRead}</span>
-                  <span className="hoy3__hero-more-text">
-                    <span className="hoy3__hero-more-title">La lectura</span>
-                    <span className="text-caption hoy3__hero-more-sub">
-                      {readingDone ? "Leído esta noche" : "Esta noche"}
-                    </span>
-                  </span>
-                </Link>
-              </div>
-            </div>
-          </aside>
+          <div className="hoy3__hero-banner-actions">
+            <Link
+              href="/practice/sentence-former"
+              title={`Formar la frase · ${PROMPTS_PER_DAY} frases`}
+              className="hoy3__hero-banner-icon"
+              style={{ "--tint": "var(--zone-lab)" } as CSSProperties}
+            >
+              {IconPuzzle}
+            </Link>
+            <Link
+              href="/read"
+              title={`La lectura · ${readingDone ? "leído esta noche" : "esta noche"}`}
+              className={`hoy3__hero-banner-icon${readingDone ? " hoy3__hero-banner-icon--done" : ""}`}
+              style={{ "--tint": "var(--zone-guias)" } as CSSProperties}
+            >
+              {IconRead}
+            </Link>
+
+            {canDoOpenTurn && openTurnIndex !== null && (
+              <Link
+                href={`/flow/abierto?i=${openTurnIndex}`}
+                title="Una más, sin guion"
+                className="hoy3__hero-banner-icon"
+                style={{ "--tint": "var(--accent)" } as CSSProperties}
+              >
+                {ArrowSmall}
+              </Link>
+            )}
+
+            <span className="hoy3__hero-banner-divider" aria-hidden="true" />
+
+            <Link href="/flow/speak" className="btn-primary hoy-cta hoy3__hero-banner-cta">
+              <span className="lab">{ctaLabel}</span>
+              {Arrow}
+            </Link>
+          </div>
         </div>
       </div>
 

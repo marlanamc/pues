@@ -29,7 +29,11 @@ export function PageHeader({ title, meta, className }: PageHeaderProps) {
       <div>{title}</div>
       <div className="flex items-center gap-2.5">
         {meta}
-        <SettingsMenuButton />
+        {/* TopNav already carries a settings button at lg+; showing both
+            here would repeat the same control on the same screen. */}
+        <div className="lg:hidden">
+          <SettingsMenuButton />
+        </div>
       </div>
     </header>
   );
