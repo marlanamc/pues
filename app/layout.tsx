@@ -78,7 +78,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <TextSizeBootstrap />
         <TopNav />
         <main className="w-full px-6 pt-3 pb-28 lg:px-0 lg:pt-4 lg:pb-12">
-          <div className="mx-auto flex w-full max-w-[520px] flex-1 flex-col md:max-w-[720px] md:px-2 lg:max-w-[1080px] lg:px-12">
+          <div className="mx-auto flex w-full max-w-[520px] flex-1 flex-col md:max-w-[720px] md:px-2 lg:max-w-[1400px] lg:px-8">
             {children}
           </div>
         </main>

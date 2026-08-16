@@ -1291,14 +1291,15 @@ a {
    screens instead of letting those subs ellipsize. */
 .hoy-dash__grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 300px;
-  gap: 20px;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 40px;
   align-items: start;
   margin-top: 12px;
 }
-@media (max-width: 900px) {
+@media (max-width: 1023px) {
   .hoy-dash__grid {
     grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
   }
 }
 
@@ -1374,7 +1375,7 @@ a {
 
 .hoy-dash__today-card {
   margin-top: 18px;
-  padding: 15px 18px 16px;
+  padding: 16px 20px 18px;
   background: color-mix(in oklab, var(--accent) 8%, var(--surface));
   border-color: color-mix(in oklab, var(--accent) 28%, var(--rule));
 }
