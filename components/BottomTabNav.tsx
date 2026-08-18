@@ -15,7 +15,7 @@ export function BottomTabNav() {
       className="fixed inset-x-0 bottom-0 z-40 border-t border-rule bg-bg/90 backdrop-blur-md lg:hidden"
       style={{ paddingBottom: "max(env(safe-area-inset-bottom), 0.5rem)" }}
     >
-      <ul className="mx-auto flex max-w-[520px] items-stretch justify-around px-1 pt-1.5">
+      <ul className="mx-auto flex max-w-[520px] items-stretch justify-around px-1 pt-1.5 md:max-w-[40rem]">
         {navItems.map((t) => {
           const active = t.match(pathname);
           return (

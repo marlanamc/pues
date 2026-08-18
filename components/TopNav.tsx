@@ -17,7 +17,7 @@ export function TopNav() {
         aria-label="App"
         className="mobile-chrome sticky top-0 z-30 border-b border-rule bg-bg/85 backdrop-blur-md lg:hidden"
       >
-        <div className="mobile-chrome__inner mx-auto flex h-12 max-w-[520px] items-center justify-between px-6 md:max-w-[720px]">
+        <div className="mobile-chrome__inner mx-auto flex h-12 max-w-[520px] items-center justify-between px-6 md:max-w-[56rem]">
           <Link href="/" className="shrink-0" aria-label="Pues — inicio">
             <Wordmark>Pues</Wordmark>
           </Link>

@@ -218,8 +218,11 @@ html[data-text-size="large"] {
   font-size: 131.25%; /* 21px root */
 }
 
-@media (min-width: 1024px) {
-  /* Desktop gets a touch more air by default; XL should feel clearly larger. */
+@media (min-width: 768px) {
+  /* Tablet and up get a touch more air by default; XL should feel clearly
+     larger. Starts at 768 — an iPad in portrait has the room for it, and
+     holding the phone scale until 1024 was the main reason Hoy read as a
+     stretched phone screen. */
   html {
     font-size: 106.25%; /* 17px */
   }
@@ -1364,7 +1367,7 @@ a {
   overflow-x: clip;
 }
 
-/* Hero: mission + side accesos in a notebook master card layout. */
+/* Hero: the shared card the mission banner sits in. */
 .hoy3__hero {
   position: relative;
   overflow: hidden;
@@ -1380,69 +1383,6 @@ a {
     padding: 24px 28px;
   }
 }
-.hoy3__hero-grid {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  gap: 20px;
-  align-items: stretch;
-}
-@media (min-width: 640px) {
-  .hoy3__hero-grid {
-    grid-template-columns: minmax(0, 1fr) minmax(210px, 250px);
-    gap: 24px 28px;
-  }
-}
-.hoy3__hero-main {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-width: 0;
-}
-.hoy3__hero-watermark {
-  position: absolute;
-  top: -14px;
-  right: 12px;
-  z-index: 0;
-  font-family: var(--font-display);
-  font-weight: 300;
-  font-size: clamp(5.5rem, 14vw, 7.5rem);
-  line-height: 1;
-  letter-spacing: -0.04em;
-  color: color-mix(in oklab, var(--ink) 4.5%, transparent);
-  pointer-events: none;
-  user-select: none;
-}
-.hoy3__hero-main > :not(.hoy3__hero-watermark) {
-  position: relative;
-  z-index: 1;
-}
-.hoy3__hero-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  min-height: 18px;
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--accent);
-  white-space: nowrap;
-}
-.hoy3__hero-content {
-  margin-top: 10px;
-  margin-bottom: 20px;
-}
-.hoy3__hero-headline {
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: clamp(1.625rem, 4.5vw, 2.125rem);
-  line-height: 1.18;
-  letter-spacing: -0.02em;
-  margin: 0;
-  color: var(--ink);
-}
 .hoy3__hero-gloss {
   margin: 6px 0 0;
   font-size: 0.875rem;
@@ -1452,102 +1392,11 @@ a {
   margin: 8px 0 0;
   color: var(--ink-mute);
 }
-.hoy3__hero-actions {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
-  margin-top: auto;
-}
-.hoy3__hero-cta {
-  width: fit-content;
-}
-.hoy3__hero-side {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-.hoy3__hero-side-card {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  padding: 14px 16px;
-  border-radius: 14px;
-  background: var(--surface-sunk);
-  border: 1px solid var(--rule);
-}
-.hoy3__hero-more-label {
-  display: inline-flex;
-  align-items: center;
-  min-height: 18px;
-  margin-bottom: 12px;
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink-mute);
-}
-.hoy3__hero-more-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.hoy3__hero-more-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
-  border-radius: 10px;
-  background: var(--surface);
-  border: 1px solid color-mix(in oklab, var(--rule) 85%, transparent);
-  color: inherit;
-  text-decoration: none;
-  transition: border-color 180ms ease, background-color 180ms ease, transform 180ms ease;
-}
-.hoy3__hero-more-item:hover {
-  border-color: color-mix(in oklab, var(--tint) 45%, var(--rule));
-  background: color-mix(in oklab, var(--tint) 4%, var(--surface));
-  transform: translateY(-1px);
-}
-.hoy3__hero-more-item:focus-visible {
-  outline: 2px solid color-mix(in oklab, var(--tint) 55%, transparent);
-  outline-offset: 2px;
-}
-.hoy3__hero-more-item--done {
-  border-color: color-mix(in oklab, var(--tint) 35%, var(--rule));
-}
-.hoy3__hero-more-icon {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: color-mix(in oklab, var(--tint) 16%, var(--surface-2));
-  color: var(--tint);
-}
-.hoy3__hero-more-text {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-.hoy3__hero-more-title {
-  font-family: var(--font-display);
-  font-size: 0.8125rem;
-  color: var(--ink);
-}
-.hoy3__hero-more-sub {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  color: var(--ink-mute);
-}
 
 /* Hero — banner: a slim single row. Day badge, headline, icon-only side
    links for "también hoy", and the CTA pill — all on one line on desktop;
-   on mobile the shortcuts and CTA share one action row. */
+   on tablet the badge and headline share a line and the actions sit right-
+   aligned beneath; on mobile the shortcuts and CTA share one action row. */
 .hoy3__hero--banner {
   padding: 20px 24px;
 }
@@ -1658,7 +1507,10 @@ a {
   box-sizing: border-box;
 }
 
-@media (max-width: 1023px) {
+/* Phone only. Everything in here — the stacked hero, the full-bleed
+   filmstrip, the wrapped camino head — exists because a phone has no room.
+   A tablet does, so this stops at 767 and the 768–1023 tier below takes over. */
+@media (max-width: 767px) {
   .hoy3__week-banner {
     flex-direction: column;
     align-items: stretch;
@@ -2041,6 +1893,77 @@ a {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/* ===== Hoy — tablet tier (iPad portrait) =====
+   Between the phone stack and the desktop banner row. The screen has ~780px
+   of width and a whole second half of height going spare, so nothing here
+   adds content: the hero gets its full-size badge and a headline with room
+   to wrap, the sections get section-scale rhythm, and the week stops being a
+   fixed-width scrolling strip and becomes a grid whose cards are wide enough
+   to show their stems whole. */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .hoy3__hero--banner {
+    padding: 24px 28px;
+  }
+  /* Badge and text on one line, actions on their own line beneath, indented
+     to the text column. The headline gets the full width, so it wraps
+     instead of ellipsizing the way the desktop single-row banner does. */
+  .hoy3__hero-banner-row {
+    display: grid;
+    grid-template-columns: 56px minmax(0, 1fr);
+    gap: 16px 18px;
+    align-items: center;
+  }
+  .hoy3__hero-banner-badge {
+    width: 56px;
+    height: 56px;
+    font-size: 1rem;
+  }
+  .hoy3__hero-banner-headline {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    font-size: 1.625rem;
+  }
+  .hoy3__hero-banner-actions {
+    grid-column: 2;
+    justify-content: flex-end;
+    gap: 12px;
+  }
+  .hoy3__hero-banner-cta.btn-primary {
+    flex: 0 0 auto;
+    width: auto;
+  }
+
+  .hoy3__camino {
+    margin-top: 28px;
+  }
+  .hoy3__week {
+    margin-top: 36px;
+  }
+
+  /* A grid, not a filmstrip. The negative-margin bleed and the scroll
+     affordance are phone devices; both are cancelled here. */
+  .hoy3__filmstrip {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    gap: 14px;
+    overflow: visible;
+    margin-inline: 0;
+    padding-inline: 0;
+    padding-bottom: 0;
+  }
+  .hoy3__film-card {
+    width: auto;
+    flex-shrink: 1;
+    padding: 16px 18px;
+  }
+  .hoy3__film-stem {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+  }
 }
 
 .hoy-card {
@@ -2436,12 +2359,12 @@ a {
     background 120ms,
     transform 120ms;
 }
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .hoy-cta {
     width: fit-content;
   }
 }
-@media (max-width: 1023px) {
+@media (max-width: 767px) {
   .hoy3__hero-banner-cta.hoy-cta {
     width: auto;
     max-width: none;
