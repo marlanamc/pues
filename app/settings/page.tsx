@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { AccountCard } from "@/components/AccountCard";
+import { BuildStamp } from "@/components/BuildStamp";
 import { ExportCuadernoCard } from "@/components/ExportCuadernoCard";
 import { ResetProgressCard } from "@/components/ResetProgressCard";
 import { ThemePicker } from "@/components/ThemePicker";
@@ -153,6 +154,8 @@ export default function SettingsPage() {
           </Link>
         </div>
       </div>
+
+      <BuildStamp />
     </div>
   );
 }
