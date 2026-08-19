@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { AccentMarksJumpNav } from "@/components/AccentMarksJumpNav";
 import { PlayButton } from "@/components/PlayButton";
-import { SettingsMenuButton } from "@/components/SettingsMenu";
 import { markSections } from "@/content/accentMarks";
 
 export default function AccentMarksPage() {
@@ -15,7 +14,6 @@ export default function AccentMarksPage() {
           ← Pronunciación
         </Link>
         <p className="text-caption text-ink-mute">Tildes</p>
-        <SettingsMenuButton />
       </header>
 
       <section className="space-y-3">

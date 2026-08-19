@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { SettingsMenuButton } from "@/components/SettingsMenu";
 import {
   pronunciationHubLinks,
   pronunciationOverview,
@@ -16,7 +15,6 @@ export default function PronunciationHubPage() {
           ← Guías
         </Link>
         <p className="text-caption text-ink-mute">Pronunciación</p>
-        <SettingsMenuButton />
       </header>
 
       <section className="space-y-3">

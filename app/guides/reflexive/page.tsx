@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { PlayButton } from "@/components/PlayButton";
 import { ReflexiveJumpNav } from "@/components/ReflexiveJumpNav";
-import { SettingsMenuButton } from "@/components/SettingsMenu";
 import { reflexiveSections } from "@/content/reflexive";
 
 export default function ReflexivePage() {
@@ -15,7 +14,6 @@ export default function ReflexivePage() {
           ← Verbos
         </Link>
         <p className="text-caption text-ink-mute">Reflexivos</p>
-        <SettingsMenuButton />
       </header>
 
       <section className="space-y-3">

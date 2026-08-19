@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { PlayButton } from "@/components/PlayButton";
-import { SettingsMenuButton } from "@/components/SettingsMenu";
 import { accentDrills } from "@/content/accent";
 
 export default function AccentPage() {
@@ -14,7 +13,6 @@ export default function AccentPage() {
           ← Pronunciación
         </Link>
         <p className="text-caption text-ink-mute">Acento</p>
-        <SettingsMenuButton />
       </header>
 
       <section className="space-y-3">

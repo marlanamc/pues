@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { SettingsMenuButton } from "@/components/SettingsMenu";
 import { SituationPhrases } from "@/components/SituationPhrases";
 import { StartSituationPracticeButton } from "@/components/StartSituationPracticeButton";
 import {
@@ -38,7 +37,6 @@ export default async function SituationDetailPage({ params }: { params: Params }
           >
             ← Lugares
           </Link>
-          <SettingsMenuButton />
         </div>
         <p className="text-caption text-ink-mute">
           {categoryLabels[situation.category]}

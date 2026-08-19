@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
-import { SettingsMenuButton } from "@/components/SettingsMenu";
 import { InkReplay } from "@/components/InkReplay";
 import { deleteInk } from "@/lib/inkStore";
 import {
@@ -38,7 +37,6 @@ export default function SentenceFormerReviewPage() {
         >
           ← Formar la frase
         </Link>
-        <SettingsMenuButton />
       </header>
 
       <section className="space-y-1">

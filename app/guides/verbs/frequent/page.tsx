@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import { PlayButton } from "@/components/PlayButton";
-import { SettingsMenuButton } from "@/components/SettingsMenu";
 import { frequentVerbs } from "@/content/frequentVerbs";
 
 export default function FrequentVerbsPage() {
@@ -23,7 +22,6 @@ export default function FrequentVerbsPage() {
           ← Verbos
         </Link>
         <p className="text-caption text-ink-mute">Frecuentes</p>
-        <SettingsMenuButton />
       </header>
 
       <section className="space-y-3">

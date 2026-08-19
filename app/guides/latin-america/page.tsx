@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { LatinAmericaJumpNav } from "@/components/LatinAmericaJumpNav";
 import { PlayButton } from "@/components/PlayButton";
-import { SettingsMenuButton } from "@/components/SettingsMenu";
 import {
   latinAmericaPracticeSteps,
   latinAmericaSections,
@@ -18,7 +17,6 @@ export default function LatinAmericaGuidePage() {
           ← Guías
         </Link>
         <p className="text-caption text-ink-mute">Latinoamérica</p>
-        <SettingsMenuButton />
       </header>
 
       <section className="space-y-3">

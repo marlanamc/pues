@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { SettingsMenuButton } from "@/components/SettingsMenu";
 import { SerEstarGame } from "@/components/SerEstarGame";
 import { SerEstarHints } from "@/components/SerEstarHints";
 import { serEstarOverview } from "@/content/serEstar";
@@ -24,7 +23,6 @@ export default function SerEstarPage() {
           ← Más
         </Link>
         <p className="text-caption text-ink-mute">Juego</p>
-        <SettingsMenuButton />
       </header>
 
       {!started ? (

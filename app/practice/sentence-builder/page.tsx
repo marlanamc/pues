@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import type { CSSProperties } from "react";
-import { SettingsMenuButton } from "@/components/SettingsMenu";
 import { SentenceBuilderGame } from "@/components/SentenceBuilderGame";
 import { getSbProgress, type SbProgress } from "@/lib/store";
 import {
@@ -73,7 +72,6 @@ export default function SentenceBuilderPage() {
           ← Más
         </Link>
         <p className="text-caption text-ink-mute">{sentenceBuilderOverview.pill}</p>
-        <SettingsMenuButton />
       </header>
 
       {/* Hero */}

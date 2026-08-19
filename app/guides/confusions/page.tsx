@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { ConfusionsJumpNav } from "@/components/ConfusionsJumpNav";
 import { PlayButton } from "@/components/PlayButton";
-import { SettingsMenuButton } from "@/components/SettingsMenu";
 import {
   confusionGroups,
 } from "@/content/confusions";
@@ -17,7 +16,6 @@ export default function ConfusionsPage() {
           ← Guías
         </Link>
         <p className="text-caption text-ink-mute">Matiz</p>
-        <SettingsMenuButton />
       </header>
 
       <section className="space-y-3">

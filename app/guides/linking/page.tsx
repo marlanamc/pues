@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { PlayButton } from "@/components/PlayButton";
-import { SettingsMenuButton } from "@/components/SettingsMenu";
 import { linkingDrills } from "@/content/linking";
 
 export default function LinkingPage() {
@@ -14,7 +13,6 @@ export default function LinkingPage() {
           ← Guías
         </Link>
         <p className="text-caption text-ink-mute">Linking</p>
-        <SettingsMenuButton />
       </header>
 
       <section className="space-y-3">

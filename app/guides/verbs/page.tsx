@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { SettingsMenuButton } from "@/components/SettingsMenu";
 import {
   VerbJumpNav,
   VerbSectionList,
@@ -20,7 +19,6 @@ export default function VerbsHubPage() {
           ← Guías
         </Link>
         <p className="text-caption text-ink-mute">Verbos</p>
-        <SettingsMenuButton />
       </header>
 
       <section className="space-y-3">

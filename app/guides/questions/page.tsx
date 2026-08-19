@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { PlayButton } from "@/components/PlayButton";
 import { QuestionsJumpNav } from "@/components/QuestionsJumpNav";
-import { SettingsMenuButton } from "@/components/SettingsMenu";
 import { questionSections } from "@/content/questions";
 
 export default function QuestionsPage() {
@@ -15,7 +14,6 @@ export default function QuestionsPage() {
           ← Guías
         </Link>
         <p className="text-caption text-ink-mute">Preguntas</p>
-        <SettingsMenuButton />
       </header>
 
       <section className="space-y-3">

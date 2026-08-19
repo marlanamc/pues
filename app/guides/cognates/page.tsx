@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import { PlayButton } from "@/components/PlayButton";
-import { SettingsMenuButton } from "@/components/SettingsMenu";
 import {
   cognatePatterns,
   cognateThemes,
@@ -25,7 +24,6 @@ export default function CognatesPage() {
           ← Guías
         </Link>
         <p className="text-caption text-ink-mute">Cognates</p>
-        <SettingsMenuButton />
       </header>
 
       <div className="space-y-2">

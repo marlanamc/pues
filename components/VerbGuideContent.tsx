@@ -3,7 +3,6 @@
 import { useRef } from "react";
 import Link from "next/link";
 import { PlayButton } from "@/components/PlayButton";
-import { SettingsMenuButton } from "@/components/SettingsMenu";
 import type { VerbSection, VerbTenseGuide } from "@/content/verbs";
 import { sectionsByCategory } from "@/content/verbs";
 
@@ -141,7 +140,6 @@ export function VerbTensePage({
           {backLabel}
         </Link>
         <p className="text-caption text-ink-mute">{guide.label}</p>
-        <SettingsMenuButton />
       </header>
 
       <section className="space-y-3">

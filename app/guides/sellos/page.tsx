@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { SettingsMenuButton } from "@/components/SettingsMenu";
 import { StampGlyph } from "@/components/LaLineaTimeline";
 import {
   STAMP_GUIDE,
@@ -139,7 +138,6 @@ export default function SellosGuidePage() {
           ← Guías
         </Link>
         <p className="text-caption text-ink-mute">6 sellos</p>
-        <SettingsMenuButton />
       </header>
 
       <section className="space-y-3">

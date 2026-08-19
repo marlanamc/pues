@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { PlayButton } from "@/components/PlayButton";
-import { SettingsMenuButton } from "@/components/SettingsMenu";
 import { getSbProgress, recordSbLevelResult } from "@/lib/store";
 import { staticAudioUrl } from "@/lib/audio";
 import {
@@ -491,7 +490,6 @@ export function SentenceBuilderGame({
             <span aria-hidden className="text-base leading-none">×</span>
             Salir
           </button>
-          <SettingsMenuButton />
         </header>
 
         <div className="fade-rise rounded-lg border border-[color:var(--correct)]/40 bg-surface p-8 text-center space-y-4">
@@ -567,8 +565,6 @@ export function SentenceBuilderGame({
             />
           </div>
         </div>
-
-        <SettingsMenuButton />
       </header>
 
       {/* ── Step indicator (ladder cards only) ────────────────────── */}
