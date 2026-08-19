@@ -45,8 +45,13 @@ import {
 let penSeen = false;
 
 const RULE_HEIGHT = 44;
-/** Four rules, not three: the whole phrase is written here now, not just its tail. */
-const RULES = 4;
+/**
+ * A floor, not a fixed size. The page stretches to whatever height its column
+ * gives it — an iPad in portrait yields a page you can actually write a few
+ * lines on — and never shrinks below four rules, which is enough for the whole
+ * phrase on the smallest phone.
+ */
+const MIN_RULES = 4;
 const PAD_TOP = 10;
 
 function inkColor(el: HTMLElement): string {
@@ -71,7 +76,7 @@ export function InkLine({
   // Committed strokes stay in `value` — they only change on pointer-up.
   const activeRef = useRef<InkPoint[] | null>(null);
 
-  const height = RULE_HEIGHT * RULES + PAD_TOP;
+  const minHeight = RULE_HEIGHT * MIN_RULES + PAD_TOP;
 
   const repaint = useCallback(() => {
     const canvas = canvasRef.current;
@@ -109,12 +114,13 @@ export function InkLine({
     if (!box) return;
     const observer = new ResizeObserver(([entry]) => {
       const w = Math.round(entry.contentRect.width);
-      if (w <= 0) return;
-      setSize((prev) => (prev && prev.w === w ? prev : { w, h: height }));
+      const h = Math.round(entry.contentRect.height);
+      if (w <= 0 || h <= 0) return;
+      setSize((prev) => (prev && prev.w === w && prev.h === h ? prev : { w, h }));
     });
     observer.observe(box);
     return () => observer.disconnect();
-  }, [height]);
+  }, []);
 
   useEffect(() => {
     if (!size || !value) return;
@@ -193,12 +199,11 @@ export function InkLine({
       <div
         ref={boxRef}
         className="ink-line__sheet"
-        style={{ height, ["--ink-rule-h" as string]: `${RULE_HEIGHT}px` }}
+        style={{ minHeight, ["--ink-rule-h" as string]: `${RULE_HEIGHT}px` }}
       >
         <canvas
           ref={canvasRef}
           className="ink-line__canvas"
-          style={{ width: "100%", height }}
           role="img"
           aria-label={
             blank

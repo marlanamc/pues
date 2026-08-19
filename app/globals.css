@@ -2818,6 +2818,16 @@ html[data-text-size="large"] .gloss-line {
 /* ===== Print — the stem sheet, and nothing else =====
    Los comienzos exists to be copied onto paper. Printing it should give a
    plain black-on-white list with none of the app around it. */
+/* Formar la frase — the round screen fills the viewport, so the flex spacer
+   above the save button has something to expand into and the button settles at
+   the foot of the page instead of halfway down it. `dvh` rather than `vh` so
+   the page reflows when a phone keyboard takes half the screen. The 12rem is
+   the chrome above and below: the sticky header, the page padding, and the
+   space the tab bar sits in. */
+.sf-round {
+  min-height: calc(100dvh - 12rem);
+}
+
 /* ===== Ink — handwriting on a ruled page =====
    The paper metaphor made literal: hairline baselines in `--rule` and nothing
    else. The page stays empty on purpose — the stem is on the prompt card, and
@@ -2827,8 +2837,18 @@ html[data-text-size="large"] .gloss-line {
    The rule height is px rather than rem on purpose. It is a physical measure —
    how large a hand actually writes with a Pencil — and must not grow with the
    `data-text-size` type scale the way a block of prose should. */
+/* The line grows into whatever height its column offers, so the writing area
+   absorbs the space instead of leaving a gap above the save button. */
+.ink-line {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1;
+}
+
 .ink-line__sheet {
   position: relative;
+  flex: 1;
   background-color: var(--surface);
   background-image: repeating-linear-gradient(
     to bottom,

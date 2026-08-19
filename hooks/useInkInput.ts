@@ -1,12 +1,10 @@
 "use client";
 
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useSyncExternalStore } from "react";
+import { useTabletUp } from "@/hooks/useMediaQuery";
 import { getInkInput, setInkInput as persistInkInput, type InkInput } from "@/lib/store";
 
 const INK_INPUT_EVENT = "pues:ink-input-change";
-
-/** Below this the surface opens with the keyboard — a phone has no pencil. */
-const TABLET_QUERY = "(min-width: 768px)";
 
 function subscribe(callback: () => void) {
   window.addEventListener(INK_INPUT_EVENT, callback);
@@ -30,16 +28,8 @@ export function useInkInput() {
     () => "auto" as InkInput,
   );
 
-  // Resolved after mount: the server has no viewport, so "auto" starts as the
-  // keyboard and settles on the first client pass rather than mismatching.
-  const [wide, setWide] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia(TABLET_QUERY);
-    const sync = () => setWide(mq.matches);
-    sync();
-    mq.addEventListener("change", sync);
-    return () => mq.removeEventListener("change", sync);
-  }, []);
+  // "auto" resolves by viewport — a phone has no pencil, a tablet does.
+  const wide = useTabletUp();
 
   function setPreference(next: InkInput) {
     persistInkInput(next);

@@ -471,7 +471,7 @@ function RoundScreen({
   const hasAnswer = usingInk ? !inkIsEmpty(drawing) : text.trim().length > 0;
 
   return (
-    <div className="flex flex-col lg:max-w-xl lg:mx-auto lg:w-full">
+    <div className="sf-round flex flex-col lg:max-w-xl lg:mx-auto lg:w-full">
       <PlayHeader onExit={onExit} total={total} index={index} />
 
       <Cap style={{ margin: "20px 0 8px", textAlign: "center" }}>Día {round.day} · {mode === "hablar" ? "dilo en voz alta" : "escríbela"}</Cap>
@@ -494,7 +494,17 @@ function RoundScreen({
       <Hint stem={round.stem} target={round.target} />
 
       {mode === "escribir" && (
-        <div style={{ marginTop: 18 }}>
+        <div
+          style={{
+            marginTop: 18,
+            display: "flex",
+            flexDirection: "column",
+            minHeight: 0,
+            // Handwriting takes the leftover height itself; the typed box is a
+            // fixed size, so there the spacer below still does the work.
+            flex: usingInk ? 1 : undefined,
+          }}
+        >
           {usingInk ? (
             <InkLine stem={round.stem.stem} value={drawing} onChange={setDrawing} />
           ) : (
@@ -518,7 +528,7 @@ function RoundScreen({
         </div>
       )}
 
-      <div style={{ flex: 1, minHeight: 16 }} />
+      {!(mode === "escribir" && usingInk) && <div style={{ flex: 1, minHeight: 16 }} />}
 
       <button
         type="button"
