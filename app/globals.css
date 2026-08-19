@@ -2839,10 +2839,24 @@ html[data-text-size="large"] .gloss-line {
   margin: 0 0 18px;
 }
 
+.week-copy__days,
 .week-copy__list {
   list-style: none;
   margin: 0;
   padding: 0;
+}
+
+/* A hairline between days, nothing between lines within one — the day is the
+   unit you sit down to copy. */
+.week-copy__day + .week-copy__day {
+  margin-top: 30px;
+  padding-top: 24px;
+  border-top: 1px solid var(--rule);
+}
+
+.week-copy__day-head {
+  margin: 0 0 18px;
+  color: var(--zone);
 }
 
 /* No separator rule: each row already ends in the hairline you write on, and a
@@ -2927,7 +2941,8 @@ html[data-text-size="large"] .gloss-line {
   .week-copy .ink-line__canvas {
     display: none !important;
   }
-  .week-copy__row {
+  .week-copy__row,
+  .week-copy__day {
     break-inside: avoid;
   }
   .week-copy .ink-line__sheet,

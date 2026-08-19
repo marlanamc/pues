@@ -18,6 +18,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Gloss } from "@/components/Gloss";
+import { speakDays } from "@/content/prompts";
 import { InkLine, RULE_HEIGHT, inkLineHeight } from "@/components/InkLine";
 import { useNearViewport } from "@/hooks/useNearViewport";
 import { isEmpty, type InkDrawing } from "@/lib/ink";
@@ -27,6 +28,31 @@ import type { WeekStem } from "@/lib/weekStems";
 
 /** Long enough that a pause mid-word is not a write, short enough to be safe. */
 const AUTOSAVE_MS = 600;
+
+type DayGroup = { day: number; themeEs: string; themeEn: string; stems: WeekStem[] };
+
+/**
+ * Thirty-five lines in one column is a wall. The week already has a shape, so
+ * the sheet borrows it.
+ *
+ * `stemsForWeek` walks the days in order and keeps a stem's first appearance
+ * only, so a plain linear pass groups correctly — and a repaso day whose stems
+ * all appeared earlier simply produces no group, which is right: there is
+ * nothing new to copy on it.
+ */
+function groupByDay(stems: WeekStem[]): DayGroup[] {
+  const groups: DayGroup[] = [];
+  for (const stem of stems) {
+    let group = groups[groups.length - 1];
+    if (!group || group.day !== stem.day) {
+      const speak = speakDays[stem.day - 1];
+      group = { day: stem.day, themeEs: speak.themeEs, themeEn: speak.themeEn, stems: [] };
+      groups.push(group);
+    }
+    group.stems.push(stem);
+  }
+  return groups;
+}
 
 function CopyRow({ week, stem }: { week: number; stem: WeekStem }) {
   const rowRef = useRef<HTMLLIElement | null>(null);
@@ -144,11 +170,21 @@ export function WeekCopySheet({ week, stems }: { week: number; stems: WeekStem[]
         Cópialos con el lápiz. Nadie los corrige — la mano es el punto.
         <Gloss>Copy them with the pencil. Nothing is corrected — the hand is the point.</Gloss>
       </p>
-      <ul className="week-copy__list">
-        {stems.map((s) => (
-          <CopyRow key={s.promptId} week={week} stem={s} />
+      <ol className="week-copy__days">
+        {groupByDay(stems).map((group) => (
+          <li key={group.day} className="week-copy__day">
+            <p className="text-caption week-copy__day-head">
+              Día {String(group.day).padStart(2, "0")} · {group.themeEs}
+              <Gloss>{group.themeEn}</Gloss>
+            </p>
+            <ul className="week-copy__list">
+              {group.stems.map((s) => (
+                <CopyRow key={s.promptId} week={week} stem={s} />
+              ))}
+            </ul>
+          </li>
         ))}
-      </ul>
+      </ol>
     </div>
   );
 }
