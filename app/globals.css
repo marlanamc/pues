@@ -2818,10 +2818,11 @@ html[data-text-size="large"] .gloss-line {
 /* ===== Print — the stem sheet, and nothing else =====
    Los comienzos exists to be copied onto paper. Printing it should give a
    plain black-on-white list with none of the app around it. */
-/* ===== Ink — handwriting on a ruled line =====
-   The paper metaphor made literal: hairline baselines in `--rule`, the stem
-   printed on the first one in the display face, and your ink over the top.
-   No shadow, no fill — the rules and the border do the work.
+/* ===== Ink — handwriting on a ruled page =====
+   The paper metaphor made literal: hairline baselines in `--rule` and nothing
+   else. The page stays empty on purpose — the stem is on the prompt card, and
+   writing it out is the exercise. No shadow, no fill; the rules and the border
+   do the work.
 
    The rule height is px rather than rem on purpose. It is a physical measure —
    how large a hand actually writes with a Pencil — and must not grow with the
@@ -2840,23 +2841,6 @@ html[data-text-size="large"] .gloss-line {
   border: 1px solid var(--rule);
   border-radius: 14px;
   overflow: hidden;
-}
-
-.ink-line__stem {
-  position: absolute;
-  left: 20px;
-  top: 10px;
-  height: var(--ink-rule-h);
-  display: flex;
-  align-items: flex-end;
-  padding-bottom: 7px;
-  font-family: var(--font-display);
-  font-size: 1.25rem;
-  line-height: 1;
-  color: var(--ink-mute);
-  pointer-events: none;
-  user-select: none;
-  -webkit-user-select: none;
 }
 
 .ink-line__canvas {

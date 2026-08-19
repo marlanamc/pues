@@ -1,11 +1,13 @@
 "use client";
 
 /**
- * InkLine — a ruled writing line you finish by hand.
+ * InkLine — an empty ruled page you write the whole phrase onto.
  *
- * The stem is printed on the first rule in the display face, exactly where it
- * would be if you had copied it into a paper notebook, and the ink continues
- * from there. Nothing is checked; the strokes are kept as your own record.
+ * Deliberately blank. The stem is shown on the prompt card above and nowhere
+ * else, so copying it out is part of the exercise rather than something the
+ * interface does for you — which is the same reason La semana asks you to
+ * "Copia los tallos" onto paper. Nothing is checked; the strokes are kept as
+ * your own record.
  *
  * Input is a stylus or a fingertip via Pointer Events. Two details matter on an
  * iPad and are easy to get wrong:
@@ -43,7 +45,8 @@ import {
 let penSeen = false;
 
 const RULE_HEIGHT = 44;
-const RULES = 3;
+/** Four rules, not three: the whole phrase is written here now, not just its tail. */
+const RULES = 4;
 const PAD_TOP = 10;
 
 function inkColor(el: HTMLElement): string {
@@ -192,9 +195,6 @@ export function InkLine({
         className="ink-line__sheet"
         style={{ height, ["--ink-rule-h" as string]: `${RULE_HEIGHT}px` }}
       >
-        <span className="ink-line__stem" aria-hidden="true">
-          {stem}
-        </span>
         <canvas
           ref={canvasRef}
           className="ink-line__canvas"
@@ -202,8 +202,8 @@ export function InkLine({
           role="img"
           aria-label={
             blank
-              ? `Espacio para escribir a mano: ${stem}`
-              : `Tu escritura a mano para ${stem}, ${count} trazos`
+              ? `Página en blanco. Escribe a mano la frase que empieza «${stem}».`
+              : `Tu escritura a mano de la frase que empieza «${stem}», ${count} trazos`
           }
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}

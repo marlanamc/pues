@@ -66,12 +66,7 @@ export default function SentenceFormerReviewPage() {
             >
               <div style={{ minWidth: 0, flex: 1 }}>
                 {entry.inkId ? (
-                  <>
-                    <p style={{ fontFamily: SERIF, fontSize: 15, color: "var(--ink-mute)", margin: 0 }}>
-                      {entry.stem}
-                    </p>
-                    <InkReplay inkId={entry.inkId} />
-                  </>
+                  <InkReplay inkId={entry.inkId} />
                 ) : (
                   <p style={{ fontFamily: SERIF, fontSize: 16, color: "var(--ink)", margin: 0 }}>{entry.text}</p>
                 )}
