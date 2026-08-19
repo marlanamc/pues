@@ -2832,11 +2832,30 @@ html[data-text-size="large"] .gloss-line {
    The stem is printed above its line, not hidden: this step is copying, not
    retrieval. Hairline separators, no cards — the sheet is a page, not a list
    of boxes. */
+/* Sin mirar — the line you commit your answer to before the reveal. Sits
+   between the English cue and the answer, so after the reveal the two are
+   stacked and the judgement is a comparison rather than a recollection. */
+.stem-recall-write {
+  /* The card is a centred flex column, so a child left to itself shrinks to
+     its content — which for a canvas is almost nothing. */
+  align-self: stretch;
+  width: 100%;
+  margin: 22px 0 4px;
+  text-align: left;
+}
+
+.stem-recall-write__note {
+  margin: 6px 0 0;
+  color: var(--ink-mute);
+  text-align: center;
+}
+
 /* A hand resting on the glass lands on whatever is beneath it, and iOS answers
    with a text selection — blue handles blooming around a label or a button
    while you are mid-word. Nothing here is text anyone needs to select; the
    stems have a Copiar button on the list view for that. */
 .week-copy,
+.stem-recall-write,
 .ink-line {
   user-select: none;
   -webkit-user-select: none;

@@ -2,7 +2,10 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Gloss } from "@/components/Gloss";
+import { InkLine } from "@/components/InkLine";
 import { PlayButton } from "@/components/PlayButton";
+import { useInkInput } from "@/hooks/useInkInput";
+import { isEmpty, type InkDrawing } from "@/lib/ink";
 import { playbackRateFor, useAudioSpeed } from "@/hooks/useAudioSpeed";
 import { resolveAudioUrl } from "@/lib/audio";
 import {
@@ -19,6 +22,13 @@ import { stemsForWeek, type WeekStem } from "@/lib/weekStems";
  * not the thing that fails in conversation. This runs the week the other way:
  * English gloss first, say the Spanish out loud, then reveal and judge whether
  * it came out on its own or you had to build it. Building counts as a miss.
+ *
+ * On a tablet you can write the Spanish before you look. The line locks the
+ * moment the answer appears, so the judgement below compares two artifacts
+ * rather than grading a memory of what you were about to say — which is the
+ * one moment hindsight is strongest. Writing is an invitation, never a gate:
+ * the answer reveals whether or not you wrote, because the gate here is
+ * saying it aloud.
  *
  * Misses go into the shared practice list (see lib/store.ts) — the same one the
  * "Quiero practicarla" reflection writes to — so the two kinds of "needs work"
@@ -129,6 +139,11 @@ export function StemRecall({ dayNums }: { dayNums: number[] }) {
   const [queue, setQueue] = useState<Card[] | null>(null);
   const [pos, setPos] = useState(0);
   const [revealed, setRevealed] = useState(false);
+  // Not persisted: this exists for the comparison in front of you, and Sin
+  // mirar's output is a list of stems, never a gallery.
+  const [drawing, setDrawing] = useState<InkDrawing | null>(null);
+  // A pencil is a tablet affordance; on a phone the card stays as it was.
+  const { usingInk } = useInkInput();
   const [missed, setMissed] = useState<Card[]>([]);
   const [flagged, setFlagged] = useState<string[]>([]);
   const [handsFree, setHandsFree] = useState(false);
@@ -304,6 +319,7 @@ export function StemRecall({ dayNums }: { dayNums: number[] }) {
     else flagMiss(card);
     syncFlags();
     setRevealed(false);
+    setDrawing(null);
     setPos((p) => p + 1);
   }
 
@@ -394,6 +410,9 @@ export function StemRecall({ dayNums }: { dayNums: number[] }) {
   /* ---------- Running ---------- */
   if (running) {
     const card = queue[pos];
+    // Hands-free is hands-free — a writing line has no place in a pass that
+    // runs itself.
+    const writeFirst = usingInk && !handsFree;
     const cardFlagged =
       flagged.includes(card.promptId) || missed.some((m) => m.promptId === card.promptId);
     return (
@@ -420,6 +439,25 @@ export function StemRecall({ dayNums }: { dayNums: number[] }) {
           )}
 
           <p className="stem-recall-card__english">{card.english}</p>
+
+          {writeFirst && (
+            <div className="stem-recall-write">
+              <InkLine
+                stem={card.stem}
+                value={drawing}
+                onChange={setDrawing}
+                rules={1}
+                bare
+                readOnly={revealed}
+              />
+              {!revealed && isEmpty(drawing) && (
+                <p className="text-caption stem-recall-write__note">
+                  Escríbela antes de ver.
+                  <Gloss>Write it before you look</Gloss>
+                </p>
+              )}
+            </div>
+          )}
 
           {revealed ? (
             <>

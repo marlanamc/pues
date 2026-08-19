@@ -70,6 +70,7 @@ export function InkLine({
   grow = false,
   showTools = true,
   bare = false,
+  readOnly = false,
 }: {
   stem: string;
   value: InkDrawing | null;
@@ -90,6 +91,13 @@ export function InkLine({
    * enough to the baseline that the two read as one thick smudge.
    */
   bare?: boolean;
+  /**
+   * Show the strokes but take no more. Sin mirar locks the line at the reveal:
+   * once the answer is on screen, anything further you write is copying it,
+   * and the point of writing first is that the answer was committed before you
+   * looked.
+   */
+  readOnly?: boolean;
 }) {
   const boxRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -240,17 +248,22 @@ export function InkLine({
               ? `Página en blanco. Escribe a mano la frase que empieza «${stem}».`
               : `Tu escritura a mano de la frase que empieza «${stem}», ${count} trazos`
           }
-          onPointerDown={onPointerDown}
-          onPointerMove={onPointerMove}
-          onPointerUp={endStroke}
-          onPointerCancel={endStroke}
-          onPointerLeave={(e) => {
-            if (activeRef.current) endStroke(e);
-          }}
+          style={readOnly ? { cursor: "default" } : undefined}
+          onPointerDown={readOnly ? undefined : onPointerDown}
+          onPointerMove={readOnly ? undefined : onPointerMove}
+          onPointerUp={readOnly ? undefined : endStroke}
+          onPointerCancel={readOnly ? undefined : endStroke}
+          onPointerLeave={
+            readOnly
+              ? undefined
+              : (e) => {
+                  if (activeRef.current) endStroke(e);
+                }
+          }
         />
       </div>
 
-      {showTools && (
+      {showTools && !readOnly && (
       <div className="ink-line__tools">
         <button
           type="button"
