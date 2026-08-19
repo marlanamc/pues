@@ -8,6 +8,7 @@ import { PageHeader, Wordmark } from "@/components/PageHeader";
 import { WeekDayList } from "@/components/WeekDayList";
 import { WeekPlayer, type WeekPlayerLine } from "@/components/WeekPlayer";
 import { WeekStems } from "@/components/WeekStems";
+import { WeekCopySheet } from "@/components/WeekCopySheet";
 import { StemRecall } from "@/components/StemRecall";
 import { WeekBlindListen } from "@/components/WeekBlindListen";
 import { PlanSchedule } from "@/components/PlanSchedule";
@@ -17,6 +18,8 @@ import { readingForDay } from "@/content/readings";
 import { daysInWeek, planContextFromDay } from "@/lib/planDay";
 import { SEASONS } from "@/lib/season";
 import { currentWeek, clearDraft, isWeekPrimed, primeWeek, weekDaysDone } from "@/lib/store";
+import { stemsForWeek } from "@/lib/weekStems";
+import { useInkInput } from "@/hooks/useInkInput";
 import { useStats } from "@/hooks/useStats";
 
 const ws = {
@@ -48,6 +51,11 @@ export default function SemanaPage() {
     [week],
   );
   const days = useMemo(() => dayNums.map((d) => speakDays[d - 1]), [dayNums]);
+
+  // The week's unique stems — repaso repeats are already filtered out, so the
+  // sheet never asks you to copy the same line twice.
+  const copyStems = useMemo(() => stemsForWeek(dayNums), [dayNums]);
+  const { usingInk } = useInkInput();
 
   const ctx = planContextFromDay(dayNums[0] ?? 1);
   const season = SEASONS[ctx.seasonIdx];
@@ -212,7 +220,14 @@ export default function SemanaPage() {
 
         <div style={{ marginTop: 10 }}>
           <WeekStep n={1} label="Cópialos a mano" labelEn="Copy them by hand">
-            <WeekStems dayNums={dayNums} />
+            {/* With a pencil the step means it literally: ruled lines under the
+                stems. Without one it stays the reference list you copy onto
+                paper, which is also what prints. */}
+            {usingInk ? (
+              <WeekCopySheet week={week} stems={copyStems} />
+            ) : (
+              <WeekStems dayNums={dayNums} />
+            )}
           </WeekStep>
 
           <WeekStep n={2} label="Escúchala" labelEn="Listen to the week">

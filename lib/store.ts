@@ -201,6 +201,7 @@ export function clearAllProgressLocal(options?: ClearProgressOptions): void {
   set(K_SB_PROGRESS, {});
   set(K_READING_LOG, []);
   set(K_SENTENCE_FORMER_SAVED, []);
+  set(K_WEEK_COPY, {});
 }
 
 /**
@@ -580,6 +581,7 @@ export function readingDoneToday(): boolean {
 
 const K_SENTENCE_FORMER_SAVED = "pues:sentence-former-saved";
 const K_INK_INPUT = "pues:ink-input";
+const K_WEEK_COPY = "pues:week-copy";
 
 export type SentenceFormerEntry = {
   id: string;
@@ -672,6 +674,36 @@ export function getPhraseEnglishVisible(): boolean {
 export function setPhraseEnglishVisible(visible: boolean): boolean {
   write(K_PHRASE_ENGLISH_VISIBLE, visible);
   return visible;
+}
+
+/* ---------- Copia los tallos — the week's handwriting sheet ---------- */
+// A map from "<week>:<promptId>" to the IndexedDB key holding that line's
+// strokes (see `lib/inkStore.ts`). The stem's promptId is stable across
+// rebuilds, so a copied line survives content edits elsewhere in the week.
+
+export type WeekCopyMap = Record<string, string>;
+
+export function weekCopyKey(week: number, promptId: string): string {
+  return `${week}:${promptId}`;
+}
+
+export function getWeekCopy(): WeekCopyMap {
+  const raw = read<unknown>(K_WEEK_COPY, {});
+  if (!isObject(raw)) return {};
+  const out: WeekCopyMap = {};
+  for (const [k, v] of Object.entries(raw)) if (typeof v === "string") out[k] = v;
+  return out;
+}
+
+export function setWeekCopyInk(week: number, promptId: string, inkId: string): void {
+  const next = { ...getWeekCopy(), [weekCopyKey(week, promptId)]: inkId };
+  write(K_WEEK_COPY, next);
+}
+
+export function clearWeekCopyInk(week: number, promptId: string): void {
+  const next = getWeekCopy();
+  delete next[weekCopyKey(week, promptId)];
+  write(K_WEEK_COPY, next);
 }
 
 /* ---------- Handwriting input (Formar la frase) ---------- */

@@ -44,15 +44,25 @@ import {
  */
 let penSeen = false;
 
-const RULE_HEIGHT = 44;
+export const RULE_HEIGHT = 44;
 /**
- * A floor, not a fixed size. The page stretches to whatever height its column
- * gives it — an iPad in portrait yields a page you can actually write a few
- * lines on — and never shrinks below four rules, which is enough for the whole
- * phrase on the smallest phone.
+ * Rule count when the line is a fixed size. Stretching lines (`grow`) treat it
+ * as a floor instead and take whatever height their column offers — an iPad in
+ * portrait yields a page you can write a few lines on — never shrinking below
+ * this, which is enough for a whole phrase on the smallest phone.
  */
-const MIN_RULES = 4;
+const DEFAULT_RULES = 4;
 const PAD_TOP = 10;
+/**
+ * Room below the last rule. Without it a one-rule line puts its baseline
+ * exactly on the bottom border, hiding the only thing you write on.
+ */
+const PAD_BOTTOM = 10;
+
+/** The height a line of `rules` rules occupies, for anything that must match it. */
+export function inkLineHeight(rules: number): number {
+  return RULE_HEIGHT * rules + PAD_TOP + PAD_BOTTOM;
+}
 
 function inkColor(el: HTMLElement): string {
   return getComputedStyle(el).getPropertyValue("--ink").trim() || "#efe5d2";
@@ -62,10 +72,30 @@ export function InkLine({
   stem,
   value,
   onChange,
+  rules = DEFAULT_RULES,
+  grow = false,
+  showTools = true,
+  bare = false,
 }: {
   stem: string;
   value: InkDrawing | null;
   onChange: (next: InkDrawing) => void;
+  /** How many ruled lines tall. A floor rather than a fixed height when `grow`. */
+  rules?: number;
+  /**
+   * Fill the height the column offers. Right for a full-page writing surface,
+   * wrong for a stack of lines on a sheet — there they would each fight for
+   * the same space.
+   */
+  grow?: boolean;
+  /** Off when the surrounding surface supplies its own undo/clear. */
+  showTools?: boolean;
+  /**
+   * Drop the card — no border, no fill, just the rule. Paper does not put a
+   * box around every line, and on a sheet the box's bottom edge sits close
+   * enough to the baseline that the two read as one thick smudge.
+   */
+  bare?: boolean;
 }) {
   const boxRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -76,7 +106,7 @@ export function InkLine({
   // Committed strokes stay in `value` — they only change on pointer-up.
   const activeRef = useRef<InkPoint[] | null>(null);
 
-  const minHeight = RULE_HEIGHT * MIN_RULES + PAD_TOP;
+  const minHeight = inkLineHeight(rules);
 
   const repaint = useCallback(() => {
     const canvas = canvasRef.current;
@@ -195,11 +225,17 @@ export function InkLine({
   const blank = isEmpty(value);
 
   return (
-    <div className="ink-line">
+    <div className={grow ? "ink-line ink-line--grow" : "ink-line"}>
       <div
         ref={boxRef}
-        className="ink-line__sheet"
-        style={{ minHeight, ["--ink-rule-h" as string]: `${RULE_HEIGHT}px` }}
+        className={bare ? "ink-line__sheet ink-line__sheet--bare" : "ink-line__sheet"}
+        style={{
+          // A fixed line sets both, so the sheet's rows keep their rhythm; a
+          // growing one sets only the floor and lets flex decide the rest.
+          minHeight,
+          ...(grow ? null : { height: minHeight }),
+          ["--ink-rule-h" as string]: `${RULE_HEIGHT}px`,
+        }}
       >
         <canvas
           ref={canvasRef}
@@ -220,6 +256,7 @@ export function InkLine({
         />
       </div>
 
+      {showTools && (
       <div className="ink-line__tools">
         <button
           type="button"
@@ -238,6 +275,7 @@ export function InkLine({
           Borrar
         </button>
       </div>
+      )}
     </div>
   );
 }

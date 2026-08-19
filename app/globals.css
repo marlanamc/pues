@@ -2828,6 +2828,116 @@ html[data-text-size="large"] .gloss-line {
   min-height: calc(100dvh - 12rem);
 }
 
+/* ===== Cópialos a mano — the week's stems with a line each =====
+   The stem is printed above its line, not hidden: this step is copying, not
+   retrieval. Hairline separators, no cards — the sheet is a page, not a list
+   of boxes. */
+.week-copy__lede {
+  color: var(--ink-soft);
+  font-size: 0.875rem;
+  line-height: 1.55;
+  margin: 0 0 18px;
+}
+
+.week-copy__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* No separator rule: each row already ends in the hairline you write on, and a
+   second one 30px below it just reads as an ambiguous pair. Space divides the
+   rows instead. */
+.week-copy__row + .week-copy__row {
+  margin-top: 26px;
+}
+
+.week-copy__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.week-copy__stem {
+  margin: 0;
+  min-width: 0;
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  line-height: 1.3;
+  color: var(--ink);
+}
+
+/* Sits in the label row rather than under the line: a sheet of 35 lines cannot
+   afford a control strip each, and putting it here means no layout shift when
+   it appears on the first stroke. */
+.week-copy__clear {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  padding: 4px 6px;
+  min-height: 40px;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  cursor: pointer;
+  transition: color 140ms ease;
+}
+.week-copy__clear:hover {
+  color: var(--accent);
+}
+
+/* A row whose canvas has been torn down to save memory. It wears the line's
+   own classes, so a dormant row is pixel-identical to a live one and the page
+   never shifts as rows come and go. */
+
+/* On paper the sheet is a worksheet: every stem with an empty rule under it.
+   Mirrors the `.week-stems` print block — `visibility` rather than `display` so
+   the sheet's own hidden ancestors can stay hidden while it shows through, and
+   `:has` so every other page still prints normally.
+
+   The baseline is redrawn as a border here: the on-screen rule is a background
+   gradient, and browsers drop backgrounds when printing. The ink itself is left
+   off — you print this to get a blank sheet, not a copy of your handwriting. */
+@media print {
+  body:has(.week-copy) * {
+    visibility: hidden;
+    background: transparent !important;
+    color: #000 !important;
+    box-shadow: none !important;
+  }
+  body:has(.week-copy) {
+    background: #fff !important;
+  }
+  body:has(.week-copy) .week-copy,
+  body:has(.week-copy) .week-copy * {
+    visibility: visible;
+  }
+  .week-copy {
+    position: absolute;
+    inset: 0 auto auto 0;
+    width: 100%;
+    padding: 0;
+  }
+  .week-copy__lede,
+  .week-copy__clear,
+  .week-copy .ink-line__canvas {
+    display: none !important;
+  }
+  .week-copy__row {
+    break-inside: avoid;
+  }
+  .week-copy .ink-line__sheet,
+  .week-copy .week-copy__dormant {
+    background-image: none !important;
+    border-bottom: 1px solid #000 !important;
+    border-radius: 0 !important;
+  }
+}
+
 /* ===== Ink — handwriting on a ruled page =====
    The paper metaphor made literal: hairline baselines in `--rule` and nothing
    else. The page stays empty on purpose — the stem is on the prompt card, and
@@ -2837,18 +2947,21 @@ html[data-text-size="large"] .gloss-line {
    The rule height is px rather than rem on purpose. It is a physical measure —
    how large a hand actually writes with a Pencil — and must not grow with the
    `data-text-size` type scale the way a block of prose should. */
-/* The line grows into whatever height its column offers, so the writing area
-   absorbs the space instead of leaving a gap above the save button. */
 .ink-line {
   display: flex;
   flex-direction: column;
   min-height: 0;
+}
+
+/* Opt-in: the line grows into whatever height its column offers, so a
+   full-page writing surface absorbs the space instead of leaving a gap above
+   the save button. Never on a sheet, where stacked lines would compete. */
+.ink-line--grow {
   flex: 1;
 }
 
 .ink-line__sheet {
   position: relative;
-  flex: 1;
   background-color: var(--surface);
   background-image: repeating-linear-gradient(
     to bottom,
@@ -2861,6 +2974,14 @@ html[data-text-size="large"] .gloss-line {
   border: 1px solid var(--rule);
   border-radius: 14px;
   overflow: hidden;
+}
+
+/* Just the rule. Used on a sheet, where a border around every line would be
+   35 boxes and would crowd the baseline it sits beside. */
+.ink-line__sheet--bare {
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
 }
 
 .ink-line__canvas {
@@ -2878,6 +2999,10 @@ html[data-text-size="large"] .gloss-line {
   touch-action: none;
   overscroll-behavior: contain;
   cursor: crosshair;
+}
+
+.ink-line--grow .ink-line__sheet {
+  flex: 1;
 }
 
 .ink-line__tools {
@@ -2926,8 +3051,11 @@ html[data-text-size="large"] .gloss-line {
   body:has(.week-stems) {
     background: #fff !important;
   }
-  .week-stems,
-  .week-stems * {
+  /* Scoped through `body` so these out-specify the blanket hide above:
+     `body:has(.week-stems) *` is (0,1,1), and a bare `.week-stems *` is only
+     (0,1,0) — which is why this sheet used to print blank. */
+  body:has(.week-stems) .week-stems,
+  body:has(.week-stems) .week-stems * {
     visibility: visible;
   }
   .week-stems {

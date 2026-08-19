@@ -506,7 +506,7 @@ function RoundScreen({
           }}
         >
           {usingInk ? (
-            <InkLine stem={round.stem.stem} value={drawing} onChange={setDrawing} />
+            <InkLine stem={round.stem.stem} value={drawing} onChange={setDrawing} grow />
           ) : (
             <textarea
               value={text}
