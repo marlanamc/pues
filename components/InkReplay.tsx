@@ -78,7 +78,15 @@ export function InkReplay({ inkId }: { inkId: string }) {
   return (
     <div ref={boxRef} className="ink-replay">
       {drawing ? (
-        <canvas ref={canvasRef} style={{ width: "100%", display: "block" }} role="img" aria-label="Tu escritura a mano" />
+        <canvas
+          ref={canvasRef}
+          // Both dimensions must be set in CSS. A canvas is a replaced element,
+          // so with `width: auto` it falls back to its backing-store size and
+          // renders at the device-pixel ratio instead of the layout size.
+          style={{ width: "100%", display: "block" }}
+          role="img"
+          aria-label="Tu escritura a mano"
+        />
       ) : null}
     </div>
   );

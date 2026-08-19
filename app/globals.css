@@ -2866,6 +2866,13 @@ html[data-text-size="large"] .gloss-line {
 .ink-line__canvas {
   position: absolute;
   inset: 0;
+  /* A canvas is a replaced element: `inset: 0` does NOT stretch it the way it
+     stretches a div. With `width: auto` it takes its intrinsic size — the
+     width/height attributes, which are the backing store — so on a 2x screen
+     the box came out twice the sheet's size and the ink landed at double the
+     distance from the corner. These two lines are load-bearing. */
+  width: 100%;
+  height: 100%;
   display: block;
   /* Without this the page pans under the hand instead of taking the stroke. */
   touch-action: none;
