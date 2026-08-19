@@ -2855,7 +2855,8 @@ html[data-text-size="large"] .gloss-line {
    while you are mid-word. Nothing here is text anyone needs to select; the
    stems have a Copiar button on the list view for that. */
 .week-copy,
-.stem-recall-write,
+.stem-recall-card,
+.sf-round,
 .ink-line {
   user-select: none;
   -webkit-user-select: none;

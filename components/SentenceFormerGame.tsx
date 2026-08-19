@@ -26,6 +26,7 @@ import { TEMPORADAS } from "@/content/temporadas";
 import { useStats } from "@/hooks/useStats";
 import { useInkInput } from "@/hooks/useInkInput";
 import { InkLine } from "@/components/InkLine";
+import { PenSafeButton } from "@/components/PenSafeButton";
 import { isEmpty as inkIsEmpty, type InkDrawing } from "@/lib/ink";
 import { putInk } from "@/lib/inkStore";
 import { newId, saveSentenceFormerEntry } from "@/lib/store";
@@ -100,9 +101,9 @@ function ProgressPills({ total, index }: { total: number; index: number }) {
 function PlayHeader({ onExit, total, index }: { onExit: () => void; total: number; index: number }) {
   return (
     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-      <button onClick={onExit} style={{ display: "flex", alignItems: "center", gap: 5, background: "none", border: "none", color: "var(--ink-mute)", padding: 0, fontFamily: MONO, fontSize: 10, letterSpacing: "0.13em", textTransform: "uppercase", cursor: "pointer", minHeight: 40 }}>
+      <PenSafeButton onPress={onExit} style={{ display: "flex", alignItems: "center", gap: 5, background: "none", border: "none", color: "var(--ink-mute)", padding: 0, fontFamily: MONO, fontSize: 10, letterSpacing: "0.13em", textTransform: "uppercase", cursor: "pointer", minHeight: 40 }}>
         <IconClose s={13} /> Salir
-      </button>
+      </PenSafeButton>
       <ProgressPills total={total} index={index} />
     </div>
   );
@@ -416,15 +417,14 @@ function Hint({ stem, target }: { stem: SentenceFormerStem; target: SentenceForm
         {groups.map((g) => {
           const active = openKey === g.key;
           return (
-            <button
+            <PenSafeButton
               key={g.key}
-              type="button"
-              onClick={() => setOpenKey(active ? null : g.key)}
+              onPress={() => setOpenKey(active ? null : g.key)}
               aria-expanded={active}
               style={{ display: "inline-flex", alignItems: "center", gap: 6, background: active ? "color-mix(in oklab, var(--accent) 11%, var(--surface))" : "none", border: `1px solid ${active ? "var(--accent)" : "var(--rule)"}`, borderRadius: 999, padding: "6px 12px", color: "var(--accent)", fontFamily: MONO, fontSize: 9.5, letterSpacing: "0.08em", textTransform: "uppercase", cursor: "pointer" }}
             >
               {QUESTION_LABELS[g.key]}
-            </button>
+            </PenSafeButton>
           );
         })}
       </div>
@@ -517,22 +517,20 @@ function RoundScreen({
             />
           )}
           <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 8 }}>
-            <button
-              type="button"
-              onClick={() => setPreference(usingInk ? "type" : "ink")}
+            <PenSafeButton
+              onPress={() => setPreference(usingInk ? "type" : "ink")}
               style={{ background: "none", border: "none", padding: "6px 2px", minHeight: 40, color: "var(--ink-mute)", fontFamily: MONO, fontSize: 9.5, letterSpacing: "0.08em", textTransform: "uppercase", cursor: "pointer" }}
             >
               {usingInk ? "Escribir con teclado" : "Escribir a mano"}
-            </button>
+            </PenSafeButton>
           </div>
         </div>
       )}
 
       {!(mode === "escribir" && usingInk) && <div style={{ flex: 1, minHeight: 16 }} />}
 
-      <button
-        type="button"
-        onClick={() => {
+      <PenSafeButton
+        onPress={() => {
           if (mode !== "escribir") return onNext();
           onNext(usingInk ? { drawing } : { text: text.trim() });
         }}
@@ -543,7 +541,7 @@ function RoundScreen({
           {mode === "escribir" ? "Guardar y seguir" : last ? "Terminar" : "Siguiente"}
         </Serif>
         <IconArrow s={17} />
-      </button>
+      </PenSafeButton>
     </div>
   );
 }

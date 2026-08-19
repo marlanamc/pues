@@ -22,7 +22,14 @@ export function notePointerType(pointerType: string): void {
   if (pointerType === "pen") penSeen = true;
 }
 
-/** True when this pointer is a stray palm rather than deliberate input. */
+/**
+ * True when this pointer is a stray palm rather than deliberate input.
+ *
+ * Only touch is ever stray. A mouse or trackpad pointer is deliberate by
+ * definition — nobody rests a palm on a trackpad — and an iPad with a keyboard
+ * case has one, so rejecting everything that is not a pen would kill the
+ * trackpad the moment the Pencil came out.
+ */
 export function isStrayTouch(pointerType: string): boolean {
-  return penSeen && pointerType !== "pen";
+  return penSeen && pointerType === "touch";
 }

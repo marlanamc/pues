@@ -3,8 +3,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Gloss } from "@/components/Gloss";
 import { InkLine } from "@/components/InkLine";
+import { PenSafeButton } from "@/components/PenSafeButton";
 import { PlayButton } from "@/components/PlayButton";
 import { useInkInput } from "@/hooks/useInkInput";
+import { usePenSafePress } from "@/hooks/usePenSafePress";
 import { isEmpty, type InkDrawing } from "@/lib/ink";
 import { playbackRateFor, useAudioSpeed } from "@/hooks/useAudioSpeed";
 import { resolveAudioUrl } from "@/lib/audio";
@@ -476,28 +478,23 @@ export function StemRecall({ dayNums }: { dayNums: number[] }) {
             </>
           ) : (
             !handsFree && (
-              <button
-                type="button"
-                onClick={() => setRevealed(true)}
-                className="stem-recall-reveal"
-              >
+              <PenSafeButton onPress={() => setRevealed(true)} className="stem-recall-reveal">
                 <span className="stem-recall-reveal-label">Ver la respuesta</span>
                 <Gloss>Show answer</Gloss>
-              </button>
+              </PenSafeButton>
             )
           )}
         </div>
 
         {!handsFree && (
-          <button
-            type="button"
-            onClick={stop}
+          <PenSafeButton
+            onPress={stop}
             className="text-caption transition-colors hover:text-accent"
             style={{ marginTop: 14, minHeight: 44, color: "var(--ink-mute)", background: "transparent" }}
           >
             Dejarlo aquí
             <Gloss>Stop here</Gloss>
-          </button>
+          </PenSafeButton>
         )}
       </div>
     );
@@ -761,10 +758,11 @@ function HandsFreeBar({
 }
 
 function FlagMiss({ flagged, onToggle }: { flagged: boolean; onToggle: () => void }) {
+  const press = usePenSafePress(onToggle);
   return (
     <button
       type="button"
-      onClick={onToggle}
+      {...press}
       className={`stem-recall-judge ${flagged ? "stem-recall-judge--zone" : "stem-recall-judge--mute"}`}
       style={
         flagged
@@ -789,10 +787,11 @@ function Judge({
   tone: "zone" | "mute" | "ghost";
   onClick: () => void;
 }) {
+  const press = usePenSafePress(onClick);
   return (
     <button
       type="button"
-      onClick={onClick}
+      {...press}
       className={`stem-recall-judge stem-recall-judge--${tone}`}
     >
       <span className="stem-recall-judge-label">{label}</span>
