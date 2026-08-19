@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Gloss } from "@/components/Gloss";
 import { clearAllRecordings } from "@/lib/audioStore";
+import { clearAllInk } from "@/lib/inkStore";
 import { resetProgress } from "@/lib/store";
 import { beginResetProgress, endResetProgress, resetCloudProgress } from "@/lib/sync";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
@@ -23,6 +24,7 @@ export function ResetProgressCard() {
         await resetCloudProgress();
       }
       await clearAllRecordings();
+      await clearAllInk();
       resetProgress();
       setConfirmOpen(false);
       setResetDone(true);

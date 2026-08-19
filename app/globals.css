@@ -2818,7 +2818,91 @@ html[data-text-size="large"] .gloss-line {
 /* ===== Print — the stem sheet, and nothing else =====
    Los comienzos exists to be copied onto paper. Printing it should give a
    plain black-on-white list with none of the app around it. */
+/* ===== Ink — handwriting on a ruled line =====
+   The paper metaphor made literal: hairline baselines in `--rule`, the stem
+   printed on the first one in the display face, and your ink over the top.
+   No shadow, no fill — the rules and the border do the work.
+
+   The rule height is px rather than rem on purpose. It is a physical measure —
+   how large a hand actually writes with a Pencil — and must not grow with the
+   `data-text-size` type scale the way a block of prose should. */
+.ink-line__sheet {
+  position: relative;
+  background-color: var(--surface);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent calc(var(--ink-rule-h) - 1px),
+    color-mix(in oklab, var(--rule) 85%, transparent) calc(var(--ink-rule-h) - 1px),
+    color-mix(in oklab, var(--rule) 85%, transparent) var(--ink-rule-h)
+  );
+  background-position: 0 10px;
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.ink-line__stem {
+  position: absolute;
+  left: 20px;
+  top: 10px;
+  height: var(--ink-rule-h);
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 7px;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  line-height: 1;
+  color: var(--ink-mute);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.ink-line__canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  /* Without this the page pans under the hand instead of taking the stroke. */
+  touch-action: none;
+  overscroll-behavior: contain;
+  cursor: crosshair;
+}
+
+.ink-line__tools {
+  display: flex;
+  justify-content: flex-end;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.ink-line__tool {
+  background: none;
+  border: none;
+  padding: 6px 10px;
+  min-height: 40px;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  cursor: pointer;
+  transition: color 140ms ease;
+}
+.ink-line__tool:hover:not(:disabled) {
+  color: var(--accent);
+}
+.ink-line__tool:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.ink-replay {
+  margin-top: 4px;
+}
+
 @media print {
+
   /* `visibility` (not `display`) so the sheet's own ancestors can stay hidden
      while it shows through — display:none on any ancestor would take it too.
      Scoped with :has so every other page still prints normally. */

@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { SettingsMenuButton } from "@/components/SettingsMenu";
+import { InkReplay } from "@/components/InkReplay";
+import { deleteInk } from "@/lib/inkStore";
 import {
   deleteSentenceFormerEntry,
   listSentenceFormerEntries,
@@ -62,8 +64,17 @@ export default function SentenceFormerReviewPage() {
               key={entry.id}
               style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 10, padding: "12px 14px", background: "var(--surface)", border: "1px solid var(--rule)", borderRadius: 12 }}
             >
-              <div style={{ minWidth: 0 }}>
-                <p style={{ fontFamily: SERIF, fontSize: 16, color: "var(--ink)", margin: 0 }}>{entry.text}</p>
+              <div style={{ minWidth: 0, flex: 1 }}>
+                {entry.inkId ? (
+                  <>
+                    <p style={{ fontFamily: SERIF, fontSize: 15, color: "var(--ink-mute)", margin: 0 }}>
+                      {entry.stem}
+                    </p>
+                    <InkReplay inkId={entry.inkId} />
+                  </>
+                ) : (
+                  <p style={{ fontFamily: SERIF, fontSize: 16, color: "var(--ink)", margin: 0 }}>{entry.text}</p>
+                )}
                 <p style={{ fontFamily: MONO, fontSize: 9.5, letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--ink-mute)", margin: "6px 0 0" }}>
                   Día {entry.day} · {formatDate(entry.createdAt)}
                 </p>
@@ -71,6 +82,7 @@ export default function SentenceFormerReviewPage() {
               <button
                 type="button"
                 onClick={() => {
+                  if (entry.inkId) void deleteInk(entry.inkId);
                   deleteSentenceFormerEntry(entry.id);
                   refresh();
                 }}

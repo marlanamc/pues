@@ -203,6 +203,16 @@ export function clearAllProgressLocal(options?: ClearProgressOptions): void {
   set(K_SENTENCE_FORMER_SAVED, []);
 }
 
+/**
+ * A stable id for a saved record. Exported because handwriting needs the id
+ * *before* the entry is written — the strokes are keyed by it in IndexedDB.
+ */
+export function newId(prefix: string): string {
+  return isBrowser() && "randomUUID" in crypto
+    ? crypto.randomUUID()
+    : `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+}
+
 /* ---------- Runtime validation ---------- */
 // Persisted JSON can drift (manual edits, old schema, partial writes). These
 // guards keep malformed data from propagating — callers fall back to defaults.
@@ -267,10 +277,7 @@ export function listThoughts(): Thought[] {
 export function saveThought(input: Omit<Thought, "id" | "createdAt">): Thought {
   const thought: Thought = {
     ...input,
-    id:
-      isBrowser() && "randomUUID" in crypto
-        ? crypto.randomUUID()
-        : `t_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+    id: newId("t"),
     createdAt: new Date().toISOString(),
   };
   const next = [thought, ...read<Thought[]>(K_THOUGHTS, [])];
@@ -572,12 +579,16 @@ export function readingDoneToday(): boolean {
 /* ---------- Sentence Former (typed completions saved for review) ---------- */
 
 const K_SENTENCE_FORMER_SAVED = "pues:sentence-former-saved";
+const K_INK_INPUT = "pues:ink-input";
 
 export type SentenceFormerEntry = {
   id: string;
   day: number;
   stem: string;
+  /** The typed completion, or "" when the frase was written by hand. */
   text: string;
+  /** IndexedDB key for the handwritten strokes (`lib/inkStore.ts`), if any. */
+  inkId?: string;
   createdAt: string;
 };
 
@@ -588,6 +599,7 @@ function isSentenceFormerEntry(v: unknown): v is SentenceFormerEntry {
     typeof v.day === "number" &&
     typeof v.stem === "string" &&
     typeof v.text === "string" &&
+    (v.inkId === undefined || typeof v.inkId === "string") &&
     typeof v.createdAt === "string"
   );
 }
@@ -603,10 +615,7 @@ export function saveSentenceFormerEntry(
 ): SentenceFormerEntry {
   const entry: SentenceFormerEntry = {
     ...input,
-    id:
-      isBrowser() && "randomUUID" in crypto
-        ? crypto.randomUUID()
-        : `sf_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+    id: newId("sf"),
     createdAt: new Date().toISOString(),
   };
   const next = [entry, ...read<SentenceFormerEntry[]>(K_SENTENCE_FORMER_SAVED, [])];
@@ -663,6 +672,22 @@ export function getPhraseEnglishVisible(): boolean {
 export function setPhraseEnglishVisible(visible: boolean): boolean {
   write(K_PHRASE_ENGLISH_VISIBLE, visible);
   return visible;
+}
+
+/* ---------- Handwriting input (Formar la frase) ---------- */
+// Which input the Escribir mode opens with. "auto" means the surface decides
+// from the viewport — a tablet has room for a pencil, a phone does not.
+
+export type InkInput = "auto" | "ink" | "type";
+
+export function getInkInput(): InkInput {
+  const value = read<string>(K_INK_INPUT, "auto");
+  return value === "ink" || value === "type" ? value : "auto";
+}
+
+export function setInkInput(value: InkInput): InkInput {
+  write(K_INK_INPUT, value);
+  return value;
 }
 
 /* ---------- Text size ---------- */

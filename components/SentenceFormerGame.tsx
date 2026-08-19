@@ -3,8 +3,13 @@
 /**
  * Sentence Former — quick-fire completion drill. The learner sees a stem
  * (e.g. "Quiero…") and finishes it fast: aloud (Hablar, no recording/check)
- * or typed (Escribir, saved to a personal log — there's no grammar-checking
- * yet, so typed answers are never marked right/wrong).
+ * or written (Escribir, saved to a personal log — there's no grammar-checking
+ * yet, so written answers are never marked right/wrong).
+ *
+ * Escribir accepts either a typed line or handwriting. On a tablet it opens
+ * with the ruled ink line, because copying the stems out by hand is the
+ * ritual La semana already asks for ("Copia los tallos") and the Pencil is
+ * the closest thing to the paper notebook that ritual assumes.
  */
 
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
@@ -19,7 +24,11 @@ import {
 import { speakDays } from "@/content/prompts";
 import { TEMPORADAS } from "@/content/temporadas";
 import { useStats } from "@/hooks/useStats";
-import { saveSentenceFormerEntry } from "@/lib/store";
+import { useInkInput } from "@/hooks/useInkInput";
+import { InkLine } from "@/components/InkLine";
+import { isEmpty as inkIsEmpty, type InkDrawing } from "@/lib/ink";
+import { putInk } from "@/lib/inkStore";
+import { newId, saveSentenceFormerEntry } from "@/lib/store";
 
 const dayThemeEs = new Map(speakDays.map((d) => [d.day, d.themeEs]));
 const VERANO_WEEKS = TEMPORADAS[0].weeks;
@@ -103,6 +112,9 @@ const QUESTION_LABELS = { que: "¿Qué?", como: "¿Cómo?", cuando: "¿Cuándo?"
 type QuestionKey = keyof typeof QUESTION_LABELS;
 
 type Mode = "hablar" | "escribir";
+
+/** What a finished Escribir round hands back — one input or the other. */
+type WrittenAnswer = { text: string; drawing?: undefined } | { drawing: InkDrawing | null; text?: undefined };
 
 type Round = { day: number; stem: SentenceFormerStem; target: SentenceFormerCompletion };
 
@@ -447,10 +459,16 @@ function RoundScreen({
   total: number;
   mode: Mode;
   onExit: () => void;
-  onNext: (savedText?: string) => void;
+  onNext: (written?: WrittenAnswer) => void;
 }) {
   const [text, setText] = useState("");
+  const [drawing, setDrawing] = useState<InkDrawing | null>(null);
+  const { usingInk, setPreference } = useInkInput();
   const last = index + 1 >= total;
+
+  // A round is only "answered" through whichever input is actually on screen,
+  // so switching away from a half-finished one can never save it by accident.
+  const hasAnswer = usingInk ? !inkIsEmpty(drawing) : text.trim().length > 0;
 
   return (
     <div className="flex flex-col lg:max-w-xl lg:mx-auto lg:w-full">
@@ -476,22 +494,40 @@ function RoundScreen({
       <Hint stem={round.stem} target={round.target} />
 
       {mode === "escribir" && (
-        <textarea
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder={`${round.stem.stem} …`}
-          rows={2}
-          style={{ marginTop: 18, width: "100%", resize: "vertical", background: "var(--surface)", border: "1px solid var(--rule)", borderRadius: 12, padding: "12px 14px", fontFamily: SERIF, fontSize: 16, color: "var(--ink)" }}
-        />
+        <div style={{ marginTop: 18 }}>
+          {usingInk ? (
+            <InkLine stem={round.stem.stem} value={drawing} onChange={setDrawing} />
+          ) : (
+            <textarea
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              placeholder={`${round.stem.stem} …`}
+              rows={2}
+              style={{ width: "100%", resize: "vertical", background: "var(--surface)", border: "1px solid var(--rule)", borderRadius: 12, padding: "12px 14px", fontFamily: SERIF, fontSize: 16, color: "var(--ink)" }}
+            />
+          )}
+          <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 8 }}>
+            <button
+              type="button"
+              onClick={() => setPreference(usingInk ? "type" : "ink")}
+              style={{ background: "none", border: "none", padding: "6px 2px", minHeight: 40, color: "var(--ink-mute)", fontFamily: MONO, fontSize: 9.5, letterSpacing: "0.08em", textTransform: "uppercase", cursor: "pointer" }}
+            >
+              {usingInk ? "Escribir con teclado" : "Escribir a mano"}
+            </button>
+          </div>
+        </div>
       )}
 
       <div style={{ flex: 1, minHeight: 16 }} />
 
       <button
         type="button"
-        onClick={() => onNext(mode === "escribir" ? text.trim() : undefined)}
-        disabled={mode === "escribir" && text.trim().length === 0}
-        style={{ width: "100%", marginTop: 14, background: "var(--accent)", color: "var(--accent-ink)", border: "none", borderRadius: 12, padding: "14px 16px", display: "flex", justifyContent: "space-between", alignItems: "center", cursor: "pointer", opacity: mode === "escribir" && text.trim().length === 0 ? 0.5 : 1 }}
+        onClick={() => {
+          if (mode !== "escribir") return onNext();
+          onNext(usingInk ? { drawing } : { text: text.trim() });
+        }}
+        disabled={mode === "escribir" && !hasAnswer}
+        style={{ width: "100%", marginTop: 14, background: "var(--accent)", color: "var(--accent-ink)", border: "none", borderRadius: 12, padding: "14px 16px", display: "flex", justifyContent: "space-between", alignItems: "center", cursor: "pointer", opacity: mode === "escribir" && !hasAnswer ? 0.5 : 1 }}
       >
         <Serif style={{ fontSize: 17, color: "var(--accent-ink)" }}>
           {mode === "escribir" ? "Guardar y seguir" : last ? "Terminar" : "Siguiente"}
@@ -575,10 +611,17 @@ export function SentenceFormerGame({ onQuit }: { onQuit?: () => void }) {
     setScreen("round");
   }
 
-  function next(savedText?: string) {
+  function next(written?: WrittenAnswer) {
     const round = rounds[idx];
-    if (mode === "escribir" && savedText) {
-      saveSentenceFormerEntry({ day: round.day, stem: round.stem.stem, text: `${round.stem.stem} ${savedText}` });
+    if (mode === "escribir" && written?.drawing) {
+      // The strokes are keyed by an id minted here so the entry can point at
+      // them; IndexedDB is written first, so a saved entry never dangles.
+      const inkId = newId("ink");
+      void putInk(inkId, written.drawing);
+      saveSentenceFormerEntry({ day: round.day, stem: round.stem.stem, text: "", inkId });
+      setSavedCount((c) => c + 1);
+    } else if (mode === "escribir" && written?.text) {
+      saveSentenceFormerEntry({ day: round.day, stem: round.stem.stem, text: `${round.stem.stem} ${written.text}` });
       setSavedCount((c) => c + 1);
     } else if (mode === "hablar") {
       setSavedCount((c) => c + 1);
@@ -611,6 +654,7 @@ export function SentenceFormerGame({ onQuit }: { onQuit?: () => void }) {
     if (!round) return null;
     return (
       <RoundScreen
+        key={idx}
         round={round}
         index={idx}
         total={rounds.length}
