@@ -12,7 +12,7 @@ export default function SerEstarPage() {
   return (
     <div
       className={`space-y-8 ${
-        started ? "lg:max-w-4xl lg:w-full" : "lg:mx-auto lg:max-w-2xl"
+        started ? "lg:mx-auto lg:max-w-4xl lg:w-full" : "lg:mx-auto lg:max-w-2xl"
       }`}
     >
       <header className="flex items-center justify-between">

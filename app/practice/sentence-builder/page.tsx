@@ -32,7 +32,7 @@ export default function SentenceBuilderPage() {
   if (activeLevel) {
     return (
       <div
-        className="lg:w-full lg:max-w-2xl"
+        className="lg:mx-auto lg:w-full lg:max-w-2xl"
         style={{ "--zone": "var(--zone-practica)" } as CSSProperties}
       >
         <SentenceBuilderGame
