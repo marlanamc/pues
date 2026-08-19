@@ -22,6 +22,7 @@ import { speakDays } from "@/content/prompts";
 import { InkLine, RULE_HEIGHT, inkLineHeight } from "@/components/InkLine";
 import { useNearViewport } from "@/hooks/useNearViewport";
 import { isEmpty, type InkDrawing } from "@/lib/ink";
+import { isStrayTouch } from "@/lib/pen";
 import { deleteInk, getInk, putInk } from "@/lib/inkStore";
 import { clearWeekCopyInk, getWeekCopy, newId, setWeekCopyInk, weekCopyKey } from "@/lib/store";
 import type { WeekStem } from "@/lib/weekStems";
@@ -123,6 +124,11 @@ function CopyRow({ week, stem }: { week: number; stem: WeekStem }) {
     setDrawing(null);
   }
 
+  // A palm resting on this control would erase the line being written, and
+  // there is no undo once it is gone. The pointer that opened the press decides
+  // whether the press counts.
+  const pressWasStray = useRef(false);
+
   const written = !isEmpty(drawing);
 
   return (
@@ -133,7 +139,19 @@ function CopyRow({ week, stem }: { week: number; stem: WeekStem }) {
           <Gloss>{stem.english}</Gloss>
         </p>
         {written && (
-          <button type="button" className="week-copy__clear" onClick={handleClear}>
+          <button
+            type="button"
+            className="week-copy__clear"
+            onPointerDown={(e) => {
+              pressWasStray.current = isStrayTouch(e.pointerType);
+            }}
+            onClick={(e) => {
+              // detail 0 is a keyboard activation, which has no pointer and is
+              // always deliberate.
+              if (e.detail !== 0 && pressWasStray.current) return;
+              handleClear();
+            }}
+          >
             Borrar
           </button>
         )}

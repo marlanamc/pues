@@ -2832,6 +2832,17 @@ html[data-text-size="large"] .gloss-line {
    The stem is printed above its line, not hidden: this step is copying, not
    retrieval. Hairline separators, no cards — the sheet is a page, not a list
    of boxes. */
+/* A hand resting on the glass lands on whatever is beneath it, and iOS answers
+   with a text selection — blue handles blooming around a label or a button
+   while you are mid-word. Nothing here is text anyone needs to select; the
+   stems have a Copiar button on the list view for that. */
+.week-copy,
+.ink-line {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
 .week-copy__lede {
   color: var(--ink-soft);
   font-size: 0.875rem;

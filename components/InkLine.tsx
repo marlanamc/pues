@@ -25,6 +25,7 @@
  */
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { isStrayTouch, notePointerType } from "@/lib/pen";
 import {
   drawInk,
   emptyDrawing,
@@ -36,13 +37,6 @@ import {
   type InkDrawing,
   type InkPoint,
 } from "@/lib/ink";
-
-/**
- * Whether a stylus has ever touched this app. Module-level on purpose: it must
- * survive remounting between rounds, or the palm that was rejected on frase 1
- * starts drawing again on frase 2.
- */
-let penSeen = false;
 
 export const RULE_HEIGHT = 44;
 /**
@@ -177,8 +171,8 @@ export function InkLine({
   }
 
   function onPointerDown(e: React.PointerEvent<HTMLCanvasElement>) {
-    if (e.pointerType === "pen") penSeen = true;
-    if (penSeen && e.pointerType !== "pen") return;
+    notePointerType(e.pointerType);
+    if (isStrayTouch(e.pointerType)) return;
     if (!e.isPrimary) return;
 
     const canvas = canvasRef.current;
@@ -191,7 +185,7 @@ export function InkLine({
   function onPointerMove(e: React.PointerEvent<HTMLCanvasElement>) {
     const active = activeRef.current;
     if (!active) return;
-    if (penSeen && e.pointerType !== "pen") return;
+    if (isStrayTouch(e.pointerType)) return;
 
     const canvas = canvasRef.current;
     if (!canvas) return;
