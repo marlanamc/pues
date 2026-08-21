@@ -2426,6 +2426,7 @@ a {
 
 /* ===== Week plan — rem-based so text-size setting actually works ===== */
 .page-column {
+  width: 100%;
   max-width: 40rem;
   margin-inline: auto;
 }
@@ -2455,6 +2456,7 @@ html[data-text-size="large"] .gloss-line {
 
 .stem-recall-card {
   position: relative;
+  width: 100%;
   margin-top: 0.625rem;
   padding: 1.75rem 1.25rem;
   min-height: 12rem;
@@ -2642,9 +2644,35 @@ html[data-text-size="large"] .gloss-line {
   color: var(--ink);
 }
 
+@media (min-width: 768px) {
+  .stem-recall-card {
+    padding: 2.75rem 2rem 2.25rem;
+    min-height: 22rem;
+  }
+  .stem-recall-card__hint {
+    top: 1.25rem;
+    left: 1.5rem;
+  }
+  .stem-recall-card__stem {
+    font-size: clamp(2.25rem, 4vw, 2.75rem);
+    margin-top: 1.25rem;
+  }
+  .stem-recall-judge-row {
+    margin-top: 2.25rem;
+    max-width: 24rem;
+  }
+  .stem-recall-judge-row--duo {
+    max-width: 22rem;
+  }
+}
+
 @media (min-width: 1024px) {
+  .stem-recall-card {
+    padding: 3.25rem 2.5rem 2.5rem;
+    min-height: 24rem;
+  }
   .stem-recall-card__english {
-    font-size: 1.375rem;
+    font-size: 1.5rem;
   }
   .week-step__label {
     font-size: 1.25rem;

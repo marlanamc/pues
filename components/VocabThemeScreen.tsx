@@ -101,9 +101,7 @@ export function VocabThemeScreen({ theme }: { theme: VocabTheme }) {
             </p>
           )}
 
-          <div
-            style={{ display: "flex", gap: 8, marginTop: 24, maxWidth: "22rem" }}
-          >
+          <div style={{ display: "flex", gap: 8, marginTop: 24 }}>
             <button
               type="button"
               className="stem-recall-start"
