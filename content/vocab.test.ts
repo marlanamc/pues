@@ -20,9 +20,9 @@ import { situations } from "@/content/situations";
  */
 
 /**
- * Frozen counts, transcribed from the Fluent Forever 625 list. The published
- * list rounds to 625; this pins what was actually authored, so a theme can't
- * quietly gain or lose a word in a later pass.
+ * Frozen per-theme counts. The first twenty-seven are the Fluent Forever 625;
+ * preguntas / preposiciones / conectores are the glue added on top, pinned
+ * the same way so a later pass can't quietly drop a card.
  */
 const EXPECTED_COUNTS: Record<string, number> = {
   animales: 10,
@@ -52,6 +52,9 @@ const EXPECTED_COUNTS: Record<string, number> = {
   verbos: 82,
   adjetivos: 64,
   pronombres: 8,
+  preguntas: 8,
+  preposiciones: 13,
+  conectores: 7,
 };
 
 const EXPECTED_TOTAL = Object.values(EXPECTED_COUNTS).reduce((a, b) => a + b, 0);
@@ -78,6 +81,7 @@ const INFLECTING_THEMES = new Set([
  */
 const ALLOWED_HOMOGRAPHS: Record<string, string[]> = {
   adjetivos: ["alto", "bajo"],
+  preposiciones: ["a"],
 };
 
 const ARTICLES = /^(el|la|los|las|un|una) /;

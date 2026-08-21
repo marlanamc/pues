@@ -44,7 +44,7 @@ app/
 ├── activities/               Hub
 │   ├── thoughts/             Sentence journal
 │   └── cognates/             Patterns, true cognates, false friends
-├── palabras/                 Las palabras — the 625, swept then drilled
+├── palabras/                 Las palabras — the 625 plus the glue, swept then drilled
 ├── situations/               Phrasebank library (10 categories, 50+ situations)
 ├── progress/                 Quiet stats — weeks, sentences, days, frames
 └── api/tts/                  ElevenLabs proxy (server-side)

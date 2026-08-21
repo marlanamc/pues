@@ -14,7 +14,7 @@ import { shuffle } from "@/lib/shuffle";
 /**
  * Las palabras — the index.
  *
- * Twenty-seven themes as hairline rows rather than cards: DESIGN.md reaches
+ * Themes as hairline rows rather than cards: DESIGN.md reaches
  * for cards last, and twenty-seven tinted icon circles would be decoration in
  * a zone that already has a hue.
  */

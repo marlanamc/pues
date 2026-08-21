@@ -371,15 +371,16 @@ These should appear in the Camino experience, season retrospectives, and any fut
 ### Las palabras (`content/vocab.ts`)
 
 The Fluent Forever 625 — 624 authored high-frequency words in 27 themes,
-surfaced at `/palabras` as a triage sweep plus a recall drill. Unlike every
-other supporting surface this one is **not per-week work**: it is a one-time
-backfill, complete as of this pass, and it does not appear in the weekly
-authoring checklist.
+plus three glue themes (preguntas, preposiciones, conectores) that the source
+list skips because they are abstract. Surfaced at `/palabras` as a triage
+sweep plus a recall drill. Unlike every other supporting surface this one is
+**not per-week work**: it is a one-time backfill, complete as of this pass,
+and it does not appear in the weekly authoring checklist.
 
 - **Layout:** one file per authoring batch under `content/vocab/`
-  (`casa`, `gente`, `mundo`, `cosas`, `tiempo`, `acciones`, `cualidades`),
-  types in `content/vocab/types.ts`, thin barrel at `content/vocab.ts`
-  (convention 7). A theme lives entirely inside one file.
+  (`casa`, `gente`, `mundo`, `cosas`, `tiempo`, `acciones`, `cualidades`,
+  `pegamento`), types in `content/vocab/types.ts`, thin barrel at
+  `content/vocab.ts` (convention 7). A theme lives entirely inside one file.
 - **Entry conventions:** nouns carry their article so gender is learned with
   the word; verbs are infinitives; adjectives are masculine-singular citation
   form with agreement shown at work in the example. One headword per entry —
@@ -409,6 +410,12 @@ authoring checklist.
     the honest outcome; inventing a synonym to avoid it would teach a word
     nobody says. The test carries an explicit `ALLOWED_HOMOGRAPHS` list, so
     any *other* repeat is still an authoring slip.
+  - *Pegamento* (`preguntas`, `preposiciones`, `conectores`) is not on the
+    Fluent Forever list. The 625 is the filling; these are the slots around
+    the verb — who, where, when, how, and the prepositions that aim it.
+    Accent twins are separate cards (`cuándo` / `cuando`, `cómo` / `como`,
+    `por qué` / `porque`, `dónde` / `donde`). `a` repeats once: destination
+    versus the personal *a*.
 - **Not audio-generated.** `scripts/generate-audio.ts` does not cover vocab
   (it doesn't cover readings either), so playback runs on the live `/api/tts`
   fallback. Headword play buttons pass the example as `contextBefore` so a

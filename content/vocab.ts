@@ -8,14 +8,15 @@ import { cuerpo, naturaleza, materiales, medidas, varios, direcciones } from "./
 import { estaciones, numeros, meses, dias, tiempo } from "./vocab/tiempo";
 import { verbos } from "./vocab/acciones";
 import { adjetivos, pronombres } from "./vocab/cualidades";
+import { preguntas, preposiciones, conectores } from "./vocab/pegamento";
 
 /**
- * Las palabras barrel — the Fluent Forever 625 in source-list order.
+ * Las palabras barrel — the Fluent Forever 625 in source-list order, then the
+ * glue (preguntas, preposiciones, conectores).
  *
  * Follows CURRICULUM.md convention 7: types live in content/vocab/types.ts and
  * are imported by the theme files, never the other way around, so there is no
- * circular import. Theme files are grouped by kind rather than one-per-theme —
- * seven files of 72–124 words, which is also the authoring batch size.
+ * circular import. Theme files are grouped by kind rather than one-per-theme.
  *
  * The index renders `vocabThemes` in this order and the sweep follows it:
  * related words scan faster in their group, and scanning fast is the whole
@@ -49,6 +50,9 @@ export const vocabThemes: VocabTheme[] = [
   verbos,
   adjetivos,
   pronombres,
+  preguntas,
+  preposiciones,
+  conectores,
 ];
 
 export const vocabWords: CoreWord[] = vocabThemes.flatMap((t) => t.words);

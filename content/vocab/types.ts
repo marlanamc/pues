@@ -4,8 +4,9 @@
  * The daily ritual teaches shapes: frames, stems, completions, tense. What it
  * never teaches is the noun that goes in the slot, and a frame with a hole in
  * it is still a hole. This is the list that fills the holes — high-frequency
- * concrete vocabulary, grouped thematically, swept for what's already known
- * and drilled for what isn't.
+ * concrete vocabulary, plus the glue words (who, where, when, how, and the
+ * prepositions that aim them), grouped thematically, swept for what's already
+ * known and drilled for what isn't.
  *
  * Distinct from `VocabWord` in content/readings/types.ts on purpose. That one
  * is *incidental* — the four words in tonight's dialogue, anonymous and
@@ -44,7 +45,10 @@ export type VocabThemeSlug =
   | "tiempo"
   | "verbos"
   | "adjetivos"
-  | "pronombres";
+  | "pronombres"
+  | "preguntas"
+  | "preposiciones"
+  | "conectores";
 
 export type CoreWord = {
   /**

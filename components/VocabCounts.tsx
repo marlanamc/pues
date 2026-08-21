@@ -10,8 +10,8 @@ import type { VocabProgress } from "@/lib/store";
  * discouragement rather than information. `sabidas / en marcha / sin ver` just
  * says where things stand.
  *
- * Takes the progress map rather than reading the store so a list of 27 themes
- * costs one read, not 27.
+ * Takes the progress map rather than reading the store so the index of
+ * themes costs one read, not one per row.
  */
 export function VocabCounts({
   ids,
