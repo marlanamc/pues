@@ -1,18 +1,23 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
+import type { PointerEvent as ReactPointerEvent } from "react";
 import { PlayButton } from "@/components/PlayButton";
 import type { CoreWord } from "@/content/vocab";
+import { isStrayTouch, notePointerType } from "@/lib/pen";
 import { getVocabProgress, markVocabKnown, markVocabLearning } from "@/lib/store";
+
+const TAP_SLOP_PX = 10;
+const SWIPE_PX = 48;
 
 /**
  * El barrido — the triage sweep.
  *
- * One word at a time with everything visible: the Spanish, the English, the
- * example. That is deliberate and it is *not* the drill. The question here is
- * "do I own this word", which is a recognition question, and hiding the answer
- * would turn it into a production test — which is what the drill is for. Two
- * screens, two different questions.
+ * Spanish on sight. The English sits under a slip you swipe (or tap) aside,
+ * so the question is whether *el gato* means anything before the gloss
+ * confirms it. Peeking is allowed; judging does not wait for it. The
+ * production test is the drill, which runs the other way: English first,
+ * say the Spanish.
  *
  * Every verdict writes immediately, so quitting halfway keeps the work and
  * re-entering resumes at the first word not yet swept.
@@ -74,11 +79,7 @@ export function VocabTriage({
         <p className="mono-cap text-ink-mute stem-recall-card__hint">¿La sabes?</p>
 
         <p className="stem-recall-card__stem">{card.es}</p>
-        {/* Plain text, never <Gloss> — on this screen the English is half the
-            question, not an optional gloss, so the EN toggle must not remove it. */}
-        <p className="stem-recall-card__english" style={{ marginTop: "0.5rem" }}>
-          {card.en}
-        </p>
+        <EnglishPeek key={card.id} en={card.en} />
 
         <div style={{ marginTop: "1rem" }}>
           <PlayButton text={card.es} contextBefore={card.example} label={`Oír ${card.es}`} />
@@ -112,5 +113,105 @@ export function VocabTriage({
         </button>
       </p>
     </div>
+  );
+}
+
+function prefersReducedMotion() {
+  return (
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
+}
+
+/**
+ * The English gloss, absent until a swipe or a tap. The slip is a button so
+ * a click and a keypress both count. Keyed by the card so the next word
+ * starts covered.
+ */
+function EnglishPeek({ en }: { en: string }) {
+  const [revealed, setRevealed] = useState(false);
+  const [offset, setOffset] = useState(0);
+  const [dragging, setDragging] = useState(false);
+  const origin = useRef<{ x: number; y: number } | null>(null);
+  const captured = useRef(false);
+
+  const reveal = useCallback(() => {
+    setRevealed(true);
+    setOffset(0);
+    setDragging(false);
+    origin.current = null;
+    captured.current = false;
+  }, []);
+
+  const snapBack = useCallback((target: HTMLButtonElement, pointerId: number) => {
+    if (target.hasPointerCapture(pointerId)) target.releasePointerCapture(pointerId);
+    captured.current = false;
+    origin.current = null;
+    setDragging(false);
+    setOffset(0);
+  }, []);
+
+  function onPointerDown(e: ReactPointerEvent<HTMLButtonElement>) {
+    notePointerType(e.pointerType);
+    if (isStrayTouch(e.pointerType)) return;
+    origin.current = { x: e.clientX, y: e.clientY };
+    captured.current = false;
+  }
+
+  function onPointerMove(e: ReactPointerEvent<HTMLButtonElement>) {
+    if (!origin.current) return;
+    if (isStrayTouch(e.pointerType)) return;
+    const dx = e.clientX - origin.current.x;
+    const dy = e.clientY - origin.current.y;
+    if (!captured.current) {
+      if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > TAP_SLOP_PX) {
+        origin.current = null;
+        return;
+      }
+      if (Math.abs(dx) < TAP_SLOP_PX) return;
+      e.currentTarget.setPointerCapture(e.pointerId);
+      captured.current = true;
+      setDragging(true);
+    }
+    if (!prefersReducedMotion()) setOffset(dx);
+  }
+
+  function onPointerUp(e: ReactPointerEvent<HTMLButtonElement>) {
+    if (isStrayTouch(e.pointerType)) {
+      snapBack(e.currentTarget, e.pointerId);
+      return;
+    }
+    const start = origin.current;
+    origin.current = null;
+    if (!start) return;
+    const dx = e.clientX - start.x;
+    if (captured.current) {
+      if (Math.abs(dx) >= SWIPE_PX) reveal();
+      else snapBack(e.currentTarget, e.pointerId);
+    }
+  }
+
+  if (revealed) {
+    return <p className="stem-recall-card__english vocab-triage-peek-en">{en}</p>;
+  }
+
+  return (
+    <button
+      type="button"
+      className={dragging ? "vocab-triage-peek is-dragging" : "vocab-triage-peek"}
+      aria-label="Ver el inglés"
+      onPointerDown={onPointerDown}
+      onPointerMove={onPointerMove}
+      onPointerUp={onPointerUp}
+      onPointerCancel={(e) => snapBack(e.currentTarget, e.pointerId)}
+      onClick={() => reveal()}
+    >
+      <span
+        className="vocab-triage-peek__label"
+        style={{ transform: offset ? `translateX(${offset}px)` : undefined }}
+      >
+        Desliza
+      </span>
+    </button>
   );
 }

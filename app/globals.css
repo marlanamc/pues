@@ -2518,6 +2518,65 @@ html[data-text-size="large"] .gloss-line {
   color: var(--accent);
 }
 
+/* Barrido — a slip where the English will be. Swipe or tap; the English is
+   not in the DOM until then, so it cannot leak beside the label. */
+.vocab-triage-peek {
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  min-height: 44px;
+  overflow: hidden;
+  background: none;
+  border: none;
+  border-bottom: 1px dotted var(--rule);
+  cursor: pointer;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.vocab-triage-peek:focus {
+  outline: none;
+}
+
+.vocab-triage-peek:focus-visible {
+  outline: 2px solid color-mix(in oklab, var(--accent) 55%, transparent);
+  outline-offset: 2px;
+}
+
+.vocab-triage-peek__label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  pointer-events: none;
+}
+
+.vocab-triage-peek:hover .vocab-triage-peek__label {
+  color: var(--accent);
+}
+
+.vocab-triage-peek-en {
+  margin-top: 0.5rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .vocab-triage-peek__label {
+    transition: transform 180ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .vocab-triage-peek.is-dragging .vocab-triage-peek__label {
+    transition: none;
+  }
+  .vocab-triage-peek-en {
+    animation: fade-in 0.18s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+}
+
 .stem-recall-start {
   display: flex;
   flex: 1;
