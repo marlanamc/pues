@@ -1,0 +1,183 @@
+import type { VocabTheme } from "./types";
+
+/**
+ * El cuerpo · La naturaleza · Materiales · Medidas · Otros · Direcciones — 124 words.
+ *
+ * The largest file, and the most concrete: body parts, weather, stuff, and the
+ * words that place one thing relative to another. Note the deliberate
+ * homographs across themes — *el pie* is both a body part and a unit, *atrás*
+ * and *la espalda* are both "back". The theme prefix in the id keeps them
+ * apart; the English gloss keeps the recall card honest.
+ */
+
+export const cuerpo: VocabTheme = {
+  slug: "cuerpo",
+  label: "El cuerpo",
+  labelEn: "Body",
+  words: [
+    { id: "v-cuerpo-cabeza", es: "la cabeza", en: "head", example: "Llevo toda la tarde con dolor de cabeza.", exampleEn: "I've had a headache all afternoon." },
+    { id: "v-cuerpo-cuello", es: "el cuello", en: "neck", example: "Me quedó el cuello duro de dormir en el tren.", exampleEn: "My neck stiffened up from sleeping on the train." },
+    { id: "v-cuerpo-cara", es: "la cara", en: "face", example: "Se le vio en la cara que entendió.", exampleEn: "You could see on her face that she got it." },
+    { id: "v-cuerpo-barba", es: "la barba", en: "beard", example: "Se dejó la barba y no lo reconocí.", exampleEn: "He grew a beard and I didn't recognize him." },
+    { id: "v-cuerpo-pelo", es: "el pelo", en: "hair", example: "Se corta el pelo ella misma cada dos meses.", exampleEn: "She cuts her own hair every two months." },
+    { id: "v-cuerpo-ojo", es: "el ojo", en: "eye", example: "Me entró algo en el ojo a media clase.", exampleEn: "Something got in my eye in the middle of class." },
+    { id: "v-cuerpo-boca", es: "la boca", en: "mouth", example: "Habla con la mano en la boca cuando le da pena.", exampleEn: "She talks with her hand over her mouth when she's embarrassed." },
+    { id: "v-cuerpo-labio", es: "el labio", en: "lip", example: "Con este frío se me parten los labios.", exampleEn: "In this cold my lips crack." },
+    { id: "v-cuerpo-nariz", es: "la nariz", en: "nose", example: "Se me tapó la nariz y no pude dormir.", exampleEn: "My nose got stuffed up and I couldn't sleep." },
+    { id: "v-cuerpo-diente", es: "el diente", en: "tooth", example: "Le está saliendo el primer diente.", exampleEn: "Her first tooth is coming in." },
+    { id: "v-cuerpo-oreja", es: "la oreja", en: "ear", example: "Se tapó las orejas porque el tren venía frenando.", exampleEn: "He covered his ears because the train was braking." },
+    { id: "v-cuerpo-lagrima", es: "la lágrima", en: "tear (drop)", example: "Terminó de leer su carta y se le salió una lágrima.", exampleEn: "She finished reading her letter and a tear came out." },
+    { id: "v-cuerpo-lengua", es: "la lengua", en: "tongue", example: "Lo tengo en la punta de la lengua.", exampleEn: "It's on the tip of my tongue." },
+    { id: "v-cuerpo-espalda", es: "la espalda", en: "back", example: "Me duele la espalda de cargar los cuadernos.", exampleEn: "My back hurts from carrying the notebooks." },
+    { id: "v-cuerpo-dedo-pie", es: "el dedo del pie", en: "toe", example: "Me pegué el dedo del pie con la pata de la mesa.", exampleEn: "I hit my toe on the table leg." },
+    { id: "v-cuerpo-dedo", es: "el dedo", en: "finger", example: "Cuenta con los dedos y no le da pena.", exampleEn: "She counts on her fingers and isn't embarrassed about it." },
+    { id: "v-cuerpo-pie", es: "el pie", en: "foot", example: "Llegué a pie porque el tren no venía.", exampleEn: "I got there on foot because the train wasn't coming." },
+    { id: "v-cuerpo-mano", es: "la mano", en: "hand", example: "Levanta la mano si no entendiste la última parte.", exampleEn: "Raise your hand if you didn't catch that last part." },
+    { id: "v-cuerpo-pierna", es: "la pierna", en: "leg", example: "Se me durmió la pierna de estar sentada.", exampleEn: "My leg fell asleep from sitting." },
+    { id: "v-cuerpo-brazo", es: "el brazo", en: "arm", example: "Trae el brazo enyesado y sigue viniendo.", exampleEn: "His arm is in a cast and he still comes." },
+    { id: "v-cuerpo-hombro", es: "el hombro", en: "shoulder", example: "Me tocó el hombro para no interrumpir.", exampleEn: "She touched my shoulder so as not to interrupt." },
+    { id: "v-cuerpo-corazon", es: "el corazón", en: "heart", example: "Se me salía el corazón antes de hablar en público.", exampleEn: "My heart was pounding before speaking in public." },
+    { id: "v-cuerpo-sangre", es: "la sangre", en: "blood", example: "En la clínica le sacaron sangre dos veces.", exampleEn: "At the clinic they drew her blood twice." },
+    { id: "v-cuerpo-cerebro", es: "el cerebro", en: "brain", example: "A esta hora el cerebro ya no me da.", exampleEn: "At this hour my brain has nothing left." },
+    { id: "v-cuerpo-rodilla", es: "la rodilla", en: "knee", example: "Le operaron la rodilla en enero.", exampleEn: "They operated on his knee in January." },
+    { id: "v-cuerpo-sudor", es: "el sudor", en: "sweat", example: "Subí las escaleras y llegué con el sudor encima.", exampleEn: "I went up the stairs and arrived covered in sweat." },
+    { id: "v-cuerpo-enfermedad", es: "la enfermedad", en: "disease", example: "Faltó un mes por una enfermedad que no quiso nombrar.", exampleEn: "She missed a month for an illness she wouldn't name." },
+    { id: "v-cuerpo-hueso", es: "el hueso", en: "bone", example: "Se rompió un hueso jugando con sus hijos.", exampleEn: "He broke a bone playing with his kids." },
+    { id: "v-cuerpo-voz", es: "la voz", en: "voice", example: "Me quedé sin voz después de tres clases seguidas.", exampleEn: "I lost my voice after three classes in a row." },
+    { id: "v-cuerpo-piel", es: "la piel", en: "skin", example: "En invierno se me reseca la piel de las manos.", exampleEn: "In winter the skin on my hands dries out." },
+    { id: "v-cuerpo-cuerpo", es: "el cuerpo", en: "body", example: "El cuerpo avisa antes que la cabeza.", exampleEn: "The body gives you notice before the head does." },
+  ],
+};
+
+export const naturaleza: VocabTheme = {
+  slug: "naturaleza",
+  label: "La naturaleza",
+  labelEn: "Nature",
+  words: [
+    { id: "v-naturaleza-mar", es: "el mar", en: "sea", example: "Extraña el mar más que cualquier otra cosa.", exampleEn: "She misses the sea more than anything else." },
+    { id: "v-naturaleza-oceano", es: "el océano", en: "ocean", example: "Cruzó el océano con una maleta.", exampleEn: "He crossed the ocean with one suitcase." },
+    { id: "v-naturaleza-rio", es: "el río", en: "river", example: "Camino junto al río cuando quiero pensar.", exampleEn: "I walk along the river when I want to think." },
+    { id: "v-naturaleza-montana", es: "la montaña", en: "mountain", example: "De su casa se veía una montaña todos los días.", exampleEn: "From her house you could see a mountain every day." },
+    { id: "v-naturaleza-lluvia", es: "la lluvia", en: "rain", example: "Con la lluvia falta media clase.", exampleEn: "When it rains half the class is missing." },
+    { id: "v-naturaleza-nieve", es: "la nieve", en: "snow", example: "La primera nieve les sorprende cada año.", exampleEn: "The first snow surprises them every year." },
+    { id: "v-naturaleza-arbol", es: "el árbol", en: "tree", example: "Hay un árbol frente a la ventana del salón.", exampleEn: "There's a tree in front of the classroom window." },
+    { id: "v-naturaleza-sol", es: "el sol", en: "sun", example: "En enero el sol se va antes de que salgamos.", exampleEn: "In January the sun is gone before we get out." },
+    { id: "v-naturaleza-luna", es: "la luna", en: "moon", example: "Salí y la luna estaba enorme.", exampleEn: "I stepped outside and the moon was huge." },
+    { id: "v-naturaleza-mundo", es: "el mundo", en: "world", example: "En ese salón hay medio mundo sentado.", exampleEn: "There's half the world sitting in that classroom." },
+    { id: "v-naturaleza-tierra-planeta", es: "la Tierra", en: "Earth", example: "El mapa de la Tierra en la pared está al revés a propósito.", exampleEn: "The map of the Earth on the wall is upside down on purpose." },
+    { id: "v-naturaleza-bosque", es: "el bosque", en: "forest", example: "Nos metimos al bosque sin señal en el teléfono.", exampleEn: "We walked into the forest with no signal on our phones." },
+    { id: "v-naturaleza-cielo-azul", es: "el cielo", en: "sky", example: "El cielo se puso gris a las tres de la tarde.", exampleEn: "The sky turned gray at three in the afternoon." },
+    { id: "v-naturaleza-planta", es: "la planta", en: "plant", example: "Me trajo una planta para la oficina.", exampleEn: "She brought me a plant for the office." },
+    { id: "v-naturaleza-viento", es: "el viento", en: "wind", example: "El viento del río corta más que el frío.", exampleEn: "The wind off the river cuts more than the cold." },
+    { id: "v-naturaleza-tierra", es: "la tierra", en: "soil / earth", example: "Trajo tierra de su pueblo en una bolsita.", exampleEn: "She brought soil from her hometown in a little bag." },
+    { id: "v-naturaleza-flor", es: "la flor", en: "flower", example: "Alguien dejó una flor en mi escritorio.", exampleEn: "Someone left a flower on my desk." },
+    { id: "v-naturaleza-valle", es: "el valle", en: "valley", example: "Creció en un valle donde llovía todas las tardes.", exampleEn: "He grew up in a valley where it rained every afternoon." },
+    { id: "v-naturaleza-raiz", es: "la raíz", en: "root", example: "La raíz del árbol levantó toda la acera.", exampleEn: "The tree's root lifted the whole sidewalk." },
+    { id: "v-naturaleza-lago", es: "el lago", en: "lake", example: "El lago se congela y la gente camina encima.", exampleEn: "The lake freezes and people walk on top of it." },
+    { id: "v-naturaleza-estrella", es: "la estrella", en: "star", example: "Aquí no se ve ni una estrella.", exampleEn: "You can't see a single star here." },
+    { id: "v-naturaleza-pasto", es: "el pasto", en: "grass", example: "En abril el pasto vuelve de golpe.", exampleEn: "In April the grass comes back all at once." },
+    { id: "v-naturaleza-hoja", es: "la hoja", en: "leaf", example: "En octubre las hojas tapan la entrada.", exampleEn: "In October the leaves cover the entrance." },
+    { id: "v-naturaleza-aire", es: "el aire", en: "air", example: "Salgo un momento a tomar aire entre clases.", exampleEn: "I step out for air between classes." },
+    { id: "v-naturaleza-arena", es: "la arena", en: "sand", example: "Todavía encuentro arena en esa mochila.", exampleEn: "I still find sand in that backpack." },
+    { id: "v-naturaleza-playa", es: "la playa", en: "beach", example: "La playa está a cuarenta minutos y no voy nunca.", exampleEn: "The beach is forty minutes away and I never go." },
+    { id: "v-naturaleza-ola", es: "la ola", en: "wave", example: "Le tenía miedo a las olas y ahora nada solo.", exampleEn: "He was afraid of the waves and now he swims alone." },
+    { id: "v-naturaleza-fuego", es: "el fuego", en: "fire", example: "Bajaron todos por una alarma y no había fuego.", exampleEn: "Everyone came down for an alarm and there was no fire." },
+    { id: "v-naturaleza-hielo", es: "el hielo", en: "ice", example: "Hay hielo en la escalera, pisa con cuidado.", exampleEn: "There's ice on the steps, watch your footing." },
+    { id: "v-naturaleza-isla", es: "la isla", en: "island", example: "Es de una isla donde nunca hace frío.", exampleEn: "He's from an island where it's never cold." },
+    { id: "v-naturaleza-colina", es: "la colina", en: "hill", example: "La escuela queda subiendo la colina.", exampleEn: "The school is up the hill." },
+    { id: "v-naturaleza-calor", es: "el calor", en: "heat", example: "El calor de agosto en ese salón no se aguanta.", exampleEn: "The August heat in that classroom is unbearable." },
+    { id: "v-naturaleza-naturaleza", es: "la naturaleza", en: "nature", example: "Los domingos busco naturaleza aunque sea un parque.", exampleEn: "On Sundays I look for nature even if it's just a park." },
+  ],
+};
+
+export const materiales: VocabTheme = {
+  slug: "materiales",
+  label: "Materiales",
+  labelEn: "Materials",
+  words: [
+    { id: "v-materiales-vidrio", es: "el vidrio", en: "glass", example: "Se quebró el vidrio de la puerta con el viento.", exampleEn: "The glass in the door broke in the wind." },
+    { id: "v-materiales-metal", es: "el metal", en: "metal", example: "Las sillas son de metal y pesan una barbaridad.", exampleEn: "The chairs are metal and weigh a ton." },
+    { id: "v-materiales-plastico", es: "el plástico", en: "plastic", example: "Todo viene envuelto en plástico sin razón.", exampleEn: "Everything comes wrapped in plastic for no reason." },
+    { id: "v-materiales-madera", es: "la madera", en: "wood", example: "El piso de madera se oye en todo el edificio.", exampleEn: "You can hear the wood floor throughout the building." },
+    { id: "v-materiales-piedra", es: "la piedra", en: "stone", example: "El muro de piedra lleva ahí más que la escuela.", exampleEn: "The stone wall has been there longer than the school." },
+    { id: "v-materiales-diamante", es: "el diamante", en: "diamond", example: "El anillo tiene un diamante minúsculo y lo cuida igual.", exampleEn: "The ring has a tiny diamond and she takes care of it all the same." },
+    { id: "v-materiales-barro", es: "el barro", en: "clay", example: "Su mamá hacía ollas de barro para vender.", exampleEn: "Her mother made clay pots to sell." },
+    { id: "v-materiales-polvo", es: "el polvo", en: "dust", example: "Los libros de arriba están llenos de polvo.", exampleEn: "The books up top are covered in dust." },
+    { id: "v-materiales-oro", es: "el oro", en: "gold", example: "Lleva una cadena de oro que era de su abuela.", exampleEn: "She wears a gold chain that was her grandmother's." },
+    { id: "v-materiales-cobre", es: "el cobre", en: "copper", example: "Se robaron el cobre de la obra de enfrente.", exampleEn: "They stole the copper from the construction site across the street." },
+    { id: "v-materiales-plata", es: "la plata", en: "silver", example: "Los aretes de plata se le pusieron negros.", exampleEn: "Her silver earrings turned black." },
+    { id: "v-materiales-material", es: "el material", en: "material", example: "Preparo el material la noche anterior.", exampleEn: "I prepare the material the night before." },
+  ],
+};
+
+export const medidas: VocabTheme = {
+  slug: "medidas",
+  label: "Medidas",
+  labelEn: "Math / Measurements",
+  words: [
+    { id: "v-medidas-metro", es: "el metro", en: "meter", example: "El salón mide como seis metros de largo.", exampleEn: "The classroom is about six meters long." },
+    { id: "v-medidas-centimetro", es: "el centímetro", en: "centimeter", example: "Le faltó un centímetro para alcanzar el estante.", exampleEn: "She was a centimeter short of reaching the shelf." },
+    { id: "v-medidas-kilogramo", es: "el kilogramo", en: "kilogram", example: "La receta viene en kilogramos y aquí todo es en libras.", exampleEn: "The recipe is in kilograms and here everything is in pounds." },
+    { id: "v-medidas-pulgada", es: "la pulgada", en: "inch", example: "Cayeron como tres pulgadas de nieve.", exampleEn: "About three inches of snow fell." },
+    { id: "v-medidas-pie", es: "el pie", en: "foot", example: "Mide seis pies y no cabe en el pupitre.", exampleEn: "He's six feet tall and doesn't fit in the desk." },
+    { id: "v-medidas-libra", es: "la libra", en: "pound", example: "Compré dos libras de arroz para toda la semana.", exampleEn: "I bought two pounds of rice for the whole week." },
+    { id: "v-medidas-mitad", es: "la mitad", en: "half", example: "La mitad de la clase llegó tarde por el tren.", exampleEn: "Half the class was late because of the train." },
+    { id: "v-medidas-circulo", es: "el círculo", en: "circle", example: "Ponemos las sillas en círculo los viernes.", exampleEn: "We put the chairs in a circle on Fridays." },
+    { id: "v-medidas-cuadrado", es: "el cuadrado", en: "square", example: "Dibujó un cuadrado para explicar el cuarto.", exampleEn: "She drew a square to explain the room." },
+    { id: "v-medidas-temperatura", es: "la temperatura", en: "temperature", example: "La temperatura bajó veinte grados en una noche.", exampleEn: "The temperature dropped twenty degrees in one night." },
+    { id: "v-medidas-fecha", es: "la fecha", en: "date", example: "Apunta la fecha arriba a la derecha.", exampleEn: "Write the date at the top right." },
+    { id: "v-medidas-peso", es: "el peso", en: "weight", example: "El peso de la mochila me está matando.", exampleEn: "The weight of this backpack is killing me." },
+    { id: "v-medidas-borde", es: "el borde", en: "edge", example: "Dejó la taza en el borde de la mesa.", exampleEn: "He left the cup on the edge of the table." },
+    { id: "v-medidas-esquina", es: "la esquina", en: "corner", example: "Nos vemos en la esquina de siempre.", exampleEn: "Let's meet on the usual corner." },
+  ],
+};
+
+export const varios: VocabTheme = {
+  slug: "varios",
+  label: "Otros sustantivos",
+  labelEn: "Misc nouns",
+  words: [
+    { id: "v-varios-mapa", es: "el mapa", en: "map", example: "En el mapa cada quien marcó de dónde viene.", exampleEn: "On the map everyone marked where they're from." },
+    { id: "v-varios-punto", es: "el punto", en: "dot", example: "Se le olvidó el punto al final de la oración.", exampleEn: "He forgot the period at the end of the sentence." },
+    { id: "v-varios-consonante", es: "la consonante", en: "consonant", example: "Esa consonante no existe en su idioma.", exampleEn: "That consonant doesn't exist in her language." },
+    { id: "v-varios-vocal", es: "la vocal", en: "vowel", example: "En español cada vocal suena siempre igual.", exampleEn: "In Spanish every vowel always sounds the same." },
+    { id: "v-varios-luz", es: "la luz", en: "light", example: "Se fue la luz a mitad de la clase.", exampleEn: "The power went out in the middle of class." },
+    { id: "v-varios-sonido", es: "el sonido", en: "sound", example: "Hay un sonido que no me sale por más que practico.", exampleEn: "There's a sound I can't produce no matter how much I practice." },
+    { id: "v-varios-si", es: "el sí", en: "yes", example: "Un sí en voz baja no cuenta como respuesta.", exampleEn: "A quiet yes doesn't count as an answer." },
+    { id: "v-varios-no", es: "el no", en: "no", example: "Le costó decir que no y al final dijo que sí.", exampleEn: "Saying no was hard for her and in the end she said yes." },
+    { id: "v-varios-pedazo", es: "el pedazo", en: "piece", example: "Quedó un pedazo de pastel para mañana.", exampleEn: "There's a piece of cake left for tomorrow." },
+    { id: "v-varios-dolor", es: "el dolor", en: "pain", example: "Aguantó el dolor toda la clase sin decir nada.", exampleEn: "He put up with the pain the whole class without saying anything." },
+    { id: "v-varios-herida", es: "la herida", en: "injury", example: "La herida ya está cerrando bien.", exampleEn: "The injury is closing up nicely now." },
+    { id: "v-varios-hoyo", es: "el hoyo", en: "hole", example: "Hay un hoyo en la acera que nadie arregla.", exampleEn: "There's a hole in the sidewalk nobody fixes." },
+    { id: "v-varios-imagen", es: "la imagen", en: "image", example: "Uso una imagen por palabra y se acuerdan más.", exampleEn: "I use one image per word and they remember more." },
+    { id: "v-varios-patron", es: "el patrón", en: "pattern", example: "Una vez que ves el patrón ya no lo puedes dejar de ver.", exampleEn: "Once you see the pattern you can't unsee it." },
+    { id: "v-varios-sustantivo", es: "el sustantivo", en: "noun", example: "Cada sustantivo trae su artículo, así se aprende.", exampleEn: "Every noun comes with its article — that's how it's learned." },
+    { id: "v-varios-verbo", es: "el verbo", en: "verb", example: "El verbo lo tengo, lo que me falta es todo lo demás.", exampleEn: "I've got the verb — what I'm missing is everything else." },
+    { id: "v-varios-adjetivo", es: "el adjetivo", en: "adjective", example: "Un adjetivo bien puesto salva la frase entera.", exampleEn: "One well-placed adjective saves the whole sentence." },
+  ],
+};
+
+export const direcciones: VocabTheme = {
+  slug: "direcciones",
+  label: "Direcciones",
+  labelEn: "Directions",
+  words: [
+    { id: "v-direcciones-arriba-de", es: "la parte de arriba", en: "top", example: "La parte de arriba del estante no la alcanzo.", exampleEn: "I can't reach the top of the shelf." },
+    { id: "v-direcciones-abajo-de", es: "la parte de abajo", en: "bottom", example: "Firma en la parte de abajo de la hoja.", exampleEn: "Sign at the bottom of the page." },
+    { id: "v-direcciones-lado", es: "el lado", en: "side", example: "Siéntate de este lado para que oigas mejor.", exampleEn: "Sit on this side so you can hear better." },
+    { id: "v-direcciones-frente", es: "el frente", en: "front", example: "Nadie quiere el frente del salón.", exampleEn: "Nobody wants the front of the classroom." },
+    { id: "v-direcciones-atras", es: "atrás", en: "back", example: "Los de atrás no alcanzan a ver el pizarrón.", exampleEn: "The ones in back can't see the board." },
+    { id: "v-direcciones-afuera", es: "afuera", en: "outside", example: "Nos quedamos afuera hablando media hora.", exampleEn: "We stayed outside talking for half an hour." },
+    { id: "v-direcciones-adentro", es: "adentro", en: "inside", example: "Espérame adentro, que está helando.", exampleEn: "Wait for me inside, it's freezing." },
+    { id: "v-direcciones-arriba", es: "arriba", en: "up", example: "La oficina queda arriba, al fondo.", exampleEn: "The office is upstairs, at the end." },
+    { id: "v-direcciones-abajo", es: "abajo", en: "down", example: "Te espero abajo en cinco minutos.", exampleEn: "I'll wait for you downstairs in five minutes." },
+    { id: "v-direcciones-izquierda", es: "la izquierda", en: "left", example: "Da vuelta a la izquierda antes del semáforo.", exampleEn: "Turn left before the light." },
+    { id: "v-direcciones-derecha", es: "la derecha", en: "right", example: "La escuela queda a la derecha, pasando el parque.", exampleEn: "The school is on the right, past the park." },
+    { id: "v-direcciones-derecho", es: "derecho", en: "straight", example: "Sigue derecho hasta que veas el río.", exampleEn: "Keep going straight until you see the river." },
+    { id: "v-direcciones-norte", es: "el norte", en: "north", example: "Se mudaron al norte por el trabajo de ella.", exampleEn: "They moved north for her job." },
+    { id: "v-direcciones-sur", es: "el sur", en: "south", example: "Mi familia sigue en el sur, en Atlanta.", exampleEn: "My family is still in the south, in Atlanta." },
+    { id: "v-direcciones-este", es: "el este", en: "east", example: "Del lado este del edificio da todo el sol.", exampleEn: "The east side of the building gets all the sun." },
+    { id: "v-direcciones-oeste", es: "el oeste", en: "west", example: "Se fue al oeste y no volvió más.", exampleEn: "He went west and never came back." },
+    { id: "v-direcciones-direccion", es: "la dirección", en: "direction", example: "Íbamos en la dirección contraria y nadie dijo nada.", exampleEn: "We were going the wrong direction and nobody said anything." },
+  ],
+};

@@ -57,11 +57,16 @@ const K = {
 } as const;
 
 // Keys that never leave the device (in-progress drafts, today's prompt cursor,
-// sentence-builder level progress — no cloud table yet).
+// sentence-builder level progress, per-word vocab status — no cloud table yet).
+//
+// Vocab is listed explicitly rather than left to fall through: runPush has no
+// case for it, so an unlisted key would no-op, dequeue, and report sync-ok —
+// a pointless round trip and a lie in the sync indicator.
 const LOCAL_ONLY = new Set<string>([
   "pues:draft",
   "pues:session",
   "pues:sb-progress",
+  "pues:vocab",
 ]);
 
 const RECORDINGS_BUCKET = "recordings";

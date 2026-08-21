@@ -5,7 +5,7 @@ import { useMemo } from "react";
 import type { CSSProperties, ReactNode } from "react";
 import { Gloss } from "@/components/Gloss";
 import { gameCount } from "@/content/games";
-import { masPracticaItems } from "@/content/masPractica";
+import { masPracticaItems, type MasPracticaItem } from "@/content/masPractica";
 import { openTurnReviewDayIndex, speakDayForIndex } from "@/content/prompts";
 import { useStats } from "@/hooks/useStats";
 
@@ -41,6 +41,16 @@ const IconBook = (
   </svg>
 );
 
+const IconWords = (
+  <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden {...stroke}>
+    <path d="M4 6.5h9" />
+    <path d="M4 11h13" />
+    <path d="M4 15.5h6" />
+    <circle cx="17.5" cy="16.5" r="3.5" />
+    <path d="M20 19l1.5 1.5" />
+  </svg>
+);
+
 const IconDice = (
   <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden {...stroke}>
     <rect x="4" y="4" width="16" height="16" rx="4" />
@@ -71,6 +81,20 @@ const IconGuide = (
     <path d="M4 18a2.5 2.5 0 0 1 2.5-2.5H19" />
   </svg>
 );
+
+/**
+ * Motif and tint per Más práctica row. Keyed by iconId rather than array
+ * position, which is what the shelf used to do — adding a third row there
+ * silently gave it La lectura's icon and hue.
+ */
+const masPracticaMotifs: Record<
+  MasPracticaItem["iconId"],
+  { icon: ReactNode; tint: string }
+> = {
+  "sentence-former": { icon: IconSentenceFormer, tint: "var(--zone-lab)" },
+  book: { icon: IconBook, tint: "var(--zone-guias)" },
+  words: { icon: IconWords, tint: "var(--zone-practica)" },
+};
 
 const Chevron = (
   <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden {...stroke} strokeWidth={1.7}>
@@ -103,12 +127,12 @@ export default function MasPage() {
         <Gloss>Review the day — sentences and reading, not a game.</Gloss>
 
         <div className="mas-card">
-          {masPracticaItems.map((item, i) => (
+          {masPracticaItems.map((item) => (
             <MasRow
               key={item.href}
               href={item.href}
-              icon={i === 0 ? IconSentenceFormer : IconBook}
-              tint={i === 0 ? "var(--zone-lab)" : "var(--zone-guias)"}
+              icon={masPracticaMotifs[item.iconId].icon}
+              tint={masPracticaMotifs[item.iconId].tint}
               title={item.label}
               titleEn={item.descriptionEn}
               meta={item.meta ?? ""}

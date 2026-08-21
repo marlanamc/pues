@@ -44,12 +44,13 @@ app/
 ├── activities/               Hub
 │   ├── thoughts/             Sentence journal
 │   └── cognates/             Patterns, true cognates, false friends
+├── palabras/                 Las palabras — the 625, swept then drilled
 ├── situations/               Phrasebank library (10 categories, 50+ situations)
 ├── progress/                 Quiet stats — weeks, sentences, days, frames
 └── api/tts/                  ElevenLabs proxy (server-side)
 
 components/                   Shared UI (BottomTabNav, PlayButton, etc.)
-content/                      Typed content: frames, situations, cognates
+content/                      Typed content: frames, situations, cognates, vocab
 hooks/                        React hooks over lib/store
 lib/planDay.ts                Curriculum day → season / week arithmetic
 lib/store.ts                  Single seam between app and persistence

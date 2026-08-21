@@ -368,6 +368,53 @@ These should appear in the Camino experience, season retrospectives, and any fut
   Marlana/Camila Thursday arc through personality, debate, long conversation,
   and a year capstone on day 364.
 
+### Las palabras (`content/vocab.ts`)
+
+The Fluent Forever 625 — 624 authored high-frequency words in 27 themes,
+surfaced at `/palabras` as a triage sweep plus a recall drill. Unlike every
+other supporting surface this one is **not per-week work**: it is a one-time
+backfill, complete as of this pass, and it does not appear in the weekly
+authoring checklist.
+
+- **Layout:** one file per authoring batch under `content/vocab/`
+  (`casa`, `gente`, `mundo`, `cosas`, `tiempo`, `acciones`, `cualidades`),
+  types in `content/vocab/types.ts`, thin barrel at `content/vocab.ts`
+  (convention 7). A theme lives entirely inside one file.
+- **Entry conventions:** nouns carry their article so gender is learned with
+  the word; verbs are infinitives; adjectives are masculine-singular citation
+  form with agreement shown at work in the example. One headword per entry —
+  never `el maestro / la maestra`, which breaks TTS, overflows the recall
+  card, and has no honest id. One example sentence of ≤ 14 words in the
+  register of conventions 3 and 9 and the voice of convention 6, plus its
+  English.
+- **Ids** are `v-<theme>-<headword>`, **fixed at authoring time and never
+  re-derived**. `pues:vocab` is keyed by them, so a corrected headword or a
+  reworded gloss must keep its old id — otherwise the word silently reverts to
+  unseen and the owner re-sweeps work they already did. The test checks format
+  and uniqueness, deliberately never derivation.
+- **Convention 8 applies** and is enforced: `content/vocab.test.ts` checks
+  every example against every Spanish string in `frames`, `prompts`,
+  `readings` and `situations`.
+- **Documented deviations.** Two places where the source list and Spanish
+  disagree, both recorded so a later editor doesn't "fix" them back:
+  - *Números* keeps all 58 entries, including the tens and the compound
+    patterns, because numbers are where listening actually fails. Every
+    example puts its number in a real use — a price, an age, a room, a year —
+    and the traps are demonstrated rather than explained (`veintiún`,
+    `treinta y un`, `cien` vs. `ciento`). `mil millones` glosses the English
+    "billion"; `un billón` is a thousand times larger and is a false friend
+    the source list walks straight into.
+  - *Adjetivos* repeats `alto` and `bajo`, because English splits tall/high
+    and short/low where Spanish does not. Two cards with the same answer is
+    the honest outcome; inventing a synonym to avoid it would teach a word
+    nobody says. The test carries an explicit `ALLOWED_HOMOGRAPHS` list, so
+    any *other* repeat is still an authoring slip.
+- **Not audio-generated.** `scripts/generate-audio.ts` does not cover vocab
+  (it doesn't cover readings either), so playback runs on the live `/api/tts`
+  fallback. Headword play buttons pass the example as `contextBefore` so a
+  one-word clip gets Spanish prosody. Adding vocab to the audio script is a
+  one-line follow-up if the 1,248 calls are ever worth it.
+
 ---
 
 ## Authoring conventions

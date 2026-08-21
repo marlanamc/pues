@@ -46,7 +46,7 @@ const gamePaths = ["/practice/games", ...games.map((g) => g.href)];
 const isGamePath = (p: string) => gamePaths.some((g) => p.startsWith(g));
 const isSentenceFormerPath = (p: string) => p.startsWith("/practice/sentence-former");
 const isMasPracticaPath = (p: string) =>
-  isSentenceFormerPath(p) || p.startsWith("/read");
+  isSentenceFormerPath(p) || p.startsWith("/read") || p.startsWith("/palabras");
 
 const isHoyPath = (p: string) =>
   p === "/" ||

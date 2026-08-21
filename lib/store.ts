@@ -202,6 +202,7 @@ export function clearAllProgressLocal(options?: ClearProgressOptions): void {
   set(K_READING_LOG, []);
   set(K_SENTENCE_FORMER_SAVED, []);
   set(K_WEEK_COPY, {});
+  set(K_VOCAB, {});
 }
 
 /**
@@ -632,6 +633,144 @@ export function deleteSentenceFormerEntry(id: string): void {
   );
   write(K_SENTENCE_FORMER_SAVED, next);
   if (isBrowser()) window.dispatchEvent(new Event("pues:stats-change"));
+}
+
+/* ---------- Vocabulario — Las palabras (per-word status, local-only) ---------- */
+/**
+ * A word is `unseen` until the sweep touches it — absence from the map is the
+ * third state, so an untouched 625-word list costs nothing to store.
+ *
+ * "No la sé" in the sweep makes a word `learning`; it returns to `known` after
+ * two consecutive arrivals in the drill. Two rather than one because the
+ * answer you just revealed is still in the room — one arrival proves less than
+ * it feels like. Not three, because a theme should be closable in a sitting.
+ *
+ * Deliberately not an SRS: no intervals, no due dates, no ease factors. Same
+ * reasoning as the practice list above — the output is a list of words, never
+ * a score.
+ */
+
+const K_VOCAB = "pues:vocab";
+
+export type VocabStatus = "known" | "learning";
+
+export type VocabWordState = {
+  status: VocabStatus;
+  /** Consecutive arrivals since the last miss. A miss resets it to 0. */
+  streak: number;
+  /** ISO timestamp of the last sweep or judgement. */
+  seenAt: string;
+};
+
+export type VocabProgress = Record<string, VocabWordState>;
+
+/** Consecutive arrivals that send a word back to `known`. */
+export const VOCAB_GRADUATE_STREAK = 2;
+
+function isVocabState(v: unknown): v is VocabWordState {
+  if (typeof v !== "object" || v === null) return false;
+  const s = v as Partial<VocabWordState>;
+  return (
+    (s.status === "known" || s.status === "learning") &&
+    typeof s.streak === "number" &&
+    Number.isFinite(s.streak)
+  );
+}
+
+/**
+ * Reads the map, dropping anything malformed. A hand-edited or half-written
+ * blob degrades to "those words are unseen" rather than crashing the drill.
+ */
+export function getVocabProgress(): VocabProgress {
+  const raw = read<unknown>(K_VOCAB, {});
+  if (typeof raw !== "object" || raw === null || Array.isArray(raw)) return {};
+  const out: VocabProgress = {};
+  for (const [id, state] of Object.entries(raw)) {
+    if (isVocabState(state)) out[id] = state;
+  }
+  return out;
+}
+
+export function getVocabState(id: string): VocabWordState | null {
+  return getVocabProgress()[id] ?? null;
+}
+
+function writeVocab(next: VocabProgress): VocabProgress {
+  write(K_VOCAB, next);
+  if (isBrowser()) window.dispatchEvent(new Event("pues:stats-change"));
+  return next;
+}
+
+function setVocabStatus(id: string, status: VocabStatus, streak: number): VocabProgress {
+  const prev = getVocabProgress();
+  return writeVocab({
+    ...prev,
+    [id]: { status, streak, seenAt: new Date().toISOString() },
+  });
+}
+
+/** The sweep's "Ya la sé". */
+export function markVocabKnown(id: string): VocabProgress {
+  return setVocabStatus(id, "known", VOCAB_GRADUATE_STREAK);
+}
+
+/** The sweep's "No la sé" — this is what fills the drill deck. */
+export function markVocabLearning(id: string): VocabProgress {
+  return setVocabStatus(id, "learning", 0);
+}
+
+/**
+ * The drill's judgement. `arrived` is "Llegó"; false is "Lo armé", which
+ * counts as a miss and keeps the word on the list.
+ *
+ * A miss on a word that reads `known` demotes it. The deck only ever holds
+ * `learning` words so that shouldn't arise, but it means no stored state can
+ * produce a word that is permanently stuck.
+ */
+export function recordVocabRecall(id: string, arrived: boolean): VocabWordState {
+  const prev = getVocabProgress()[id];
+  const streak = arrived ? (prev?.streak ?? 0) + 1 : 0;
+  const status: VocabStatus = streak >= VOCAB_GRADUATE_STREAK ? "known" : "learning";
+  return setVocabStatus(id, status, streak)[id];
+}
+
+/** Forget one theme so its sweep can be run again from scratch. */
+export function resetVocabTheme(ids: string[]): VocabProgress {
+  const drop = new Set(ids);
+  const next: VocabProgress = {};
+  for (const [id, state] of Object.entries(getVocabProgress())) {
+    if (!drop.has(id)) next[id] = state;
+  }
+  return writeVocab(next);
+}
+
+/**
+ * Partitions a set of ids for the index and theme meters. Takes ids rather
+ * than reading content, so lib/store stays free of content imports and this
+ * stays trivially testable.
+ */
+export function vocabCounts(ids: string[]): {
+  total: number;
+  known: number;
+  learning: number;
+  unseen: number;
+} {
+  const progress = getVocabProgress();
+  let known = 0;
+  let learning = 0;
+  for (const id of ids) {
+    const state = progress[id];
+    if (!state) continue;
+    if (state.status === "known") known += 1;
+    else learning += 1;
+  }
+  return { total: ids.length, known, learning, unseen: ids.length - known - learning };
+}
+
+/** The drill deck: still-unlearned ids, in the order given. */
+export function learningVocabIds(ids: string[]): string[] {
+  const progress = getVocabProgress();
+  return ids.filter((id) => progress[id]?.status === "learning");
 }
 
 /* ---------- Audio ---------- */

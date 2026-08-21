@@ -21,6 +21,15 @@ import {
   currentWeek,
   isWeekPrimed,
   weekDaysDone,
+  getVocabProgress,
+  getVocabState,
+  markVocabKnown,
+  markVocabLearning,
+  recordVocabRecall,
+  resetVocabTheme,
+  vocabCounts,
+  learningVocabIds,
+  VOCAB_GRADUATE_STREAK,
 } from "@/lib/store";
 
 function newThought(frameStem = "yo") {
@@ -301,6 +310,7 @@ describe("resetProgress", () => {
     setCurrentDayIndex(12);
     advanceSession(3);
     recordSbLevelResult("L1", 5, 5);
+    markVocabLearning("v-comida-sal");
     localStorage.setItem("pues:practice", JSON.stringify(["d1-prompt"]));
     localStorage.setItem("pues:reading-log", JSON.stringify(["2026-06-20"]));
     localStorage.setItem(
@@ -333,6 +343,99 @@ describe("resetProgress", () => {
     expect(getReadingLog()).toEqual([]);
     expect(listSentenceFormerEntries()).toEqual([]);
     expect(JSON.parse(localStorage.getItem("pues:sb-progress") ?? "{}")).toEqual({});
+    expect(getVocabProgress()).toEqual({});
+  });
+});
+
+describe("vocabulario", () => {
+  const ids = ["v-comida-sal", "v-comida-pan", "v-comida-taza"];
+
+  it("treats an untouched word as unseen", () => {
+    expect(getVocabState("v-comida-sal")).toBeNull();
+    expect(vocabCounts(ids)).toEqual({ total: 3, known: 0, learning: 0, unseen: 3 });
+  });
+
+  it("records the sweep's two verdicts", () => {
+    markVocabKnown("v-comida-sal");
+    markVocabLearning("v-comida-pan");
+
+    expect(getVocabState("v-comida-sal")?.status).toBe("known");
+    expect(getVocabState("v-comida-pan")?.status).toBe("learning");
+    expect(getVocabState("v-comida-sal")?.seenAt).toBeTruthy();
+    expect(vocabCounts(ids)).toEqual({ total: 3, known: 1, learning: 1, unseen: 1 });
+  });
+
+  it("graduates a word after two consecutive arrivals, not one", () => {
+    markVocabLearning("v-comida-pan");
+
+    const first = recordVocabRecall("v-comida-pan", true);
+    expect(first.status).toBe("learning");
+    expect(first.streak).toBe(1);
+
+    const second = recordVocabRecall("v-comida-pan", true);
+    expect(second.status).toBe("known");
+    expect(second.streak).toBe(VOCAB_GRADUATE_STREAK);
+  });
+
+  it("resets the streak on a miss so an arrival then a miss does not graduate", () => {
+    markVocabLearning("v-comida-pan");
+    recordVocabRecall("v-comida-pan", true);
+    const missed = recordVocabRecall("v-comida-pan", false);
+
+    expect(missed.status).toBe("learning");
+    expect(missed.streak).toBe(0);
+  });
+
+  it("demotes a known word that is missed", () => {
+    markVocabKnown("v-comida-sal");
+    const missed = recordVocabRecall("v-comida-sal", false);
+
+    expect(missed.status).toBe("learning");
+    expect(missed.streak).toBe(0);
+  });
+
+  it("lists only learning words, in the order given", () => {
+    markVocabLearning("v-comida-taza");
+    markVocabKnown("v-comida-sal");
+    markVocabLearning("v-comida-pan");
+
+    expect(learningVocabIds(ids)).toEqual(["v-comida-pan", "v-comida-taza"]);
+  });
+
+  it("partitions exactly — known + learning + unseen is always the total", () => {
+    markVocabKnown("v-comida-sal");
+    markVocabLearning("v-comida-pan");
+
+    const c = vocabCounts(ids);
+    expect(c.known + c.learning + c.unseen).toBe(c.total);
+  });
+
+  it("forgets one theme without touching the others", () => {
+    markVocabKnown("v-comida-sal");
+    markVocabLearning("v-verbos-colgar");
+
+    resetVocabTheme(["v-comida-sal"]);
+
+    expect(getVocabState("v-comida-sal")).toBeNull();
+    expect(getVocabState("v-verbos-colgar")?.status).toBe("learning");
+  });
+
+  it("reads a corrupt blob as unseen rather than throwing", () => {
+    localStorage.setItem("pues:vocab", JSON.stringify("garbage"));
+    expect(getVocabProgress()).toEqual({});
+
+    localStorage.setItem("pues:vocab", JSON.stringify(["not", "a", "map"]));
+    expect(getVocabProgress()).toEqual({});
+
+    localStorage.setItem(
+      "pues:vocab",
+      JSON.stringify({
+        "v-comida-sal": { status: "nope", streak: 1, seenAt: "x" },
+        "v-comida-pan": { status: "learning", streak: "two", seenAt: "x" },
+        "v-comida-taza": { status: "known", streak: 2, seenAt: "x" },
+      }),
+    );
+    expect(Object.keys(getVocabProgress())).toEqual(["v-comida-taza"]);
   });
 });
 
