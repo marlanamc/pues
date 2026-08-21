@@ -160,6 +160,7 @@ export function VocabThemeScreen({ theme }: { theme: VocabTheme }) {
                   </span>
                   <span style={{ minWidth: 0, flex: 1 }}>
                     <span className="week-stems-stem">{w.es}</span>
+                    {" "}
                     <span className="week-stems-gloss">{w.en}</span>
                     <span
                       className="font-display text-ink-soft"
